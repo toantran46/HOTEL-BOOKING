@@ -1,4 +1,6 @@
 .wrapper {
+    padding: 3rem 0;
+
     &__breadcrumb {
         &__item {
             font-size: 12px;
@@ -19,7 +21,6 @@
         &__left {
             width: 25%;
             min-height: 100vh;
-            background-color: red;
 
             &__form {
                 padding: 1rem 1.5rem;
@@ -45,12 +46,31 @@
                     margin-top: 1rem;
                 }
             }
+            &__filter {
+                // padding: 1rem 1rem;
+                margin-top: 1rem;
+
+                .title {
+                    font-size: 15px;
+                    font-weight: bold;
+                    border: 1px solid #aaa;
+                    padding: 0.75rem;
+                    margin-bottom: 0;
+                }
+            }
         }
 
         &__right {
             width: 74%;
             min-height: 100vh;
-            background-color: green;
+            padding: 0.5rem;
+
+            &__search-result {
+                font-size: 20px;
+                font-weight: bold;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid #eee;
+            }
         }
     }
 }
