@@ -1,0 +1,25 @@
+.filter-item {
+    padding: 0.75rem 1rem;
+    border: 1px solid #aaa;
+    border-top: none;
+
+    label {
+        font-size: 12px !important;
+        margin: 0 10px;
+        width: 70%;
+    }
+
+    &__item {
+        display: flex;
+
+        .num {
+            font-size: 12px;
+            color: #777;
+        }
+    }
+
+    &__title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+}
