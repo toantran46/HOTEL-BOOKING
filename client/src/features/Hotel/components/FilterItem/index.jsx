@@ -1,30 +1,3 @@
-// import React from 'react';
-// import PropTypes from 'prop-types';
-
-<<<<<<< HEAD
-// import "./styles.scss";
-// // import { FormGroup, Input, Label } from 'reactstrap';
-// FilterItem.propTypes = {
-
-// };
-
-// function FilterItem(props) {
-//     return (
-//         <div>
-//             <p>Sức khỏ & an toàn</p>
-//             <FormGroup check>
-//                 <Input
-//                     type="checkbox"
-//                 />
-//                 {' '}
-//                 <Label check>
-//                     Check me out
-//                 </Label>
-//             </FormGroup>
-//         </div>
-//     );
-// }
-=======
 import "./filterItem.scss";
 import { Input, Label } from 'reactstrap';
 
@@ -51,6 +24,5 @@ function FilterItem(props) {
         </div>
     );
 }
->>>>>>> vlinhjobnew
 
-// export default FilterItem;
+export default FilterItem;
