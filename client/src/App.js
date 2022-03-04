@@ -5,6 +5,8 @@ import React, { Suspense } from 'react';
 
 const HoTel = React.lazy(() => import("./features/Hotel/index.jsx"));
 
+const Auth = React.lazy(() => import("./features/Auth/index.jsx"));
+
 function App() {
   return (
     <div className="App">
@@ -12,7 +14,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index path='/*' element={<HoTel />} />
-            <Route path='/auth' element={<div>Auth</div>} />
+            <Route path='/auth' element={<Auth/>} />
           </Routes>
         </BrowserRouter>
       </Suspense>
