@@ -52,7 +52,7 @@ function MainPage(props) {
 
                         <div className='wrapper__content__left__filter'>
                             <p>Chọn lọc theo</p>
-                            <FilterItem />
+                            {/* <FilterItem /> */}
                         </div>
 
                     </div>
