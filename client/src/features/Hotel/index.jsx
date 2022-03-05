@@ -12,8 +12,8 @@ function Hotel(props) {
     return (
         <div className='hotel'>
             <Routes>
-                <Route path='/' element={<MainPage />}></Route>
-                <Route path='/:hotelId' element={<div>hotel detail</div>}></Route>
+                <Route path='/' element={<MainPage />} />
+                <Route path='/:hotelId' element={<div>hotel detail</div>} />
             </Routes>
         </div>
     );
