@@ -1,4 +1,5 @@
 import "./filterItem.scss";
+import PropTypes from 'prop-types'
 import { Input, Label } from 'reactstrap';
 
 FilterItem.propTypes = {
