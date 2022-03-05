@@ -1,9 +1,20 @@
 import "./filterItem.scss";
 import { Input, Label } from 'reactstrap';
 
+FilterItem.propTypes = {
+    title: PropTypes.string,
+    items: PropTypes.array,
+};
+
+FilterItem.defaultProps = {
+    title: '',
+    items: [{ content: '', num: 0 }]
+};
+
+
 function FilterItem(props) {
 
-    const { title, items, num } = props;
+    const { title, items } = props;
     return (
         <div className='filter-item'>
             <p className='filter-item__title'>{title}</p>

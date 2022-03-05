@@ -1,4 +1,5 @@
 import './App.css';
+import './assets/styles/style.scss';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { Suspense } from 'react';
@@ -14,7 +15,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index path='/*' element={<HoTel />} />
-            <Route path='/auth' element={<Auth/>} />
+            <Route path='/auth' element={<Auth />} />
           </Routes>
         </BrowserRouter>
       </Suspense>

@@ -19,6 +19,11 @@
             color: #0071c2;
             font-size: 22px;
             font-weight: bold;
+            text-decoration: none;
+        }
+        &__name:hover {
+            cursor: pointer;
+            color: #bc5b01;
         }
         &__place {
             color: #0071c5;
@@ -26,20 +31,47 @@
             font-weight: 500;
             margin: 5px 0 2px 0;
         }
+
         &__convenient {
             font-weight: bold;
         }
+
+        &__about svg {
+            margin-right: 5px;
+        }
+
         &__description {
             color: #333;
+            margin-top: 10px;
+        }
+
+        &__roomInfo {
+            margin-top: 10px;
+            border-left: 2px solid #ddd;
+            padding-left: 0.75rem;
+
+            &__room-name {
+                font-weight: bold;
+            }
+            &__about-bed {
+            }
+            &__isCancle {
+                color: #008009;
+            }
+            &__isCancle > div {
+                font-weight: bold;
+            }
         }
     }
 
     &__feedback {
         flex-grow: 1;
-        margin-left: 2rem;
+        // margin-left: 2rem;
+        text-align: center;
         &__header {
             display: flex;
             align-items: center;
+            justify-content: center;
             margin-bottom: 1rem;
             &__top {
                 &__message {
@@ -59,6 +91,25 @@
                     border-top-left-radius: 5px;
                     border-bottom-right-radius: 5px;
                 }
+            }
+        }
+
+        &__choosen-date {
+            margin-top: 2rem;
+            &__old-price {
+                text-decoration: line-through;
+                color: #c00;
+            }
+
+            &__current-price {
+                font-size: 20px;
+                font-weight: 500;
+            }
+
+            & span {
+                color: #777;
+                display: block;
+                margin-bottom: 1rem;
             }
         }
     }
