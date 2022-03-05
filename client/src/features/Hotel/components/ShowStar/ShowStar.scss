@@ -1,0 +1,15 @@
+.show-star {
+    display: inline-block;
+
+    &__color {
+        display: inline-block;
+        margin-right: 2px;
+        height: 12px;
+        fill: #febb02;
+        vertical-align: top;
+    }
+
+    & svg {
+        height: 100%;
+    }
+}
