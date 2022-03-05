@@ -5,6 +5,7 @@ import "./HotelOverView.scss";
 
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import ShowStar from '../ShowStar';
 
 HotelOverView.propTypes = {
     hotelInfo: PropTypes.object,
@@ -18,7 +19,7 @@ HotelOverView.defaultProps = {
 
 function HotelOverView(props) {
 
-    const { hotelInfo: { _id, banner, name, place, convenients,
+    const { hotelInfo: { _id, banner, name, place, convenients, star,
         description, votedMessage, votedNum,
         votedScore, roomInfo }, isChoosenDate } = props;
 
@@ -26,7 +27,7 @@ function HotelOverView(props) {
         <div className='Hotel-Over-View'>
             <img className='Hotel-Over-View__banner' src={banner} alt="img" />
             <div className='Hotel-Over-View__info'>
-                <Link to="#" className='Hotel-Over-View__info__name'>{name}</Link>
+                <Link to="#" className='Hotel-Over-View__info__name'>{name} <ShowStar num={star} /> </Link>
                 <div className='Hotel-Over-View__info__place'>{place}</div>
                 {
                     convenients?.map((convenient, index) =>

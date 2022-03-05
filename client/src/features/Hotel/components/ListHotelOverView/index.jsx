@@ -6,11 +6,13 @@ import FilterLoading from '../FilterLoading';
 import "./ListHotelOverView.scss";
 
 ListHoTelOverView.propTypes = {
-    listHotel: PropTypes.array
+    listHotel: PropTypes.array,
+    isChoosenDate: PropTypes.bool
 };
 
 ListHoTelOverView.defaultProps = {
-    listHotel: []
+    listHotel: [],
+    isChoosenDate: false
 };
 
 function ListHoTelOverView(props) {

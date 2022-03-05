@@ -20,6 +20,7 @@ function MainPage(props) {
 
     const listHotel = [{
         _id: 1,
+        star: 5,
         banner: 'https://t-cf.bstatic.com/xdata/images/hotel/square600/273953720.webp?k=099979974a69eb9fdc2c744d3e467428b4425ba74940c783dc5c9e140e2ff04a&o=&s=1',
         name: 'Vung Tau Melody Apartment',
         place: 'Vũng Tàu',
@@ -44,6 +45,7 @@ function MainPage(props) {
     },
     {
         _id: 2,
+        star: 1,
         banner: 'https://t-cf.bstatic.com/xdata/images/hotel/square600/273953720.webp?k=099979974a69eb9fdc2c744d3e467428b4425ba74940c783dc5c9e140e2ff04a&o=&s=1',
         name: 'Vung Tau Melody Apartment',
         place: 'Vũng Tàu',
@@ -68,6 +70,7 @@ function MainPage(props) {
     },
     {
         _id: 3,
+        star: 5,
         banner: 'https://t-cf.bstatic.com/xdata/images/hotel/square600/273953720.webp?k=099979974a69eb9fdc2c744d3e467428b4425ba74940c783dc5c9e140e2ff04a&o=&s=1',
         name: 'Vung Tau Melody Apartment',
         place: 'Vũng Tàu',
@@ -92,6 +95,7 @@ function MainPage(props) {
     },
     {
         _id: 4,
+        star: 3,
         banner: 'https://t-cf.bstatic.com/xdata/images/hotel/square600/273953720.webp?k=099979974a69eb9fdc2c744d3e467428b4425ba74940c783dc5c9e140e2ff04a&o=&s=1',
         name: 'Vung Tau Melody Apartment',
         place: 'Vũng Tàu',
@@ -151,6 +155,11 @@ function MainPage(props) {
                             </FormGroup>
                             <button className='searchBtn'>Tìm</button>
                         </Form>
+                        <div className='wrapper__content__left__filter'>
+                            <p>Chọn lọc theo</p>
+                            {/* <FilterItem /> */}
+                        </div>
+
                     </div>
                     <div className='wrapper__content__left__filter'>
                         <p className='title'>Chọn lọc theo</p>
@@ -211,7 +220,7 @@ function MainPage(props) {
                 </div>
                 <div className='wrapper__content__right'>
                     <p className='wrapper__content__right__search-result'>Vũng Tàu: tìm thấy 606 chỗ nghỉ</p>
-                    <ListHoTelOverView listHotel={listHotel} />
+                    <ListHoTelOverView listHotel={listHotel} isChoosenDate />
                     <Pagination />
                 </div>
             </div>
