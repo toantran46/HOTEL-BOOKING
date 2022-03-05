@@ -1,0 +1,59 @@
+.filter-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // transform: translate(-50%, -50%);
+    background-color: rgba(218, 245, 204, 0.5);
+
+    &__main {
+        width: 400px;
+        height: 300px;
+        box-shadow: 1px 1px 25px -8px #222;
+        margin: 4rem auto;
+        background: #fff;
+        border-radius: 5px;
+        text-align: center;
+        padding: 5rem 1rem 0 1rem;
+        font-size: 14px;
+
+        &__loader {
+            border: 5px solid #f1f1f1;
+            border-top: 5px solid #0d66a1;
+            border-right: 5px solid #0d66a1;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            margin: 0 auto;
+            animation: spin 1s infinite linear;
+        }
+
+        &__notif-main {
+            font-weight: bold;
+            color: #222;
+            letter-spacing: 0.5px;
+            line-height: 25px;
+            font-size: 17px;
+            max-width: 75%;
+            word-break: break-all;
+            margin: 1rem auto;
+        }
+        &__notif-normal {
+            max-width: 75%;
+            word-break: break-all;
+            margin: 0 auto;
+            color: #555;
+            letter-spacing: 1px;
+        }
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
