@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import "./Pagination.scss";
 PaginationStyled.propTypes = {
@@ -9,7 +9,6 @@ PaginationStyled.propTypes = {
 function PaginationStyled(props) {
     return (
         <div className='pagination'>
-
             <Pagination className='pagination'>
                 <PaginationItem className='pagination__item'>
                     <PaginationLink
