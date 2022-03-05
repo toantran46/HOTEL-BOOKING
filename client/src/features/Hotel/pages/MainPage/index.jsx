@@ -155,11 +155,6 @@ function MainPage(props) {
                             </FormGroup>
                             <button className='searchBtn'>Tìm</button>
                         </Form>
-                        <div className='wrapper__content__left__filter'>
-                            <p>Chọn lọc theo</p>
-                            {/* <FilterItem /> */}
-                        </div>
-
                     </div>
                     <div className='wrapper__content__left__filter'>
                         <p className='title'>Chọn lọc theo</p>
