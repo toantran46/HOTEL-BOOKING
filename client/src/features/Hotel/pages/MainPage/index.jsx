@@ -2,7 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { Breadcrumb, BreadcrumbItem, Form, FormGroup, Input } from 'reactstrap';
 
-import "./styles.scss";
+import "./MainPage.scss";
 import { Link } from 'react-router-dom';
 
 import FilterItem from 'features/Hotel/components/FilterItem';
@@ -10,6 +10,8 @@ import HotelOverView from 'features/Hotel/components/HotelOverView';
 import Pagination from 'features/Hotel/components/Pagination';
 import FilterLoading from 'features/Hotel/components/FilterLoading';
 import ListHoTelOverView from 'features/Hotel/components/ListHotelOverView';
+import FormSearch from 'features/Hotel/components/FormSearch';
+import BreadcrumbStyled from 'features/Hotel/components/BreadcrumbStyled';
 
 
 MainPage.propTypes = {
@@ -122,40 +124,11 @@ function MainPage(props) {
 
     return (
         <div className='wrapper'>
-            <Breadcrumb className='wrapper__breadcrumb'>
-                <BreadcrumbItem className='wrapper__breadcrumb__item'>
-                    <Link to="/">Trang chủ</Link>
-                </BreadcrumbItem>
-                <BreadcrumbItem className='wrapper__breadcrumb__item'>
-                    <Link to="/">Việt Nam</Link>
-                </BreadcrumbItem>
-                <BreadcrumbItem className='wrapper__breadcrumb__item'>
-                    <Link to="/">Bà Rịa - Vũng Tàu</Link>
-                </BreadcrumbItem>
-                <BreadcrumbItem className='wrapper__breadcrumb__item'>
-                    <Link className='active' to="/">Kết quả tìm kiếm</Link>
-                </BreadcrumbItem>
-            </Breadcrumb>
+            <BreadcrumbStyled />
             <div className='wrapper__content'>
                 <div className='wrapper__content__left'>
-                    <div className='wrapper__content__left__form'>
-                        <p>Tìm</p>
-                        <Form>
-                            <FormGroup>
-                                <label>Tên chỗ nghỉ / điểm đến</label>
-                                <Input placeholder='' name="placeName" />
-                            </FormGroup>
-                            <FormGroup>
-                                <label>Ngày nhận phòng</label>
-                                <Input type="date" name='receiveDate' />
-                            </FormGroup>
-                            <FormGroup>
-                                <label>Ngày trả phòng</label>
-                                <Input type="date" name='returnDate' />
-                            </FormGroup>
-                            <button className='searchBtn'>Tìm</button>
-                        </Form>
-                    </div>
+                    <FormSearch />
+
                     <div className='wrapper__content__left__filter'>
                         <p className='title'>Chọn lọc theo</p>
                         <FilterItem title="Sức khỏe & an toàn" items={[{ content: "Các chỗ nghỉ có biện pháp đảm bảo sức khỏe và an toàn", num: 124 }]} />

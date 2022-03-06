@@ -27,7 +27,7 @@ function HotelOverView(props) {
         <div className='Hotel-Over-View'>
             <img className='Hotel-Over-View__banner' src={banner} alt="img" />
             <div className='Hotel-Over-View__info'>
-                <Link to="#" className='Hotel-Over-View__info__name'>{name} <ShowStar num={star} /> </Link>
+                <Link to={`/${_id}`} state={{ roadmap: ["bà rịa vũng tàu", name] }} className='Hotel-Over-View__info__name'>{name} <ShowStar num={star} /> </Link>
                 <div className='Hotel-Over-View__info__place'>{place}</div>
                 {
                     convenients?.map((convenient, index) =>
@@ -69,7 +69,7 @@ function HotelOverView(props) {
                         <div className='Hotel-Over-View__feedback__choosen-date__old-price'>{roomInfo.oldPrice && `VND ${roomInfo.oldPrice}`}</div>
                         <div className='Hotel-Over-View__feedback__choosen-date__current-price'>VND {roomInfo.price}</div>
                         <span>Đã bao gồm thuế và phí</span>
-                        <Link className='btn-primary' to={`/${_id}`}>Xem chổ trống {'>'} </Link>
+                        <Link state={{ roadmap: ["bà rịa vũng tàu", name] }} className='btn-primary' to={`/${_id}`}>Xem chổ trống {'›'} </Link>
                     </div>
                     :
                     <Button color='primary'>Hiển thị giá</Button>
