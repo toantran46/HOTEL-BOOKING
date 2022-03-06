@@ -1,8 +1,20 @@
 .convenients {
-    margin-top: 1rem;
     text-align: center;
+    font-size: 13px;
+    margin-top: 1rem;
 
     &__convenient {
-        text-align: center;
+        // text-align: center;
+        width: 20%;
+        display: inline-block;
+        .text {
+            margin-top: 0.5rem;
+            color: #888;
+        }
+
+        svg {
+            height: 30px;
+            width: 30px;
+        }
     }
 }
