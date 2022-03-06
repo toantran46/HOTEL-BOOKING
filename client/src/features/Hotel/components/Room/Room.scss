@@ -1,0 +1,47 @@
+.room {
+    border-bottom: 1px solid #5bbaff;
+    border-left: 1px solid #5bbaff;
+    &__name {
+        font-size: 15px;
+        font-weight: bold;
+        color: #0071c2;
+        margin-bottom: 0.5rem;
+    }
+    td {
+        padding: 1rem 0.5rem;
+        border-right: 1px solid #5bbaff;
+        vertical-align: top;
+    }
+
+    &__bed {
+        font-size: 14px;
+        margin-bottom: 0.5rem;
+    }
+    &__about {
+        color: #999;
+        margin-bottom: 1rem;
+    }
+    &__price {
+        font-size: 15px;
+        font-weight: bold;
+    }
+    &__info {
+        font-size: 12px;
+        color: #999;
+    }
+    &__freeTittle {
+        font-size: 12px;
+        color: #008009;
+        font-weight: bold;
+        display: flex;
+
+        i {
+            margin-right: 5px;
+        }
+    }
+
+    .small {
+        font-weight: normal !important;
+        font-size: 12px;
+    }
+}

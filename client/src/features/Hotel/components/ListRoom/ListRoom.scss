@@ -1,0 +1,82 @@
+.list-room {
+    margin-top: 2rem;
+    display: flex;
+    table {
+        width: 95%;
+        font-size: 13px;
+
+        .type,
+        .options {
+            width: 30%;
+        }
+
+        .suitable {
+            width: 15%;
+        }
+        .chooseRoom {
+            width: 5%;
+        }
+    }
+
+    th {
+        background: #4c76b2;
+        border-left: 1px solid #5bbaff;
+        color: #fff;
+        font-size: 13px;
+        padding: 0.5rem 1rem;
+        height: 50px;
+        text-align: center;
+        position: sticky;
+        top: 0;
+    }
+
+    .price {
+        background: #003580;
+        position: sticky;
+        width: 20%;
+    }
+    .price::after {
+        content: " ";
+        display: block;
+        height: 15px;
+        width: 15px;
+        background: #003580;
+        position: absolute;
+        bottom: -5px;
+        left: 47%;
+        transform: rotate(45deg);
+    }
+
+    &__book {
+        border: 1px solid #5bbaff;
+        border-left: none;
+        border-top: none;
+        position: sticky;
+        position: -webkit-sticky;
+        &__top {
+            position: sticky;
+            top: 0;
+            content: " ";
+            height: 50px;
+            background: #4c76b2;
+            border-left: 1px solid #5bbaff;
+        }
+        &__container {
+            position: sticky;
+            top: 50px;
+            padding: 0 10px;
+            a {
+                margin-top: 1rem;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            ul {
+                padding-left: 1rem;
+            }
+            ul li {
+                font-size: 13px;
+            }
+        }
+    }
+}

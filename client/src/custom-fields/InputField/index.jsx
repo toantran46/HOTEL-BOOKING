@@ -28,6 +28,7 @@ function InputField(props) {
         <FormGroup className='input-field'>
             <label>{label}</label>
             <Input
+                id={name}
                 name={name}
                 placeholder={placeholder}
                 type={type}

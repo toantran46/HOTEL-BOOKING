@@ -10,6 +10,8 @@ import GroupImage from 'features/Hotel/components/GroupImage';
 import ShowStar from 'features/Hotel/components/ShowStar';
 import Convenients from 'features/Hotel/components/Convenients';
 import FavouriteConvenients from 'features/Hotel/components/FavouriteConvenients';
+import InfoSearch from 'features/Hotel/components/InfoSearch';
+import ListRoom from 'features/Hotel/components/ListRoom';
 
 HotelDetailPage.propTypes = {
 
@@ -126,6 +128,8 @@ function HotelDetailPage(props) {
                             Chúng tôi luôn khớp giá
                         </div>
                     </div>
+                    <InfoSearch />
+                    <ListRoom />
 
                 </div>
             </div>
