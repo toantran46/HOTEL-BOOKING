@@ -116,6 +116,18 @@ function HotelDetailPage(props) {
                     <p className='wrapper__body__favourite-convenients__title'>Các tiện nghi được ưa chuộng nhất</p>
                     <FavouriteConvenients convenients={convenients} />
                 </div>
+
+                <div className='wrapper__body__empty-room'>
+
+                    <div className='wrapper__body__empty-room__header' >
+                        <div className='title'>Phòng trống</div>
+                        <div className='quote no-bg'>
+                            <img src='https://t-cf.bstatic.com/static/img/bpg/bpg_logo/43fb545d9c32614b87f0615a97620ad3d8685525.png' />
+                            Chúng tôi luôn khớp giá
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     );
