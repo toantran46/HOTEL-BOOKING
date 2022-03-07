@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import "./Convenients.scss";
 import { Col, Row } from 'reactstrap';
 Convenients.propTypes = {
-    convenients: PropTypes.string
+    convenients: PropTypes.array
 };
 
 Convenients.defaultProps = {
-    convenients: ''
+    convenients: []
 };
 
 function Convenients(props) {
@@ -20,7 +20,7 @@ function Convenients(props) {
         <div className='convenients'>
             {
                 convenients?.map((convenient, index) =>
-                    <div className='convenients__convenient'>
+                    <div className='convenients__convenient' key={index}>
                         <div dangerouslySetInnerHTML={{ __html: convenient.icon }}>
                         </div>
                         <div className='text'>

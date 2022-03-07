@@ -1,0 +1,37 @@
+.hight-light-comments {
+    &__header {
+        display: flex;
+        align-items: center;
+        &__avatar {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            background-color: rgb(35, 109, 35);
+            color: #fff;
+            margin-right: 5px;
+            line-height: 35px;
+            text-align: center;
+            margin-right: 10px;
+        }
+        &__info {
+            &__name {
+                font-weight: bold;
+            }
+            &__location {
+                span {
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
+    &__comment {
+        margin: 1rem 0;
+    }
+    &__readmore {
+        color: #0071c2;
+        cursor: pointer;
+    }
+    &__readmore:hover {
+        text-decoration: underline;
+    }
+}

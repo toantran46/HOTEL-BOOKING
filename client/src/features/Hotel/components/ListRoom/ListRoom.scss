@@ -1,6 +1,7 @@
 .list-room {
     margin-top: 2rem;
     display: flex;
+
     table {
         width: 95%;
         font-size: 13px;
@@ -28,6 +29,7 @@
         text-align: center;
         position: sticky;
         top: 0;
+        z-index: 50;
     }
 
     .price {

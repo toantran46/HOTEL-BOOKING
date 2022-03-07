@@ -13,6 +13,9 @@ import FavouriteConvenients from 'features/Hotel/components/FavouriteConvenients
 import InfoSearch from 'features/Hotel/components/InfoSearch';
 import ListRoom from 'features/Hotel/components/ListRoom';
 
+import { ScrollToView } from 'assets/globaJS';
+import FeedBack from 'features/Hotel/components/FeedBack';
+
 HotelDetailPage.propTypes = {
 
 };
@@ -51,7 +54,6 @@ function HotelDetailPage(props) {
         },
     ]
 
-
     return (
         <div className='wrapper'>
             <BreadcrumbStyled />
@@ -66,22 +68,22 @@ function HotelDetailPage(props) {
                 <div className='wrapper__content__right'>
                     <Row className='wrapper__content__right__top'>
                         <Col>
-                            <a className='top-item'>
+                            <a className='top-item' onClick={() => ScrollToView('empty-room')}>
                                 Thông tin & giá
                             </a>
                         </Col>
                         <Col>
-                            <a className='top-item'>
+                            <a className='top-item' onClick={() => ScrollToView('favourite-convenients')}>
                                 Tiện nghi
                             </a>
                         </Col>
                         <Col>
-                            <a className='top-item'>
+                            <a className='top-item' onClick={() => ScrollToView('empty-room')}>
                                 Quy tắc chung
                             </a>
                         </Col>
                         <Col>
-                            <a className='top-item'>
+                            <a className='top-item' onClick={() => ScrollToView('feedback')}>
                                 Đánh giá của khách (760)
                             </a>
                         </Col>
@@ -114,12 +116,12 @@ function HotelDetailPage(props) {
 
                     Các cặp đôi đặc biệt thích địa điểm này — họ cho điểm 8,2 cho kỳ nghỉ dành cho 2 người.
                 </div>
-                <div className='wrapper__body__favourite-convenients'>
+                <div className='wrapper__body__favourite-convenients' id='favourite-convenients'>
                     <p className='wrapper__body__favourite-convenients__title'>Các tiện nghi được ưa chuộng nhất</p>
                     <FavouriteConvenients convenients={convenients} />
                 </div>
 
-                <div className='wrapper__body__empty-room'>
+                <div className='wrapper__body__empty-room' id='empty-room'>
 
                     <div className='wrapper__body__empty-room__header' >
                         <div className='title'>Phòng trống</div>
@@ -130,6 +132,7 @@ function HotelDetailPage(props) {
                     </div>
                     <InfoSearch />
                     <ListRoom />
+                    <FeedBack />
 
                 </div>
             </div>
