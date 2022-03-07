@@ -15,7 +15,7 @@ function Carousel(props) {
     return (
         <div className='carousel' id='carousel'>
             <div className="carousel__inner">
-                <ul className="carousel__inner__list" id='lightSlider' style={{ transform: `translate3d(-${currentElement * 350}px, 0px, 0px)` }}>
+                <ul className="carousel__inner__list" id='lightSlider' style={{ transform: `translate(-${currentElement * 385}px, 0px)` }}>
                     {childrens?.map((child, index) =>
                         <li key={index} className='carousel__inner__list__item'>
                             {child}
