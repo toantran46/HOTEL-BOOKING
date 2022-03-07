@@ -15,6 +15,8 @@ import ListRoom from 'features/Hotel/components/ListRoom';
 
 import { ScrollToView } from 'assets/globaJS';
 import FeedBack from 'features/Hotel/components/FeedBack';
+import ViewDetailComments from 'features/Hotel/components/ViewDetailComments';
+import ViewAllFeedBack from 'features/Hotel/components/ViewAllFeedBack';
 
 HotelDetailPage.propTypes = {
 
@@ -133,7 +135,11 @@ function HotelDetailPage(props) {
                     <InfoSearch />
                     <ListRoom />
                     <FeedBack />
+                    <br />
+                    <ViewDetailComments />
 
+                    <a className="btn-primary-outline">Đọc tất cả đánh giá</a>
+                    <ViewAllFeedBack />
                 </div>
             </div>
         </div>

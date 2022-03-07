@@ -31,7 +31,7 @@ function Carousel(props) {
                     </a>
                 }
                 {
-                    currentElement !== childrens?.length - 6 &&
+                    currentElement !== childrens?.length - 3 &&
                     <a onClick={() => setCurrentElement(prev => prev !== childrens?.length - 3 ? prev + 1 : prev)} className='carousel__controls__next'>
                         <i class="bi bi-chevron-right"></i>
                     </a>

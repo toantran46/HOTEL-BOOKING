@@ -62,7 +62,7 @@ function HotelOverView(props) {
                         <div className='Hotel-Over-View__feedback__header__top__message'>{votedMessage}</div>
                         <div className='Hotel-Over-View__feedback__header__top__vote'>{votedNum ? `${votedNum} đánh giá` : "Chưa có đánh giá"} </div>
                     </div>
-                    <div className='Hotel-Over-View__feedback__header__top__score'>{votedScore}</div>
+                    <div className='score'>{votedScore}</div>
                 </div>
                 {isChoosenDate ?
                     <div className='Hotel-Over-View__feedback__choosen-date'>

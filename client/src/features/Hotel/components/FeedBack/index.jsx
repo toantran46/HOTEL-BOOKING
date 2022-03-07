@@ -21,7 +21,7 @@ function FeedBack(props) {
                 <a className="btn-primary" onClick={() => ScrollToView("empty-room")}>Xem phòng trống</a>
             </div>
             <div className="feedback__score-wrapper">
-                <div className='feedback__score-wrapper__score'>8,0</div>
+                <div className='score'>8,0</div>
                 <div className='feedback__score-wrapper__message'>Rất tốt</div>
                 <div className='feedback__score-wrapper__numVoted'>756 đánh giá</div>
                 <div className='feedback__score-wrapper__readAll'>Đọc tất cả đánh giá</div>

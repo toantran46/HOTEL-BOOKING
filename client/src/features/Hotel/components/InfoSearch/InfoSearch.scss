@@ -54,6 +54,11 @@
 
                 i {
                     cursor: pointer;
+                    color: #aaa;
+                    transition: all 0.3s;
+                }
+                i:hover {
+                    color: #000;
                 }
             }
 

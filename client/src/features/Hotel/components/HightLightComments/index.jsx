@@ -7,6 +7,7 @@ HightLightComments.propTypes = {
 };
 
 function HightLightComments(props) {
+
     return (
         <div className='hight-light-comments'>
             <div className='hight-light-comments__header'>
@@ -23,6 +24,8 @@ function HightLightComments(props) {
             </div>
             <div className='hight-light-comments__comment'>“Thái độ của nhân viên phục vụ rất nhiệt tình và thân thiện”</div>
             <div className='hight-light-comments__readmore'>Đọc thêm</div>
+
+
         </div>
     );
 }

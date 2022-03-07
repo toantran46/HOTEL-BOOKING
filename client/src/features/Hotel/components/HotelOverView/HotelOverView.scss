@@ -74,6 +74,7 @@
             justify-content: center;
             margin-bottom: 1rem;
             &__top {
+                margin-right: 10px;
                 &__message {
                     font-size: 15px;
                     font-weight: 500;
@@ -81,15 +82,6 @@
                 &__vote {
                     font-size: 12px;
                     color: #888;
-                }
-                &__score {
-                    color: #fff;
-                    padding: 5px 6px;
-                    background-color: #003580;
-                    font-size: 14px;
-                    margin-left: 5px;
-                    border-top-left-radius: 5px;
-                    border-bottom-right-radius: 5px;
                 }
             }
         }

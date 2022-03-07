@@ -15,18 +15,7 @@
         margin-top: 2rem;
         display: flex;
         align-items: center;
-        &__score {
-            background: #003580;
-            height: 30px;
-            width: 30px;
-            border-top-left-radius: 5px;
-            border-bottom-right-radius: 5px;
-            border-top-right-radius: 5px;
-            color: #fff;
-            font-size: 13px;
-            line-height: 30px;
-            text-align: center;
-        }
+
         &__message {
             margin: 0 0.5rem;
             font-weight: bold;

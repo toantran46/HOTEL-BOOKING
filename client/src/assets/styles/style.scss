@@ -1,4 +1,4 @@
-// button global
+/*--------------button backgroundcolor---------------*/
 a.btn-primary {
     padding: 0.5rem 1rem;
     border: none;
@@ -13,4 +13,36 @@ a.btn-primary {
 
 a.btn-primary:hover {
     background: #0a3a5c;
+}
+/*--------------button outline---------------*/
+a.btn-primary-outline {
+    padding: 0.5rem 1rem;
+    border: none;
+    border: 1px solid #0071c2;
+    font-weight: bold;
+    color: #0071c2;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 3px;
+}
+
+a.btn-primary-outline:hover {
+    background: rgb(165, 210, 247);
+}
+/*--------------score feedback---------------*/
+
+.score {
+    background: #003580;
+    height: 30px;
+    width: 30px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #fff;
+    font-size: 13px;
+    line-height: 30px;
+    text-align: center;
 }
