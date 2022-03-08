@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './style.scss';
+import './WarrantContent.scss';
 
 import { MdCheckCircleOutline } from "react-icons/md";
 
-PageBody.propTypes = {
+WarrantContent.propTypes = {
 
 };
 
 function
-    PageBody(props) {
+    WarrantContent(props) {
     return (
         <div className='wrapper'>
             <div className="wrapper__title">
@@ -56,4 +56,4 @@ function
 }
 
 export default
-    PageBody;
+    WarrantContent;

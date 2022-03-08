@@ -24,6 +24,9 @@
                     :first-child {
                         content: unset;
                     }
+                    :hover {
+                        text-decoration: none;
+                    }
                     a {
                         font-size: 12px;
                         color: #fff;

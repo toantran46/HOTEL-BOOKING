@@ -15,7 +15,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route index path='/*' element={<HoTel />} />
-            <Route path='/auth' element={<Auth />} />
+            <Route path='/auth/*' element={<Auth />} />
           </Routes>
         </BrowserRouter>
       </Suspense>

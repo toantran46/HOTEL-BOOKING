@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './style.scss';
+import './Container.scss';
 import { Table } from 'reactstrap';
 import { MdDone, MdArrowForward } from "react-icons/md";
 

@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './style.scss';
+import { Route, Routes } from 'react-router-dom';
 
-import Header from './components/Header';
-import Container from './components/Container';
-import Page from './components/Page';
-import FooterInfor from './components/FooterInfor';
-
-
+import MainPage from './pages/MainPage';
+import SignIn from './pages/SignIn';
 
 Auth.propTypes = {
 
@@ -16,14 +12,11 @@ Auth.propTypes = {
 
 function Auth(props) {
     return (
-        <div className='body'>
-            <div className="content-bg">
-                <Header />
-                <Container />
-            </div>
-
-            <Page />
-            <FooterInfor />
+        <div className='auth'>
+            <Routes>
+                <Route path='/' element={<MainPage />} />
+                <Route path='/sign-in' element={<SignIn />} />
+            </Routes>
         </div>
     );
 }
