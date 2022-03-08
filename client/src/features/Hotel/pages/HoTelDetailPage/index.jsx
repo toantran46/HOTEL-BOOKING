@@ -17,6 +17,7 @@ import { ScrollToView } from 'assets/globaJS';
 import FeedBack from 'features/Hotel/components/FeedBack';
 import ViewDetailComments from 'features/Hotel/components/ViewDetailComments';
 import ViewAllFeedBack from 'features/Hotel/components/ViewAllFeedBack';
+import ViewOnGoogleMap from 'features/Hotel/components/ViewOnGoogleMap';
 
 HotelDetailPage.propTypes = {
 
@@ -66,6 +67,7 @@ function HotelDetailPage(props) {
                         Chúng tôi luôn khớp giá
                     </div>
                     <FormSearch />
+                    <ViewOnGoogleMap />
                 </div>
                 <div className='wrapper__content__right'>
                     <Row className='wrapper__content__right__top'>
