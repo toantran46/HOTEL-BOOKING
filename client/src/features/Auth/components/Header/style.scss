@@ -1,36 +1,33 @@
 $color_wh: #fff;
 $color_bg: #00224f;
-.header-auth{
+.header-auth {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     color: $color_wh;
 
     padding: 14px 0;
     width: 80%;
     margin: auto;
-    
+
     font-weight: 700;
 
-    img{
+    img {
         float: left;
         width: 150px;
         height: auto;
     }
-    .banner-right{
+    .banner-right {
         display: flex;
         align-items: center;
         span {
-           margin-right: 10px;
+            margin-right: 10px;
         }
-        button{
+        button {
             margin-right: 5px;
             color: #fff;
             border-color: #fff;
-            
         }
     }
 }
-
-
