@@ -73,99 +73,6 @@
             }
 
             &__list-feedback {
-                &__feedback {
-                    display: flex;
-                    padding: 24px 0 40px 0;
-                    border-bottom: 1px solid #e6e6e6;
-                }
-                &__personal-info {
-                    display: flex;
-                    align-items: center;
-                    &__avatar {
-                        height: 35px;
-                        width: 35px;
-                        border-radius: 50%;
-                        background-color: rgb(35, 109, 35);
-                        color: #fff;
-                        margin-right: 5px;
-                        line-height: 35px;
-                        text-align: center;
-                        margin-right: 10px;
-                    }
-                    &__info {
-                        &__name {
-                            font-weight: bold;
-                        }
-                        &__location {
-                            span {
-                                margin-left: 5px;
-                                font-size: 12px;
-                            }
-                        }
-                    }
-                }
-
-                &__content {
-                    flex-basis: 95%;
-                    .date {
-                        font-size: 12px;
-                        color: #888;
-                    }
-                    .title {
-                        margin: 5px 0;
-                        font-size: 16px;
-                        font-weight: bold;
-                    }
-                    .message {
-                        color: #222;
-                        margin-top: 1rem;
-                        font-size: 14px;
-                    }
-
-                    .response-message::before {
-                        content: " ";
-                        width: 20px;
-                        height: 20px;
-                        position: absolute;
-                        background: #f5f5f5;
-                        top: -0.3rem;
-                        left: 50%;
-                        transform: rotate(45deg);
-                    }
-                    .response-message {
-                        position: relative;
-                        margin-top: 1rem;
-                        font-size: 14px;
-                        padding: 1rem;
-                        background: #f5f5f5;
-
-                        h6 {
-                            font-size: 14px;
-                            font-weight: bold;
-                        }
-                        svg {
-                            height: 25px;
-                            width: 25px;
-                            margin-right: 5px;
-                        }
-                    }
-                }
-
-                &__items {
-                    margin-top: 1rem;
-                    .item {
-                        display: flex;
-                        align-items: center;
-                        font-size: 12px;
-                        color: #666;
-                        margin-bottom: 10px;
-
-                        svg {
-                            margin-right: 1rem;
-                            fill: #666;
-                        }
-                    }
-                }
             }
         }
 
@@ -177,7 +84,7 @@
 
             background: #0071c2;
             color: #fff;
-            padding: 7px 5px;
+            padding: 8px 10px;
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.2s;

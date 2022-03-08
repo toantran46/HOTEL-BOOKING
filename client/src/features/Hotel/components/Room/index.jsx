@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import "./Room.scss";
 import FavouriteConvenients from '../FavouriteConvenients';
+import { ICONS } from 'constants';
 Room.propTypes = {
 
 };
@@ -49,8 +50,8 @@ function Room(props) {
                     <FavouriteConvenients convenients={convenients} sameColor />
                 </td>
                 <td>
-                    <i class="bi bi-person-fill" />
-                    <i class="bi bi-person-fill" />
+                    {ICONS.PERSON}
+                    {ICONS.PERSON}
                 </td>
                 <td>
                     <div className='room__price'>VND 64.014.300</div>
@@ -83,7 +84,7 @@ function Room(props) {
             </tr>
             <tr className='room'>
                 <td>
-                    <i class="bi bi-person-fill" />
+                    {ICONS.PERSON}
                 </td>
                 <td>
                     <div className='room__price'>VND 54.014.300</div>
