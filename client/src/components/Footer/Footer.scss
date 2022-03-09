@@ -1,0 +1,112 @@
+.footer {
+    background: #003580;
+
+    &__post {
+        color: #fff;
+        border-bottom: 1px solid #0071c2;
+        text-align: center;
+        padding: 15px;
+
+        a {
+            margin: 1rem 0;
+            background: #003580;
+            padding: 3px 15px;
+            border: 1px solid #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    }
+
+    &__container {
+        width: 75%;
+        margin: 0 auto;
+        font-size: 13.5px;
+        text-align: left;
+
+        a {
+            color: #fff;
+            display: inline-block;
+        }
+
+        &__top {
+            min-height: 100px;
+
+            ul {
+                li {
+                    display: inline-block;
+                    font-weight: bold;
+                    font-size: 13px;
+                    margin-right: 1rem;
+                    margin-top: 1rem;
+                }
+            }
+        }
+    }
+
+    &__bottom-container {
+        background: #fff;
+        padding-top: 1rem;
+        // margin-top: 1rem;
+        font-size: 13px;
+
+        &__main {
+            width: 75%;
+            margin: 0 auto;
+
+            ul {
+                list-style: none;
+                li {
+                    line-height: 25px;
+                    a {
+                        text-decoration: none;
+                        color: #0071c2;
+                    }
+                }
+
+                a:hover {
+                    color: #bc5b01;
+                }
+            }
+
+            &__btn-manage {
+                text-align: center;
+                margin: 2rem 0;
+                a {
+                    text-decoration: none;
+                    font-size: 16px;
+                    color: #666;
+                    font-weight: bold;
+                }
+            }
+
+            &__policy {
+                font-size: 11px;
+                margin-bottom: 2rem;
+            }
+
+            &__about {
+                font-size: 12px;
+                text-align: center;
+                color: #666;
+            }
+
+            &__logos {
+                text-align: center;
+                margin: 1rem 0;
+                &__logo {
+                    width: 105px;
+                    height: 27px;
+                    display: inline-block;
+                    margin-right: 1rem;
+                    img {
+                        object-fit: contain;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
