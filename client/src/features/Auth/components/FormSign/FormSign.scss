@@ -1,0 +1,33 @@
+.form-site {
+    padding: 20px;
+    text-align: center;
+    width: 400px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    &__label {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32px;
+        margin-bottom: 15px;
+
+        display: flex;
+    }
+    Form {
+        Label {
+            display: flex;
+            margin: 10px 0;
+        }
+        Button {
+            width: 100%;
+        }
+
+        .forget-pass {
+            margin-top: 5px;
+            display: flex;
+            :hover {
+                text-decoration: none;
+            }
+        }
+    }
+}
