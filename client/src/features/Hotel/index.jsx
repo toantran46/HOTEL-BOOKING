@@ -13,12 +13,14 @@ Hotel.propTypes = {
 
 function Hotel(props) {
     return (
-        <div className='hotel'>
+        <div className='wrapper-hotel'>
             <Header />
-            <Routes>
-                <Route path='/' element={<MainPage />} />
-                <Route path='/:hotelId' element={<HotelDetailPage />} />
-            </Routes>
+            <div className='hotel'>
+                <Routes>
+                    <Route path='/' element={<MainPage />} />
+                    <Route path='/:hotelId' element={<HotelDetailPage />} />
+                </Routes>
+            </div>
             <Footer />
         </div>
     );
