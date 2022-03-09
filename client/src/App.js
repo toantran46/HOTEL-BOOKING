@@ -14,12 +14,10 @@ function App() {
     <div className="App">
       <Suspense fallback={<div>loading...</div>}>
         <BrowserRouter>
-          <Header />
           <Routes>
             <Route index path='/*' element={<HoTel />} />
             <Route path='/auth/*' element={<Auth />} />
           </Routes>
-          <Footer />
         </BrowserRouter>
       </Suspense>
     </div>
