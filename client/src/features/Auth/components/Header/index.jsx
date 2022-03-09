@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Header.scss';
 import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 Header.propTypes = {
 
@@ -10,17 +11,25 @@ Header.propTypes = {
 function Header(props) {
     return (
         <div className='header-auth'>
-            <a href="">
+            <Link to={'/'}>
                 <img src="https://static.booking.com/static/img/b26logo/booking_logo_retina.png" alt="" />
-            </a>
+            </Link>
             <div className="banner-right">
                 <span>Đã là đối tác ?</span>
-                <Button color="primary" outline >
-                    Đăng nhập
-                </Button>
-                <Button color="primary" >
-                    Trợ giúp
-                </Button>
+                <div className="banner-right__sign">
+                    <div className="banner-right__sign__hov">
+                        <Link to={'/auth/sign-in'}>
+                            Đăng nhập
+                        </Link>
+                    </div>
+                </div>
+                <div className="banner-right__help">
+                    <div className="banner-right__help__hov">
+                        <Link to={'#'}>
+                            Trợ giúp
+                        </Link>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -24,10 +24,40 @@ $color_bg: #00224f;
         span {
             margin-right: 10px;
         }
-        button {
+        &__sign {
             margin-right: 5px;
-            color: #fff;
-            border-color: #fff;
+            :hover {
+                background-color: #0071c2;
+            }
+            &__hov {
+                padding: 7px;
+                background-color: transparent;
+                border: 1px solid #fff;
+                border-radius: 2px;
+                a {
+                    text-decoration: none;
+
+                    font-size: 14px;
+                    color: #fff;
+                }
+            }
+        }
+        &__help {
+            :hover {
+                background-color: #005c9d;
+                border-color: #005c9d;
+            }
+            &__hov {
+                padding: 7px;
+                background-color: #0a58ca;
+                border-radius: 2px;
+                a {
+                    text-decoration: none;
+
+                    font-size: 14px;
+                    color: #fff;
+                }
+            }
         }
     }
 }

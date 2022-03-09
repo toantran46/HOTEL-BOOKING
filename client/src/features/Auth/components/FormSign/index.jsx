@@ -18,12 +18,12 @@ function FormSign(props) {
             <Form>
                 <FormGroup>
                     <Label for="userName">
-                        Email/Tên đăng nhập
+                        Email
                     </Label>
                     <Input
-                        id="emailExample"
+                        id="emaiSign"
                         name="email"
-                        placeholder="Nhập email/tên đăng nhập"
+                        placeholder="Nhập email"
                         type='email'
                     >
                     </Input>

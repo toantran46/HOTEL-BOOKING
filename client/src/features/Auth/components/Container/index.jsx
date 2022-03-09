@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import './Container.scss';
 import { Table } from 'reactstrap';
 import { MdDone, MdArrowForward } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 Container.propTypes = {
 
@@ -47,17 +48,18 @@ function Container(props) {
                         <p>Bằng cách đi tiếp, Quý vị đồng ý cho Booking.com gửi email tới Quý vị về việc đăng ký chỗ nghỉ.</p>
                     </div>
                     <div className="button-start">
-                        <a href="#">
+                        <Link to={'/auth/register'}>
                             Bắt đầu
                             <span>
                                 <MdArrowForward />
                             </span>
-                        </a>
+                        </Link>
+
                     </div>
                     <div className="infor-ft">
                         <div className="infor-if content">
                             <b>Quý vị đã bắt đầu quá trình đăng ký?</b>
-                            <a href="#">Tiếp tục các bước đăng ký</a>
+                            <Link to={'#'}>Tiếp tục các bước đăng ký</Link>
                         </div>
                     </div>
                 </div>

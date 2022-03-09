@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import MainPage from './pages/MainPage';
 import SignIn from './pages/SignIn';
+import Register from './pages/Register';
 
 Auth.propTypes = {
 
@@ -16,6 +17,7 @@ function Auth(props) {
             <Routes>
                 <Route path='/' element={<MainPage />} />
                 <Route path='/sign-in' element={<SignIn />} />
+                <Route path='/register' element={<Register />} />
             </Routes>
         </div>
     );
