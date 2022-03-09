@@ -9,15 +9,22 @@ Carousel.propTypes = {
 
 function Carousel(props) {
 
-    const { childrens } = props;
+    const { childrens, showNum } = props;
     const [currentElement, setCurrentElement] = React.useState(0);
+
+    const [currentWidth, setCurrentWidth] = React.useState("370");
+
+    React.useEffect(() => {
+        setCurrentWidth(`calc((100% - ${(showNum - 1) * 15}px) / ${showNum} )`);
+    }, [showNum])
+
 
     return (
         <div className='carousel' id='carousel'>
             <div className="carousel__inner">
-                <ul className="carousel__inner__list" id='lightSlider' style={{ transform: `translate(-${currentElement * 385}px, 0px)` }}>
+                <ul className="carousel__inner__list" >
                     {childrens?.map((child, index) =>
-                        <li key={index} className='carousel__inner__list__item'>
+                        <li key={index} className='carousel__inner__list__item' style={{ width: currentWidth }}>
                             {child}
                         </li>
                     )}

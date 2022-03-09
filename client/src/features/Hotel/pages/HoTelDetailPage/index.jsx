@@ -57,6 +57,10 @@ function HotelDetailPage(props) {
         },
     ]
 
+
+    const [isVisibleAllFeedBack, setIsVisibleAllFeedBack] = React.useState(false);
+
+
     return (
         <div className='wrapper'>
             <BreadcrumbStyled />
@@ -140,8 +144,11 @@ function HotelDetailPage(props) {
                     <br />
                     <ViewDetailComments />
 
-                    <a className="btn-primary-outline">Đọc tất cả đánh giá</a>
-                    <ViewAllFeedBack />
+                    <a onClick={() => setIsVisibleAllFeedBack(true)} className="btn-primary-outline">Đọc tất cả đánh giá</a>
+                    {
+                        isVisibleAllFeedBack &&
+                        <ViewAllFeedBack setIsVisibleAllFeedBack={setIsVisibleAllFeedBack} />
+                    }
                 </div>
             </div>
         </div>

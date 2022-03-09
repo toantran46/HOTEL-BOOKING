@@ -1,4 +1,4 @@
-/*--------------button backgroundcolor---------------*/
+/*--------------BUTTON PRIMARY---------------*/
 a.btn-primary {
     padding: 0.5rem 1rem;
     border: none;
@@ -14,7 +14,7 @@ a.btn-primary {
 a.btn-primary:hover {
     background: #0a3a5c;
 }
-/*--------------button outline---------------*/
+/*--------------BUTTON OUTLINE---------------*/
 a.btn-primary-outline {
     padding: 0.5rem 1rem;
     border: none;
@@ -32,7 +32,7 @@ a.btn-primary-outline {
 a.btn-primary-outline:hover {
     background: rgb(165, 210, 247);
 }
-/*--------------score feedback---------------*/
+/*--------------SCORE FEEDBACK---------------*/
 
 .score {
     background: #003580;
@@ -46,3 +46,23 @@ a.btn-primary-outline:hover {
     line-height: 30px;
     text-align: center;
 }
+
+/*--------------ANIMATION---------------*/
+
+.slide-animate {
+    position: fixed;
+    top: 0;
+
+    animation: slide 0.5s linear;
+}
+
+@keyframes slide {
+    0% {
+        right: -100%;
+    }
+    100% {
+        right: 0;
+    }
+}
+
+/*-----------------------------------*/
