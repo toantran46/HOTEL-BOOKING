@@ -4,12 +4,20 @@ import PropTypes from 'prop-types';
 import "./Carousel.scss";
 
 Carousel.propTypes = {
+    childrens: PropTypes.array,
+    showNum: PropTypes.number,
+    isPadding: PropTypes.bool
+};
 
+Carousel.defaultProps = {
+    childrens: [],
+    showNum: null,
+    isPadding: false
 };
 
 function Carousel(props) {
 
-    const { childrens, showNum } = props;
+    const { childrens, showNum, isPadding } = props;
     const [currentElement, setCurrentElement] = React.useState(0);
 
     const [currentWidth, setCurrentWidth] = React.useState("370");
@@ -24,7 +32,7 @@ function Carousel(props) {
             <div className="carousel__inner">
                 <ul className="carousel__inner__list" >
                     {childrens?.map((child, index) =>
-                        <li key={index} className='carousel__inner__list__item' style={{ width: currentWidth }}>
+                        <li key={index} className='carousel__inner__list__item' style={{ width: currentWidth, padding: !isPadding && 0 }}>
                             {child}
                         </li>
                     )}

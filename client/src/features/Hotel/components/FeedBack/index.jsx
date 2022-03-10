@@ -29,7 +29,7 @@ function FeedBack(props) {
 
             <div className="wrapperSlider">
                 <div className="wrapperSlider__title">Đọc xem khách yêu thích điều gì nhất:</div>
-                <Carousel childrens={comments} showNum={3} />
+                <Carousel isPadding={true} childrens={comments} showNum={3} />
             </div>
         </div>
     );
