@@ -1,0 +1,41 @@
+.place-banner {
+    background: #fff;
+    width: 75%;
+    margin: 2rem auto;
+    margin-top: 4rem;
+    &__city {
+        display: block;
+        position: relative;
+        height: 270px;
+
+        .city-image {
+            display: block;
+            background-color: #000;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            filter: brightness(80%);
+        }
+
+        .city-image:hover {
+            filter: brightness(70%);
+        }
+
+        &__info {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            color: #fff;
+            text-shadow: 1px 1px 1px #000;
+            div {
+                font-size: 30px;
+                font-weight: bold;
+            }
+
+            span {
+                font-size: 14px;
+                display: block;
+            }
+        }
+    }
+}
