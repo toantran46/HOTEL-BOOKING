@@ -73,32 +73,32 @@ function Home(props) {
             {
                 image: "https://t-cf.bstatic.com/xdata/images/city/square250/688831.jpg?k=7b999c7babe3487598fc4dd89365db2c4778827eac8cb2a47d48505c97959a78&o=",
                 name: "Đà lạt",
-                total: "1,821 chổ nghỉ"
+                total: "2,145 chổ nghỉ"
             },
             {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688956.webp?k=fc88c6ab5434042ebe73d94991e011866b18ee486476e475a9ac596c79dce818&o=",
-                name: "Vũng Tàu",
-                total: "1,821 chổ nghỉ"
+                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688879.webp?k=82ca0089828054a1a9c46b14ea7f1625d73d42505ae58761e8bcc067f9e72475&o=",
+                name: "Phú Quốc",
+                total: "672 chổ nghỉ"
             },
             {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688956.webp?k=fc88c6ab5434042ebe73d94991e011866b18ee486476e475a9ac596c79dce818&o=",
-                name: "Vũng Tàu",
-                total: "1,821 chổ nghỉ"
+                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688893.webp?k=d32ef7ff94e5d02b90908214fb2476185b62339549a1bd7544612bdac51fda31&o=",
+                name: "Hồ Chí Minh City",
+                total: "5,605 chổ nghỉ"
             },
             {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688956.webp?k=fc88c6ab5434042ebe73d94991e011866b18ee486476e475a9ac596c79dce818&o=",
-                name: "Vũng Tàu",
-                total: "1,821 chổ nghỉ"
+                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688844.webp?k=02892d4252c5e4272ca29db5faf12104004f81d13ff9db724371de0c526e1e15&o=",
+                name: "Đà Nẵng",
+                total: "2,509 chổ nghỉ"
             },
             {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688956.webp?k=fc88c6ab5434042ebe73d94991e011866b18ee486476e475a9ac596c79dce818&o=",
-                name: "Vũng Tàu",
-                total: "1,821 chổ nghỉ"
+                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688907.webp?k=8a219233969467d9f7ff828918cce2a53b4db6f1da1039d27222441ffb97c409&o=",
+                name: "Nha Trang",
+                total: "1,657 chổ nghỉ"
             },
             {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688956.webp?k=fc88c6ab5434042ebe73d94991e011866b18ee486476e475a9ac596c79dce818&o=",
-                name: "Vũng Tàu",
-                total: "1,821 chổ nghỉ"
+                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688853.webp?k=f6427c8fccdf777e4bbc75fcd245e7c66204280181bea23350388c76c57348d1&o=",
+                name: "Hà Nội",
+                total: "3,803 chổ nghỉ"
             },
         ],
     }
@@ -110,10 +110,50 @@ function Home(props) {
                 image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/74529578.jpg?k=a7fcefd47d7271daf44f6ce78a215b9505f9f8e5cac3af093b78b9c489fd8461&o=",
                 name: "Sugar Loft Apartments",
                 place: "Rio de Janeiro",
-                score: 9.0,
+                score: 9.5,
                 feedBackMessage: "Tuyệt hảo",
                 numVoted: "296 đánh giá"
-            }
+            },
+            {
+                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/38437078.jpg?k=241519692574af90306f0dbec0121eacfddc9a183df3ea34a7b7c8f2b4f5febb&o=",
+                name: "Sugar Loft Apartments",
+                place: "Rio de Janeiro",
+                score: 9.2,
+                feedBackMessage: "Tuyệt hảo",
+                numVoted: "296 đánh giá"
+            },
+            {
+                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/74065694.jpg?k=7d852b0255118faf9ca8f22ac30b033f8b7448ad7f47867f13bd213c6cb2e411&o=",
+                name: "Sugar Loft Apartments",
+                place: "Rio de Janeiro",
+                score: 9.1,
+                feedBackMessage: "Tuyệt hảo",
+                numVoted: "296 đánh giá"
+            },
+            {
+                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/75328633.jpg?k=87304e5542c63c022f2cbc134b02b85b65496a9ed8c6ca129b49c02f817589db&o=",
+                name: "Sugar Loft Apartments",
+                place: "Rio de Janeiro",
+                score: 9.9,
+                feedBackMessage: "Tuyệt hảo",
+                numVoted: "296 đánh giá"
+            },
+            {
+                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/102743522.jpg?k=ec1674f7d6baa425ce4d27fcde9327376b0e5d36b7972a12a82285f53761aa68&o=",
+                name: "Sugar Loft Apartments",
+                place: "Rio de Janeiro",
+                score: 9.4,
+                feedBackMessage: "Tuyệt hảo",
+                numVoted: "296 đánh giá"
+            },
+            {
+                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/38437078.jpg?k=241519692574af90306f0dbec0121eacfddc9a183df3ea34a7b7c8f2b4f5febb&o=",
+                name: "Sugar Loft Apartments",
+                place: "Rio de Janeiro",
+                score: 9.7,
+                feedBackMessage: "Tuyệt hảo",
+                numVoted: "296 đánh giá"
+            },
         ],
         num: 4
     }

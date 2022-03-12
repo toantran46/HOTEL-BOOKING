@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 import "./Header.scss";
 import { Link } from 'react-router-dom';
 import { PLACE, FLY, FLYHOTEL, HIRECAR, PLACEVISIT } from 'constants';
+import { ICONS } from 'constants';
 
 Header.propTypes = {
 
 };
 
 function Header(props) {
+    const [isShowUserMenu, setIsShowUserMenu] = React.useState(false);
+
+
     return (
         <div className='header-wrapper'>
             <div className='header'>
@@ -23,8 +27,41 @@ function Header(props) {
                         <span className='header__top__right__currency'>VND</span>
                         <img className='header__top__right__country' src="https://t-cf.bstatic.com/static/img/flags/new/48-squared/vn/90b17da2aafaebce7b0c34189747e1e10dba8041.png" alt='location' />
                         <Link to="/auth" className='header__top__right__btn-outline'>Đăng chổ nghỉ của Quý vị</Link>
-                        <Link to="/auth/register" className='header__top__right__btn-fullfill'>Đăng ký</Link>
-                        <Link to="/auth/sign-in" className='header__top__right__btn-fullfill'>Đăng nhập</Link>
+                        {/* <Link to="/auth/register" className='header__top__right__btn-fullfill'>Đăng ký</Link>
+                        <Link to="/auth/sign-in" className='header__top__right__btn-fullfill'>Đăng nhập</Link> */}
+
+                        {/* User login */}
+                        <div tabIndex={1} onBlur={() => setIsShowUserMenu(false)} onClick={() => setIsShowUserMenu(prev => !prev)} className={`header__top__right__profile ${isShowUserMenu ? 'active' : ''}`}>
+                            <div className='header__top__right__profile__avatar'>
+                                <img src='https://t-cf.bstatic.com/static/img/identity/profile/b47cd0e05ec8b7831167f4f7593ead56402a6bb4.svg' alt='avatar' />
+                            </div>
+                            <div className='header__top__right__profile__name'>
+                                Trương Việt Linh
+                            </div>
+                            {isShowUserMenu && <div className='header__top__right__profile__menu'>
+                                <ul>
+                                    <li>
+                                        <span><i class="bi bi-person"></i></span>
+                                        <Link to="/">Quản lí tài khoản</Link>
+                                    </li>
+                                    <li>
+                                        <span><i class="bi bi-basket"></i></span>
+                                        <Link to="/">Đặt chổ</Link>
+                                    </li>
+                                    <li>
+                                        <span><i class="bi bi-heart"></i></span>
+                                        <Link to="/">Đã lưu</Link>
+                                    </li>
+                                    <li>
+                                        <span><i class="bi bi-box-arrow-left"></i></span>
+                                        <Link to="/">Đăng xuất</Link>
+                                    </li>
+                                </ul>
+                            </div>}
+                        </div>
+
+
+
                     </div>
                 </div>
                 <div className='header__bottom'>
