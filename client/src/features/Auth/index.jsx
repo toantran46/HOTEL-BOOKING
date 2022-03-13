@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import SignIn from './pages/SignIn';
 import Register from './pages/Register';
+import About from './pages/About';
 
 Auth.propTypes = {
 
@@ -18,6 +19,7 @@ function Auth(props) {
                 <Route path='/' element={<MainPage />} />
                 <Route path='/sign-in' element={<SignIn />} />
                 <Route path='/register' element={<Register />} />
+                <Route path='/about' element={<About />} />
             </Routes>
         </div>
     );

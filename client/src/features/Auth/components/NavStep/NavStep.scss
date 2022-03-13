@@ -1,0 +1,36 @@
+.nav-step {
+    width: 70%;
+    margin: auto;
+    box-sizing: border-box;
+
+    background-color: transparent;
+
+    // display: table;
+    // table-layout: fixed;
+    // white-space: nowrap;
+
+    border-spacing: 3px 0;
+    margin-bottom: 20px;
+
+    ul {
+        justify-content: center;
+        list-style-type: none;
+        display: flex;
+        padding-left: unset;
+
+        li {
+            margin-right: 2px;
+            padding-left: 40px;
+            border-bottom: 4px solid #6b6b6b;
+            a {
+                text-align: center;
+                text-decoration: none;
+                padding: 20px;
+
+                font-size: 13px;
+                color: #2b2a2a;
+                display: block;
+            }
+        }
+    }
+}
