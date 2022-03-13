@@ -6,6 +6,7 @@ import HotelDetailPage from './pages/HoTelDetailPage';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Home from './pages/Home';
+import GeneralManagement from './pages/GeneralManagement';
 
 Hotel.propTypes = {
 
@@ -17,8 +18,9 @@ function Hotel(props) {
         <div className='wrapper-hotel'>
             <Header />
             <Routes>
-                <Route path='/' element={<Home />} />
+                <Route index path='/' element={<Home />} />
                 <Route path='/search' element={<MainPage />} />
+                <Route path='/management/*' element={<GeneralManagement />} />
                 <Route path='/:hotelId' element={<HotelDetailPage />} />
             </Routes>
             <Footer />

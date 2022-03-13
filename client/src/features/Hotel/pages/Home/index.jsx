@@ -62,7 +62,7 @@ function Home(props) {
     }
 
     const VNdiscover = {
-        title: "Khám phá Việt Namĩ",
+        title: "Khám phá Việt Nam",
         description: "Các điểm đến phổ biến này có nhiều điều chờ đón bạn",
         list: [
             {

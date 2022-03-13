@@ -1,12 +1,11 @@
 .header-wrapper {
     background-color: #003580;
-    min-height: 150px;
 }
 
 .header {
     width: 75%;
     margin: 0 auto;
-    padding: 1rem 0;
+    padding: 0.25rem 0;
     color: #fff;
 
     a {
@@ -84,9 +83,11 @@
                     font-size: 14px;
                     width: 130%;
                     z-index: 1000;
+                    box-shadow: 1px 1px 25px -8px #aaa;
 
                     span {
                         font-size: 20px;
+                        margin-right: 10px;
                     }
 
                     ul {
@@ -102,6 +103,7 @@
                     a {
                         color: #666;
                         margin-left: 7px;
+                        display: block;
                     }
                 }
             }
