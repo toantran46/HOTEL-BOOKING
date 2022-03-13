@@ -1,0 +1,85 @@
+.policy {
+    &__info {
+        font-size: 13px;
+        padding: 20px;
+        background: #f9fbfd;
+        margin-bottom: 2rem;
+
+        &__cancle-time {
+            font-weight: bold;
+
+            i {
+                margin-right: 5px;
+            }
+        }
+        &__note {
+            color: #6b6b6b;
+            font-weight: 500;
+        }
+    }
+
+    &__insurance {
+        &__top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        &__info {
+            font-size: 12px;
+            font-weight: 500;
+            color: #6b6b6b;
+            margin-top: 1rem;
+        }
+    }
+
+    &__room-time {
+        display: flex;
+        width: 75%;
+        // text-align: center;
+
+        &__receive,
+        &__return {
+            padding: 20px;
+            background: #fff;
+            width: 100%;
+            h5 {
+                font-weight: 400;
+            }
+        }
+
+        &__return {
+            margin-left: 20px;
+        }
+
+        .time {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+
+            button {
+                outline: none;
+                padding: 8px 22px;
+                border: 1px solid #aaa;
+                background: none;
+                border-radius: 5px;
+            }
+
+            button.active {
+                background-color: #ebf3ff;
+                font-weight: 500;
+                border-color: #bad4f7;
+            }
+
+            select {
+                border: 1px solid #aaa;
+                padding: 8px 30px 8px 10px;
+            }
+        }
+
+        .form-select {
+            width: auto;
+            display: inline-block;
+        }
+    }
+}

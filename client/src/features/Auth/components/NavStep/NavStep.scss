@@ -19,18 +19,22 @@
         padding-left: unset;
 
         li {
+            width: calc(100% / 6);
             margin-right: 2px;
-            padding-left: 40px;
             border-bottom: 4px solid #6b6b6b;
             a {
                 text-align: center;
                 text-decoration: none;
                 padding: 20px;
-
                 font-size: 13px;
                 color: #2b2a2a;
                 display: block;
             }
+        }
+
+        li.active {
+            border-color: #0071c2;
+            background-color: #e6e6e6;
         }
     }
 }
