@@ -32,5 +32,11 @@
                 text-decoration: none;
             }
         }
+        .error-message {
+            display: flex;
+            margin: 5px 5px;
+            color: rgb(192, 49, 49);
+            font-style: italic;
+        }
     }
 }
