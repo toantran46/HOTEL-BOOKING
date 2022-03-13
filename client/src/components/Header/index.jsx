@@ -5,6 +5,7 @@ import "./Header.scss";
 import { Link, useLocation } from 'react-router-dom';
 import { PLACE, FLY, FLYHOTEL, HIRECAR, PLACEVISIT } from 'constants';
 import { ICONS } from 'constants';
+import { TAXI } from 'constants';
 
 Header.propTypes = {
 
@@ -102,7 +103,7 @@ function Header(props) {
                                 Địa điểm tham quan
                             </li>
                             <li className='header__bottom__items__item'>
-                                <Link to="/">{PLACE}</Link>
+                                <Link to="/">{TAXI}</Link>
                                 Taxi sân bay
                             </li>
                         </ul>
