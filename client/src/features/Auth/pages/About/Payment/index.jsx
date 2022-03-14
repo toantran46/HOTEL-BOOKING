@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "./Payment.scss";
-import { Button, Checkbox, Col, Radio, Row } from 'antd';
+import { Button, Checkbox, Col, Radio, Row, Select } from 'antd';
 import SelectField from 'custom-fields/SelectField';
 import InputField from 'custom-fields/InputField';
 Payment.propTypes = {
@@ -13,7 +13,6 @@ function Payment(props) {
     const [isCredit, setIsCredit] = React.useState(false);
 
     const [anotherName, setAnotherName] = React.useState('');
-
 
     return (
         <div className='payment'>
@@ -28,7 +27,7 @@ function Payment(props) {
                     {
                         isCredit ?
                             <div className='payment__left__is-credit'>
-                                <Checkbox.Group>
+                                <Checkbox.Group onChange={(checkedValue) => console.log(checkedValue)}>
                                     <Row>
                                         <Col span={12}>
                                             <Checkbox value={0}>
@@ -104,13 +103,14 @@ function Payment(props) {
                         </div>
                     </div>
                     <div className='payment__left__main'>
-                        <SelectField label='Chúng tôi nên viết tên nào trên hóa đơn (ví dụ: tên công ty/pháp lý)?' options={[
+                        <Select onChange={(value) => setAnotherName(value === 'Khac' ? value : "")} style={{ minWidth: '100%' }} defaultValue='Linh' label='Chúng tôi nên viết tên nào trên hóa đơn (ví dụ: tên công ty/pháp lý)?' options={[
                             { label: "a", value: "a" },
                             { label: "Linh", value: "Linh" },
                             { label: "Khác", value: "Khac" },
                         ]} />
                         <br />
-                        {/* <InputField name='companyName' label='Tên pháp lý của công ty' /> */}
+                        <br />
+                        {anotherName && <InputField name='companyName' label='Tên pháp lý của công ty' />}
                     </div>
                 </div>
 

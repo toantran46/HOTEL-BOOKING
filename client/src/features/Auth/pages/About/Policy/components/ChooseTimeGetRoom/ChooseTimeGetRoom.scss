@@ -1,0 +1,42 @@
+.choose-time-get-room {
+    &__room-time {
+        display: flex;
+        width: 75%;
+        // text-align: center;
+
+        &__receive,
+        &__return {
+            padding: 20px;
+            background: #fff;
+            width: 100%;
+            h5 {
+                font-weight: 400;
+            }
+        }
+
+        &__return {
+            margin-left: 20px;
+        }
+
+        .time {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+
+            button {
+                outline: none;
+                padding: 8px 22px;
+                border: 1px solid #aaa;
+                background: none;
+                border-radius: 5px;
+            }
+
+            button.active {
+                background-color: #ebf3ff;
+                font-weight: 500;
+                border-color: #bad4f7;
+            }
+        }
+    }
+}

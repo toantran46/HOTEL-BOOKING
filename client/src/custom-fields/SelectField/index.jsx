@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'reactstrap';
 import "./SelectField.scss";
+import { Select } from 'antd';
 
 SelectField.propTypes = {
     name: PropTypes.string,
@@ -10,6 +11,7 @@ SelectField.propTypes = {
     options: PropTypes.array,
     disabled: PropTypes.bool,
     label: PropTypes.string,
+    defaultValue: PropTypes.string,
 };
 
 SelectField.defaultProps = {
@@ -19,22 +21,22 @@ SelectField.defaultProps = {
     options: [],
     disabled: false,
     label: '',
+    defaultValue: ''
 };
 
 function SelectField(props) {
-    const { name, value, label, disabled, placeholder, options } = props;
+    const { name, defaultValue, label, disabled, placeholder, options } = props;
 
     return (
         <div className='select-field'>
             <label>{label}</label>
-            <Input
+            <Select
+                style={{ width: '100%' }}
+                defaultValue={defaultValue}
                 disabled={disabled}
                 name={name}
-                type="select">
-                {
-                    options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)
-                }
-            </Input>
+                options={options} >
+            </Select>
         </div>
     );
 }
