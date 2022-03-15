@@ -12,6 +12,7 @@ import AccommodationPictures from './AccommodationPictures';
 import MainTitle from './MainTitle';
 import Policy from './Policy';
 import Payment from './Payment';
+import ConvenientNService from './ConvenientNService';
 About.propTypes = {
 
 };
@@ -25,17 +26,24 @@ function About(props) {
             <HeaderAbout />
             <NavStep currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
-            {currentTab === 1 &&
-                <InforBasic />
+            {currentTab === 1 && <div className='about__tab'>
+                <MainTitle main='Quý vị đang làm tốt lắm, hãy tiếp tục!' sub='Hãy bắt đầu bằng cách cho chúng tôi biết tên, địa chỉ cùng chi tiết liên hệ của chỗ nghỉ.' />
+                <div> <InforBasic /> </div>
+            </div>
+
             }
             {
-                currentTab === 2 && <LayoutNPrice />
+                currentTab === 2 && <div className='about__tab'>
+                    <MainTitle main='Bố cục và giá' sub='Hãy cho chúng tôi biết về phòng đầu tiên của Quý vị. Sau khi nhập tất cả các thông tin cần thiết, Quý vị sẽ có thể nhập chi tiết cho các phòng khác.' />
+                    <div> <LayoutNPrice /> </div>
+                </div>
+
             }
 
             {
                 currentTab === 3 && <div className='about__tab'>
                     <MainTitle main='Tiện nghi và dịch vụ' sub='Hãy cho chúng tôi biết về tiện nghi, internet, chỗ đậu xe và ngôn ngữ của chỗ nghỉ.' />
-                    <div>  "components ConvenientNService" </div>
+                    <div> <ConvenientNService /> </div>
                 </div>
             }
 

@@ -10,7 +10,7 @@ FooterAbout.propTypes = {
 
 function FooterAbout(props) {
     return (
-        <div className="container-footer">
+        <div className="container-footer-about">
             <div className='wrapper-footer'>
                 <div className="wrapper-footer__footer-left">
                     <ul>

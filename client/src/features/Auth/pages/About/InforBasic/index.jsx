@@ -12,22 +12,6 @@ function InforBasic(props) {
   return (
     <div className='infor-basic'>
       <div className="row">
-        <div className="align-header">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h1>
-              Quý vị đang làm tốt lắm, hãy tiếp tục!
-            </h1>
-          </div>
-        </div>
-        <div className="align-header">
-          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div className="page-description">
-              Hãy bắt đầu bằng cách cho chúng tôi biết tên, địa chỉ cùng chi tiết liên hệ của chỗ nghỉ.
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row">
         <div className="col-md-9 basic-form">
           <Form>
             <fieldset>

@@ -1,4 +1,5 @@
-.infor-basic {
+.convenient-and-service {
+    display: flex;
     .row {
         .sticky-col {
             font-size: 12px;
@@ -33,6 +34,20 @@
 
                         color: #6b6b6b;
                     }
+                    .list-convenient {
+                        ul {
+                            li {
+                                display: flex;
+                                margin: 0;
+                                padding: 10px 0;
+                                border-bottom: 1px dashed #e6e6e6;
+                                input {
+                                    margin-right: 7px;
+                                }
+                            }
+                        }
+                    }
+
                     .describe-block {
                         background-color: #e6e6e6;
                         border-radius: 2px;
