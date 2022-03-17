@@ -3,10 +3,8 @@
 # dependencies
 /node_modules
 ../server/node_modules
-/.pnp
-.pnp.js
 /.env
-../client/.env
+../server/.env
 # testing
 /coverage
 
