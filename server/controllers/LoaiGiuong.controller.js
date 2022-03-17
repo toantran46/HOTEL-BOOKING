@@ -6,7 +6,7 @@ module.exports = {
             const LoaiGiuongs = await LoaiGiuongModel.find();
             res.json({ message: "success", LoaiGiuongs })
         } catch (error) {
-            res.status(500).json({ message: "error", error })
+            res.status(500).json({ message: "error" + error.message })
         }
     },
     get: async (req, res) => {
@@ -16,7 +16,7 @@ module.exports = {
             if (!LoaiGiuong) return res.status(400).json({ message: "Loại giường không tồn tại !" });
             res.json({ message: "success", LoaiGiuong })
         } catch (error) {
-            res.status(500).json({ message: "error", error })
+            res.status(500).json({ message: "error" + error.message })
         }
     },
     post: async (req, res) => {
@@ -28,7 +28,7 @@ module.exports = {
             await newLoaiGiuong.save();
             res.json({ message: "Thêm loại giường thành công !" })
         } catch (error) {
-            res.status(500).json({ message: "error", error })
+            res.status(500).json({ message: "error" + error.message })
         }
     },
     patch: async (req, res) => {
@@ -41,7 +41,7 @@ module.exports = {
 
             res.json({ message: "Sửa loại giường thành công !" });
         } catch (error) {
-            res.status(500).json({ message: "error", error })
+            res.status(500).json({ message: "error" + error.message })
         }
     },
     delete: async (req, res) => {
@@ -52,7 +52,7 @@ module.exports = {
 
             res.json({ message: "Xóa loại giường thành công !" })
         } catch (error) {
-            res.status(500).json({ message: "error", error })
+            res.status(500).json({ message: "error" + error.message })
         }
     },
 }

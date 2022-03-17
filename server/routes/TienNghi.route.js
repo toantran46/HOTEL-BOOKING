@@ -1,11 +1,12 @@
 const express = require("express");
+const TienNghiController = require("../controllers/TienNghi.controller");
 const router = express.Router();
 
-router.get("/TienNghis", (req, res) => res.send("ok"));
-router.get("/:MaTienNghi", (req, res) => res.send("ok"));
-router.post("/", (req, res) => res.send("ok"));
-router.patch("/:MaTienNghi", (req, res) => res.send("ok"));
-router.delete("/:MaTienNghi", (req, res) => res.send("ok"));
+router.get("/TienNghis", TienNghiController.getAll);
+router.get("/:MaTienNghi", TienNghiController.get);
+router.post("/", TienNghiController.post);
+router.patch("/:MaTienNghi", TienNghiController.patch);
+router.delete("/:MaTienNghi", TienNghiController.delete);
 
 
 module.exports = router;
