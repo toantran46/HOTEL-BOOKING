@@ -1,11 +1,12 @@
 const express = require("express");
+const PhongController = require("../controllers/Phong.controller");
 const router = express.Router();
 
-router.get("/Phongs", (req, res) => res.send("ok"));
-router.get("/:MaPhong", (req, res) => res.send("ok"));
-router.post("/", (req, res) => res.send("ok"));
-router.patch("/:MaPhong", (req, res) => res.send("ok"));
-router.delete("/:MaPhong", (req, res) => res.send("ok"));
+router.get("/Phongs", PhongController.getAll);
+router.get("/:MaPhong", PhongController.get);
+router.post("/", PhongController.post);
+router.patch("/:MaPhong", PhongController.patch);
+router.delete("/:MaPhong", PhongController.delete);
 
 
 module.exports = router;

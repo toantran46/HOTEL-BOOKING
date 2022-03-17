@@ -24,6 +24,7 @@ const LoaiGiuongRouter = require("./routes/LoaiGiuong.route");
 const TienNghiRouter = require("./routes/TienNghi.route");
 const PhongRouter = require("./routes/Phong.route");
 const ChoNghiRouter = require("./routes/ChoNghi.route");
+const TinDungRouter = require("./routes/TinDung.route");
 
 
 app.use(express.static('public'));
@@ -32,6 +33,7 @@ app.use('/api/LoaiGiuong', LoaiGiuongRouter);
 app.use('/api/TienNghi', TienNghiRouter);
 app.use('/api/Phong', PhongRouter);
 app.use('/api/ChoNghi', ChoNghiRouter);
+app.use('/api/TinDung', TinDungRouter);
 
 
 
