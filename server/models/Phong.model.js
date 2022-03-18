@@ -4,7 +4,12 @@ const PhongSchema = new mongoose.Schema({
     LoaiPhong: { type: mongoose.Schema.Types.ObjectId, ref: "LoaiPhong" },
     TenPhong: String,
     HutThuoc: Boolean,
-    Giuong: [{ type: mongoose.Schema.Types.ObjectId, ref: "LoaiGiuong" }],
+    ThongTinGiuong: [
+        {
+            Giuong: { type: mongoose.Schema.Types.ObjectId, ref: "LoaiGiuong" },
+            SoLuong: Number
+        }
+    ],
     SoLuongKhach: Number,
     KichThuoc: String,
     Gia: Number,
