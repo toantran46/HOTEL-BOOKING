@@ -1,9 +1,10 @@
+const { default: mongoose } = require("mongoose");
 const PhongModel = require("../models/Phong.model");
 
 module.exports = {
     getAll: async (req, res) => {
         try {
-            const Phongs = await PhongModel.find();
+            const Phongs = await PhongModel.find().populate("LoaiPhong").populate("Giuong").populate("TienNghi").exec();
             res.json({ message: "success", Phongs })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
@@ -12,7 +13,7 @@ module.exports = {
     get: async (req, res) => {
         try {
             const { MaPhong } = req.params;
-            const Phong = await PhongModel.findOne({ _id: MaPhong });
+            const Phong = await PhongModel.findOne({ _id: MaPhong }).populate("LoaiPhong").populate("Giuong").populate("TienNghi").exec();
             if (!Phong) return res.status(400).json({ message: "Phòng không tồn tại !" });
             res.json({ message: "success", Phong })
         } catch (error) {
@@ -21,7 +22,7 @@ module.exports = {
     },
     post: async (req, res) => {
         try {
-            const { MaLoaiPhong,
+            const { LoaiPhong,
                 TenPhong,
                 HutThuoc,
                 Giuong,
@@ -31,9 +32,9 @@ module.exports = {
                 TrangThai,
                 TienNghi,
                 SoLuongPhong } = req.body;
-
+            //test
             const newPhong = new PhongModel({
-                MaLoaiPhong,
+                LoaiPhong,
                 TenPhong,
                 HutThuoc,
                 Giuong,
@@ -45,7 +46,7 @@ module.exports = {
                 SoLuongPhong
             })
             await newPhong.save();
-            res.json({ message: "Thêm Phòng thành công !" })
+            res.json({ message: "Thêm Phòng thành công !", MaPhong: newPhong._id })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
         }

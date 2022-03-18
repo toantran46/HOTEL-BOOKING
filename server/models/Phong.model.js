@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 
 const PhongSchema = new mongoose.Schema({
-    MaLoaiPhong: String,
+    LoaiPhong: { type: mongoose.Schema.Types.ObjectId, ref: "LoaiPhong" },
     TenPhong: String,
     HutThuoc: Boolean,
-    Giuong: [{ type: Object }],
+    Giuong: [{ type: mongoose.Schema.Types.ObjectId, ref: "LoaiGiuong" }],
     SoLuongKhach: Number,
     KichThuoc: String,
     Gia: Number,
-    TrangThai: Boolean,
-    TienNghi: [{ type: String }],
+    TrangThai: { type: String, default: 'Trống' },
+    TienNghi: [{ type: mongoose.Schema.Types.ObjectId, ref: "TienNghi" }],
     SoLuongPhong: Number
 })
 

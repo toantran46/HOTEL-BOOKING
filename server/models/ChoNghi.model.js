@@ -7,13 +7,14 @@ const ChoNghiSchema = new mongoose.Schema({
     DiaChi: String,
     ThanhPho: String,
     XepHang: Number,
-    TienNghi: [{ type: Object }],
+    TienNghi: [{ type: mongoose.Schema.Types.ObjectId, ref: "TienNghi" }],
     HinhAnh: [{ type: String }],
-    Phong: [{ type: String }],
+    Phong: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Phong' }],
     HuyDatPhong: String,
     BaoHiemNhamLan: Boolean,
-    ThoiGianNhanPhong: { type: Object },
-    TinDung: [{ type: String }]
+    ThoiGianNhanPhong: { type: Date },
+    ThoiGianTraPhong: { type: Date },
+    TinDung: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TinDung' }]
 })
 
 module.exports = mongoose.model('ChoNghi', ChoNghiSchema);
