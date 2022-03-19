@@ -21,10 +21,10 @@ module.exports = {
     },
     post: async (req, res) => {
         try {
-            const { TenTinDung, Icon } = req.body;
+            const { TenTinDung, Logo } = req.body;
             const newTinDung = new TinDungModel({
                 TenTinDung,
-                Icon
+                Logo
             })
             await newTinDung.save();
             res.json({ message: "Thêm Tín dụng thành công !" })

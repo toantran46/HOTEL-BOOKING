@@ -4,7 +4,45 @@ const ChoNghiModel = require("../models/ChoNghi.model");
 module.exports = {
     getAll: async (req, res) => {
         try {
-            const ChoNghis = await ChoNghiModel.find().populate("TienNghi").populate("Phong").populate("TinDung")
+            let ChoNghis;
+            // Group by city : data for home page 
+            const { groupByCity, _limit, _page, search, filter } = req.query;
+
+            if (groupByCity) {
+                ChoNghis = await ChoNghiModel.aggregate([
+                    {
+                        $group: {
+                            _id: "$ThanhPho",
+                            TongSo: { $count: {} }
+                        }
+                    }
+                    ,
+                    {
+                        $lookup: {
+                            from: "thanhphos",
+                            localField: "_id",
+                            foreignField: "_id",
+                            as: "ThanhPho"
+                        },
+                    },
+                    {
+                        $project: {
+                            ThanhPho: { "$arrayElemAt": ["$ThanhPho", 0] },
+                            TongSo: { "$concat": [{ "$toString": "$TongSo" }, " chổ ở"] }
+                        }
+                    },
+                    { $limit: parseInt(groupByCity) },
+                ]);
+                return res.json({ message: "success", ChoNghis, limit: parseInt(groupByCity), type: "groupByCity" });
+            }
+            //Get all ( search + pagination )
+            const _totalPage = await ChoNghiModel.find();
+            ChoNghis = await ChoNghiModel.find(search ? { $or: mongoose.Types.ObjectId.isValid(search) ? [{ ThanhPho: search }, { LoaiChoNghi: search }] : [{ TenChoNghi: { $regex: search } }] } : {})
+                .populate("ThanhPho")
+                .populate("LoaiChoNghi")
+                .populate("TienNghi")
+                .populate("Phong")
+                .populate("TinDung")
                 .populate({
                     path: "Phong",
                     populate: [
@@ -13,7 +51,7 @@ module.exports = {
                             model: "LoaiPhong"
                         },
                         {
-                            path: "Giuong",
+                            path: "ThongTinGiuong.Giuong",
                             model: "LoaiGiuong"
                         },
                         {
@@ -21,8 +59,15 @@ module.exports = {
                             model: "TienNghi"
                         },
                     ]
-                }).exec();
-            res.json({ message: "success", ChoNghis })
+                }).skip((_page - 1) * _limit).limit(_limit).exec();
+            res.json({
+                message: "success",
+                ChoNghis,
+                _page: parseInt(_page),
+                _limit: parseInt(_limit),
+                _totalPage: Math.ceil(_totalPage.length / _limit),
+                search
+            })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
         }
@@ -30,7 +75,12 @@ module.exports = {
     get: async (req, res) => {
         try {
             const { MaChoNghi } = req.params;
-            const ChoNghi = await ChoNghiModel.findOne({ _id: MaChoNghi }).populate("TienNghi").populate("Phong").populate("TinDung")
+            const ChoNghi = await ChoNghiModel.findOne({ _id: MaChoNghi })
+                .populate("ThanhPho")
+                .populate("LoaiChoNghi")
+                .populate("TienNghi")
+                .populate("Phong")
+                .populate("TinDung")
                 .populate({
                     path: "Phong",
                     populate: [
@@ -39,7 +89,7 @@ module.exports = {
                             model: "LoaiPhong"
                         },
                         {
-                            path: "Giuong",
+                            path: "ThongTinGiuong.Giuong",
                             model: "LoaiGiuong"
                         },
                         {
