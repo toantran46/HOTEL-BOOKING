@@ -1,0 +1,83 @@
+.booking {
+    width: 75%;
+    margin: 2rem auto;
+    min-height: 70vh;
+    font-size: 16px;
+
+    &__main {
+        margin: 1rem;
+    }
+
+    &__box {
+        padding: 15px;
+        border: 1px solid #e7e7e7;
+        font-size: 14px;
+        margin-bottom: 1rem;
+
+        .main-content {
+            font-weight: bold;
+        }
+        .sub-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .more-info {
+            color: #008009;
+            margin-bottom: 10px;
+        }
+
+        .hotel-selected {
+            display: flex;
+
+            img {
+                width: 150px;
+                height: 150px;
+                object-fit: cover;
+                margin-right: 1rem;
+            }
+            .type {
+                font-size: 13px;
+                color: #888;
+            }
+            .name {
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            .address {
+                margin: 5px 0;
+            }
+
+            .feed-back {
+                display: flex;
+                font-size: 13px;
+
+                .message {
+                    margin: 0 10px;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}
+
+/*----------OVERWRITE ANTD---------*/
+.ant-steps-item-title {
+    font-weight: bold;
+    font-size: 13px;
+    color: #666 !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon {
+    background: #1890ff;
+
+    svg {
+        vertical-align: unset;
+    }
+}
+
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color: #fff;
+}

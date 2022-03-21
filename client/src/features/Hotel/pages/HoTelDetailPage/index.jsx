@@ -142,7 +142,7 @@ function HotelDetailPage(props) {
                     <ListRoom />
                     <FeedBack />
                     <br />
-                    <ViewDetailComments />
+                    {/* <ViewDetailComments /> */}
 
                     <a onClick={() => setIsVisibleAllFeedBack(true)} className="btn-primary-outline">Đọc tất cả đánh giá</a>
                     {

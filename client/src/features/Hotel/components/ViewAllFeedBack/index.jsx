@@ -14,7 +14,7 @@ function ViewAllFeedBack(props) {
     return (
         <div className='viewall-feedback'>
 
-            <div tabindex="0" onBlur={() => setIsVisibleAllFeedBack(false)} className='viewall-feedback__wrapper slide-animate'>
+            <div className='viewall-feedback__wrapper slide-animate'>
                 <div className='viewall-feedback__wrapper__top'>
 
                     <div className='viewall-feedback__wrapper__top__left'>

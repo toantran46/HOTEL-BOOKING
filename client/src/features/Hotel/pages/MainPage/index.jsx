@@ -131,12 +131,10 @@ function MainPage(props) {
 
                     <div className='wrapper__content__left__filter'>
                         <p className='title'>Chọn lọc theo</p>
-                        <FilterItem title="Sức khỏe & an toàn" items={[{ content: "Các chỗ nghỉ có biện pháp đảm bảo sức khỏe và an toàn", num: 124 }]} />
                         <FilterItem
                             title="Các bộ lọc phổ biến"
                             items={
                                 [
-                                    { content: "Giáp biển", num: 302 },
                                     { content: "Khách sạn", num: 203 },
                                     { content: "Biệt thự", num: 7 },
                                 ]
@@ -152,7 +150,7 @@ function MainPage(props) {
                                     { content: "5 sao", num: 10 },
                                 ]
                             } />
-                        <FilterItem
+                        {/* <FilterItem
                             title="Các hoạt động thú vị"
                             items={
                                 [
@@ -162,7 +160,7 @@ function MainPage(props) {
                                     { content: "Ca-nô", num: 104 },
                                     { content: "Phòng tắm chung", num: 90 },
                                     { content: "Massage", num: 55 },
-                                ]} />
+                                ]} /> */}
                         <FilterItem
                             title="Điểm đánh giá của khách"
                             items={

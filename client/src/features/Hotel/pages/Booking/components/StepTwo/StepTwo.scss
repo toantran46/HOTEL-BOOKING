@@ -1,0 +1,129 @@
+.step-two {
+    &__box {
+        padding: 15px;
+        border: 1px solid #e7e7e7;
+        font-size: 14px;
+        margin-bottom: 1rem;
+
+        .main-content {
+            font-weight: bold;
+        }
+        .sub-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .more-info {
+            color: #008009;
+            margin-bottom: 10px;
+        }
+
+        .hotel-selected {
+            display: flex;
+
+            img {
+                width: 150px;
+                height: 150px;
+                object-fit: cover;
+                margin-right: 1rem;
+            }
+            .type {
+                font-size: 13px;
+                color: #888;
+            }
+            .name {
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            .address {
+                margin: 5px 0;
+            }
+
+            .feed-back {
+                display: flex;
+                font-size: 13px;
+
+                .message {
+                    margin: 0 10px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .tips {
+            display: flex;
+            align-items: center;
+
+            span {
+                font-weight: bold;
+                color: #008009;
+                margin-right: 5px;
+            }
+        }
+
+        .convenients {
+            margin-top: 0.5rem;
+            text-align: left;
+
+            /*--------CUSTOM CONVENIENTS COMPONENTS----------*/
+            .favourite-convenients__item {
+                border: 1px solid #97e59c;
+                background: #e7fde9;
+                color: #006607;
+                padding: 3px;
+                font-size: 10px;
+
+                svg {
+                    height: 15px;
+                }
+            }
+        }
+
+        .max-num {
+            margin: 0.5rem 0;
+        }
+
+        .more-info-green {
+            color: #006607;
+            padding: 5px;
+            background: #d2edd5;
+            display: inline-block;
+            margin-bottom: 1rem;
+
+            span {
+                color: #923e01;
+            }
+        }
+
+        .more-info-red {
+            color: #923e01;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .more-info-blur {
+            color: #6b6b6b;
+            margin-top: -15px;
+            margin-bottom: 1rem;
+        }
+
+        .label {
+            display: block;
+            span {
+                font-size: 13px;
+                color: #888;
+            }
+        }
+    }
+
+    .green-bg {
+        background-color: #ebf3ff;
+    }
+
+    button svg {
+        vertical-align: top;
+    }
+}

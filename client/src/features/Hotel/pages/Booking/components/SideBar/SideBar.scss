@@ -1,0 +1,84 @@
+.side-bar-booking {
+    &__box {
+        padding: 15px;
+        border: 1px solid #e7e7e7;
+        font-size: 14px;
+        margin-bottom: 1rem;
+
+        .time {
+            display: flex;
+            margin: 1rem 0;
+
+            .from {
+                color: #888;
+            }
+        }
+
+        .main-content {
+            font-weight: bold;
+        }
+        .sub-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .info-price {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            div {
+                max-width: 70%;
+            }
+        }
+
+        .more-info {
+            color: #008009;
+            margin-bottom: 10px;
+        }
+
+        .total-price {
+            background: #ebf3ff;
+            padding: 1rem;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+
+            span {
+                font-size: 12px;
+                color: #666;
+                display: block;
+            }
+
+            & .note::before {
+                content: " ";
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                position: absolute;
+                top: -3px;
+                right: 10px;
+                transform: rotate(-45deg);
+                background: #008009;
+            }
+
+            & .note {
+                position: absolute;
+                bottom: 5px;
+                right: 10px;
+                color: #fff;
+                background: #008009;
+                font-size: 10px;
+                padding: 2px 3px;
+
+                border-radius: 2px;
+
+                span {
+                    color: #fff;
+                    font-weight: bold;
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}

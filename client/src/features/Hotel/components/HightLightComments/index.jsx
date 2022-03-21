@@ -23,9 +23,7 @@ function HightLightComments(props) {
                 </div>
             </div>
             <div className='hight-light-comments__comment'>“Thái độ của nhân viên phục vụ rất nhiệt tình và thân thiện”</div>
-            <div className='hight-light-comments__readmore'>Đọc thêm</div>
-
-
+            {/* <div className='hight-light-comments__readmore'>Đọc thêm</div> */}
         </div>
     );
 }

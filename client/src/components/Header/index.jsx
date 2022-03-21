@@ -77,7 +77,7 @@ function Header(props) {
                 </div>
 
                 {
-                    !pathname.includes("management") &&
+                    (!pathname.includes("management") && !pathname.includes("booking")) &&
                     <div className='header__bottom'>
                         <ul className='header__bottom__items'>
                             <li className='header__bottom__items__item active'>
