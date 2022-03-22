@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem, Col, Row } from 'reactstrap';
 import FormSearch from 'features/Hotel/components/FormSearch';
 import BreadcrumbStyled from 'features/Hotel/components/BreadcrumbStyled';
@@ -60,6 +60,8 @@ function HotelDetailPage(props) {
 
     const [isVisibleAllFeedBack, setIsVisibleAllFeedBack] = React.useState(false);
 
+    const { state } = useLocation();
+
 
     return (
         <div className='wrapper'>
@@ -70,7 +72,10 @@ function HotelDetailPage(props) {
                         <img src='https://t-cf.bstatic.com/static/img/bpg/bpg_logo/43fb545d9c32614b87f0615a97620ad3d8685525.png' />
                         Chúng tôi luôn khớp giá
                     </div>
-                    <FormSearch />
+                    <FormSearch
+                        placeName={state?.searchValue || ''}
+                        receiveDate={state?.receiveDate || ''}
+                        returnDate={state?.returnDate || ''} />
                     <ViewOnGoogleMap />
                 </div>
                 <div className='wrapper__content__right'>

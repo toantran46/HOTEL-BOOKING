@@ -23,13 +23,14 @@ function Category(props) {
 
     console.log({ list });
 
+
     return (
         <div className='category'>
             <div className='title'>{title}</div>
             <span className='description'>{description}</span>
             <Carousel childrens={
                 list.map((ob) =>
-                    <Link to="/search">
+                    <Link to="/search" >
                         <div className='category__info'>
                             <img src={ob.image} alt={ob.name} />
                             <div className='text'>

@@ -36,14 +36,14 @@
                 color: #666;
             }
 
-            .input-field {
-                margin-bottom: 0 !important;
+            // .input-field {
+            //     margin-bottom: 0 !important;
 
-                input:focus {
-                    border: none;
-                    box-shadow: none;
-                }
-            }
+            //     input:focus {
+            //         border: none;
+            //         box-shadow: none;
+            //     }
+            // }
             .date {
                 justify-content: center;
             }
@@ -67,6 +67,8 @@
 
             .form-search {
                 position: relative;
+                display: flex;
+                align-items: center;
 
                 .form-search-tips {
                     color: #000;
@@ -74,11 +76,12 @@
                     background: #fff;
                     padding: 10px;
                     border-radius: 2px;
-                    box-shadow: 1px 1px 25px -8px #aaa;
+                    box-shadow: 1px 1px 25px -8px #000;
                     position: absolute;
                     top: 60px;
                     left: 0;
                     width: 100%;
+                    z-index: 100;
                     p {
                         font-size: 13px;
                     }
@@ -86,7 +89,7 @@
                         padding: 0;
                         list-style: none;
                         .place:hover {
-                            background: #f5f5f5;
+                            background: #f0f0f0;
                         }
                         .place {
                             display: flex;
@@ -120,6 +123,17 @@
                     font-size: 20px;
                     font-weight: 500;
                 }
+            }
+
+            /*----ANTD----*/
+            .ant-form-item {
+                margin-bottom: 0 !important;
+                width: 100%;
+            }
+
+            .ant-input:focus {
+                border: none;
+                box-shadow: unset;
             }
         }
     }

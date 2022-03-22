@@ -3,7 +3,7 @@ import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Form, FormGroup, Input } from 'reactstrap';
 
 import "./MainPage.scss";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import FilterItem from 'features/Hotel/components/FilterItem';
 import HotelOverView from 'features/Hotel/components/HotelOverView';
@@ -19,6 +19,9 @@ MainPage.propTypes = {
 };
 
 function MainPage(props) {
+
+    const { state } = useLocation();
+
 
     const listHotel = [{
         _id: 1,
@@ -127,7 +130,10 @@ function MainPage(props) {
             <BreadcrumbStyled />
             <div className='wrapper__content'>
                 <div className='wrapper__content__left'>
-                    <FormSearch />
+                    <FormSearch
+                        placeName={state?.searchValue || ''}
+                        receiveDate={state?.receiveDate || ''}
+                        returnDate={state?.returnDate || ''} />
 
                     <div className='wrapper__content__left__filter'>
                         <p className='title'>Chọn lọc theo</p>
@@ -185,8 +191,8 @@ function MainPage(props) {
 
                 </div>
                 <div className='wrapper__content__right'>
-                    <p className='wrapper__content__right__search-result'>Vũng Tàu: tìm thấy 606 chỗ nghỉ</p>
-                    <ListHoTelOverView listHotel={listHotel} isChoosenDate />
+                    <p className='wrapper__content__right__search-result'>{state?.searchValue}: tìm thấy 606 chỗ nghỉ</p>
+                    <ListHoTelOverView listHotel={listHotel} isChoosenDate={state?.receiveDate && state?.returnDate} />
                     <Pagination />
                 </div>
             </div>

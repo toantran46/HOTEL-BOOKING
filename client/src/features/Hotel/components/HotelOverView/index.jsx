@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import "./HotelOverView.scss";
 
 import { Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ShowStar from '../ShowStar';
+import { message } from 'antd';
 
 HotelOverView.propTypes = {
     hotelInfo: PropTypes.object,
@@ -23,11 +24,20 @@ function HotelOverView(props) {
         description, votedMessage, votedNum,
         votedScore, roomInfo }, isChoosenDate } = props;
 
+    const handlePickDate = () => {
+        message.info("Vui lòng chọn ngày để xem giá");
+        document.querySelector("input[type='date'][value='']")?.showPicker();
+    }
+
+    const { state } = useLocation();
+
+    console.log(state);
+
     return (
         <div className='Hotel-Over-View'>
             <img className='Hotel-Over-View__banner' src={banner} alt="img" />
             <div className='Hotel-Over-View__info'>
-                <Link to={`/${_id}`} state={{ roadmap: ["bà rịa vũng tàu", name] }} className='Hotel-Over-View__info__name'>{name} <ShowStar num={star} /> </Link>
+                <Link to={`/${_id}`} state={state && { ...state, roadmap: [...state?.roadmap, name] }} className='Hotel-Over-View__info__name'>{name} <ShowStar num={star} /> </Link>
                 <div className='Hotel-Over-View__info__place'>{place}</div>
                 {
                     convenients?.map((convenient, index) =>
@@ -69,10 +79,10 @@ function HotelOverView(props) {
                         <div className='Hotel-Over-View__feedback__choosen-date__old-price'>{roomInfo.oldPrice && `VND ${roomInfo.oldPrice}`}</div>
                         <div className='Hotel-Over-View__feedback__choosen-date__current-price'>VND {roomInfo.price}</div>
                         <span>Đã bao gồm thuế và phí</span>
-                        <Link state={{ roadmap: ["bà rịa vũng tàu", name] }} className='btn-primary' to={`/${_id}`}>Xem chổ trống {'›'} </Link>
+                        <Link state={state && { ...state, roadmap: [...state?.roadmap, name] }} className='btn-primary' to={`/${_id}`}>Xem chổ trống {'›'} </Link>
                     </div>
                     :
-                    <Button color='primary'>Hiển thị giá</Button>
+                    <Button color='primary' onClick={() => handlePickDate()}>Hiển thị giá</Button>
                 }
             </div>
         </div>

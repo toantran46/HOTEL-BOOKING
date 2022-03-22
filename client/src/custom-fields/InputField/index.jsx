@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import "./InputField.scss";
-import { FormGroup, Input } from 'reactstrap';
+import { Form, Input } from 'antd';
 
 InputField.propTypes = {
     name: PropTypes.string,
@@ -11,6 +11,7 @@ InputField.propTypes = {
     type: PropTypes.string,
     disabled: PropTypes.bool,
     label: PropTypes.string,
+    onChange: PropTypes.func
 };
 
 InputField.defaultProps = {
@@ -20,21 +21,22 @@ InputField.defaultProps = {
     type: 'text',
     disabled: false,
     label: '',
+    onChange: null
 };
 
 function InputField(props) {
-    const { name, value, placeholder, type, disabled, label } = props;
+    const { name, value, placeholder, type, disabled, label, onChange } = props;
     return (
-        <FormGroup className='input-field'>
-            <label>{label}</label>
+        <Form.Item
+            name={name}
+            label={label}>
             <Input
-                id={name}
-                name={name}
+                onChange={onChange}
                 placeholder={placeholder}
                 type={type}
                 disabled={disabled}
             />
-        </FormGroup>
+        </Form.Item >
     );
 }
 
