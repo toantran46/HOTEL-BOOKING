@@ -23,7 +23,6 @@ function Category(props) {
 
     console.log({ list });
 
-
     return (
         <div className='category'>
             <div className='title'>{title}</div>

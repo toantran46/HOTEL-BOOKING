@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import "./Room.scss";
 import FavouriteConvenients from '../FavouriteConvenients';
 import { ICONS } from 'constants';
+import { Select } from 'antd';
 Room.propTypes = {
 
 };
@@ -43,10 +44,10 @@ function Room(props) {
     return (
         <>
             <tr className='room'>
-                <td rowSpan={2}>
+                <td >
                     <div className='room__name'>Phòng Superior 2 giường đơn nhìn ra cảnh thành phố</div>
                     <div className='room__bed'>2 giường đơn</div>
-                    <div className='room__about'>Với tầm nhìn ra thành phố hoặc biển, phòng giường đôi này có khu vực tiếp khách với TV thông minh màn hình phẳng 40 inch và tiện nghi pha trà/cà phê. Phòng tắm riêng đi kèm vòi sen. Đồ vệ sinh cá nhân hiệu C.O. Bigelow được cung cấp cho khách.</div>
+                    {/* <div className='room__about'>Với tầm nhìn ra thành phố hoặc biển, phòng giường đôi này có khu vực tiếp khách với TV thông minh màn hình phẳng 40 inch và tiện nghi pha trà/cà phê. Phòng tắm riêng đi kèm vòi sen. Đồ vệ sinh cá nhân hiệu C.O. Bigelow được cung cấp cho khách.</div> */}
                     <FavouriteConvenients convenients={convenients} sameColor />
                 </td>
                 <td>
@@ -69,20 +70,19 @@ function Room(props) {
                     </div>
                 </td>
                 <td>
-                    <select>
-                        <option>0</option>
-                        <option value="1">
-                            1
-                            (VND&nbsp;64.014.300)
-                        </option>
-                        <option value="1">
+                    <Select defaultValue={0} style={{ minWidth: "200px" }}>
+                        <Select.Option value={0}>0</Select.Option>
+                        <Select.Option value={1}>
+                            1 (VND&nbsp;64.014.300)
+                        </Select.Option>
+                        <Select.Option value={2}>
                             2
                             (VND&nbsp;64.014.300)
-                        </option>
-                    </select>
+                        </Select.Option>
+                    </Select>
                 </td>
             </tr>
-            <tr className='room'>
+            {/* <tr className='room'>
                 <td>
                     {ICONS.PERSON}
                 </td>
@@ -102,19 +102,17 @@ function Room(props) {
                     </div>
                 </td>
                 <td>
-                    <select>
-                        <option>0</option>
-                        <option value="1">
-                            1
-                            (VND&nbsp;64.014.300)
-                        </option>
-                        <option value="1">
+                    <Select style={{ minWidth: "200px" }}>
+                        <Select.Option value={1}>
+                            1 (VND&nbsp;64.014.300)
+                        </Select.Option>
+                        <Select.Option value={2}>
                             2
                             (VND&nbsp;64.014.300)
-                        </option>
-                    </select>
+                        </Select.Option>
+                    </Select>
                 </td>
-            </tr>
+            </tr> */}
 
         </>
     );
