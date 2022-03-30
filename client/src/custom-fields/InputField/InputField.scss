@@ -9,3 +9,20 @@
         font-size: 13px;
     }
 }
+
+/*-------OVERWRITE ANTD-----------*/
+.ant-input-affix-wrapper {
+    background-color: unset;
+    border: none;
+}
+
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    border-color: unset;
+    border: none;
+}
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+    border: none;
+    box-shadow: unset;
+}
+/*---------------------------------*/

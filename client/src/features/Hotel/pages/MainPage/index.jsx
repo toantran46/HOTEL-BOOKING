@@ -131,7 +131,7 @@ function MainPage(props) {
             <div className='wrapper__content'>
                 <div className='wrapper__content__left'>
                     <FormSearch
-                        placeName={state?.searchValue || ''}
+                        placeName={state?.searchValue?.city || ''}
                         receiveDate={state?.receiveDate || ''}
                         returnDate={state?.returnDate || ''} />
 
@@ -191,7 +191,7 @@ function MainPage(props) {
 
                 </div>
                 <div className='wrapper__content__right'>
-                    <p className='wrapper__content__right__search-result'>{state?.searchValue}: tìm thấy 606 chỗ nghỉ</p>
+                    <p className='wrapper__content__right__search-result'>{state?.searchValue?.city}: tìm thấy 606 chỗ nghỉ</p>
                     <ListHoTelOverView listHotel={listHotel} isChoosenDate={state?.receiveDate && state?.returnDate} />
                     <Pagination />
                 </div>

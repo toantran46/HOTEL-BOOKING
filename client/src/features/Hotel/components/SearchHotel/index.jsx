@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import "./SearchHotel.scss";
 import InputField from 'custom-fields/InputField';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
 import { ICONS } from 'constants';
 import { debounce } from 'lodash';
-import { Spin } from 'antd';
+import { Spin, Form } from 'antd';
 
 SearchHotel.propTypes = {
 
@@ -21,7 +21,26 @@ function SearchHotel(props) {
     const [places, setPlaces] = React.useState([]);
     const [isFetching, setIsFetching] = React.useState(false);
 
+    const [validate, setValidate] = React.useState(false);
+    const [placeChoosen, setPlaceChoosen] = React.useState(null);
 
+    const navigate = useNavigate();
+
+
+
+    const handleSearch = () => {
+        placeChoosen ? navigate("/search", {
+            state: {
+                roadmap: [placeChoosen.city],
+                searchValue: {
+                    name: placeChoosen.name,
+                    city: placeChoosen.city,
+                }, receiveDate, returnDate
+            }
+        }) : setValidate(true);
+    }
+
+    const [form] = Form.useForm();
 
     React.useEffect(() => {
         const fetchPlaces = async () => {
@@ -31,13 +50,13 @@ function SearchHotel(props) {
             setTimeout(() => {
                 setIsFetching(false);
                 setPlaces([
-                    { icon: ICONS.LOCATION, name: "Pull man Vũng Tàu" },
-                    { icon: ICONS.LOCATION, name: "Dusit Princess" },
-                    { icon: ICONS.LOCATION, name: "Vung Tau Melody Apartment" },
-                    { icon: ICONS.LOCATION, name: "The Shells Resort & Spa Phu Quoc" },
-                    { icon: ICONS.LOCATION, name: "La Veranda Resort Phu Quoc - MGallery" },
+                    { icon: ICONS.LOCATION, name: "Pull man Vũng Tàu", location: "Việt Nam", city: "Vũng tàu" },
+                    { icon: ICONS.LOCATION, name: "Dusit Princess", location: "Việt Nam", city: "Bình Phước" },
+                    { icon: ICONS.LOCATION, name: "Vung Tau Melody Apartment", location: "Việt Nam", city: "Bình Thuận" },
+                    { icon: ICONS.LOCATION, name: "The Shells Resort & Spa Phu Quoc", location: "Việt Nam", city: "Phú Quốc" },
+                    { icon: ICONS.LOCATION, name: "La Veranda Resort Phu Quoc - MGallery", location: "Việt Nam", city: "Phú Quốc" },
                 ])
-            }, 2000);
+            }, 1000);
         }
         searchValue ? fetchPlaces() : setPlaces([]);
     }, [searchValue]);
@@ -51,65 +70,55 @@ function SearchHotel(props) {
                     <div className='search-hotel__main__description'>
                         Tìm ưu đãi Genius đặc biệt tại khắp nơi trên thế giới!
                     </div>
-                    <div className='search-hotel__main__form'>
+                    <Form autoComplete='off' initialValues={{ searchValue: '' }} form={form} className='search-hotel__main__form'>
                         <div className='search-hotel__main__form__item form-search'>
-                            {/* <img src='https://t-cf.bstatic.com/static/img/cross_product_index/accommodation/07ca5cacc9d77a7b50ca3c424ecd606114d9be75.svg' alt='place' /> */}
                             <SearchOutlined style={{ color: "#666" }} />
-                            <><InputField
-                                onChange={({ target }) => setSearchValue(target.value)}
-                                placeholder='Bạn muốn đến đâu' />
+                            <>
+                                <>
+                                    <InputField
+                                        allowClear={true}
+                                        name='searchValue'
+                                        onChange={({ target }) => { setSearchValue(target.value); setValidate(false); !target.value && setPlaceChoosen(null) }}
+                                        placeholder='Bạn muốn đến đâu' />
+                                    {
+                                        validate && <div className='alertPlaceNull'>
+                                            Vui lòng nhập điểm đến để bắt đầu tìm kiếm.
+                                        </div>
+                                    }
+
+                                </>
+
                                 {
-                                    isFetching ? <Spin size='small' /> : searchValue ? <div className='form-search-tips'>
-                                        <p>Điểm đến được ưa thích gần đây</p>
-                                        <ul>
-                                            <li className='place'>
-                                                <div className='icon'>
-                                                    {ICONS.LOCATION}
-                                                </div>
-                                                <div>
-                                                    <div className='place-name'> Cần Thơ</div>
-                                                    <span>Việt Nam</span>
-                                                </div>
-                                            </li>
-                                            <li className='place'>
-                                                <div className='icon'>
-                                                    {ICONS.LOCATION}
-                                                </div>
-                                                <div>
-                                                    <div className='place-name'> Cần Thơ</div>
-                                                    <span>Việt Nam</span>
-                                                </div>
-                                            </li>
-                                            <li className='place'>
-                                                <div className='icon'>
-                                                    {ICONS.LOCATION}
-                                                </div>
-                                                <div>
-                                                    <div className='place-name'> Cần Thơ</div>
-                                                    <span>Việt Nam</span>
-                                                </div>
-                                            </li>
-                                            <li className='place'>
-                                                <div className='icon'>
-                                                    {ICONS.LOCATION}
-                                                </div>
-                                                <div>
-                                                    <div className='place-name'> Cần Thơ</div>
-                                                    <span>Việt Nam</span>
-                                                </div>
-                                            </li>
-                                            <li className='place'>
-                                                <div className='icon'>
-                                                    {ICONS.LOCATION}
-                                                </div>
-                                                <div>
-                                                    <div className='place-name'> Cần Thơ</div>
-                                                    <span>Việt Nam</span>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                    (searchValue && !placeChoosen) ? <div className='form-search-tips'>
+                                        {/* <p>Điểm đến được ưa thích gần đây</p> */}
+                                        {
+                                            isFetching ? <Spin size='small' style={{ marginRight: '1rem' }} /> :
+                                                <ul>
+                                                    {
+                                                        places.map((place, index) =>
+                                                            <li key={index} className='place' onClick={() => {
+                                                                form.setFieldsValue({ searchValue: place.name }); setPlaceChoosen(prev => ({
+                                                                    ...prev,
+                                                                    name: place.name,
+                                                                    city: place.city
+                                                                }))
+                                                            }}>
+                                                                <div className='icon'>
+                                                                    {place.icon}
+                                                                </div>
+                                                                <div>
+                                                                    <div className='place-name'>{place.name}</div>
+                                                                    <span>{place.city} , {place.location}</span>
+                                                                </div>
+                                                            </li>
+                                                        )
+                                                    }
+                                                </ul>
+                                        }
                                     </div> : ""
                                 }
+
+
                             </>
                         </div>
                         <div className='search-hotel__main__form__item date'>
@@ -118,12 +127,9 @@ function SearchHotel(props) {
                             <input type='text' placeholder="Trả phòng" onFocus={(e) => e.currentTarget.type = 'date'} onChange={({ target }) => setReturnDate(target.value)} />
                         </div>
                         <div className='btnSearch'>
-                            <Link to="/search" state={{
-                                roadmap: [searchValue],
-                                searchValue, receiveDate, returnDate
-                            }} className='btn-primary'>Tìm</Link>
+                            <a to="" onClick={() => handleSearch()} className='btn-primary'>Tìm</a>
                         </div>
-                    </div>
+                    </Form>
 
 
                 </div>

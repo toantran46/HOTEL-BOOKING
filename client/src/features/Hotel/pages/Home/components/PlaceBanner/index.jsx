@@ -16,7 +16,7 @@ function PlaceBanner(props) {
                     <Link state={
                         {
                             roadmap: ["Đà lạt"],
-                            searchValue: "Đà lạt"
+                            searchValue: { name: "Đà lạt", city: "Đà lạt" }
                         }
                     } to="/search" className='place-banner__city'>
                         <img className='city-image' src='https://t-cf.bstatic.com/xdata/images/city/540x270/688828.webp?k=6ff2042e10f68221007161a36c476226806abfe0a511a9104d45263cc0cedf55&o=)%20no-repeat%20center%20center;%20background-size:%20cover' alt='city' />
@@ -31,7 +31,7 @@ function PlaceBanner(props) {
                         state={
                             {
                                 roadmap: ["Đà nẵng"],
-                                searchValue: "Đà nẵng"
+                                searchValue: { name: "Đà nẵng", city: "Đà nẵng" }
                             }
                         }
                         to="/search" className='place-banner__city'>
@@ -49,8 +49,8 @@ function PlaceBanner(props) {
                     <Link
                         state={
                             {
-                                roadmap: ["Cần Thơ"],
-                                searchValue: "Cần Thơ"
+                                roadmap: ["TP. Hồ Chí Minh"],
+                                searchValue: { name: "TP. Hồ Chí Minh", city: "TP. Hồ Chí Minh" }
                             }
                         }
                         to="/search" className='place-banner__city'>
@@ -66,7 +66,7 @@ function PlaceBanner(props) {
                         state={
                             {
                                 roadmap: ["Cần Thơ"],
-                                searchValue: "Cần Thơ"
+                                searchValue: { name: "Cần Thơ", city: "Cần Thơ" }
                             }
                         }
                         to="/search" className='place-banner__city'>
@@ -82,7 +82,7 @@ function PlaceBanner(props) {
                         state={
                             {
                                 roadmap: ["Phú Quốc"],
-                                searchValue: "Phú Quốc"
+                                searchValue: { name: "Phú Quốc", city: "Phú Quốc" }
                             }
                         }
                         to="/search" className='place-banner__city'>

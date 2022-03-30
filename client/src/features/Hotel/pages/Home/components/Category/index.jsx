@@ -5,6 +5,7 @@ import Carousel from 'features/Hotel/components/Carousel';
 import "./Category.scss";
 Category.propTypes = {
     title: PropTypes.string,
+    destination: PropTypes.string,
     description: PropTypes.string,
     list: PropTypes.array,
     num: PropTypes.number
@@ -13,13 +14,14 @@ Category.propTypes = {
 Category.defaultProps = {
     title: "",
     description: "",
+    destination: "/search",
     list: [],
     num: 6
 };
 
 function Category(props) {
 
-    const { title, description, list, num } = props;
+    const { title, description, list, num, destination } = props;
 
     console.log({ list });
 
@@ -29,7 +31,7 @@ function Category(props) {
             <span className='description'>{description}</span>
             <Carousel childrens={
                 list.map((ob) =>
-                    <Link to="/search" >
+                    <Link to={destination === "/search" ? destination : `${destination}${ob._id}`} state={{ searchValue: { name: ob.name, city: ob.name }, roadmap: [ob.name] }}>
                         <div className='category__info'>
                             <img src={ob.image} alt={ob.name} />
                             <div className='text'>

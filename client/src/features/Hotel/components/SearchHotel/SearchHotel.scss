@@ -111,6 +111,30 @@
                         }
                     }
                 }
+
+                .alertPlaceNull::before {
+                    content: " ";
+                    display: block;
+                    position: absolute;
+                    top: -3px;
+                    z-index: 0;
+                    left: 5%;
+                    width: 10px;
+                    height: 10px;
+                    background: #a30000;
+                    transform: rotate(45deg);
+                }
+
+                .alertPlaceNull {
+                    z-index: 1;
+                    font-size: 10px;
+                    background: #a30000;
+                    padding: 4px 5px;
+                    position: absolute;
+                    left: 3%;
+                    bottom: -30%;
+                    color: #fff;
+                }
             }
 
             .btnSearch {

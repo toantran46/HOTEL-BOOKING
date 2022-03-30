@@ -73,7 +73,7 @@ function HotelDetailPage(props) {
                         Chúng tôi luôn khớp giá
                     </div>
                     <FormSearch
-                        placeName={state?.searchValue || ''}
+                        placeName={state?.searchValue?.city || ''}
                         receiveDate={state?.receiveDate || ''}
                         returnDate={state?.returnDate || ''} />
                     <ViewOnGoogleMap />

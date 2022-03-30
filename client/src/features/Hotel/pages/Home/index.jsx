@@ -163,7 +163,7 @@ function Home(props) {
             <PlaceBanner />
             <Category title={placeType.title} list={placeType.list} />
             <Category title={VNdiscover.title} list={VNdiscover.list} />
-            <Category title={favouriteHotel.title} list={favouriteHotel.list} num={favouriteHotel.num} />
+            <Category title={favouriteHotel.title} list={favouriteHotel.list} num={favouriteHotel.num} destination="/" />
         </div>
     );
 }
