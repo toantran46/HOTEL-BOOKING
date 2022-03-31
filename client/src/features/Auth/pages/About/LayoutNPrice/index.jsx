@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './LayoutNPrice.scss';
-import { Button, Col, Form, Input, Label } from 'reactstrap';
-import { Select } from 'antd';
+import { Col, Form, Input, Label } from 'reactstrap';
+import { Select, Button } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
+import { filter } from 'lodash';
 
 LayoutNPrice.propTypes = {
 
@@ -11,6 +13,14 @@ LayoutNPrice.propTypes = {
 
 function LayoutNPrice(props) {
     const [anotherRoom, setAnotherRoom] = React.useState('');
+
+    const roomValues = ['pdoi', 'p3nguoi', 'p4nguoi'];
+
+    const [beds, setBeds] = React.useState([{
+        idBed: null,
+        quantity: null
+    }]);
+    console.log(beds);
 
     return (
         <div className='layout-and-price'>
@@ -25,30 +35,23 @@ function LayoutNPrice(props) {
                                 <Label>
                                     Loại phòng
                                 </Label>
-                                <Input
-                                    id="selectTypeRoom"
-                                    name="selectTypeRoom"
-                                    type="select"
-                                    className='form-group'
-                                >
-                                    <option >Vui lòng chọn</option>
-                                    <option value="1">Phòng đơn</option>
-                                    <option value="2">Phòng giường đôi</option>
-                                    <option value="3">Phòng 2 gường đơn</option>
-                                    <option value="4">Phòng 3 người</option>
-                                    <option value="5">Phòng 4 người</option>
-                                </Input>
+                                <Select onChange={(value) => setAnotherRoom(roomValues.includes(value) ? value : "")} style={{ minWidth: '100%' }} defaultValue='don' options={[
+                                    { label: "Phòng giường đơn", value: "don" },
+                                    { label: "Phòng giường đôi", value: "pdoi" },
+                                    { label: "Phòng 3 người", value: "p3nguoi" },
+                                    { label: "Phòng 4 người", value: "p4nguoi" },
+                                ]} />
                             </div>
                             <div className="row">
                                 <div className="col-sm-6">
                                     <Label>
                                         Tên phòng
                                     </Label>
-                                    <Select onChange={(value) => setAnotherRoom(value === 'pdoi' ? value : "")} style={{ minWidth: '100%' }} defaultValue='don' options={[
-                                        { label: "Phòng đơn", value: "don" },
-                                        { label: "Phòng giường đôi", value: "pdoi" },
-                                        { label: "Phòng 3 người", value: "p3nguoi" },
-                                        { label: "Phòng 4 người", value: "p4nguoi" },
+                                    <Select onChange={(value) => setAnotherRoom(roomValues.includes(value) ? value : "")} style={{ minWidth: '100%' }} defaultValue='don' options={[
+                                        { label: "Phòng tiêu chuẩn giường đơn", value: "don" },
+                                        { label: "Phòng tiêu chuẩn giường đôi", value: "pdoi" },
+                                        { label: "Phòng tiêu chuẩn 3 người", value: "p3nguoi" },
+                                        { label: "Phòng tiêu chuẩn 4 người", value: "p4nguoi" },
                                     ]} />
                                     <span>Đây là tên mà khách sẽ thấy trên trang web Booking.com.</span>
                                 </div>
@@ -106,51 +109,79 @@ function LayoutNPrice(props) {
                                     Phòng này có loại giường nào?
                                 </Label>
                                 <div className="row">
-                                    <div className='col-sm-6 form-group'>
-                                        <Input
-                                            id="selectTypeRoom"
-                                            name="selectTypeRoom"
-                                            type="select"
-                                            className='form-group'
-                                        >
-                                            <option value="1">Gường đơn / Rộng 90-130 cm</option>
-                                            <option value="2">Giường đôi / Rộng 131-151 cm </option>
-                                            <option value="3">Gường lớn (King) / Rộng 151-180 cm</option>
-                                            <option value="4">Gường cực lớn (Super-king) / Rộng 181-200 cm</option>
-                                        </Input>
+                                    <div className='col-sm-7 form-group'>
+                                        <Select style={{ minWidth: '100%' }} defaultValue="1" options={[
+                                            { label: "Gường đơn / Rộng 90-130 cm", value: "1" },
+                                            { label: "Giường đôi / Rộng 131-151 cm ", value: "2" },
+                                            { label: "Gường lớn (King) / Rộng 151-180 cm", value: "3" },
+                                            { label: "Gường cực lớn (Super-king) / Rộng 181-200 cm", value: "4" },
+                                        ]} />
                                     </div>
-                                    <div className="col-sm-4 form-group form-group-block">
+                                    <div className="col-sm-5 form-group form-group-block">
                                         <div className="multi-icon">
                                             <span>X</span>
                                         </div>
-                                        <Input
-                                            id="selectTypeRoom"
-                                            name="selectTypeRoom"
-                                            type="select"
-                                            className='form-group'
-                                        >
-                                            <option>Chọn số gường</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2 </option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                        </Input>
+                                        <Select style={{ minWidth: '90%' }} defaultValue="1" options={[
+                                            { label: "1", value: "1" },
+                                            { label: "2", value: "2" },
+                                            { label: "3", value: "3" },
+                                            { label: "4", value: "4" },
+                                        ]} />
+
                                     </div>
-                                    <p>Nút thêm giường </p>
-                                    <Label>
-                                        Bao nhiêu khách có thể nghỉ trong phòng này?
-                                    </Label>
-                                    <Col sm={2}>
-                                        <Input id='numberGuest'
-                                            type='text'
-                                            name='numberGuest'
-                                            value={1}
-                                        >
-                                        </Input>
-                                    </Col>
 
                                 </div>
-
+                                {beds.map((bed, index) => (
+                                    <div className="row">
+                                        <div className='col-sm-7 form-group'>
+                                            <Select style={{ minWidth: '100%' }} defaultValue="1" options={[
+                                                { label: "Gường đơn / Rộng 90-130 cm", value: "1" },
+                                                { label: "Giường đôi / Rộng 131-151 cm ", value: "2" },
+                                                { label: "Gường lớn (King) / Rộng 151-180 cm", value: "3" },
+                                                { label: "Gường cực lớn (Super-king) / Rộng 181-200 cm", value: "4" },
+                                            ]} />
+                                        </div>
+                                        <div className="col-sm-5 form-group form-group-block">
+                                            <div className="multi-icon">
+                                                <span>X</span>
+                                            </div>
+                                            <Select style={{ minWidth: '70%' }} defaultValue="1" options={[
+                                                { label: "1", value: "1" },
+                                                { label: "2", value: "2" },
+                                                { label: "3", value: "3" },
+                                                { label: "4", value: "4" },
+                                            ]} />
+                                            <Button onClick={() => setBeds(bed =>
+                                                bed.filter(bed => index !== index)
+                                            )}>
+                                                Xóa
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
+                                <Col sm={2}>
+                                    <Button type="primary"
+                                        onClick={() => setBeds(prev => [
+                                            ...prev,
+                                            {
+                                                idBed: null,
+                                                quantity: null,
+                                            }])}
+                                    >
+                                        <PlusCircleOutlined /> Thêm giường</Button>
+                                </Col>
+                                <Label>
+                                    Bao nhiêu khách có thể nghỉ trong phòng này?
+                                </Label>
+                                <Col sm={2}>
+                                    <Input id='numberGuest'
+                                        type='text'
+                                        name='numberGuest'
+                                        defaultValue={1}
+                                        disabled
+                                    >
+                                    </Input>
+                                </Col>
                             </fieldset>
                         }
                         <fieldset>
@@ -192,7 +223,7 @@ function LayoutNPrice(props) {
                                 </div>
                             </div>
                         </fieldset>
-                        <Button color='primary' type='submit'>
+                        <Button type='primary'>
                             Tiếp tục
                         </Button>
                     </Form>

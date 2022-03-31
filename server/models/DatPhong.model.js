@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const DatPhongSchema = new mongoose.Schema({
-    ThongTinhPhong: [{ type: Object }],
+    ThongTinhPhong: [{ Phong: { type: mongoose.Schema.Types.ObjectId, ref: "Phong" }, TenNguoiDat: { type: String } }],
     HoTenNguoiDat: String,
     Email: String,
     DiaChi: String,
@@ -9,7 +9,7 @@ const DatPhongSchema = new mongoose.Schema({
     NgayDatPhong: Date,
     NgayNhanPhong: Date,
     NgayTraPhong: Date,
-    TinhTrang: String,
+    TinhTrang: { type: String, default: 'Đã đặt' },
     TongTien: String
 })
 

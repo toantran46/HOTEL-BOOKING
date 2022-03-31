@@ -20,6 +20,8 @@ module.exports = {
         }
     },
     post: async (req, res) => {
+        // console.log(req.body);
+        // return;
         try {
             const {
                 ThongTinhPhong,
