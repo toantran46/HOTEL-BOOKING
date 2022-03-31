@@ -38,7 +38,7 @@ function LayoutNPrice(props) {
                                 <Label>
                                     Loại phòng
                                 </Label>
-                                <Select onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={[
+                                <Select onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '90%' }} options={[
                                     { label: "Phòng giường đơn", value: "don" },
                                     { label: "Phòng giường đôi", value: "pdoi" },
                                     { label: "Phòng 3 người", value: "p3nguoi" },
@@ -50,7 +50,7 @@ function LayoutNPrice(props) {
                                     <Label>
                                         Tên phòng
                                     </Label>
-                                    <Select value={anotherRoom} onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={[
+                                    <Select disabled value={anotherRoom} onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={[
                                         { label: "Phòng tiêu chuẩn giường đơn", value: "don" },
                                         { label: "Phòng tiêu chuẩn giường đôi", value: "pdoi" },
                                         { label: "Phòng tiêu chuẩn 3 người", value: "p3nguoi" },
@@ -173,6 +173,9 @@ function LayoutNPrice(props) {
                                         type='text'
                                         name='numberGuest'
                                         defaultValue={1}
+                                        value={
+                                            beds.reduce((prev, current) => prev * current.quantity, 1)
+                                        }
                                         disabled
                                     >
                                     </Input>
