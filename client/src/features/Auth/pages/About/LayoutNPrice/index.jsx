@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import './LayoutNPrice.scss';
 import { Col, Form, Input, Label } from 'reactstrap';
 import { Select, Button } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons';
-import { filter } from 'lodash';
+import { DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
+
 
 LayoutNPrice.propTypes = {
 
@@ -15,7 +15,7 @@ function LayoutNPrice(props) {
     const [anotherRoom, setAnotherRoom] = React.useState('');
 
     const [beds, setBeds] = React.useState([{
-        idBed: null,
+        idBed: '',
         quantity: null
     }]);
 
@@ -115,10 +115,10 @@ function LayoutNPrice(props) {
                                     <div className="row">
                                         <div className='col-sm-7 form-group'>
                                             <Select style={{ minWidth: '100%' }} value={bed.idBed} options={[
-                                                { label: "Gường đơn / Rộng 90-130 cm", value: "giuong1" },
-                                                { label: "Giường đôi / Rộng 131-151 cm ", value: "giuong2" },
-                                                { label: "Gường lớn (King) / Rộng 151-180 cm", value: "giuong3" },
-                                                { label: "Gường cực lớn (Super-king) / Rộng 181-200 cm", value: "giuong4" },
+                                                { label: "Gường đơn / Rộng 90-130 cm", value: "giuong1-1" },
+                                                { label: "Giường đôi / Rộng 131-151 cm ", value: "giuong2-2" },
+                                                { label: "Gường lớn (King) / Rộng 151-180 cm", value: "giuong3-2" },
+                                                { label: "Gường cực lớn (Super-king) / Rộng 181-200 cm", value: "giuong4-2" },
                                             ]}
 
                                                 onChange={(value) => setBeds(prev => {
@@ -145,25 +145,30 @@ function LayoutNPrice(props) {
                                                 })}
                                             />
                                             {
-                                                index !== 0 && <Button onClick={() => setBeds(bed =>
-                                                    bed.filter((bed, idx) => idx !== index)
-                                                )}>
-                                                    Xóa
-                                                </Button>
+                                                index !== 0 &&
+                                                <div className="remove-icon">
+                                                    <Button onClick={() => setBeds(bed =>
+                                                        bed.filter((bed, idx) => idx !== index)
+                                                    )}>
+                                                        <DeleteOutlined style={{ minHeight: '100%', color: '#d93d3d' }} />
+                                                    </Button>
+                                                </div>
                                             }
                                         </div>
                                     </div>
                                 ))}
                                 <Col sm={2}>
-                                    <Button type="primary"
-                                        onClick={() => setBeds(prev => [
-                                            ...prev,
-                                            {
-                                                idBed: null,
-                                                quantity: null,
-                                            }])}
-                                    >
-                                        <PlusCircleOutlined /> Thêm giường</Button>
+                                    <div className="btn-addbed">
+                                        <Button
+                                            onClick={() => setBeds(prev => [
+                                                ...prev,
+                                                {
+                                                    idBed: '',
+                                                    quantity: null,
+                                                }])}
+                                        >
+                                            <PlusCircleOutlined /> Thêm giường</Button>
+                                    </div>
                                 </Col>
                                 <Label>
                                     Bao nhiêu khách có thể nghỉ trong phòng này?
@@ -174,7 +179,7 @@ function LayoutNPrice(props) {
                                         name='numberGuest'
                                         defaultValue={1}
                                         value={
-                                            beds.reduce((prev, current) => prev * current.quantity, 1)
+                                            beds.reduce((prev, current) => prev + Number(current.idBed.slice(8)) * Number(current.quantity), 0)
                                         }
                                         disabled
                                     >
@@ -221,9 +226,11 @@ function LayoutNPrice(props) {
                                 </div>
                             </div>
                         </fieldset>
-                        <Button type='primary'>
-                            Tiếp tục
-                        </Button>
+                        <div className="btn-submit">
+                            <Button type='primary'>
+                                Tiếp tục
+                            </Button>
+                        </div>
                     </Form>
                 </div>
                 <div className="col-md-3 sticky-col">
