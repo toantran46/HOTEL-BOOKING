@@ -14,13 +14,16 @@ LayoutNPrice.propTypes = {
 function LayoutNPrice(props) {
     const [anotherRoom, setAnotherRoom] = React.useState('');
 
-    const roomValues = ['pdoi', 'p3nguoi', 'p4nguoi'];
-
     const [beds, setBeds] = React.useState([{
         idBed: null,
         quantity: null
     }]);
-    console.log(beds);
+
+    //view result 
+
+    React.useEffect(() => {
+        console.log(beds);
+    }, [beds])
 
     return (
         <div className='layout-and-price'>
@@ -35,7 +38,7 @@ function LayoutNPrice(props) {
                                 <Label>
                                     Loại phòng
                                 </Label>
-                                <Select onChange={(value) => setAnotherRoom(roomValues.includes(value) ? value : "")} style={{ minWidth: '100%' }} defaultValue='don' options={[
+                                <Select onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={[
                                     { label: "Phòng giường đơn", value: "don" },
                                     { label: "Phòng giường đôi", value: "pdoi" },
                                     { label: "Phòng 3 người", value: "p3nguoi" },
@@ -47,7 +50,7 @@ function LayoutNPrice(props) {
                                     <Label>
                                         Tên phòng
                                     </Label>
-                                    <Select onChange={(value) => setAnotherRoom(roomValues.includes(value) ? value : "")} style={{ minWidth: '100%' }} defaultValue='don' options={[
+                                    <Select value={anotherRoom} onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={[
                                         { label: "Phòng tiêu chuẩn giường đơn", value: "don" },
                                         { label: "Phòng tiêu chuẩn giường đôi", value: "pdoi" },
                                         { label: "Phòng tiêu chuẩn 3 người", value: "p3nguoi" },
@@ -95,7 +98,7 @@ function LayoutNPrice(props) {
                                 />
                             </div>
                         </fieldset>
-                        {anotherRoom &&
+                        {anotherRoom !== 'don' &&
                             <fieldset>
                                 <Label className='label-big'>
                                     Tùy chọn giường
@@ -108,54 +111,46 @@ function LayoutNPrice(props) {
                                 <Label>
                                     Phòng này có loại giường nào?
                                 </Label>
-                                <div className="row">
-                                    <div className='col-sm-7 form-group'>
-                                        <Select style={{ minWidth: '100%' }} defaultValue="1" options={[
-                                            { label: "Gường đơn / Rộng 90-130 cm", value: "1" },
-                                            { label: "Giường đôi / Rộng 131-151 cm ", value: "2" },
-                                            { label: "Gường lớn (King) / Rộng 151-180 cm", value: "3" },
-                                            { label: "Gường cực lớn (Super-king) / Rộng 181-200 cm", value: "4" },
-                                        ]} />
-                                    </div>
-                                    <div className="col-sm-5 form-group form-group-block">
-                                        <div className="multi-icon">
-                                            <span>X</span>
-                                        </div>
-                                        <Select style={{ minWidth: '90%' }} defaultValue="1" options={[
-                                            { label: "1", value: "1" },
-                                            { label: "2", value: "2" },
-                                            { label: "3", value: "3" },
-                                            { label: "4", value: "4" },
-                                        ]} />
-
-                                    </div>
-
-                                </div>
                                 {beds.map((bed, index) => (
                                     <div className="row">
                                         <div className='col-sm-7 form-group'>
-                                            <Select style={{ minWidth: '100%' }} defaultValue="1" options={[
-                                                { label: "Gường đơn / Rộng 90-130 cm", value: "1" },
-                                                { label: "Giường đôi / Rộng 131-151 cm ", value: "2" },
-                                                { label: "Gường lớn (King) / Rộng 151-180 cm", value: "3" },
-                                                { label: "Gường cực lớn (Super-king) / Rộng 181-200 cm", value: "4" },
-                                            ]} />
+                                            <Select style={{ minWidth: '100%' }} value={bed.idBed} options={[
+                                                { label: "Gường đơn / Rộng 90-130 cm", value: "giuong1" },
+                                                { label: "Giường đôi / Rộng 131-151 cm ", value: "giuong2" },
+                                                { label: "Gường lớn (King) / Rộng 151-180 cm", value: "giuong3" },
+                                                { label: "Gường cực lớn (Super-king) / Rộng 181-200 cm", value: "giuong4" },
+                                            ]}
+
+                                                onChange={(value) => setBeds(prev => {
+                                                    let newBeds = [...prev];
+                                                    newBeds[index].idBed = value;
+                                                    return newBeds;
+                                                })}
+                                            />
                                         </div>
                                         <div className="col-sm-5 form-group form-group-block">
                                             <div className="multi-icon">
                                                 <span>X</span>
                                             </div>
-                                            <Select style={{ minWidth: '70%' }} defaultValue="1" options={[
+                                            <Select style={{ minWidth: '70%' }} value={bed.quantity} options={[
                                                 { label: "1", value: "1" },
                                                 { label: "2", value: "2" },
                                                 { label: "3", value: "3" },
                                                 { label: "4", value: "4" },
-                                            ]} />
-                                            <Button onClick={() => setBeds(bed =>
-                                                bed.filter(bed => index !== index)
-                                            )}>
-                                                Xóa
-                                            </Button>
+                                            ]}
+                                                onChange={(value) => setBeds(prev => {
+                                                    let newBeds = [...prev];
+                                                    newBeds[index].quantity = value;
+                                                    return newBeds;
+                                                })}
+                                            />
+                                            {
+                                                index !== 0 && <Button onClick={() => setBeds(bed =>
+                                                    bed.filter((bed, idx) => idx !== index)
+                                                )}>
+                                                    Xóa
+                                                </Button>
+                                            }
                                         </div>
                                     </div>
                                 ))}
