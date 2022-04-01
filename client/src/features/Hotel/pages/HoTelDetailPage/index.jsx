@@ -18,6 +18,8 @@ import FeedBack from 'features/Hotel/components/FeedBack';
 import ViewDetailComments from 'features/Hotel/components/ViewDetailComments';
 import ViewAllFeedBack from 'features/Hotel/components/ViewAllFeedBack';
 import ViewOnGoogleMap from 'features/Hotel/components/ViewOnGoogleMap';
+import GeneralRule from './components/GeneralRule';
+import Note from './components/Note';
 
 HotelDetailPage.propTypes = {
 
@@ -154,6 +156,9 @@ function HotelDetailPage(props) {
                         isVisibleAllFeedBack &&
                         <ViewAllFeedBack setIsVisibleAllFeedBack={setIsVisibleAllFeedBack} />
                     }
+
+                    <GeneralRule />
+                    <Note />
                 </div>
             </div>
         </div>
