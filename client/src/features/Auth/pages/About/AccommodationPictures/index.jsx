@@ -23,7 +23,7 @@ function AccommodationPictures(props) {
 
     const [images, setImages] = React.useState([]);
 
-    const handleBeforUpload = (file) => {
+    const handleBeforeUpload = (file) => {
         const typesImage = ['image/jpeg', 'image/png'];
         if (!typesImage.includes(file.type)) {
             message.error(`File không hợp lệ !. Chỉ chấp nhận file ảnh có dạng [ ${typesImage} ]`);
@@ -53,7 +53,7 @@ function AccommodationPictures(props) {
                     name="avatar"
                     listType="picture-card"
                     multiple
-                    beforeUpload={(file) => handleBeforUpload(file)}
+                    beforeUpload={(file) => handleBeforeUpload(file)}
                     onChange={(e) => handleUpload(e)}
                     className="avatar-uploader" >
                     <span className='accommodation-pictures__text'>Kéo và thả hình ảnh tại đây</span>

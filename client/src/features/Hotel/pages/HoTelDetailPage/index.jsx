@@ -93,7 +93,7 @@ function HotelDetailPage(props) {
                             </a>
                         </Col>
                         <Col>
-                            <a className='top-item' onClick={() => ScrollToView('empty-room')}>
+                            <a className='top-item' onClick={() => ScrollToView('general-rule')}>
                                 Quy tắc chung
                             </a>
                         </Col>
