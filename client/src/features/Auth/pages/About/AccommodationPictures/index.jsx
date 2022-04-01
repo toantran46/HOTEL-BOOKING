@@ -1,14 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "./AccommodationPictures.scss"
-import { Upload, Button } from 'antd';
+import { Upload, Button, message } from 'antd';
 import { CloudUploadOutlined, FileImageOutlined } from '@ant-design/icons';
+import { viewImageByFileOnBrowser } from 'assets/globaJS';
 
 AccommodationPictures.propTypes = {
 
 };
 
+// handle getbase64 file 
+const getbase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = err => reject(err);
+    })
+}
+
 function AccommodationPictures(props) {
+
+    const [images, setImages] = React.useState([]);
+
+    const handleBeforUpload = (file) => {
+        const typesImage = ['image/jpeg', 'image/png'];
+        if (!typesImage.includes(file.type)) {
+            message.error(`File không hợp lệ !. Chỉ chấp nhận file ảnh có dạng [ ${typesImage} ]`);
+            return true;
+        }
+
+        return false;
+    }
+
+    const handleUpload = async ({ file }) => {
+        //uploaded successfully
+        if (!file.status) {
+            const base64 = await getbase64(file);
+            setImages((prev) => [...prev, { file, base64 }]);
+        }
+    }
+
+    React.useEffect(() => {
+        console.log(images);
+    }, [images])
+
     return (
         <div className='accommodation-pictures'>
             <div className='box'>
@@ -17,6 +53,8 @@ function AccommodationPictures(props) {
                     name="avatar"
                     listType="picture-card"
                     multiple
+                    beforeUpload={(file) => handleBeforUpload(file)}
+                    onChange={(e) => handleUpload(e)}
                     className="avatar-uploader" >
                     <span className='accommodation-pictures__text'>Kéo và thả hình ảnh tại đây</span>
                     <div className='accommodation-pictures__addgroup'>
@@ -25,47 +63,23 @@ function AccommodationPictures(props) {
                     </div>
                 </Upload.Dragger>
                 <ul className='accommodation-pictures__pictures'>
+                    {
+                        images.map((image) => <li key={image.file.uid} className='accommodation-pictures__pictures__picture'>
+                            <img src={image.base64} alt='fileupload' width={200} height={200} />
+                            <div className='accommodation-pictures__pictures__picture__controls'>
+                                {/* <div onClick={() => alert(image.file.uid)} className='accommodation-pictures__pictures__picture__controls__edit'>
+                                    <i class="bi bi-pencil-fill"></i>
+                                    Sửa
+                                </div> */}
+                                <div onClick={() => setImages(prev => [...prev.filter(({ file }) => file.uid !== image.file.uid)])} className='accommodation-pictures__pictures__picture__controls__edit'>
+                                    <i class="bi bi-trash"></i>
+                                    Xóa
+                                </div>
+                            </div>
+                        </li>
 
-                    <li className='accommodation-pictures__pictures__picture'>
-                        <img src='https://q-xx.bstatic.com/xdata/images/property/square200/86568532.jpg?k=3e5017cbd7d93046f08b712d96f72dd1794b67aad34ffd5ec9557f95211c9d79&o=' alt='fileupload' />
-                        <div className='accommodation-pictures__pictures__picture__controls'>
-                            <div className='accommodation-pictures__pictures__picture__controls__edit'>
-                                <i class="bi bi-pencil-fill"></i>
-                                Sửa
-                            </div>
-                            <div className='accommodation-pictures__pictures__picture__controls__edit'>
-                                <i class="bi bi-trash"></i>
-                                Xóa
-                            </div>
-                        </div>
-                    </li>
-                    <li className='accommodation-pictures__pictures__picture'>
-                        <img src='https://q-xx.bstatic.com/xdata/images/property/square200/86568532.jpg?k=3e5017cbd7d93046f08b712d96f72dd1794b67aad34ffd5ec9557f95211c9d79&o=' alt='fileupload' />
-                        <div className='accommodation-pictures__pictures__picture__controls'>
-                            <div className='accommodation-pictures__pictures__picture__controls__edit'>
-                                <i class="bi bi-pencil-fill"></i>
-                                Sửa
-                            </div>
-                            <div className='accommodation-pictures__pictures__picture__controls__edit'>
-                                <i class="bi bi-trash"></i>
-                                Xóa
-                            </div>
-                        </div>
-                    </li>
-                    <li className='accommodation-pictures__pictures__picture'>
-                        <img src='https://q-xx.bstatic.com/xdata/images/property/square200/86568532.jpg?k=3e5017cbd7d93046f08b712d96f72dd1794b67aad34ffd5ec9557f95211c9d79&o=' alt='fileupload' />
-                        <div className='accommodation-pictures__pictures__picture__controls'>
-                            <div className='accommodation-pictures__pictures__picture__controls__edit'>
-                                <i class="bi bi-pencil-fill"></i>
-                                Sửa
-                            </div>
-                            <div className='accommodation-pictures__pictures__picture__controls__edit'>
-                                <i class="bi bi-trash"></i>
-                                Xóa
-                            </div>
-                        </div>
-                    </li>
-
+                        )
+                    }
                 </ul>
                 <div className='accommodation-pictures__information'>
                     <h5>Không có hình ảnh chuyên nghiệp? Không sao!</h5>
