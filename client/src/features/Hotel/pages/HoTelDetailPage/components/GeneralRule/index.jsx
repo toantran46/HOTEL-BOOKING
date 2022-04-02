@@ -12,8 +12,6 @@ GeneralRule.propTypes = {
 
 function GeneralRule(props) {
 
-    const [time, setTime] = React.useState({ from: 12, to: 22 });
-
     return (
         <div className='general-rule' id='general-rule'>
             <div className='general-rule__header'>
