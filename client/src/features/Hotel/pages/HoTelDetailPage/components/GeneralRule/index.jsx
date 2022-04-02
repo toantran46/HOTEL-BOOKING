@@ -27,7 +27,7 @@ function GeneralRule(props) {
                         <div className='general-rule__wrapper__title'><span className='icon'>{ICONS.CALENDARV2}</span> Nhận phòng</div>
                     </Col>
                     <Col span={19}>
-                        <TimeLine from={14} to={22} />
+                        <TimeLine from={16} to={24} />
                         <div className='general-rule__wrapper__more-info'>
                             Khách được yêu cầu xuất trình giấy tờ tùy thân có ảnh và thẻ tín dụng lúc nhận phòng <br />
                             Trước đó bạn sẽ cần cho chỗ nghỉ biết giờ bạn sẽ đến nơi.

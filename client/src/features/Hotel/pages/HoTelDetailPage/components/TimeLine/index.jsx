@@ -16,7 +16,9 @@ function TimeLine(props) {
 
     return (
         <div className='timeline'>
-            <div className='timeline__time' style={{ width: `calc(320/24*${to - from}px)`, marginLeft: `calc(320/24*${from}px)` }}>
+            <div
+                className={`timeline__time ${from === 0 ? 'is-start' : ''} ${to === 24 ? 'is-end' : ''}`}
+                style={{ width: `calc(320/24*${to - from}px)`, marginLeft: `calc(320/24*${from}px)` }}>
                 <span className='from'>{from}:00</span>
                 <span className='to'>{to}:00</span>
                 <div className='time-bottom'>

@@ -28,6 +28,9 @@ HotelDetailPage.propTypes = {
 function HotelDetailPage(props) {
 
     const { hotelId } = useParams();
+
+    const [roomSelected, setRoomSelected] = React.useState();
+
     const convenients = [
         {
             icon: `<svg viewBox="0 0 128 128">
@@ -64,6 +67,9 @@ function HotelDetailPage(props) {
 
     const { state } = useLocation();
 
+    const handleBook = () => {
+        alert("đã đặt");
+    }
 
     return (
         <div className='wrapper'>
@@ -109,7 +115,7 @@ function HotelDetailPage(props) {
                             <span className='wrapper__content__right__top-main__name'>Pullman Vung Tau</span>
                             <ShowStar num={5} />
                         </div>
-                        <a href="#" className="btn-primary">Đặt ngay</a>
+                        <button onClick={() => ScrollToView('empty-room')} className="btn-primary">Đặt ngay</button>
                     </div>
                     <div className='wrapper__content__right__location'>
                         <span className='location-image' /> 15 Thi Sach, Thang Tam, Vũng Tàu, Việt Nam
