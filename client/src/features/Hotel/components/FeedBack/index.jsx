@@ -7,11 +7,16 @@ import HightLightComments from '../HightLightComments';
 
 
 FeedBack.propTypes = {
+    setIsVisibleAllFeedBack: PropTypes.func
+};
 
+FeedBack.defaultProps = {
+    setIsVisibleAllFeedBack: null
 };
 
 function FeedBack(props) {
 
+    const { setIsVisibleAllFeedBack } = props;
     const comments = new Array(10).fill().map(() => <HightLightComments />);
 
     return (
@@ -24,7 +29,7 @@ function FeedBack(props) {
                 <div className='score'>8,0</div>
                 <div className='feedback__score-wrapper__message'>Rất tốt</div>
                 <div className='feedback__score-wrapper__numVoted'>756 đánh giá</div>
-                <div className='feedback__score-wrapper__readAll'>Đọc tất cả đánh giá</div>
+                <div onClick={() => setIsVisibleAllFeedBack(true)} className='feedback__score-wrapper__readAll'>Đọc tất cả đánh giá</div>
             </div>
 
             <div className="wrapperSlider">

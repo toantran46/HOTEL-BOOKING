@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem, Col, Row } from 'reactstrap';
 import FormSearch from 'features/Hotel/components/FormSearch';
 import BreadcrumbStyled from 'features/Hotel/components/BreadcrumbStyled';
@@ -20,6 +20,7 @@ import ViewAllFeedBack from 'features/Hotel/components/ViewAllFeedBack';
 import ViewOnGoogleMap from 'features/Hotel/components/ViewOnGoogleMap';
 import GeneralRule from './components/GeneralRule';
 import Note from './components/Note';
+import { message } from 'antd';
 
 HotelDetailPage.propTypes = {
 
@@ -66,9 +67,19 @@ function HotelDetailPage(props) {
     const [isVisibleAllFeedBack, setIsVisibleAllFeedBack] = React.useState(false);
 
     const { state } = useLocation();
+    const navigate = useNavigate();
 
     const handleBook = () => {
-        alert("đã đặt");
+        if (!roomSelected) {
+            message.info("Vui lòng chọn phòng ! ")
+            ScrollToView('empty-room');
+            return;
+        };
+
+        //navigate to booking page
+        navigate("/booking");
+
+
     }
 
     return (
@@ -115,7 +126,7 @@ function HotelDetailPage(props) {
                             <span className='wrapper__content__right__top-main__name'>Pullman Vung Tau</span>
                             <ShowStar num={5} />
                         </div>
-                        <button onClick={() => ScrollToView('empty-room')} className="btn-primary">Đặt ngay</button>
+                        <button onClick={() => handleBook()} className="btn-primary">Đặt ngay</button>
                     </div>
                     <div className='wrapper__content__right__location'>
                         <span className='location-image' /> 15 Thi Sach, Thang Tam, Vũng Tàu, Việt Nam
@@ -153,7 +164,7 @@ function HotelDetailPage(props) {
                     </div>
                     <InfoSearch />
                     <ListRoom />
-                    <FeedBack />
+                    <FeedBack setIsVisibleAllFeedBack={setIsVisibleAllFeedBack} />
                     <br />
                     {/* <ViewDetailComments /> */}
 

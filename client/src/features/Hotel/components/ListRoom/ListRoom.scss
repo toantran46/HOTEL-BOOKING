@@ -59,13 +59,13 @@
             position: sticky;
             top: 0;
             content: " ";
-            height: 50px;
+            height: 57px;
             background: #4c76b2;
             border-left: 1px solid #5bbaff;
         }
         &__container {
             position: sticky;
-            top: 50px;
+            top: 57px;
             padding: 0 10px;
             a {
                 margin-top: 1rem;
@@ -78,6 +78,11 @@
             }
             ul li {
                 font-size: 13px;
+            }
+
+            &__confirm{
+                margin-top: 1rem;
+                margin-bottom: 0.5rem;
             }
         }
     }

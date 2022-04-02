@@ -2,9 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import "./ViewAllFeedBack.scss";
 import FeedBackItem from '../FeedBackItem';
-import PaginationStyled from '../Pagination';
+import PaginationStyled from '../PaginationStyled';
+import { Select } from 'antd';
 ViewAllFeedBack.propTypes = {
+    setIsVisibleAllFeedBack: PropTypes.func
+};
 
+ViewAllFeedBack.defaultProps = {
+    setIsVisibleAllFeedBack: null
 };
 
 function ViewAllFeedBack(props) {
@@ -13,7 +18,6 @@ function ViewAllFeedBack(props) {
 
     return (
         <div className='viewall-feedback'>
-
             <div className='viewall-feedback__wrapper slide-animate'>
                 <div className='viewall-feedback__wrapper__top'>
 
@@ -31,12 +35,13 @@ function ViewAllFeedBack(props) {
                     <div className='viewall-feedback__wrapper__main__header'>
                         <h6>Đánh giá của khách</h6>
                         <div className='viewall-feedback__wrapper__main__header__right'>
-                            <span>Sắp xếp đánh giá theo:</span><select>
-                                <option>Mới nhất</option>
-                                <option>Cũ nhất</option>
-                                <option>Điểm cao nhất</option>
-                                <option>Điểm thấp nhất</option>
-                            </select>
+                            <span>Sắp xếp đánh giá theo:</span>
+                            <Select defaultValue="latest" style={{ minWidth: "150px" }} onChange={(value) => alert(value)}>
+                                <Select.Option value="latest">Mới nhất</Select.Option>
+                                <Select.Option value="oldest">Cũ nhất</Select.Option>
+                                <Select.Option value="highest-score">Điểm cao nhất</Select.Option>
+                                <Select.Option value="lowest-score">Điểm thấp nhất</Select.Option>
+                            </Select>
                         </div>
                     </div>
                     <div className='viewall-feedback__wrapper__main__list-feedback'>

@@ -7,7 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import FilterItem from 'features/Hotel/components/FilterItem';
 import HotelOverView from 'features/Hotel/components/HotelOverView';
-import Pagination from 'features/Hotel/components/Pagination';
+import Pagination from 'features/Hotel/components/PaginationStyled';
 import FilterLoading from 'features/Hotel/components/FilterLoading';
 import ListHoTelOverView from 'features/Hotel/components/ListHotelOverView';
 import FormSearch from 'features/Hotel/components/FormSearch';

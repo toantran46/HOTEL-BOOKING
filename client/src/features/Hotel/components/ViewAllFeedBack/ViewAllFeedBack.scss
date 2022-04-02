@@ -6,7 +6,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1200;
+    z-index: 1000;
 
     &__wrapper {
         position: fixed;
@@ -63,12 +63,6 @@
 
                     span {
                         margin-right: 10px;
-                    }
-
-                    select {
-                        font-size: 14px;
-                        padding: 8px 10px;
-                        border-color: #e6e6e6;
                     }
                 }
             }

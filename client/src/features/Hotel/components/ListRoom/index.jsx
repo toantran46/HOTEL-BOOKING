@@ -30,6 +30,12 @@ function ListRoom(props) {
             <div className='list-room__book'>
                 <div className='list-room__book__top' />
                 <div className='list-room__book__container'>
+                    <div className='list-room__book__container__confirm'>
+                        <p><b>9</b> phòng tổng giá</p>
+                        <h5>VND 5.769.000</h5>
+                        <span>Đã bao gồm thuế và phí</span>
+                    </div>
+
                     <a className="btn-primary">Tôi sẽ đặt</a>
                     <ul>
                         <li>Xác nhận tức thời</li>

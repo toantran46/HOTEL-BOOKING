@@ -1,0 +1,27 @@
+.pagination {
+    width: 100%;
+    display: flex;
+    margin-top: 1rem;
+    justify-content: center;
+
+    svg {
+        vertical-align: unset;
+    }
+
+
+    /*---------OVERWRITE ANTD----------------*/
+
+    .ant-pagination-item-link, .ant-pagination-item{
+        border-radius: 20px;
+        height: 35px;
+        min-width: 35px;
+        line-height: 33px;
+    }
+
+    .ant-pagination-item-active {
+        background: #1890ff;
+        border-color: unset;
+        color: #FFF;
+    }
+    /*----------------------------------------*/
+}
