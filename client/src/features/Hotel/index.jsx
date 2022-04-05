@@ -13,7 +13,6 @@ Hotel.propTypes = {
 
 };
 
-
 function Hotel(props) {
     return (
         <div className='wrapper-hotel'>

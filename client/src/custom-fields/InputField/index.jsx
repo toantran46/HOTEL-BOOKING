@@ -38,6 +38,7 @@ function InputField(props) {
                 placeholder={placeholder}
                 type={type}
                 disabled={disabled}
+
             />
         </Form.Item >
     );

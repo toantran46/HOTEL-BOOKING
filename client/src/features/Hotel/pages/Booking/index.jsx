@@ -48,8 +48,8 @@ function Booking(props) {
                                 </div>
                             </div>
                         </div>
-                        <StepTwo />
-                        {/* <StepThree /> */}
+                        {/* <StepTwo /> */}
+                        <StepThree />
                     </Col>
                 </Row>
             </div>

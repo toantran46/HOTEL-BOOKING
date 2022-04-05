@@ -15,8 +15,8 @@ function LayoutNPrice(props) {
     const [anotherRoom, setAnotherRoom] = React.useState('');
 
     const [beds, setBeds] = React.useState([{
-        idBed: '',
-        quantity: null
+        idBed: 'giuong1-1',
+        quantity: 1
     }]);
 
     //view result 
@@ -163,8 +163,8 @@ function LayoutNPrice(props) {
                                             onClick={() => setBeds(prev => [
                                                 ...prev,
                                                 {
-                                                    idBed: '',
-                                                    quantity: null,
+                                                    idBed: 'giuong1-1',
+                                                    quantity: 1,
                                                 }])}
                                         >
                                             <PlusCircleOutlined /> Thêm giường</Button>
@@ -179,7 +179,8 @@ function LayoutNPrice(props) {
                                         name='numberGuest'
                                         defaultValue={1}
                                         value={
-                                            beds.reduce((prev, current) => prev + Number(current.idBed.slice(8)) * Number(current.quantity), 0)
+                                            // beds.reduce((prev, current) => prev + Number(current.idBed.slice(8)) * Number(current.quantity), 0)
+                                            beds.reduce((prev, current) => prev + current.idBed.split("-")[1] * current.quantity, 0)
                                         }
                                         disabled
                                     >

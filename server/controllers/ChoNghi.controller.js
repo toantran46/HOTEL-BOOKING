@@ -28,7 +28,7 @@ module.exports = {
                     {
                         $project: {
                             ThanhPho: { "$arrayElemAt": ["$ThanhPho", 0] },
-                            TongSo: { "$concat": [{ "$toString": "$TongSo" }, " chổ ở"] }
+                            TongSo: { "$concat": [{ "$toString": "$TongSo" }, " chổ nghỉ"] }
                         }
                     },
                     { $limit: parseInt(groupByCity) },
