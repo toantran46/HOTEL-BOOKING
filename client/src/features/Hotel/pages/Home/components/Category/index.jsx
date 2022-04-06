@@ -22,9 +22,6 @@ Category.defaultProps = {
 function Category(props) {
 
     const { title, description, list, num, destination } = props;
-
-    console.log({ list });
-
     return (
         <div className='category'>
             <div className='title'>{title}</div>

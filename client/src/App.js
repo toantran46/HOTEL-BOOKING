@@ -3,6 +3,8 @@ import './assets/styles/style.scss';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { Suspense } from 'react';
+import { choNghiApi } from 'api/ChoNghiApi';
+import { tinDungApi } from 'api/TinDungApi';
 
 
 const HoTel = React.lazy(() => import("./features/Hotel/index.jsx"));

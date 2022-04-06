@@ -32,7 +32,7 @@ function Header(props) {
                         <Link to="/auth/sign-in" className='header__top__right__btn-fullfill'>Đăng nhập</Link>
 
                         {/* User login */}
-                        {/* {/* <div tabIndex={1} onClick={() => setIsShowUserMenu(prev => !prev)} className={`header__top__right__profile ${isShowUserMenu ? 'active' : ''}`}>
+                        {/* <div tabIndex={1} onClick={() => setIsShowUserMenu(prev => !prev)} className={`header__top__right__profile ${isShowUserMenu ? 'active' : ''}`}>
                             <div className='header__top__right__profile__avatar'>
                                 <img src='https://t-cf.bstatic.com/static/img/identity/profile/b47cd0e05ec8b7831167f4f7593ead56402a6bb4.svg' alt='avatar' />
                             </div>
