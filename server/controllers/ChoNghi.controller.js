@@ -6,34 +6,60 @@ module.exports = {
         try {
             let ChoNghis;
             // Group by city : data for home page 
-            const { groupByCity, _limit, _page, search, filter } = req.query;
+            const { groupBy, _limit, _page, search, filter } = req.query;
 
-            if (groupByCity) {
-                ChoNghis = await ChoNghiModel.aggregate([
-                    {
-                        $group: {
-                            _id: "$ThanhPho",
-                            TongSo: { $count: {} }
+
+            //groupBy = 'LoaiChoNghi , XepHang , DiemDanhGia , TienNghi'
+            if (groupBy) {
+                console.log({ groupBy })
+                if (groupBy === 'LoaiChoNghi' || groupBy === 'ThanhPho') {
+
+                    ChoNghis = await ChoNghiModel.aggregate([
+                        {
+                            $group: {
+                                _id: `$${groupBy}`,
+                                TongSo: { $count: {} }
+                            }
                         }
-                    }
-                    ,
-                    {
-                        $lookup: {
-                            from: "thanhphos",
-                            localField: "_id",
-                            foreignField: "_id",
-                            as: "ThanhPho"
+                        ,
+                        {
+                            $lookup: {
+                                from: `${groupBy.toLowerCase()}s`,
+                                localField: "_id",
+                                foreignField: "_id",
+                                as: `${groupBy}`
+                            },
                         },
-                    },
-                    {
-                        $project: {
-                            ThanhPho: { "$arrayElemAt": ["$ThanhPho", 0] },
-                            TongSo: { "$concat": [{ "$toString": "$TongSo" }, " chổ nghỉ"] }
+                        {
+                            $project: {
+                                [groupBy]: { "$arrayElemAt": [`$${groupBy}`, 0] },
+                                TongSo: "$TongSo"
+                            }
                         }
-                    },
-                    { $limit: parseInt(groupByCity) },
-                ]);
-                return res.json({ message: "success", ChoNghis, limit: parseInt(groupByCity), type: "groupByCity" });
+                    ]);
+                    return res.json({ message: "success", ChoNghis, type: `groupBy-${groupBy}` });
+                } else if (groupBy === 'TienNghi') {
+
+                    ChoNghis = await ChoNghiModel.aggregate([
+                        {
+                            $group: {
+                                _id: `$TienNghi._id`,
+                                TongSo: { $count: {} }
+                            }
+                        }
+                        ,
+                        {
+                            $project: {
+                                [groupBy]: { "$arrayElemAt": [`$${groupBy}`, 0] },
+                                TongSo: "$TongSo"
+                            }
+                        }
+                    ]);
+                    return res.json({ message: "success", ChoNghis, type: `groupBy-${groupBy}` });
+
+                }
+
+
             }
             //Get all ( search + pagination )
             const _totalPage = await ChoNghiModel.find();
