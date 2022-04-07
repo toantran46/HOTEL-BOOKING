@@ -3,7 +3,83 @@ const PhanHoiModel = require("../models/PhanHoi.model");
 module.exports = {
     getAll: async (req, res) => {
         try {
-            const PhanHois = await PhanHoiModel.find();
+            let PhanHois;
+            const { groupBy, MaKhachSan } = req.query;
+
+            //groupBy = "DiemDanhGia"
+            if (groupBy) {
+                const labelRange = ["Tuyệt hảo: 9 điểm trở lên", "Rất tốt: 8 điểm trở lên", "Tốt: 7 điểm trở lên", "Dễ chịu: 6 điểm trở lên"];
+                let results = await PhanHoiModel.aggregate([
+                    {
+                        $group: {
+                            _id: "$MaKhachSan",
+                            TongSoPhanHoi: { $count: {} },
+                            TongSoDiem: { $sum: "$Diem" },
+                        },
+                    },
+                    {
+                        $project: {
+                            MaKhachSan: "$_id",
+                            TongSoPhanHoi: "$TongSoPhanHoi",
+                            TongSoDiem: "$TongSoDiem",
+                            DiemTB: { $divide: ["$TongSoDiem", "$TongSoPhanHoi"] },
+
+                        }
+                    }
+                    ,
+                    {
+                        $project: {
+                            MaKhachSan: "$_id",
+                            TongSoPhanHoi: "$TongSoPhanHoi",
+                            TongSoDiem: "$TongSoDiem",
+                            DiemTB: "$DiemTB",
+                            // rangeLabel: {
+                            //     $cond: [
+                            //         { $gte: ["$DiemTB", 9] },
+                            //         labelRange[0],
+                            //         {
+                            //             $cond: [
+                            //                 { $gte: ["$DiemTB", 8] },
+                            //                 labelRange[1],
+                            //                 {
+                            //                     $cond: [
+                            //                         { $gte: ["$DiemTB", 7] },
+                            //                         labelRange[2],
+                            //                         {
+                            //                             $cond: [
+                            //                                 { $gte: ["$DiemTB", 6] },
+                            //                                 labelRange[3],
+                            //                                 ""
+                            //                             ]
+                            //                         }
+                            //                     ]
+                            //                 }
+                            //             ]
+                            //         }]
+                            // }
+                        }
+                    }
+                    ,
+                ]);
+                //handle grouby range 6 -> , 7-> , 8-> , 9-> 
+
+                let newResults = [9, 8, 7, 6].map((score, index) => ({ _id: score, DiemDanhGia: labelRange[index], TongSo: results.filter(choNghi => choNghi.DiemTB >= score).length }));
+
+                return res.json({ message: "success", results: newResults, type: `groupBy-${groupBy}` });
+
+            }
+
+            //get all PhanHoi via MaKhachSan
+            if (MaKhachSan) {
+
+                const { orderBy, _page = 1, _limit = 5 } = req.query;
+
+                PhanHois = await PhanHoiModel.find({ MaKhachSan }).skip((_page - 1) * _limit).limit(_limit);
+                return res.json({ message: "success", PhanHois, MaKhachSan, _page, _limit });
+            }
+
+
+            PhanHois = await PhanHoiModel.find();
             res.json({ message: "success", PhanHois })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })

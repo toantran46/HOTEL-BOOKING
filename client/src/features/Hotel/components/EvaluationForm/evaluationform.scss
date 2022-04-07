@@ -1,0 +1,17 @@
+.btn-item {
+  margin: 0 8px;
+}
+
+.btn-item:first-child {
+  margin-left: 20px;
+}
+
+.btn-item.active {
+  color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+.btn-item:last-child {
+  float: right !important;
+  margin: 0;
+}

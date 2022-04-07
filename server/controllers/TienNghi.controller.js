@@ -3,7 +3,42 @@ const TienNghiModel = require("../models/TienNghi.model");
 module.exports = {
     getAll: async (req, res) => {
         try {
-            const TienNghis = await TienNghiModel.find();
+            const { groupBy } = req.query;
+            let TienNghis;
+
+            if (groupBy) {
+
+                TienNghis = await TienNghiModel.aggregate([
+                    {
+                        $group: {
+                            _id: `$_id`,
+                            TenTienNghi: { "$first": "$TenTienNghi" },
+                        }
+                    }
+                    ,
+                    {
+                        $lookup: {
+                            from: `chonghis`,
+                            localField: "_id",
+                            foreignField: "TienNghi",
+                            as: "ChoNghi",
+                        },
+                    },
+
+                    {
+                        $project: {
+                            _id: "$_id",
+                            TenTienNghi: "$TenTienNghi",
+                            TongSo: { $size: "$ChoNghi" }
+                        }
+                    }
+                ]);
+                return res.json({ message: "success", TienNghis, type: `groupBy-${groupBy}` });
+
+            }
+
+
+            TienNghis = await TienNghiModel.find();
             res.json({ message: "success", TienNghis })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })

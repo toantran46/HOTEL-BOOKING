@@ -9,56 +9,34 @@ module.exports = {
             const { groupBy, _limit, _page, search, filter } = req.query;
 
 
-            //groupBy = 'LoaiChoNghi , XepHang , DiemDanhGia , TienNghi'
+            //groupBy = 'Thanh Pho' 'LoaiChoNghi 
             if (groupBy) {
-                console.log({ groupBy })
-                if (groupBy === 'LoaiChoNghi' || groupBy === 'ThanhPho') {
 
-                    ChoNghis = await ChoNghiModel.aggregate([
-                        {
-                            $group: {
-                                _id: `$${groupBy}`,
-                                TongSo: { $count: {} }
-                            }
+                ChoNghis = await ChoNghiModel.aggregate([
+                    {
+                        $group: {
+                            _id: `$${groupBy}`,
+                            TongSo: { $count: {} }
                         }
-                        ,
-                        {
-                            $lookup: {
-                                from: `${groupBy.toLowerCase()}s`,
-                                localField: "_id",
-                                foreignField: "_id",
-                                as: `${groupBy}`
-                            },
+                    }
+                    ,
+                    {
+                        $lookup: {
+                            from: `${groupBy.toLowerCase()}s`,
+                            localField: "_id",
+                            foreignField: "_id",
+                            as: `${groupBy}`
                         },
-                        {
-                            $project: {
-                                [groupBy]: { "$arrayElemAt": [`$${groupBy}`, 0] },
-                                TongSo: "$TongSo"
-                            }
-                        }
-                    ]);
-                    return res.json({ message: "success", ChoNghis, type: `groupBy-${groupBy}` });
-                } else if (groupBy === 'TienNghi') {
+                    },
+                    {
+                        $project: {
+                            [groupBy]: { $cond: [{ $ne: [groupBy, "XepHang"] }, { "$arrayElemAt": [`$${groupBy}`, 0] }, "$_id"] },
+                            TongSo: "$TongSo",
 
-                    ChoNghis = await ChoNghiModel.aggregate([
-                        {
-                            $group: {
-                                _id: `$TienNghi._id`,
-                                TongSo: { $count: {} }
-                            }
                         }
-                        ,
-                        {
-                            $project: {
-                                [groupBy]: { "$arrayElemAt": [`$${groupBy}`, 0] },
-                                TongSo: "$TongSo"
-                            }
-                        }
-                    ]);
-                    return res.json({ message: "success", ChoNghis, type: `groupBy-${groupBy}` });
-
-                }
-
+                    }
+                ]);
+                return res.json({ message: "success", ChoNghis, type: `groupBy-${groupBy}` });
 
             }
             //Get all ( search + pagination )
