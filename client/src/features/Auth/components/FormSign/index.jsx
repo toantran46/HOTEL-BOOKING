@@ -1,67 +1,84 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-
+import { Form, Input, Button } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import './FormSign.scss';
 import FooterPartner from '../FooterPartner';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 
 FormSign.propTypes = {
 
 };
 
-const loginSchema = yup.object().shape({
-    Email: yup.string().required("Vui lòng nhập email"),
-    passWord: yup.string().required("Vui lòng nhập mật khẩu").min(5),
-})
 function FormSign(props) {
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(loginSchema),
-    });
-
-    const onSubmit = (data) => {
-        console.log(data);
+    const onFinish = (values) => {
+        console.log(values);
     }
     return (
         <div className='form-site'>
             <div className="form-site__label">
                 Đăng nhập để quản lý chỗ nghỉ
             </div>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <FormGroup>
-                    <Label for="userName">
-                        Email
-                    </Label>
+            <Form
+                name="login"
+                className="login-form"
+                onFinish={onFinish}
+            >
+                <Form.Item
+                    name="email"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập email',
+                        },
+                        {
+                            type: 'email',
+                            message: 'Email phải đúng định dạng'
+                        },
+                    ]}
+                >
                     <Input
-                        id="emaiSign"
-                        name="email"
-                        placeholder="Nhập email"
-                        type='email'
-
+                        prefix={<UserOutlined className="site-form-item-icon" />}
+                        className="input-login-area"
+                        placeholder="Email"
                     />
-                    {errors.Email && <p className='error-message'>{errors.Email.message}</p>}
-                    <FormGroup>
-                        <Label for="password">
-                            Mật khẩu
-                        </Label>
-                        <Input
-                            id="examplePassword"
-                            name="password"
-                            placeholder="Nhập mật khẩu"
-                            type="password"
-                            {...register("passWord")}
-                        />
-                        {errors.passWord && <p className='error-message'>{errors.passWord.message}</p>}
-                    </FormGroup>
-                    <Button color='primary' type='submit'>
+                </Form.Item>
+                <Form.Item
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập mật khẩu',
+                        },
+                        {
+                            min: 4,
+                            message: 'Mật khẩu phải ít nhất 4 kí tự',
+                        },
+                    ]}
+                >
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        className="input-login-area"
+                        type="password"
+                        placeholder="Password"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Link to={''}>
+                        Quên mật khẩu
+                    </Link>
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="login-form-button">
                         Đăng nhập
                     </Button>
-                </FormGroup>
-                <div className="forget-pass">
-                    <a href="#">Quên mật khẩu ?</a>
-                </div>
+                    <div className="loggin-form-link-regis">
+                        <Link to={'/auth/register'}>
+                            Chưa có tài khoản ? Đăng kí ngay
+                        </Link>
+                    </div>
+                </Form.Item>
             </Form>
             <FooterPartner />
         </div>

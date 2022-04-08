@@ -1,10 +1,8 @@
 .form-site {
     padding: 20px;
     text-align: center;
-    width: 400px;
+    width: 550px;
     max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
     &__label {
         font-size: 24px;
         font-weight: 700;
@@ -22,35 +20,25 @@
         line-height: 18px;
     }
     Form {
-        font-size: 15px;
-        font-weight: 500;
-        line-height: 12px;
-        Label {
-            display: flex;
-            margin: 10px 0;
-            span {
-                color: rgb(204, 24, 24);
-            }
-        }
         Button {
             width: 100%;
         }
 
-        .forget-pass {
-            margin-top: 5px;
+        .available-account {
+            padding-top: 10px;
             display: flex;
             a {
                 text-decoration: none;
             }
         }
         .helper {
+            padding-bottom: 20px;
             display: flex;
 
             font-size: 11px;
             font-weight: 300px;
             line-height: 13px;
 
-            margin-bottom: 8px;
         }
     }
 }
