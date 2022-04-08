@@ -6,8 +6,75 @@ module.exports = {
         try {
             let ChoNghis;
             // Group by city : data for home page 
-            const { groupBy, _limit, _page, search, filter } = req.query;
+            const { groupBy, _limit = 1, _page = 1, search, filter } = req.query;
 
+            // filter : LoaiChoNghi , XepHang ,DiemDanhGia, TienNghi
+
+            if (filter) {
+                const { value, _page, _limit } = req.query;
+                switch (filter) {
+                    case "DiemDanhGia": {
+                        ChoNghis = await ChoNghiModel.aggregate([
+                            { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
+                            { $addFields: { "DiemDG": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
+                            { $match: { "DiemDG": { $gte: value * 1 } } },
+                            { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
+                            { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
+                            { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
+                            { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
+                            { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
+                            {
+                                $skip: (_page - 1) * _limit
+                            },
+                            {
+                                $limit: _limit * 1
+                            }
+                        ]);
+                        break;
+                    }
+                    case "TienNghi": {
+                        ChoNghis = await ChoNghiModel.aggregate([
+                            { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
+                            { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
+                            { "$match": { "$expr": { "$in": [{ $toObjectId: value }, "$TienNghi"] } } },
+                            { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
+                            { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
+                            { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
+                            { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
+                            { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
+                            {
+                                $skip: (_page - 1) * _limit
+                            }, {
+                                $limit: _limit * 1
+                            }
+                        ]);
+                        break;
+                    }
+
+                    default: {
+
+                        ChoNghis = await ChoNghiModel.aggregate([
+                            { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
+                            { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
+                            { $match: { $expr: { $eq: [{ $toString: `$${filter}` }, value] } } },
+                            { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
+                            { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
+                            { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
+                            { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
+                            { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
+                            {
+                                $skip: (_page - 1) * _limit
+                            }, {
+
+                                $limit: _limit * 1
+                            }
+                        ]);
+                    }
+
+                }
+
+                return res.json({ message: "success", ChoNghis, type: `filter-${filter}`, _page: _page * 1, _limit: _limit * 1 });
+            }
 
             //groupBy = 'Thanh Pho' 'LoaiChoNghi 
             if (groupBy) {

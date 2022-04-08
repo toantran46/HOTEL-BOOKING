@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const PhanHoiSchema = new mongoose.Schema({
-    MaKhachSan: String,
-    MaKH: String,
-    MaPhong: String,
+    MaKhachSan: mongoose.Types.ObjectId,
+    MaKH: mongoose.Types.ObjectId,
+    MaPhong: mongoose.Types.ObjectId,
     NgayTao: Date,
     Diem: Number,
     BinhLuan: String,
