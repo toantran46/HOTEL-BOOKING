@@ -15,11 +15,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Connect to db
-mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
-    console.log("Connect succesfully")
-}, error => {
-    console.log("Connection failed ", error);
-});
+mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("Connect successfully")
+    }, error => {
+        console.log("Connection failed ", error);
+    });
 
 //API
 const LoaiPhongRouter = require("./routes/LoaiPhong.route");

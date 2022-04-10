@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 export const thanhPhoApi = {
-    getAll: () => {
+    getAll: (params) => {
         const url = `/ThanhPho/ThanhPhos`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     }
     ,
     get: (thanhPhoId) => {

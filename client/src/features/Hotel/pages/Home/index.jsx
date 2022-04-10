@@ -4,104 +4,100 @@ import "./Home.scss";
 import SearchHotel from 'features/Hotel/components/SearchHotel';
 import PlaceBanner from './components/PlaceBanner';
 import Category from './components/Category';
+import { choNghiApi } from 'api/ChoNghiApi';
+import { loaiChoNghiApi } from 'api/LoaiChoNghiApi';
+import { thanhPhoApi } from 'api/ThanhPhoApi';
 Home.propTypes = {
 
 };
 
 function Home(props) {
 
-    const placeType = {
-        title: "Tìm theo loại chổ nghĩ",
-        list: [
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/xphoto/square300/57584488.webp?k=bf724e4e9b9b75480bbe7fc675460a089ba6414fe4693b83ea3fdd8e938832a6&o=",
-                name: "Khách sạn",
-                total: "844,552 khách sạn"
-            },
-            {
-                image: "https://t-cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-apartments_300/9f60235dc09a3ac3f0a93adbc901c61ecd1ce72e.jpg",
-                name: "Apartments",
-                total: "758,901 apartments"
-            },
-            {
-                image: "https://t-cf.bstatic.com/static/img/theme-index/carousel_320x240/bg_resorts/6f87c6143fbd51a0bb5d15ca3b9cf84211ab0884.jpg",
-                name: "Resorts",
-                total: "17,508 resorts"
-            },
-            {
-                image: "https://t-cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-villas_300/dd0d7f8202676306a661aa4f0cf1ffab31286211.jpg",
-                name: "Villas",
-                total: "397,582 villas"
-            },
-            {
-                image: "https://t-cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-chalet_300/8ee014fcc493cb3334e25893a1dee8c6d36ed0ba.jpg",
-                name: "Cabins",
-                total: "32,558 cabins"
-            },
-            {
-                image: "https://t-cf.bstatic.com/static/img/theme-index/carousel_320x240/bg_cottages/5e1fd9cd716f4825c6c7eac5abe692c52cc64516.jpg",
-                name: "Cottages",
-                total: "134,133 cottages"
-            },
-            {
-                image: "https://t-cf.bstatic.com/static/img/theme-index/carousel_320x240/bg_glamping/6e181b9e942c160f4605239be7ddc1728cbcc4c8.jpg",
-                name: "Glamping",
-                total: "10,566 Glamping Sites"
-            },
-            {
-                image: "https://t-cf.bstatic.com/static/img/theme-index/carousel_320x240/bg_aparthotel/10e092f390b128dcff92727912299eef7824b751.jpg",
-                name: "Serviced Apartments",
-                total: "31,841 serviced apartments"
-            },
-            {
-                image: "https://t-cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-holidayhomes_300/604c7484d34a9e8791c2d5a0e2df4bc8c803dc7c.jpg",
-                name: "Vacation Homes",
-                total: "397,582 vacation homes"
-            },
-        ],
-    }
+    const [placeType, setPlaceType] = React.useState([]);
+    const [placeEachCity, setPlaceEachCity] = React.useState([]);
+    const [favouritePlace, setFavouritePlace] = React.useState([]);
 
-    const VNdiscover = {
-        title: "Khám phá Việt Nam",
-        description: "Các điểm đến phổ biến này có nhiều điều chờ đón bạn",
-        list: [
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688956.webp?k=fc88c6ab5434042ebe73d94991e011866b18ee486476e475a9ac596c79dce818&o=",
-                name: "Vũng Tàu",
-                total: "1,821 chổ nghỉ"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688831.jpg?k=7b999c7babe3487598fc4dd89365db2c4778827eac8cb2a47d48505c97959a78&o=",
-                name: "Đà lạt",
-                total: "2,145 chổ nghỉ"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688879.webp?k=82ca0089828054a1a9c46b14ea7f1625d73d42505ae58761e8bcc067f9e72475&o=",
-                name: "Phú Quốc",
-                total: "672 chổ nghỉ"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688893.webp?k=d32ef7ff94e5d02b90908214fb2476185b62339549a1bd7544612bdac51fda31&o=",
-                name: "Hồ Chí Minh City",
-                total: "5,605 chổ nghỉ"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688844.webp?k=02892d4252c5e4272ca29db5faf12104004f81d13ff9db724371de0c526e1e15&o=",
-                name: "Đà Nẵng",
-                total: "2,509 chổ nghỉ"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688907.webp?k=8a219233969467d9f7ff828918cce2a53b4db6f1da1039d27222441ffb97c409&o=",
-                name: "Nha Trang",
-                total: "1,657 chổ nghỉ"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/city/square250/688853.webp?k=f6427c8fccdf777e4bbc75fcd245e7c66204280181bea23350388c76c57348d1&o=",
-                name: "Hà Nội",
-                total: "3,803 chổ nghỉ"
-            },
-        ],
-    }
+    const [isLoading, setIsLoading] = React.useState([]);
+
+
+    //fetch total place group by city
+    React.useState(() => {
+        const fetchTotalPlaceEachCity = async () => {
+            try {
+                setIsLoading(true);
+                const { ThanhPhos } = await thanhPhoApi.getAll({ action: "getTotalPlace" })
+                const data = ThanhPhos.map(ThanhPho => (
+                    {
+                        _id: ThanhPho._id,
+                        name: ThanhPho.TenThanhPho,
+                        image: ThanhPho.HinhAnh,
+                        total: ThanhPho.TongSo + " chổ nghĩ"
+                    }));
+                setPlaceEachCity(data);
+                setIsLoading(false);
+            } catch (error) {
+                setIsLoading(false);
+                console.log(error);
+            }
+        }
+
+        fetchTotalPlaceEachCity();
+    }, [])
+
+    //fetch total place group by place type
+    React.useState(() => {
+        const fetchTotalPlaceEachPlaceType = async () => {
+            try {
+                setIsLoading(true);
+                const { LoaiChoNghis } = await loaiChoNghiApi.getAll({ action: "getTotalPlace" })
+                const data = LoaiChoNghis.map(LoaiChoNghi => (
+                    {
+                        _id: LoaiChoNghi._id,
+                        name: LoaiChoNghi.TenLoaiChoNghi,
+                        image: LoaiChoNghi.HinhAnh,
+                        total: LoaiChoNghi.TongSo + " chổ nghĩ"
+                    }));
+                setPlaceType(data);
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error)
+                setIsLoading(false);
+            }
+        }
+        fetchTotalPlaceEachPlaceType();
+    }, [])
+
+    //fetch favourite places
+    React.useState(() => {
+        const fetchFavouritePlaces = async () => {
+            try {
+                setIsLoading(true);
+                const { ChoNghis } = await choNghiApi.getAll({ filter: "DiemDanhGia", value: 9 })
+
+                const data = ChoNghis.map(ChoNghi => ({
+                    _id: ChoNghi._id,
+                    image: ChoNghi.HinhAnh[0],
+                    name: ChoNghi.TenChoNghi,
+                    place: `${ChoNghi.DiaChi}, ${ChoNghi.ThanhPho[0].TenThanhPho}`,
+                    score: parseFloat(ChoNghi.DiemDG).toFixed(1),
+                    feedBackMessage: "Tuyệt hảo",
+                    numVoted: `${ChoNghi.PhanHoi.length} đánh giá`
+
+                }))
+                setFavouritePlace(data);
+                setIsLoading(false);
+
+            } catch (error) {
+                setIsLoading(false);
+                console.log(error)
+            }
+        }
+
+        fetchFavouritePlaces();
+    }, [])
+
+
+
 
     const favouriteHotel = {
         title: "Khách sạn mà khách yêu thích",
@@ -160,10 +156,18 @@ function Home(props) {
     return (
         <div className='home'>
             <SearchHotel />
-            <PlaceBanner />
-            <Category title={placeType.title} list={placeType.list} />
-            <Category title={VNdiscover.title} list={VNdiscover.list} />
-            <Category title={favouriteHotel.title} list={favouriteHotel.list} num={favouriteHotel.num} destination="/" />
+            <PlaceBanner list={[...placeEachCity].splice(0, 5)} />
+            <Category
+                title="Tìm theo loại chổ nghĩ" list={placeType} />
+            <Category
+                title="Khám phá Việt Nam"
+                description="Các điểm đến phổ biến này có nhiều điều chờ đón bạn"
+                list={placeEachCity} />
+            <Category
+                title="Khách sạn mà khách yêu thích"
+                list={favouritePlace}
+                num={4}
+                destination="/" />
         </div>
     );
 }

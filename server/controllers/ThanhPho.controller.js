@@ -3,7 +3,29 @@ const ThanhPhoModel = require("../models/ThanhPho.model");
 module.exports = {
     getAll: async (req, res) => {
         try {
-            const ThanhPhos = await ThanhPhoModel.find();
+            let ThanhPhos;
+            const { action } = req.query;
+
+            //action = 'getTotalPlace' 
+            if (action === 'getTotalPlace') {
+
+                ThanhPhos = await ThanhPhoModel.aggregate([
+                    { $lookup: { from: `chonghis`, localField: "_id", foreignField: "ThanhPho", as: "ChoNghi" }, },
+                    {
+                        $project: {
+                            _id: "$_id",
+                            TenThanhPho: "$TenThanhPho",
+                            HinhAnh: "$HinhAnh",
+                            TongSo: { $size: "$ChoNghi" },
+                        }
+                    }, { $sort: { "TongSo": -1 } }
+
+                ]);
+                return res.json({ message: "success", ThanhPhos, type: `action-${action}` });
+
+            }
+
+            ThanhPhos = await ThanhPhoModel.find();
             res.json({ message: "success", ThanhPhos })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })

@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 export const loaiChoNghiApi = {
-    getAll: () => {
+    getAll: (params) => {
         const url = `/LoaiChoNghi/LoaiChoNghis`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     }
     ,
     get: (loaiChoNghiId) => {

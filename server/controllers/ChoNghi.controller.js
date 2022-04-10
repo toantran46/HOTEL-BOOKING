@@ -66,7 +66,6 @@ module.exports = {
 
             //groupBy = 'Thanh Pho' 'LoaiChoNghi 
             if (groupBy) {
-
                 ChoNghis = await ChoNghiModel.aggregate([
                     { $group: { _id: `$${groupBy}`, TongSo: { $count: {} } } },
                     { $lookup: { from: `${groupBy.toLowerCase()}s`, localField: "_id", foreignField: "_id", as: `${groupBy}` }, },
@@ -82,29 +81,40 @@ module.exports = {
 
             }
             //Get all ( search + pagination )
-            ChoNghis = await ChoNghiModel.find(search ? { $or: mongoose.Types.ObjectId.isValid(search) ? [{ ThanhPho: search }, { LoaiChoNghi: search }] : [{ TenChoNghi: { $regex: search } }] } : {})
-                .populate("ThanhPho")
-                .populate("LoaiChoNghi")
-                .populate("TienNghi")
-                .populate("Phong")
-                .populate("TinDung")
-                .populate({
-                    path: "Phong",
-                    populate: [
-                        {
-                            path: "LoaiPhong",
-                            model: "LoaiPhong"
-                        },
-                        {
-                            path: "ThongTinGiuong.Giuong",
-                            model: "LoaiGiuong"
-                        },
-                        {
-                            path: "TienNghi",
-                            model: "TienNghi"
-                        },
-                    ]
-                }).exec();
+            // ChoNghis = await ChoNghiModel.find(search ? { $or: mongoose.Types.ObjectId.isValid(search) ? [{ ThanhPho: search }, { LoaiChoNghi: search }] : [{ TenChoNghi: { $regex: search } }] } : {})
+            //     .populate("ThanhPho")
+            //     .populate("LoaiChoNghi")
+            //     .populate("TienNghi")
+            //     .populate("Phong")
+            //     .populate("TinDung")
+            //     .populate({
+            //         path: "Phong",
+            //         populate: [
+            //             {
+            //                 path: "LoaiPhong",
+            //                 model: "LoaiPhong"
+            //             },
+            //             {
+            //                 path: "ThongTinGiuong.Giuong",
+            //                 model: "LoaiGiuong"
+            //             },
+            //             {
+            //                 path: "TienNghi",
+            //                 model: "TienNghi"
+            //             },
+            //         ]
+            //     }).exec();
+
+            const regex = new RegExp
+
+            ChoNghis = await ChoNghiModel.aggregate([
+                { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
+                { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
+                { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
+                { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
+                { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
+                { $match: search ? { $or: [{ "ThanhPho.TenThanhPho": new RegExp(search, 'i') }, { "LoaiChoNghi.TenLoaiChoNghi": new RegExp(search, 'i') }, { TenChoNghi: new RegExp(search, 'i') }] } : {} }
+            ])
 
             //total found
             const _totalPage = ChoNghis.length;

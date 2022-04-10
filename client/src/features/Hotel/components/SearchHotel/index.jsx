@@ -8,6 +8,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { ICONS } from "constants";
 import { debounce } from "lodash";
 import { Spin, Form } from "antd";
+import { choNghiApi } from "api/ChoNghiApi";
 
 SearchHotel.propTypes = {};
 
@@ -27,16 +28,16 @@ function SearchHotel(props) {
   const handleSearch = () => {
     placeChoosen
       ? navigate("/search", {
-          state: {
-            roadmap: [placeChoosen.city],
-            searchValue: {
-              name: placeChoosen.name,
-              city: placeChoosen.city,
-            },
-            receiveDate,
-            returnDate,
+        state: {
+          roadmap: [placeChoosen.city],
+          searchValue: {
+            name: placeChoosen.name,
+            city: placeChoosen.city,
           },
-        })
+          receiveDate,
+          returnDate,
+        },
+      })
       : setValidate(true);
   };
 
@@ -44,44 +45,29 @@ function SearchHotel(props) {
 
   React.useEffect(() => {
     const fetchPlaces = async () => {
-      setIsFetching(true);
-      setPlaces([]);
+      try {
+        setIsFetching(true);
+        setPlaces([]);
 
-      setTimeout(() => {
+        const { ChoNghis } = await choNghiApi.getAll({ search: searchValue })
+        const data = ChoNghis.map(ChoNghi => ({
+          icon: ICONS.LOCATION,
+          name: ChoNghi.TenChoNghi,
+          location: "Việt Nam",
+          city: ChoNghi.ThanhPho[0].TenThanhPho,
+          address: ChoNghi.DiaChi,
+          _id: ChoNghi._id,
+          _idCity: ChoNghi.ThanhPho[0]._id
+        }));
+
+        console.log(data);
         setIsFetching(false);
-        setPlaces([
-          {
-            icon: ICONS.LOCATION,
-            name: "Pull man Vũng Tàu",
-            location: "Việt Nam",
-            city: "Vũng tàu",
-          },
-          {
-            icon: ICONS.LOCATION,
-            name: "Dusit Princess",
-            location: "Việt Nam",
-            city: "Bình Phước",
-          },
-          {
-            icon: ICONS.LOCATION,
-            name: "Vung Tau Melody Apartment",
-            location: "Việt Nam",
-            city: "Bình Thuận",
-          },
-          {
-            icon: ICONS.LOCATION,
-            name: "The Shells Resort & Spa Phu Quoc",
-            location: "Việt Nam",
-            city: "Phú Quốc",
-          },
-          {
-            icon: ICONS.LOCATION,
-            name: "La Veranda Resort Phu Quoc - MGallery",
-            location: "Việt Nam",
-            city: "Phú Quốc",
-          },
-        ]);
-      }, 1000);
+        setPlaces(data);
+
+      } catch (error) {
+        console.log(error);
+        setIsFetching(false);
+      }
     };
     searchValue ? fetchPlaces() : setPlaces([]);
   }, [searchValue]);
@@ -134,7 +120,7 @@ function SearchHotel(props) {
                             key={index}
                             className="place"
                             onClick={() => {
-                              form.setFieldsValue({ searchValue: place.name });
+                              form.setFieldsValue({ searchValue: `${place.name}, ${place.city}, ${place.location}    ` });
                               setPlaceChoosen((prev) => ({
                                 ...prev,
                                 name: place.name,

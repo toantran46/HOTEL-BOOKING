@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 export const choNghiApi = {
-    getAll: () => {
+    getAll: (params) => {
         const url = `/ChoNghi/ChoNghis`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     }
     ,
     get: (choNghiId) => {
