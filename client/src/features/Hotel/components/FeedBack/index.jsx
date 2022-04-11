@@ -1,23 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "./FeedBack.scss";
-import { ScrollToView } from 'assets/globaJS';
+import { getMessageByScore, ScrollToView } from 'assets/globaJS';
 import Carousel from '../Carousel';
 import HightLightComments from '../HightLightComments';
 
 
 FeedBack.propTypes = {
-    setIsVisibleAllFeedBack: PropTypes.func
+    setIsVisibleAllFeedBack: PropTypes.func,
+    feedBack: PropTypes.object,
 };
 
 FeedBack.defaultProps = {
-    setIsVisibleAllFeedBack: null
+    setIsVisibleAllFeedBack: null,
+    feedBack: { comments: [], totalFeedBack: null, mediumScore: null },
 };
 
 function FeedBack(props) {
 
-    const { setIsVisibleAllFeedBack } = props;
-    const comments = new Array(10).fill().map(() => <HightLightComments />);
+    const { setIsVisibleAllFeedBack, feedBack } = props;
+
+    const [topFeedBack, setTopFeedBack] = React.useState([]);
+
+    const [content, setContent] = React.useState();
+
+
+
+    React.useEffect(() => {
+        const newTopFeedBack = feedBack?.comments.sort((a, b) => b - a);
+        setTopFeedBack(newTopFeedBack);
+    }, [feedBack.comments])
+
+
+    React.useEffect(() => {
+        const newContent = topFeedBack.map((fb) => <HightLightComments key={fb._id} feedBack={fb} />);
+        setContent(newContent);
+    }, [topFeedBack])
+
+
 
     return (
         <div className='feedback' id='feedback'>
@@ -26,15 +46,15 @@ function FeedBack(props) {
                 <a className="btn-primary" onClick={() => ScrollToView("empty-room")}>Xem phòng trống</a>
             </div>
             <div className="feedback__score-wrapper">
-                <div className='score'>8,0</div>
-                <div className='feedback__score-wrapper__message'>Rất tốt</div>
-                <div className='feedback__score-wrapper__numVoted'>756 đánh giá</div>
+                <div className='score'>{parseFloat(feedBack?.mediumScore).toFixed(1)}</div>
+                <div className='feedback__score-wrapper__message'>{getMessageByScore(feedBack?.mediumScore)}</div>
+                <div className='feedback__score-wrapper__numVoted'>{feedBack.totalFeedBack} đánh giá</div>
                 <div onClick={() => setIsVisibleAllFeedBack(true)} className='feedback__score-wrapper__readAll'>Đọc tất cả đánh giá</div>
             </div>
 
             <div className="wrapperSlider">
                 <div className="wrapperSlider__title">Đọc xem khách yêu thích điều gì nhất:</div>
-                <Carousel isPadding={true} childrens={comments} showNum={3} />
+                <Carousel isPadding={true} childrens={content} showNum={3} />
             </div>
         </div>
     );

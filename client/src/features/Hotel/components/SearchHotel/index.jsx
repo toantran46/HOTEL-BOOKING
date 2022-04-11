@@ -23,7 +23,11 @@ function SearchHotel(props) {
   const [validate, setValidate] = React.useState(false);
   const [placeChoosen, setPlaceChoosen] = React.useState(null);
 
+  const debounceTimeout = React.useRef(null);
+
   const navigate = useNavigate();
+
+  const [form] = Form.useForm();
 
   const handleSearch = () => {
     placeChoosen
@@ -41,36 +45,54 @@ function SearchHotel(props) {
       : setValidate(true);
   };
 
-  const [form] = Form.useForm();
 
-  React.useEffect(() => {
-    const fetchPlaces = async () => {
-      try {
-        setIsFetching(true);
-        setPlaces([]);
+  //handle onchange search value
+  const handleOnChange = value => {
 
-        const { ChoNghis } = await choNghiApi.getAll({ search: searchValue })
-        const data = ChoNghis.map(ChoNghi => ({
-          icon: ICONS.LOCATION,
-          name: ChoNghi.TenChoNghi,
-          location: "Việt Nam",
-          city: ChoNghi.ThanhPho[0].TenThanhPho,
-          address: ChoNghi.DiaChi,
-          _id: ChoNghi._id,
-          _idCity: ChoNghi.ThanhPho[0]._id
-        }));
+    setSearchValue(value);
+    setValidate(false);
+    setPlaces([]);
+    !value && setPlaceChoosen(null);
 
-        console.log(data);
-        setIsFetching(false);
-        setPlaces(data);
+    //when value is empty
+    if (!value) return;
 
-      } catch (error) {
-        console.log(error);
-        setIsFetching(false);
-      }
-    };
-    searchValue ? fetchPlaces() : setPlaces([]);
-  }, [searchValue]);
+    //fetch data using method debounce 
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
+    debounceTimeout.current = setTimeout(() => {
+      fetchPlaces(value);
+    }, 800);
+
+  }
+
+
+  const fetchPlaces = async (value) => {
+    try {
+      setIsFetching(true);
+      console.log({ value });
+      const { ChoNghis } = await choNghiApi.getAll({ search: value })
+      const data = ChoNghis.map(ChoNghi => ({
+        icon: ICONS.LOCATION,
+        name: ChoNghi.TenChoNghi,
+        location: "Việt Nam",
+        city: ChoNghi.ThanhPho[0].TenThanhPho,
+        address: ChoNghi.DiaChi,
+        _id: ChoNghi._id,
+        _idCity: ChoNghi.ThanhPho[0]._id
+      }));
+
+      console.log({ data });
+      setIsFetching(false);
+      setPlaces(data);
+
+    } catch (error) {
+      console.log(error);
+      setIsFetching(false);
+    }
+  };
   return (
     <div style={{ position: "sticky", top: "-12px", zIndex: 99 }}>
       <div className="search-hotel">
@@ -94,11 +116,7 @@ function SearchHotel(props) {
                   <InputField
                     allowClear={true}
                     name="searchValue"
-                    onChange={({ target }) => {
-                      setSearchValue(target.value);
-                      setValidate(false);
-                      !target.value && setPlaceChoosen(null);
-                    }}
+                    onChange={({ target }) => handleOnChange(target.value)}
                     placeholder="Bạn muốn đến đâu"
                   />
                   {validate && (

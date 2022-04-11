@@ -5,11 +5,15 @@ import "./ListRoom.scss"
 import Room from '../Room';
 
 ListRoom.propTypes = {
+    rooms: PropTypes.array,
+};
 
+ListRoom.defaultProps = {
+    rooms: [],
 };
 
 function ListRoom(props) {
-
+    const { rooms } = props;
     return (
         <div className='list-room'>
             <table>
@@ -21,10 +25,9 @@ function ListRoom(props) {
                     <th className='chooseRoom'>Chọn phòng</th>
                 </thead>
                 <tbody>
-                    <Room />
-                    <Room />
-                    <Room />
-                    <Room />
+                    {
+                        rooms.map(room => <Room key={room._id} roomInfo={room} />)
+                    }
                 </tbody>
             </table>
             <div className='list-room__book'>

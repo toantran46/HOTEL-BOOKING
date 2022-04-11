@@ -12,7 +12,7 @@ import { Form } from 'antd';
 function FormSearch(props) {
 
     const { name, receiveDate, returnDate } = props;
-    console.log({ props })
+
     return (
         <div className='form-search'>
             <p>Tìm</p>
@@ -20,19 +20,16 @@ function FormSearch(props) {
                 <InputField
                     name='placeName'
                     label='Tên chỗ nghỉ / điểm đến'
-                // value={name}
                 />
                 <InputField
                     name='receiveDate'
                     label='Ngày nhận phòng'
                     type='date'
-                // value={receiveDate}
                 />
                 <InputField
                     name='returnDate'
                     label='Ngày trả phòng'
                     type='date'
-                // value={returnDate}
                 />
 
                 <button className='searchBtn'>Tìm</button>

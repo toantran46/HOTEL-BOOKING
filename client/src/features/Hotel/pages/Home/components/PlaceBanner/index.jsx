@@ -21,7 +21,7 @@ function PlaceBanner(props) {
             <Row>
                 {
                     [...list].splice(3, 2).map(city =>
-                        <Col>
+                        <Col key={city._id}>
                             <Link
                                 state={
                                     {
@@ -45,7 +45,7 @@ function PlaceBanner(props) {
             <Row>
                 {
                     [...list].splice(0, 3).map(city =>
-                        <Col>
+                        <Col key={city._id}>
                             <Link
                                 state={
                                     {

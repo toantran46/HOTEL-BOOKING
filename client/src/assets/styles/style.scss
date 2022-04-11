@@ -18,6 +18,15 @@ a.btn-primary:hover {
 button.btn-primary:hover {
     background: #0a3a5c;
 }
+/*--------------ROOM ACTIVE ---------------*/
+
+.room-active{
+    background: #ebf3ff;
+    border-color: #a3d7fc !important;
+    box-shadow: 0 0 8px #a3d7fc;    
+}
+
+
 /*--------------BUTTON OUTLINE---------------*/
 a.btn-primary-outline {
     padding: 0.5rem 1rem;

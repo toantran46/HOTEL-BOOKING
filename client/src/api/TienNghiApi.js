@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 export const tienNghiApi = {
-    getAll: () => {
+    getAll: (params) => {
         const url = `/TienNghi/TienNghis`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     }
     ,
     get: (tienNghiId) => {

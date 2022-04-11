@@ -20,8 +20,8 @@ function FavouriteConvenients(props) {
             {
                 convenients?.map((convenient, index) =>
                     <div className='favourite-convenients__item' key={index}>
-                        <span dangerouslySetInnerHTML={{ __html: convenient.icon }} />
-                        <span className='icon'> {convenient.text}</span>
+                        <span dangerouslySetInnerHTML={{ __html: convenient.Icon }} />
+                        <span className='icon'> {convenient.TenTienNghi}</span>
                     </div>
                 )
             }

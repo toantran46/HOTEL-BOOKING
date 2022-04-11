@@ -21,10 +21,10 @@ function Convenients(props) {
             {
                 convenients?.map((convenient, index) =>
                     <div className='convenients__convenient' key={index}>
-                        <div dangerouslySetInnerHTML={{ __html: convenient.icon }}>
+                        <div dangerouslySetInnerHTML={{ __html: convenient.Icon }}>
                         </div>
                         <div className='text'>
-                            {convenient.text}
+                            {convenient.TenTienNghi}
                         </div>
                     </div>
                 )

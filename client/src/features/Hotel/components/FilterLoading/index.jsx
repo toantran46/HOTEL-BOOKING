@@ -3,17 +3,21 @@ import PropTypes from 'prop-types';
 import './FilterLoading.scss'
 
 FilterLoading.propTypes = {
+    isFiltering: PropTypes.bool,
+};
 
+FilterLoading.defaultProps = {
+    isFiltering: false,
 };
 
 function FilterLoading(props) {
 
-    const [isVisible, setIsVisible] = React.useState(false);
+    const { isFiltering } = props;
 
     return (
         <div>
             {
-                isVisible &&
+                isFiltering &&
                 <div className='filter-loading'>
                     <div className='filter-loading__main'>
                         <div className='filter-loading__main__loader'></div>

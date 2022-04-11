@@ -12,8 +12,7 @@ MainPage.propTypes = {
 
 };
 
-function
-    MainPage(props) {
+function MainPage(props) {
     return (
         <div className='body'>
             <div className="content-bg">

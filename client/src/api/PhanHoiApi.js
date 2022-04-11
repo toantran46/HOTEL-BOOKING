@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 export const phanHoiApi = {
-    getAll: () => {
+    getAll: (params) => {
         const url = `/PhanHoi/PhanHois`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     }
     ,
     get: (phanHoiId) => {
