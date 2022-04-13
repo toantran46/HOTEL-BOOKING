@@ -5,6 +5,7 @@ import './InforBasic.scss';
 import { Col, Label } from 'reactstrap';
 import { Button, Input, Form, Select, Radio } from 'antd';
 import { useForm } from 'react-hook-form';
+import { thanhPhoApi } from 'api/ThanhPhoApi';
 
 InforBasic.propTypes = {
   onSubmit: PropTypes.func,
@@ -32,6 +33,27 @@ function InforBasic(props) {
     addrStreet: '',
     addrCity: '',
   }
+
+  const [listCity, setListCity] = React.useState();
+
+  React.useEffect(() => {
+    console.log("1");
+    const fetchCity = async () => {
+      try {
+        const { ThanhPhos } = await thanhPhoApi.getAll();
+        setListCity(ThanhPhos);
+        console.log(ThanhPhos);
+      }
+      catch (error) {
+        console.log(error)
+      }
+
+    }
+    setTimeout(() => {
+      fetchCity();
+    }, 1000);
+  }, [])
+
   return (
     <div className='infor-basic'>
       <div className="row">
@@ -168,7 +190,13 @@ function InforBasic(props) {
                         },
                       ]}
                     >
-                      <Input placeholder='Cần Thơ' />
+                      <Select
+                        options={
+                          listCity.map((city, index) => (
+                            { label: city.TenThanhPho, value: city._id }
+                          ))
+                        }
+                      />
                     </Form.Item>
                   </Col>
                 </div>
