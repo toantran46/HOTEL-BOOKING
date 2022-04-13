@@ -13,8 +13,8 @@ const ChoNghiSchema = new mongoose.Schema({
     Phong: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Phong' }],
     HuyDatPhong: String,
     BaoHiemNhamLan: Boolean,
-    ThoiGianNhanPhong: { type: Date },
-    ThoiGianTraPhong: { type: Date },
+    ThoiGianNhanPhong: { type: Object },
+    ThoiGianTraPhong: { type: Object },
     TinDung: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TinDung' }]
 })
 

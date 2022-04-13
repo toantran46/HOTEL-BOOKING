@@ -1,59 +1,86 @@
 const { default: mongoose } = require("mongoose");
 const ChoNghiModel = require("../models/ChoNghi.model");
 
+function getMin(arr) {
+    return arr.sort((a, b) => a - b)[0];
+}
+
+function findTienNghi(TienNghiFilter, TienNghiChoNghi) {
+    return TienNghiChoNghi.find(item => TienNghiFilter.includes(item._id.toString())) ? true : false;
+}
+
+
 module.exports = {
     getAll: async (req, res) => {
         try {
             let ChoNghis;
             // Group by city : data for home page 
-            const { groupBy, _limit, _page, search, filter } = req.query;
+            let { groupBy, _limit, _page, search, filter } = req.query;
 
             // filter : LoaiChoNghi , XepHang ,DiemDanhGia, TienNghi
             if (filter) {
+                filter = JSON.parse(filter)
                 const { value } = req.query;
-                switch (filter) {
-                    case "DiemDanhGia": {
-                        ChoNghis = await ChoNghiModel.aggregate([
-                            { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
-                            { $addFields: { "DiemDG": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
-                            { $match: { "DiemDG": { $gte: value * 1 } } },
-                            { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
-                            { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
-                            { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
-                            { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
-                            { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
-                        ]);
-                        break;
-                    }
-                    case "TienNghi": {
-                        ChoNghis = await ChoNghiModel.aggregate([
-                            { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
-                            { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
-                            { "$match": { "$expr": { "$in": [{ $toObjectId: value }, "$TienNghi"] } } },
-                            { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
-                            { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
-                            { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
-                            { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
-                            { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
-                        ]);
-                        break;
-                    }
+                // const condition = filter.filter(item => Object.keys[item][0].length > 0);
 
-                    default: {
+                ChoNghis = await ChoNghiModel.aggregate([
+                    { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
+                    { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
+                    { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
+                    { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
+                    { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
+                    { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
+                    { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
+                ]);
 
-                        ChoNghis = await ChoNghiModel.aggregate([
-                            { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
-                            { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
-                            { $match: { $expr: { $eq: [{ $toString: `$${filter}` }, value] } } },
-                            { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
-                            { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
-                            { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
-                            { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
-                            { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
-                        ]);
-                    }
+                ChoNghis = ChoNghis.filter(ChoNghi => filter.LoaiChoNghi.length > 0 ? filter.LoaiChoNghi.includes(ChoNghi.LoaiChoNghi[0]._id.toString()) : true)
+                    .filter(ChoNghi => filter.XepHang.length > 0 ? filter.XepHang.includes(ChoNghi.XepHang) : true)
+                    .filter(ChoNghi => filter.DiemDanhGia.length > 0 ? ChoNghi.DiemTB >= getMin(filter.DiemDanhGia) : true)
+                    .filter(ChoNghi => filter.TienNghi.length > 0 ? findTienNghi(filter.TienNghi, ChoNghi.TienNghi) : true)
 
-                }
+                // switch (filter) {
+
+                // case "DiemDanhGia": {
+                //     ChoNghis = await ChoNghiModel.aggregate([
+                //         { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
+                //         { $addFields: { "DiemDG": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
+                //         // { $match: { "DiemDG": { $gte: value * 1 } } },
+                //         { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
+                //         { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
+                //         { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
+                //         { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
+                //         { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
+                //     ]);
+                //     break;
+                // }
+                // case "TienNghi": {
+                //     ChoNghis = await ChoNghiModel.aggregate([
+                //         { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
+                //         { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
+                //         { "$match": { "$expr": { "$in": [{ $toObjectId: value }, "$TienNghi"] } } },
+                //         { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
+                //         { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
+                //         { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
+                //         { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
+                //         { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
+                //     ]);
+                //     break;
+                // }
+
+                // default: {
+
+                //     ChoNghis = await ChoNghiModel.aggregate([
+                //         { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
+                //         { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
+                //         { $match: { $expr: { $eq: [{ $toString: `$${filter}` }, value] } } },
+                //         { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
+                //         { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
+                //         { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
+                //         { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
+                //         { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
+                //     ]);
+                // }
+
                 //total found
                 const TongSo = ChoNghis.length;
                 //pagination
@@ -110,6 +137,7 @@ module.exports = {
             })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
+            console.log(error.message)
         }
     },
     get: async (req, res) => {
