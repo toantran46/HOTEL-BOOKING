@@ -2,46 +2,76 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './InforBasic.scss';
-import { Button, Col, Form, Input, Label } from 'reactstrap';
+import { Col, Label } from 'reactstrap';
+import { Button, Input, Form, Select, Radio } from 'antd';
+import { useForm } from 'react-hook-form';
 
 InforBasic.propTypes = {
-
+  onSubmit: PropTypes.func,
 };
 
+InforBasic.defaultProps = {
+  onSubmit: null,
+}
+
+
 function InforBasic(props) {
+
+  const [form] = Form.useForm();
+
+  const handleSubmit = (values) => {
+    console.log(values);
+  }
+
+  const defaultValues = {
+    selectStar: 0,
+    nameOwner: '',
+    phoneOwner: '',
+    otherHothelCheck: false,
+    addrMain: '',
+    addrStreet: '',
+    addrCity: '',
+  }
   return (
     <div className='infor-basic'>
       <div className="row">
         <div className="col-md-9 basic-form">
-          <Form>
+          <Form form={form} initialValues={defaultValues} onFinish={handleSubmit}
+          >
             <fieldset>
               <Col sm={7} className='form-group'>
                 <Label className='label-big'>
                   Tên của chỗ nghỉ là gì?
                 </Label >
-                <Input
-                  id='nameHotel'
+                <Form.Item
                   name='nameHotel'
-                  type='text'
-                />
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập tên chỗ nghỉ",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
                 <span>Tên này sẽ được hiển thị tới khách khi họ tìm kiếm chỗ nghỉ.</span>
               </Col>
               <Col sm={4} className='form-group'>
                 <Label>
                   Xếp hạng sao
                 </Label>
-                <Input
-                  id="selectStar"
-                  name="selectStar"
-                  type="select"
-                >
-                  <option value="0">không áp dụng</option>
-                  <option value="1">1 ✯</option>
-                  <option value="2">2 ✯✯</option>
-                  <option value="3">3 ✯✯✯</option>
-                  <option value="4">4 ✯✯✯✯</option>
-                  <option value="5">5 ✯✯✯✯✯</option>
-                </Input>
+                <Form.Item name="selectStar">
+                  <Select
+                    options={[
+                      { label: "không áp dụng", value: 0 },
+                      { label: "1 ✯", value: 1 },
+                      { label: "2 ✯✯", value: 2 },
+                      { label: "3 ✯✯✯", value: 3 },
+                      { label: "4 ✯✯✯✯", value: 4 },
+                      { label: "5 ✯✯✯✯", value: 5 },
+                    ]}
+                  />
+                </Form.Item>
               </Col>
             </fieldset>
 
@@ -53,47 +83,54 @@ function InforBasic(props) {
                 <Label>
                   Tên người liên hệ
                 </Label>
-                <Input
-                  id='nameOwner'
+                <Form.Item
                   name='nameOwner'
-                  type='text'
-                />
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập tên người liên hệ",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
               </Col>
               <Label>
                 Số điện thoại liên lạc (để chúng tôi có thể hỗ trợ đăng ký của Quý vị khi cần)
               </Label>
               <Col md={4} className='form-group'>
-                <Input
-                  id='phoneOwner'
+                <Form.Item
                   name='phoneOwner'
-                  type='text'
-                />
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập số điện thoại"
+                    },
+                    {
+                      min: 10,
+                      max: 10,
+                      message: "Vui lòng nhập đúng số điện thoại",
+                    },
+                    {
+                      value: [0 - 9],
+                      message: "Vui lòng chỉ nhập số",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
               </Col>
               <Col md={5} className='form-group'>
                 <Label className='form-group'>
                   Quý vị có sở hữu nhiều khách sạn khác nhau, hoặc là thành viên của một chuỗi hay công ty quản lý bất động sản nào không?
                 </Label>
                 <div className="radio-block">
-                  <div className="radio-block__radio">
-                    <Label>
-                      <Input
-                        id='otherHothelCheck'
-                        name='otherHothelCheck'
-                        type='radio'
-                      />
-                      <span>Có</span>
-                    </Label>
-                  </div>
-                  <div className="radio-block__radio">
-                    <Label>
-                      <Input
-                        id='otherHothelCheck'
-                        name='otherHothelCheck'
-                        type='radio'
-                      />
-                      <span>Không</span>
-                    </Label>
-                  </div>
+                  <Form.Item name="otherHothelCheck">
+                    <Radio.Group>
+                      <Radio value={true}>Có</Radio>
+                      <Radio value={false}>Không</Radio>
+                    </Radio.Group>
+                  </Form.Item>
                 </div>
               </Col>
             </fieldset>
@@ -108,27 +145,31 @@ function InforBasic(props) {
                     <Label>
                       Địa chỉ phố
                     </Label>
-                    <Input
-                      id='addrMain'
+                    <Form.Item
                       name='addrMain'
-                      type='text'
-                    />
-                    <Label>
-                      Dòng địa chỉ 2
-                    </Label>
-                    <Input
-                      id='addrStreet'
-                      name='addrStreet'
-                      type='text'
-                    />
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng nhập địa chỉ phố",
+                        },
+                      ]}
+                    >
+                      <Input placeholder='246/8 Tầm Vu, phường Hưng Lợi, quận Ninh Kiều' />
+                    </Form.Item>
                     <Label>
                       Thành phố
                     </Label>
-                    <Input
-                      id='addrCity'
+                    <Form.Item
                       name='addrCity'
-                      type='text'
-                    />
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng nhập thành phố",
+                        },
+                      ]}
+                    >
+                      <Input placeholder='Cần Thơ' />
+                    </Form.Item>
                   </Col>
                 </div>
                 <div className="col-xs-12 col-sm-6 col-md-6">
@@ -146,7 +187,7 @@ function InforBasic(props) {
                 </div>
               </div>
             </fieldset>
-            <Button color='primary' type='submit'>
+            <Button type="primary" htmlType="submit">
               Tiếp tục
             </Button>
           </Form>
