@@ -59,7 +59,7 @@ function ViewAllFeedBack(props) {
       <div className="viewall-feedback__wrapper slide-animate">
         <div className="viewall-feedback__wrapper__top">
           <div className="viewall-feedback__wrapper__top__left">
-            <div className="score custom-score">{viewAllFB?.mediumScore}</div>
+            <div className="score custom-score">{parseFloat(viewAllFB?.mediumScore).toFixed(1)}</div>
             <div className="numVoted">
               <div>{getMessageByScore(viewAllFB?.mediumScore)}</div>
               <span>{viewAllFB?.comments.length} đánh giá</span>

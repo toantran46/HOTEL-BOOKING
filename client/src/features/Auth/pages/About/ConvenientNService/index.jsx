@@ -2,18 +2,35 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './ConvenientNService.scss';
-import { Button, Col, Form, Input, Label } from 'reactstrap';
+import { Col, Label } from 'reactstrap';
+import { Button, Form, Input, Radio, Checkbox, Row } from 'antd';
+
+import { useForm } from 'react-hook-form';
 
 ConvenientNService.propTypes = {
 
 };
 
 function ConvenientNService(props) {
+
+    const [form] = Form.useForm();
+
+
+    const handleSubmit = (values) => {
+        console.log(values);
+    }
+
+    const defaultValues = {
+        isParking: true,
+        isBreakfast: false,
+        convenientGroup: '',
+    }
+
     return (
         <div className='convenient-and-service'>
             <div className="row">
                 <div className="col-md-9 basic-form">
-                    <Form>
+                    <Form form={form} initialValues={defaultValues} onFinish={handleSubmit} >
                         <fieldset>
                             <Label className='label-big'>
                                 Chỗ đậu xe
@@ -27,14 +44,12 @@ function ConvenientNService(props) {
                                 <Label>
                                     Qúy vị có chỗ đậu xe cho khách không?
                                 </Label>
-                                <Input
-                                    id="selectParking"
-                                    name="selectParking"
-                                    type="select"
-                                >
-                                    <option value="0">Không</option>
-                                    <option value="1">Có</option>
-                                </Input>
+                                <Form.Item name="isParking">
+                                    <Radio.Group>
+                                        <Radio value={true}>Có</Radio>
+                                        <Radio value={false}>Không</Radio>
+                                    </Radio.Group>
+                                </Form.Item>
                             </Col>
                         </fieldset>
                         <fieldset>
@@ -45,14 +60,12 @@ function ConvenientNService(props) {
                                 <Label>
                                     Qúy vị có phục vụ bữa sáng cho khách không?
                                 </Label>
-                                <Input
-                                    id="selectBreakfast"
-                                    name="selectBreakfast"
-                                    type="select"
-                                >
-                                    <option value="0">Không</option>
-                                    <option value="1">Có</option>
-                                </Input>
+                                <Form.Item name="isBreakfast">
+                                    <Radio.Group>
+                                        <Radio value={true}>Có</Radio>
+                                        <Radio value={false}>Không</Radio>
+                                    </Radio.Group>
+                                </Form.Item>
                             </Col>
                         </fieldset>
                         <fieldset>
@@ -64,90 +77,38 @@ function ConvenientNService(props) {
                                     <p>Khách để tâm đến những tiện nghi này nhất khi họ tìm kiếm chỗ nghỉ.</p>
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <div className="list-convenient">
-                                        <ul>
-                                            <li>
-                                                <Label>
-                                                    <Input type='checkbox' name='convenientCheck'>
-                                                    </Input>
-                                                    Wi-Fi miễn phí
-                                                </Label>
-                                            </li>
-                                            <li>
-                                                <Label>
-                                                    <Input type='checkbox' name='convenientCheck'>
-                                                    </Input>
-                                                    Nhà hàng
-                                                </Label>
-                                            </li>
-                                            <li>
-                                                <Label>
-                                                    <Input type='checkbox' name='convenientCheck'>
-                                                    </Input>
-                                                    Dịch vụ phòng
-                                                </Label>
-                                            </li>
-                                            <li>
-                                                <Label>
-                                                    <Input type='checkbox' name='convenientCheck'>
-                                                    </Input>
-                                                    Quầy bar
-                                                </Label>
-                                            </li>
-                                            <li><Label>
-                                                <Input type='checkbox' name='convenientCheck'>
-                                                </Input>
-                                                Lễ tân 24 giờ
-                                            </Label></li>
-                                        </ul>
+                            <Form.Item name='convenientGroup'>
+                                <Checkbox.Group style={{ width: '100%' }}>
+                                    <div className="row">
+                                        <div className="col-sm-6">
+                                            <div className="list-convenient">
+
+                                                <ul>
+                                                    <li><Checkbox value="wifi"> Wi-Fi miễn phí</Checkbox></li>
+                                                    <li> <Checkbox value="nhahang"> Nhà hàng</Checkbox></li>
+                                                    <li><Checkbox value="dichvuphong"> Dịch vụ phòng</Checkbox></li>
+                                                    <li><Checkbox value="letan"> Lễ tân 24 giờ</Checkbox></li>
+                                                    <li><Checkbox value="cacham"> Hệ thống cách âm</Checkbox></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <div className="list-convenient">
+                                                <ul>
+                                                    <li><Checkbox value="phongtam"> Phòng tắm riêng</Checkbox></li>
+                                                    <li><Checkbox value="tivi"> TV màn hình phẳng</Checkbox></li>
+                                                    <li><Checkbox value="bancong"> Ban công</Checkbox></li>
+                                                    <li><Checkbox value="minibar"> Minibar</Checkbox></li>
+                                                    <li><Checkbox value="dieuhoa"> Điều hòa không khí</Checkbox></li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="list-convenient">
-                                        <ul>
-                                            <li>
-                                                <Label>
-                                                    <Input type='checkbox' name='convenientCheck'>
-                                                    </Input>
-                                                    Phòng không hút thuốc
-                                                </Label>
-                                            </li>
-                                            <li>
-                                                <Label>
-                                                    <Input type='checkbox' name='convenientCheck'>
-                                                    </Input>
-                                                    Xe đưa đón sân bay
-                                                </Label>
-                                            </li>
-                                            <li>
-                                                <Label>
-                                                    <Input type='checkbox' name='convenientCheck'>
-                                                    </Input>
-                                                    Điều hòa nhiệt độ
-                                                </Label>
-                                            </li>
-                                            <li>
-                                                <Label>
-                                                    <Input type='checkbox' name='convenientCheck'>
-                                                    </Input>
-                                                    Phòng gia đình
-                                                </Label>
-                                            </li>
-                                            <li>
-                                                <Label>
-                                                    <Input type='checkbox' name='convenientCheck'>
-                                                    </Input>
-                                                    Hồ bơi
-                                                </Label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                                </Checkbox.Group>
+                            </Form.Item>
+
                         </fieldset>
-                        <Button color='primary'> Tiếp tục</Button>
+                        <Button type='primary' htmlType='submit'> Tiếp tục</Button>
                     </Form>
                 </div>
                 <div className="col-md-3 sticky-col">

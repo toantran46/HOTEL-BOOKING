@@ -37,7 +37,7 @@ function MainPage(props) {
     const [totalPlace, setTotalPlaces] = React.useState();
 
     //pagination
-    const [pagination, setPagination] = React.useState({ _page: 1, _limit: 1, _totalPage: 5 });
+    const [pagination, setPagination] = React.useState({ _page: 1, _limit: 2, _totalPage: 5 });
 
     //data for filter ( { DiemDanhGia: [], XepHang: [], TienNghi: [] ,LoaiChoNghi:[] } )
     const [filter, setFilter] = React.useState({ DiemDanhGia: [], XepHang: [], TienNghi: [], LoaiChoNghi: [] });
@@ -76,8 +76,7 @@ function MainPage(props) {
                     { _id: 4, content: "4 sao", num: 0 },
                     { _id: 5, content: "5 sao", num: 0 },
                 ]
-
-                ChoNghis.forEach(ChoNghi => data.splice(ChoNghi.XepHang - 1, 1, { content: `${ChoNghi.XepHang} sao`, num: ChoNghi.TongSo }));
+                ChoNghis.forEach(ChoNghi => data.splice(ChoNghi.XepHang - 1, 1, { _id: ChoNghi._id, content: `${ChoNghi.XepHang} sao`, num: ChoNghi.TongSo }));
                 setGroupByRank(data);
 
             } catch (error) {
@@ -133,16 +132,20 @@ function MainPage(props) {
     React.useEffect(() => {
         isSecondTime.current && setIsFiltering(true);
 
-        console.log({ pagination })
 
         const fetchPlaces = async () => {
             try {
-                const { ChoNghis, _totalPage, TongSo } = await choNghiApi.getAll({ _page: pagination._page, _limit: pagination._limit });
+
+                const { ChoNghis, _totalPage, TongSo } = await choNghiApi.getAll(
+                    {
+                        _page: pagination._page, _limit: pagination._limit,
+                        filter: JSON.stringify(filter)
+                    });
                 setPlaces(ChoNghis);
                 setPagination(prev => ({ ...prev, _totalPage }));
                 setTotalPlaces(TongSo);
                 setIsFiltering(false);
-                console.log(ChoNghis);
+                console.log({ ChoNghis });
             } catch (error) {
                 console.log(error)
                 setIsFiltering(false);

@@ -11,17 +11,28 @@ FormSign.propTypes = {
 };
 
 function FormSign(props) {
+
+    const [form] = Form.useForm();
+
     const onFinish = (values) => {
         console.log(values);
     }
+
+    const defaultValues = {
+        email: '',
+        password: '',
+    }
+
     return (
         <div className='form-site'>
             <div className="form-site__label">
                 Đăng nhập để quản lý chỗ nghỉ
             </div>
             <Form
-                name="login"
+                layout='vertical'
+                form={form}
                 className="login-form"
+                initialValues={defaultValues}
                 onFinish={onFinish}
             >
                 <Form.Item

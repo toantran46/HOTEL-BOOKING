@@ -21,6 +21,12 @@ function About(props) {
     const [currentTab, setCurrentTab] = React.useState(1);
 
     console.log({ currentTab });
+    const handleSubmitInfor = (values) => {
+        console.log(values);
+    }
+    const handleSubmitLayoutNPrice = (values) => {
+        console.log(values);
+    }
     return (
         <div className='about'>
             <HeaderAbout />
@@ -28,14 +34,15 @@ function About(props) {
 
             {currentTab === 1 && <div className='about__tab'>
                 <MainTitle main='Quý vị đang làm tốt lắm, hãy tiếp tục!' sub='Hãy bắt đầu bằng cách cho chúng tôi biết tên, địa chỉ cùng chi tiết liên hệ của chỗ nghỉ.' />
-                <div> <InforBasic /> </div>
+                <div> <InforBasic onSubmit={handleSubmitInfor}
+                /> </div>
             </div>
 
             }
             {
                 currentTab === 2 && <div className='about__tab'>
                     <MainTitle main='Bố cục và giá' sub='Hãy cho chúng tôi biết về phòng đầu tiên của Quý vị. Sau khi nhập tất cả các thông tin cần thiết, Quý vị sẽ có thể nhập chi tiết cho các phòng khác.' />
-                    <div> <LayoutNPrice /> </div>
+                    <div> <LayoutNPrice onSubmit={handleSubmitLayoutNPrice} /> </div>
                 </div>
 
             }

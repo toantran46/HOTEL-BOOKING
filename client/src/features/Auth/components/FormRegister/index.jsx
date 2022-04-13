@@ -25,6 +25,8 @@ function FormRegister(props) {
                 Tạo tài khoản để đăng ký và quản lý khách sạn.
             </div>
             <Form
+
+                layout='vertical'
                 name="register"
                 className="register-form"
                 onFinish={onFinish}

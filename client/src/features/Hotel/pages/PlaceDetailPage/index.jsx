@@ -80,7 +80,6 @@ function HotelDetailPage(props) {
         }, 2000);
     }, [placeId]);
 
-    console.log({ feedBack })
 
     //fetch all feed back 
     React.useEffect(() => {
@@ -101,7 +100,6 @@ function HotelDetailPage(props) {
             fetchFeedBacks();
         }, 2000);
     }, [placeId]);
-
 
 
     return (
@@ -196,8 +194,11 @@ function HotelDetailPage(props) {
                         <ViewAllFeedBack
                             setIsVisibleAllFeedBack={setIsVisibleAllFeedBack} />
                     }
-
-                    <GeneralRule />
+                    <GeneralRule
+                        receiveDate={place?.ThoiGianNhanPhong}
+                        returnDate={place?.ThoiGianTraPhong}
+                        cancelBook={place?.HuyDatPhong}
+                        credits={place?.TinDung} />
                     <Note />
                 </div>
             </div>

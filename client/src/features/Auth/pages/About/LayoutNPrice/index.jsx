@@ -2,21 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './LayoutNPrice.scss';
-import { Col, Form, Input, Label } from 'reactstrap';
-import { Select, Button } from 'antd';
+import { Col, Label } from 'reactstrap';
+import { Select, Button, Form, Input } from 'antd';
 import { DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
-
+import SelectField from 'custom-fields/SelectField';
 
 LayoutNPrice.propTypes = {
 
 };
 
 function LayoutNPrice(props) {
-    const [anotherRoom, setAnotherRoom] = React.useState('');
+    const [anotherRoom, setAnotherRoom] = React.useState('don');
 
     const [beds, setBeds] = React.useState([{
         idBed: 'giuong1-1',
-        quantity: 1
+        quantity: 1,
     }]);
 
     //view result 
@@ -25,11 +25,37 @@ function LayoutNPrice(props) {
         console.log(beds);
     }, [beds])
 
+    React.useEffect(() => {
+        const guestNum = beds.reduce((prev, current) => prev + current.idBed.split("-")[1] * current.quantity, 0)
+        console.log(guestNum);
+        form.setFieldsValue({
+            numberGuest: guestNum,
+        })
+    }, [beds])
+
+    const [form] = Form.useForm();
+
+
+    const defaultValues = {
+        typeRoom: '',
+        nameRoom: 'don',
+        nameCustom: '',
+        smokingPolicy: 0,
+        numRoom: 1,
+        // detailBed: 'giuong1-1',
+        quantityRoom: 1,
+        numberGuest: null,
+        sizeRoom: '',
+        price: '',
+    }
+    const handleSubmit = (values) => {
+        console.log(values);
+    }
     return (
         <div className='layout-and-price'>
             <div className="row">
                 <div className="col-md-9 basic-form">
-                    <Form>
+                    <Form form={form} initialValues={defaultValues} onFinish={handleSubmit} >
                         <fieldset>
                             <Label className='label-big'>
                                 Vui lòng chọn
@@ -38,35 +64,46 @@ function LayoutNPrice(props) {
                                 <Label>
                                     Loại phòng
                                 </Label>
-                                <Select onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '90%' }} options={[
-                                    { label: "Phòng giường đơn", value: "don" },
-                                    { label: "Phòng giường đôi", value: "pdoi" },
-                                    { label: "Phòng 3 người", value: "p3nguoi" },
-                                    { label: "Phòng 4 người", value: "p4nguoi" },
-                                ]} />
+                                <Form.Item
+                                    name="nameRoom"
+                                >
+
+                                    <Select onChange={(value) => setAnotherRoom(value)} options={[
+                                        { label: "Phòng giường đơn", value: "don" },
+                                        { label: "Phòng giường đôi", value: "pdoi" },
+                                        { label: "Phòng 3 người", value: "p3nguoi" },
+                                        { label: "Phòng 4 người", value: "p4nguoi" },
+                                    ]}
+                                    />
+                                </Form.Item>
                             </div>
                             <div className="row">
                                 <div className="col-sm-6">
                                     <Label>
                                         Tên phòng
                                     </Label>
-                                    <Select disabled value={anotherRoom} onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={[
-                                        { label: "Phòng tiêu chuẩn giường đơn", value: "don" },
-                                        { label: "Phòng tiêu chuẩn giường đôi", value: "pdoi" },
-                                        { label: "Phòng tiêu chuẩn 3 người", value: "p3nguoi" },
-                                        { label: "Phòng tiêu chuẩn 4 người", value: "p4nguoi" },
-                                    ]} />
+                                    <Form.Item
+                                        name="nameRoom"
+                                    >
+                                        <Select disabled value={anotherRoom} onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={[
+                                            { label: "Phòng tiêu chuẩn giường đơn", value: "don" },
+                                            { label: "Phòng tiêu chuẩn giường đôi", value: "pdoi" },
+                                            { label: "Phòng tiêu chuẩn 3 người", value: "p3nguoi" },
+                                            { label: "Phòng tiêu chuẩn 4 người", value: "p4nguoi" },
+                                        ]}
+                                        />
+
+                                    </Form.Item>
                                     <span>Đây là tên mà khách sẽ thấy trên trang web Booking.com.</span>
                                 </div>
                                 <div className="col-sm-6">
                                     <Label>
                                         Tên tùy chọn ( không bắt buộc)
                                     </Label>
-                                    <Input
-                                        id='nameCustom'
-                                        name='nameCustom'
-                                        type='text'
-                                    />
+                                    <Form.Item name='nameCustom'>
+                                        <Input
+                                        />
+                                    </Form.Item>
                                     <span>Tạo tên tùy chọn cho riêng Quý vị tham khảo (không bắt buộc).</span>
                                 </div>
                             </div>
@@ -75,27 +112,24 @@ function LayoutNPrice(props) {
                                 <Label>
                                     Chính sách về hút thuốc
                                 </Label>
-                                <Input
-                                    id="selectTypeRoom"
-                                    name="selectTypeRoom"
-                                    type="select"
-                                    className='form-group'
+                                <Form.Item
+                                    name="smokingPolicy"
                                 >
-                                    <option value="1">Không hút thuốc</option>
-                                    <option value="2">Có hút thuốc</option>
-                                    <option value="3">Có thể tùy chọn</option>
-                                </Input>
+                                    <Select options={[
+                                        { label: "Không hút thuốc", value: 0 },
+                                        { label: "Có hút thuốc", value: 1 },
+                                    ]}
+                                    />
+
+                                </Form.Item>
+
                             </div>
                             <div className="col-sm-3">
-                                <Label>
-                                    Số phòng (loại này)
-                                </Label>
-                                <Input
-                                    id='numRoom'
-                                    name='numRoom'
-                                    type='text'
-                                    value={1}
-                                />
+                                <Form.Item label='Số phòng (loại này)' name='numRoom' defaultValue={1}>
+                                    <Input
+
+                                    />
+                                </Form.Item>
                             </div>
                         </fieldset>
                         {anotherRoom !== 'don' &&
@@ -114,6 +148,8 @@ function LayoutNPrice(props) {
                                 {beds.map((bed, index) => (
                                     <div className="row">
                                         <div className='col-sm-7 form-group'>
+
+
                                             <Select style={{ minWidth: '100%' }} value={bed.idBed} options={[
                                                 { label: "Gường đơn / Rộng 90-130 cm", value: "giuong1-1" },
                                                 { label: "Giường đôi / Rộng 131-151 cm ", value: "giuong2-2" },
@@ -127,11 +163,15 @@ function LayoutNPrice(props) {
                                                     return newBeds;
                                                 })}
                                             />
+
+
                                         </div>
                                         <div className="col-sm-5 form-group form-group-block">
                                             <div className="multi-icon">
                                                 <span>X</span>
                                             </div>
+
+
                                             <Select style={{ minWidth: '70%' }} value={bed.quantity} options={[
                                                 { label: "1", value: "1" },
                                                 { label: "2", value: "2" },
@@ -144,6 +184,7 @@ function LayoutNPrice(props) {
                                                     return newBeds;
                                                 })}
                                             />
+
                                             {
                                                 index !== 0 &&
                                                 <div className="remove-icon">
@@ -174,31 +215,35 @@ function LayoutNPrice(props) {
                                     Bao nhiêu khách có thể nghỉ trong phòng này?
                                 </Label>
                                 <Col sm={2}>
-                                    <Input id='numberGuest'
-                                        type='text'
+                                    <Form.Item
                                         name='numberGuest'
-                                        defaultValue={1}
-                                        value={
-                                            // beds.reduce((prev, current) => prev + Number(current.idBed.slice(8)) * Number(current.quantity), 0)
-                                            beds.reduce((prev, current) => prev + current.idBed.split("-")[1] * current.quantity, 0)
-                                        }
-                                        disabled
                                     >
-                                    </Input>
+                                        <Input
+                                        // readOnly
+                                        />
+                                    </Form.Item>
                                 </Col>
                             </fieldset>
                         }
                         <fieldset>
                             <Label className='label-big'>
-                                Kích thước phòng (không bắt buộc)
+                                Kích thước phòng
                             </Label>
                             <Col md={4} className='form-group'>
-                                <Input
-                                    id='nameOwner'
-                                    name='nameOwner'
-                                    type='text'
-                                    placeholder='Mét vuông'
-                                />
+                                <Form.Item
+                                    name='sizeRoom'
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: "Vui lòng nhập kích thước phòng",
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        placeholder='Mét vuông'
+
+                                    />
+                                </Form.Item>
                             </Col>
                         </fieldset>
                         <fieldset>
@@ -217,18 +262,26 @@ function LayoutNPrice(props) {
                                         <Label>
                                             Giá cho 1 người
                                         </Label>
-                                        <Input
-                                            id='addrMain'
-                                            name='addrMain'
-                                            type='text'
-                                            placeholder='VNĐ/Đêm'
-                                        />
+                                        <Form.Item
+                                            name='price'
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: "Vui lòng nhập giá cho phòng",
+                                                }
+                                            ]}
+                                        >
+                                            <Input
+                                                placeholder='VNĐ/Đêm'
+                                            />
+
+                                        </Form.Item>
                                     </Col>
                                 </div>
                             </div>
                         </fieldset>
                         <div className="btn-submit">
-                            <Button type='primary'>
+                            <Button type='primary' htmlType='submit' >
                                 Tiếp tục
                             </Button>
                         </div>
@@ -241,6 +294,7 @@ function LayoutNPrice(props) {
                 </div>
             </div>
         </div>
+
     );
 }
 

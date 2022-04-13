@@ -31,7 +31,6 @@ function PlaceOverView(props) {
         document.querySelector("input[type='date'][value='']")?.showPicker();
     }
 
-    console.log({ isChoosenDate, Phong: placeInfo.Phong });
     const { state } = useLocation();
     return (
         <div className={`place-Over-View ${isActive ? 'room-active' : ''}`}>

@@ -22,6 +22,7 @@ function FilterItem(props) {
 
     const { title, items, type, onFilter } = props;
 
+
     const handleChange = e => {
         if (!onFilter) return;
 
