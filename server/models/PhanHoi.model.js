@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const PhanHoiSchema = new mongoose.Schema({
     MaKhachSan: mongoose.Types.ObjectId,
-    MaKH: mongoose.Types.ObjectId,
-    MaPhong: mongoose.Types.ObjectId,
+    MaKH: { type: mongoose.Types.ObjectId, ref: "NguoiDung" },
+    MaPhong: { type: mongoose.Types.ObjectId, ref: "Phong" },
     NgayTao: Date,
     Diem: Number,
     BinhLuan: String,

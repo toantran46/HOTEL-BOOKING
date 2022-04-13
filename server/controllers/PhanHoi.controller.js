@@ -33,30 +33,6 @@ module.exports = {
                             TongSoPhanHoi: "$TongSoPhanHoi",
                             TongSoDiem: "$TongSoDiem",
                             DiemTB: "$DiemTB",
-                            // rangeLabel: {
-                            //     $cond: [
-                            //         { $gte: ["$DiemTB", 9] },
-                            //         labelRange[0],
-                            //         {
-                            //             $cond: [
-                            //                 { $gte: ["$DiemTB", 8] },
-                            //                 labelRange[1],
-                            //                 {
-                            //                     $cond: [
-                            //                         { $gte: ["$DiemTB", 7] },
-                            //                         labelRange[2],
-                            //                         {
-                            //                             $cond: [
-                            //                                 { $gte: ["$DiemTB", 6] },
-                            //                                 labelRange[3],
-                            //                                 ""
-                            //                             ]
-                            //                         }
-                            //                     ]
-                            //                 }
-                            //             ]
-                            //         }]
-                            // }
                         }
                     }
                     ,
@@ -65,17 +41,40 @@ module.exports = {
 
                 let newResults = [9, 8, 7, 6].map((score, index) => ({ _id: score, DiemDanhGia: labelRange[index], TongSo: results.filter(choNghi => choNghi.DiemTB >= score).length }));
 
-                return res.json({ message: "success", results: newResults, type: `groupBy-${groupBy}` });
+                return res.json({ message: "success", PhanHois: newResults, type: `groupBy-${groupBy}` });
 
             }
 
             //get all PhanHoi via MaKhachSan
             if (MaKhachSan) {
 
-                const { orderBy, _page = 1, _limit = 5 } = req.query;
+                const { orderBy, _page, _limit } = req.query;
 
-                PhanHois = await PhanHoiModel.find({ MaKhachSan }).skip((_page - 1) * _limit).limit(_limit);
-                return res.json({ message: "success", PhanHois, MaKhachSan, _page, _limit });
+                PhanHois = await PhanHoiModel.find({ MaKhachSan }).populate("MaKH", "_id HoTen Avatar").populate("MaPhong").exec();
+                //total found
+                const TongSo = PhanHois.length;
+                //pagination
+                const start = _page ? (_page - 1) * _limit : 0;
+                const end = start + (_limit ? +_limit : TongSo);
+                //DiemTB 
+                const DiemTB = PhanHois.reduce((a, PhanHoi) => a + PhanHoi.Diem, 0) / TongSo;
+
+                //check if have orderBy 
+                if (orderBy) {
+                    switch (orderBy) {
+                        case "latest": PhanHois = PhanHois.sort((a, b) => b.NgayTao - a.NgayTao); break;
+                        case "oldest": PhanHois = PhanHois.sort((a, b) => a.NgayTao - b.NgayTao); break;
+                        case "highest-score": PhanHois = PhanHois.sort((a, b) => b.Diem - a.Diem); break;
+                        case "lowest-score": PhanHois = PhanHois.sort((a, b) => a.Diem - b.Diem); break;
+                    }
+                }
+
+                PhanHois = PhanHois.slice(start, end);
+                return res.json({
+                    message: "success", PhanHois, MaKhachSan,
+                    _page, _limit, _totalPage: Math.ceil(TongSo / _limit),
+                    TongSo, DiemTB, orderBy
+                });
             }
 
 

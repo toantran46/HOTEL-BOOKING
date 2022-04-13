@@ -80,32 +80,6 @@ module.exports = {
                 return res.json({ message: "success", ChoNghis, type: `groupBy-${groupBy}` });
 
             }
-            //Get all ( search + pagination )
-            // ChoNghis = await ChoNghiModel.find(search ? { $or: mongoose.Types.ObjectId.isValid(search) ? [{ ThanhPho: search }, { LoaiChoNghi: search }] : [{ TenChoNghi: { $regex: search } }] } : {})
-            //     .populate("ThanhPho")
-            //     .populate("LoaiChoNghi")
-            //     .populate("TienNghi")
-            //     .populate("Phong")
-            //     .populate("TinDung")
-            //     .populate({
-            //         path: "Phong",
-            //         populate: [
-            //             {
-            //                 path: "LoaiPhong",
-            //                 model: "LoaiPhong"
-            //             },
-            //             {
-            //                 path: "ThongTinGiuong.Giuong",
-            //                 model: "LoaiGiuong"
-            //             },
-            //             {
-            //                 path: "TienNghi",
-            //                 model: "TienNghi"
-            //             },
-            //         ]
-            //     }).exec();
-
-            const regex = new RegExp
 
             ChoNghis = await ChoNghiModel.aggregate([
                 { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
@@ -113,6 +87,8 @@ module.exports = {
                 { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
                 { $lookup: { from: 'phongs', localField: "Phong", foreignField: "_id", as: `Phong` } },
                 { $lookup: { from: 'tindungs', localField: "TinDung", foreignField: "_id", as: `TinDung` } },
+                { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
+                { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
                 { $match: search ? { $or: [{ "ThanhPho.TenThanhPho": new RegExp(search, 'i') }, { "LoaiChoNghi.TenLoaiChoNghi": new RegExp(search, 'i') }, { TenChoNghi: new RegExp(search, 'i') }] } : {} }
             ])
 
@@ -128,7 +104,8 @@ module.exports = {
                 ChoNghis,
                 _page: +_page,
                 _limit: +_limit,
-                _totalPage: Math.ceil(_totalPage / _limit),
+                _totalPage: Math.ceil(_totalPage / _limit) || _totalPage,
+                TongSo: _totalPage,
                 search
             })
         } catch (error) {
