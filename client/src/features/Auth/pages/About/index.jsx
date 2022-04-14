@@ -13,6 +13,7 @@ import MainTitle from './MainTitle';
 import Policy from './Policy';
 import Payment from './Payment';
 import ConvenientNService from './ConvenientNService';
+import { useSelector } from 'react-redux';
 About.propTypes = {
 
 };
@@ -27,6 +28,8 @@ function About(props) {
     const handleSubmitLayoutNPrice = (values) => {
         console.log(values);
     }
+
+    const tabNext = useSelector(state => state.aboutInfor);
     return (
         <div className='about'>
             <HeaderAbout />
