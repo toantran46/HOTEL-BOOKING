@@ -8,9 +8,7 @@
     input {
         font-size: 13px;
     }
-}
-
-/*-------OVERWRITE ANTD-----------*/
+    /*-------OVERWRITE ANTD-----------*/
 .ant-input-affix-wrapper {
     background-color: unset;
     border: none;
@@ -26,3 +24,6 @@
     box-shadow: unset;
 }
 /*---------------------------------*/
+}
+
+

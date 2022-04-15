@@ -22,6 +22,7 @@ function FilterItem(props) {
 
     const { title, items, type, onFilter } = props;
 
+
     const handleChange = e => {
         if (!onFilter) return;
 
@@ -35,7 +36,7 @@ function FilterItem(props) {
             {
                 items?.map((item, index) =>
                     <div className='filter-item__item' key={index}>
-                        <Checkbox value={item._id} onChange={handleChange} >
+                        <Checkbox value={item._id} onChange={handleChange}>
                             {item.content}
                         </Checkbox>
                         <span className='num'>{item.num}</span>

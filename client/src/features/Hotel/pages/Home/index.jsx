@@ -72,14 +72,14 @@ function Home(props) {
         const fetchFavouritePlaces = async () => {
             try {
                 setIsLoading(true);
-                const { ChoNghis } = await choNghiApi.getAll({ filter: "DiemDanhGia", value: 9 })
+                const { ChoNghis } = await choNghiApi.getAll({ filterV2: "DiemDanhGia", value: 9 })
 
                 const data = ChoNghis.map(ChoNghi => ({
                     _id: ChoNghi._id,
                     image: ChoNghi.HinhAnh[0],
                     name: ChoNghi.TenChoNghi,
                     place: `${ChoNghi.DiaChi}, ${ChoNghi.ThanhPho[0].TenThanhPho}`,
-                    score: parseFloat(ChoNghi.DiemDG).toFixed(1),
+                    score: parseFloat(ChoNghi.DiemTB).toFixed(1),
                     feedBackMessage: "Tuyệt hảo",
                     numVoted: `${ChoNghi.PhanHoi.length} đánh giá`
 
@@ -96,63 +96,6 @@ function Home(props) {
         fetchFavouritePlaces();
     }, [])
 
-
-
-
-    const favouriteHotel = {
-        title: "Khách sạn mà khách yêu thích",
-        list: [
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/74529578.jpg?k=a7fcefd47d7271daf44f6ce78a215b9505f9f8e5cac3af093b78b9c489fd8461&o=",
-                name: "Sugar Loft Apartments",
-                place: "Rio de Janeiro",
-                score: 9.5,
-                feedBackMessage: "Tuyệt hảo",
-                numVoted: "296 đánh giá"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/38437078.jpg?k=241519692574af90306f0dbec0121eacfddc9a183df3ea34a7b7c8f2b4f5febb&o=",
-                name: "Sugar Loft Apartments",
-                place: "Rio de Janeiro",
-                score: 9.2,
-                feedBackMessage: "Tuyệt hảo",
-                numVoted: "296 đánh giá"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/74065694.jpg?k=7d852b0255118faf9ca8f22ac30b033f8b7448ad7f47867f13bd213c6cb2e411&o=",
-                name: "Sugar Loft Apartments",
-                place: "Rio de Janeiro",
-                score: 9.1,
-                feedBackMessage: "Tuyệt hảo",
-                numVoted: "296 đánh giá"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/75328633.jpg?k=87304e5542c63c022f2cbc134b02b85b65496a9ed8c6ca129b49c02f817589db&o=",
-                name: "Sugar Loft Apartments",
-                place: "Rio de Janeiro",
-                score: 9.9,
-                feedBackMessage: "Tuyệt hảo",
-                numVoted: "296 đánh giá"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/102743522.jpg?k=ec1674f7d6baa425ce4d27fcde9327376b0e5d36b7972a12a82285f53761aa68&o=",
-                name: "Sugar Loft Apartments",
-                place: "Rio de Janeiro",
-                score: 9.4,
-                feedBackMessage: "Tuyệt hảo",
-                numVoted: "296 đánh giá"
-            },
-            {
-                image: "https://t-cf.bstatic.com/xdata/images/hotel/max500/38437078.jpg?k=241519692574af90306f0dbec0121eacfddc9a183df3ea34a7b7c8f2b4f5febb&o=",
-                name: "Sugar Loft Apartments",
-                place: "Rio de Janeiro",
-                score: 9.7,
-                feedBackMessage: "Tuyệt hảo",
-                numVoted: "296 đánh giá"
-            },
-        ],
-        num: 4
-    }
     return (
         <div className='home'>
             <SearchHotel />

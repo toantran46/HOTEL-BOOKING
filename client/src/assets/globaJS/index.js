@@ -17,8 +17,14 @@ const getMessageByScore = score => {
     if (score > 7) return "Tốt";
     if (score > 6) return "Dễ chịu";
 }
+//get distance from date 1 to date 2 
+const getDistanceByDate = (receiveDate, returnDate) => {
+    const distance = new Date(returnDate) - new Date(receiveDate);
+
+    return new Date(distance).getDate();
+}
 
 
 
 
-export { ScrollToView, convertToMoney, getMessageByScore }
+export { ScrollToView, convertToMoney, getMessageByScore, getDistanceByDate }

@@ -5,6 +5,10 @@ import './InforBasic.scss';
 import { Col, Label } from 'reactstrap';
 import { Button, Input, Form, Select, Radio } from 'antd';
 import { useForm } from 'react-hook-form';
+import { thanhPhoApi } from 'api/ThanhPhoApi';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { addInforBasic, setTab } from 'features/Auth/authSlice';
 
 InforBasic.propTypes = {
   onSubmit: PropTypes.func,
@@ -19,19 +23,56 @@ function InforBasic(props) {
 
   const [form] = Form.useForm();
 
+  const inforBasic = useSelector(state => state.aboutInfo);
+  React.useEffect(() => {
+    form.setFieldsValue(inforBasic);
+  }, [inforBasic]);
+
+  console.log(inforBasic);
+
+  const dispatch = useDispatch();
   const handleSubmit = (values) => {
-    console.log(values);
+
+    // console.log(values);
+    const action = addInforBasic(values);
+    console.log({ action });
+    dispatch(action);
+    dispatch(setTab({
+      type: '',
+      tab: 1,
+    }));
   }
 
   const defaultValues = {
     selectStar: 0,
+    nameHotel: '',
     nameOwner: '',
     phoneOwner: '',
     otherHothelCheck: false,
     addrMain: '',
-    addrStreet: '',
     addrCity: '',
   }
+
+  const [listCity, setListCity] = React.useState([]);
+
+  React.useEffect(() => {
+    // console.log("1");
+    const fetchCity = async () => {
+      try {
+        const { ThanhPhos } = await thanhPhoApi.getAll();
+        setListCity(ThanhPhos);
+        // console.log(ThanhPhos);
+      }
+      catch (error) {
+        console.log(error)
+      }
+
+    }
+    setTimeout(() => {
+      fetchCity();
+    }, 1000);
+  }, [])
+
   return (
     <div className='infor-basic'>
       <div className="row">
@@ -44,6 +85,7 @@ function InforBasic(props) {
                   Tên của chỗ nghỉ là gì?
                 </Label >
                 <Form.Item
+
                   name='nameHotel'
                   rules={[
                     {
@@ -168,7 +210,13 @@ function InforBasic(props) {
                         },
                       ]}
                     >
-                      <Input placeholder='Cần Thơ' />
+                      <Select
+                        options={
+                          listCity.map((city, index) => (
+                            { label: city.TenThanhPho, value: city._id }
+                          ))
+                        }
+                      />
                     </Form.Item>
                   </Col>
                 </div>
