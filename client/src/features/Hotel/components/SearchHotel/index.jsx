@@ -4,24 +4,24 @@ import PropTypes from "prop-types";
 import "./SearchHotel.scss";
 import InputField from "custom-fields/InputField";
 import { Link, useNavigate } from "react-router-dom";
-import { SearchOutlined } from "@ant-design/icons";
+import { ConsoleSqlOutlined, SearchOutlined } from "@ant-design/icons";
 import { ICONS } from "constants";
 import { debounce } from "lodash";
 import { Spin, Form } from "antd";
 import { choNghiApi } from "api/ChoNghiApi";
+import { useDispatch, useSelector } from "react-redux";
+import { chooseDate, choosePlace, saveSearchValue } from "features/Hotel/HotelSlice";
 
 SearchHotel.propTypes = {};
 
 function SearchHotel(props) {
-  const [searchValue, setSearchValue] = React.useState("");
-  const [receiveDate, setReceiveDate] = React.useState();
-  const [returnDate, setReturnDate] = React.useState();
+
+  const { searchValue, placeChoosen } = useSelector(state => state.hotelInfo.homePage);
 
   const [places, setPlaces] = React.useState([]);
   const [isFetching, setIsFetching] = React.useState(false);
 
   const [validate, setValidate] = React.useState(false);
-  const [placeChoosen, setPlaceChoosen] = React.useState(null);
 
   const debounceTimeout = React.useRef(null);
 
@@ -29,40 +29,33 @@ function SearchHotel(props) {
 
   const [form] = Form.useForm();
 
+  const dispatch = useDispatch();
+
   const handleSearch = () => {
-    placeChoosen
-      ? navigate("/search", {
-        state: {
-          roadmap: [placeChoosen.city],
-          searchValue: {
-            name: placeChoosen.name,
-            city: placeChoosen.city,
-          },
-          receiveDate,
-          returnDate,
-        },
-      })
-      : setValidate(true);
+    placeChoosen._id ? navigate("/search") : setValidate(true);
   };
 
 
   //handle onchange search value
   const handleOnChange = value => {
-
-    setSearchValue(value);
+    if (!value) {
+      dispatch(saveSearchValue(value));
+      dispatch(choosePlace({
+        _id: null,
+        placeName: null,
+        _idCity: null,
+        cityName: null,
+      }))
+      return;
+    }
     setValidate(false);
-    setPlaces([]);
-    !value && setPlaceChoosen(null);
-
-    //when value is empty
-    if (!value) return;
-
     //fetch data using method debounce 
     if (debounceTimeout.current) {
       clearTimeout(debounceTimeout.current);
     }
 
     debounceTimeout.current = setTimeout(() => {
+      dispatch(saveSearchValue(value));
       fetchPlaces(value);
     }, 800);
 
@@ -84,7 +77,6 @@ function SearchHotel(props) {
         _idCity: ChoNghi.ThanhPho[0]._id
       }));
 
-      console.log({ data });
       setIsFetching(false);
       setPlaces(data);
 
@@ -126,7 +118,7 @@ function SearchHotel(props) {
                   )}
                 </>
 
-                {searchValue && !placeChoosen ? (
+                {!placeChoosen._id && searchValue ? (
                   <div className="form-search-tips">
                     {/* <p>Điểm đến được ưa thích gần đây</p> */}
                     {isFetching ? (
@@ -138,12 +130,14 @@ function SearchHotel(props) {
                             key={index}
                             className="place"
                             onClick={() => {
-                              form.setFieldsValue({ searchValue: `${place.name}, ${place.city}, ${place.location}    ` });
-                              setPlaceChoosen((prev) => ({
-                                ...prev,
-                                name: place.name,
-                                city: place.city,
-                              }));
+                              form.setFieldsValue({ searchValue: `${place.name}, ${place.city}, ${place.location}` });
+                              dispatch(choosePlace(
+                                {
+                                  _id: place._id,
+                                  placeName: place.name,
+                                  _idCity: place._idCity,
+                                  cityName: place.city
+                                }))
                             }}
                           >
                             <div className="icon">{place.icon}</div>
@@ -168,14 +162,14 @@ function SearchHotel(props) {
                 type="text"
                 placeholder="Nhận phòng"
                 onFocus={(e) => (e.currentTarget.type = "date")}
-                onChange={({ target }) => setReceiveDate(target.value)}
+                onChange={({ target }) => dispatch(chooseDate({ type: "receiveDate", receiveDate: target.value }))}
               />
               <span className="split"></span>
               <input
                 type="text"
                 placeholder="Trả phòng"
                 onFocus={(e) => (e.currentTarget.type = "date")}
-                onChange={({ target }) => setReturnDate(target.value)}
+                onChange={({ target }) => dispatch(chooseDate({ type: "returnDate", returnDate: target.value }))}
               />
             </div>
             <div className="btnSearch">

@@ -16,6 +16,7 @@ import { choNghiApi } from 'api/ChoNghiApi';
 import { phanHoiApi } from 'api/PhanHoiApi';
 import { tienNghiApi } from 'api/TienNghiApi';
 import { loaiChoNghiApi } from 'api/LoaiChoNghiApi';
+import { useSelector } from 'react-redux';
 
 
 MainPage.propTypes = {
@@ -25,6 +26,13 @@ MainPage.propTypes = {
 function MainPage(props) {
 
     const { state } = useLocation();
+
+    //get data from redux
+    const { searchValue, receiveDate, returnDate, placeChoosen } = useSelector(state => state.hotelInfo.homePage);
+
+    //refresh data
+    const [isGetNewData, setIsGetNewData] = React.useState(false);
+
 
     //save data for sidebar
     const [groupByPlaceType, setGroupByPlaceType] = React.useState([]);
@@ -63,6 +71,12 @@ function MainPage(props) {
         checked && setIsFiltering(true);
     }
 
+    //handle search
+    const handleSearch = () => {
+        setIsGetNewData(prev => !prev);
+    }
+
+
     //fetch data 
     React.useEffect(() => {
         const fetchGroupByRank = async () => {
@@ -76,6 +90,7 @@ function MainPage(props) {
                     { _id: 4, content: "4 sao", num: 0 },
                     { _id: 5, content: "5 sao", num: 0 },
                 ]
+                console.log({ data });
                 ChoNghis.forEach(ChoNghi => data.splice(ChoNghi.XepHang - 1, 1, { _id: ChoNghi._id, content: `${ChoNghi.XepHang} sao`, num: ChoNghi.TongSo }));
                 setGroupByRank(data);
 
@@ -132,20 +147,23 @@ function MainPage(props) {
     React.useEffect(() => {
         isSecondTime.current && setIsFiltering(true);
 
-
         const fetchPlaces = async () => {
             try {
 
-                const { ChoNghis, _totalPage, TongSo } = await choNghiApi.getAll(
-                    {
-                        _page: pagination._page, _limit: pagination._limit,
-                        filter: JSON.stringify(filter)
-                    });
+                const query = placeChoosen._idCity ? {
+                    _idCity: placeChoosen._idCity,
+                    _page: pagination._page, _limit: pagination._limit,
+                    filter: JSON.stringify(filter)
+                } : {
+                    _page: pagination._page, _limit: pagination._limit,
+                    filter: JSON.stringify(filter)
+                };
+
+                const { ChoNghis, _totalPage, TongSo } = await choNghiApi.getAll(query);
                 setPlaces(ChoNghis);
                 setPagination(prev => ({ ...prev, _totalPage }));
                 setTotalPlaces(TongSo);
                 setIsFiltering(false);
-                console.log({ ChoNghis });
             } catch (error) {
                 console.log(error)
                 setIsFiltering(false);
@@ -155,7 +173,7 @@ function MainPage(props) {
         setTimeout(() => {
             fetchPlaces();
         }, 2000);
-    }, [filter, pagination._page]);
+    }, [filter, pagination._page, isGetNewData]);
 
     //handle Change page
 
@@ -165,15 +183,17 @@ function MainPage(props) {
     }
 
 
+
     return (
         <div className='wrapper'>
             <BreadcrumbStyled />
             <div className='wrapper__content'>
                 <div className='wrapper__content__left'>
                     <FormSearch
-                        placeName={state?.searchValue?.city || ''}
-                        receiveDate={state?.receiveDate || ''}
-                        returnDate={state?.returnDate || ''} />
+                        onSearch={handleSearch}
+                        placeName={placeChoosen.cityName}
+                        receiveDate={receiveDate}
+                        returnDate={returnDate} />
 
                     <div className='wrapper__content__left__filter'>
                         <p className='title'>Chọn lọc theo</p>
@@ -213,11 +233,11 @@ function MainPage(props) {
 
                 </div>
                 <div className='wrapper__content__right'>
-                    <p className='wrapper__content__right__search-result'>{state?.searchValue?.city}: {totalPlace > 0 && `tìm thấy ${totalPlace} chỗ nghỉ`}</p>
+                    <p className='wrapper__content__right__search-result'>{placeChoosen.cityName}: {totalPlace > 0 ? `tìm thấy ${totalPlace} chỗ nghỉ` : "không tìm thấy chổ nghĩ phù hợp"} </p>
                     <ListPlaceOverView
                         isFiltering={isFiltering}
                         places={places}
-                        isChoosenDate={state?.receiveDate && state?.returnDate} />
+                        isChoosenDate={(returnDate && receiveDate) ? true : false} />
                     <Pagination t
                         totalPage={pagination._totalPage}
                         currentPage={pagination._page}

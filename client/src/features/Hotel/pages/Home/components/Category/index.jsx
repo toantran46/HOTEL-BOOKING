@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Carousel from 'features/Hotel/components/Carousel';
 import "./Category.scss";
+import { useDispatch } from 'react-redux';
+import { choosePlace } from 'features/Hotel/HotelSlice';
 Category.propTypes = {
     title: PropTypes.string,
     destination: PropTypes.string,
@@ -22,13 +24,23 @@ Category.defaultProps = {
 function Category(props) {
 
     const { title, description, list, num, destination } = props;
+    const dispatch = useDispatch();
+
+
+    const handleSearch = category => {
+        dispatch(choosePlace({
+            cityName: category.name, _idCity: category._id
+        }))
+    }
+
+
     return (
         <div className='category'>
             <div className='title'>{title}</div>
             <span className='description'>{description}</span>
             <Carousel childrens={
                 list.map((ob) =>
-                    <Link to={destination === "/search" ? destination : `${destination}${ob._id}`} state={{ searchValue: { name: ob.name, city: ob.name }, roadmap: [ob.name] }}>
+                    <Link to={destination === "/search" ? destination : `${destination}${ob._id}`} onClick={() => destination === "/search" && handleSearch(ob)}>
                         <div className='category__info'>
                             <img src={ob.image} alt={ob.name} />
                             <div className='text'>

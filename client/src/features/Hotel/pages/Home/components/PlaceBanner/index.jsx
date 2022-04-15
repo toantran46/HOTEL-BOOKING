@@ -4,6 +4,8 @@ import "./PlaceBanner.scss";
 import { PLACE, ICONS } from 'constants';
 import { Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { choosePlace } from 'features/Hotel/HotelSlice';
 PlaceBanner.propTypes = {
     list: PropTypes.array
 };
@@ -14,7 +16,13 @@ PlaceBanner.defaultProps = {
 
 function PlaceBanner(props) {
     const { list } = props;
-    console.log({ list });
+    const dispatch = useDispatch();
+
+    const handleSearch = city => {
+        dispatch(choosePlace({
+            cityName: city.name, _idCity: city._id
+        }))
+    }
 
     return (
         <div className='place-banner'>
@@ -23,12 +31,7 @@ function PlaceBanner(props) {
                     [...list].splice(3, 2).map(city =>
                         <Col key={city._id}>
                             <Link
-                                state={
-                                    {
-                                        roadmap: [city.name],
-                                        searchValue: { name: city.name, city: city.name, _id: city._id }
-                                    }
-                                }
+                                onClick={() => handleSearch(city)}
                                 to="/search" className='place-banner__city'>
                                 <img className='city-image' src={city.image} alt='city' />
                                 <div className='place-banner__city__info'>
@@ -47,12 +50,7 @@ function PlaceBanner(props) {
                     [...list].splice(0, 3).map(city =>
                         <Col key={city._id}>
                             <Link
-                                state={
-                                    {
-                                        roadmap: [city.name],
-                                        searchValue: { name: city.name, city: city.name, _id: city._id }
-                                    }
-                                }
+                                onClick={() => handleSearch(city)}
                                 to="/search" className='place-banner__city'>
                                 <img className='city-image' src={city.image} alt='city' />
                                 <div className='place-banner__city__info'>

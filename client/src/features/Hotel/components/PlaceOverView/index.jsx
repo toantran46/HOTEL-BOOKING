@@ -13,30 +13,31 @@ PlaceOverView.propTypes = {
     placeInfo: PropTypes.object,
     isChoosenDate: PropTypes.bool,
     isActive: PropTypes.bool,
+    numDate: PropTypes.number,
 };
 
 PlaceOverView.defaultProps = {
     placeInfo: {},
     isChoosenDate: false,
     isActive: false,
+    numDate: 1
 };
 
 
 function PlaceOverView(props) {
 
-    const { placeInfo, isChoosenDate, isActive } = props;
+    const { placeInfo, isChoosenDate, isActive, numDate } = props;
 
     const handlePickDate = () => {
         message.info("Vui lòng chọn ngày để xem giá");
         document.querySelector("input[type='date'][value='']")?.showPicker();
     }
 
-    const { state } = useLocation();
     return (
         <div className={`place-Over-View ${isActive ? 'room-active' : ''}`}>
             <img className='place-Over-View__banner' src={placeInfo?.HinhAnh[0]} alt="img" />
             <div className='place-Over-View__info'>
-                <Link to={`/${placeInfo?._id}`} state={state && { ...state, roadmap: [...state?.roadmap, placeInfo?.TenChoNghi] }} className='place-Over-View__info__name'>{placeInfo?.TenChoNghi} <ShowStar num={placeInfo?.XepHang} /> </Link>
+                <Link to={`/${placeInfo?._id}`} className='place-Over-View__info__name'>{placeInfo?.TenChoNghi} <ShowStar num={placeInfo?.XepHang} /> </Link>
                 <div className='place-Over-View__info__place'>{`${placeInfo?.DiaChi}, ${placeInfo?.ThanhPho[0]?.TenThanhPho}`}</div>
                 {
                     placeInfo?.TienNghi?.slice(0, 2).map((tn, index) =>
@@ -74,9 +75,9 @@ function PlaceOverView(props) {
                 {isChoosenDate ?
                     <div className='place-Over-View__feedback__choosen-date'>
                         {/* <div className='place-Over-View__feedback__choosen-date__old-price'>{roomInfo.oldPrice && `VND ${roomInfo.oldPrice}`}</div> */}
-                        <div className='place-Over-View__feedback__choosen-date__current-price'>VND {convertToMoney(placeInfo.Phong[0].Gia)}</div>
+                        <div className='place-Over-View__feedback__choosen-date__current-price'>VND {convertToMoney(numDate * placeInfo.Phong[0].Gia)}</div>
                         <span>Đã bao gồm thuế và phí</span>
-                        <Link state={state && { ...state, roadmap: [...state?.roadmap, placeInfo?.TenChoNghi] }} className='btn-primary' to={`/${placeInfo?._id}`}>Xem chổ trống {'›'} </Link>
+                        <Link className='btn-primary' to={`/${placeInfo?._id}`}>Xem chổ trống {'›'} </Link>
                     </div>
                     :
                     <Button color='primary' onClick={() => handlePickDate()}>Hiển thị giá</Button>
