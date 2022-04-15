@@ -23,25 +23,39 @@ function ViewAllFeedBack(props) {
   const [viewAllFB, setViewAllFB] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const [pagination, setPagination] = React.useState({ _page: 1, _limit: 4, _totalPage: 3 });
+  const [pagination, setPagination] = React.useState({
+    _page: 1,
+    _limit: 4,
+    _totalPage: 3,
+  });
 
   const [orderBy, setOrderBy] = React.useState("latest");
 
   const [showFeedBackForm, setShowFeedBackForm] = useState(false);
 
-  //fetch all feed back 
+  //fetch all feed back
   React.useEffect(() => {
     const fetchFeedBacks = async () => {
       try {
-        const { PhanHois, _totalPage, TongSo, DiemTB } = await phanHoiApi.getAll({ MaKhachSan: placeId, _page: pagination._page, _limit: pagination._limit, orderBy });
+        const { PhanHois, _totalPage, TongSo, DiemTB } =
+          await phanHoiApi.getAll({
+            MaKhachSan: placeId,
+            _page: pagination._page,
+            _limit: pagination._limit,
+            orderBy,
+          });
         setIsLoading(false);
-        setViewAllFB({ comments: PhanHois, totalFeedBack: TongSo, mediumScore: DiemTB });
-        setPagination(prev => ({ ...prev, _totalPage }))
+        setViewAllFB({
+          comments: PhanHois,
+          totalFeedBack: TongSo,
+          mediumScore: DiemTB,
+        });
+        setPagination((prev) => ({ ...prev, _totalPage }));
       } catch (error) {
         setIsLoading(false);
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
 
     setIsLoading(true);
     setTimeout(() => {
@@ -50,9 +64,21 @@ function ViewAllFeedBack(props) {
   }, [orderBy, pagination._page]);
 
   React.useEffect(() => {
-    console.log({ viewAllFB })
-  }, [viewAllFB])
+    console.log({ viewAllFB });
+  }, [viewAllFB]);
 
+  const handleSubmitForm = async (values) => {
+    try {
+      phanHoiApi.add({
+        MaKhachSan: placeId,
+        MaKH: "6233fef7e7df261a952b6b59", // Nhớ sửa khi có UserSlice
+        ...values,
+      });
+      console.log("thanh công");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div className="viewall-feedback">
@@ -68,7 +94,8 @@ function ViewAllFeedBack(props) {
           </div>
           <a
             className="btn-primary-outline"
-            onClick={() => setShowFeedBackForm(!showFeedBackForm)}>
+            onClick={() => setShowFeedBackForm(!showFeedBackForm)}
+          >
             Viết đánh giá
           </a>
         </div>
@@ -80,30 +107,50 @@ function ViewAllFeedBack(props) {
               <Select
                 defaultValue="latest"
                 style={{ minWidth: "150px" }}
-                onChange={(value) => { setOrderBy(value); setPagination(prev => ({ ...prev, _page: 1 })) }}>
+                onChange={(value) => {
+                  setOrderBy(value);
+                  setPagination((prev) => ({ ...prev, _page: 1 }));
+                }}
+              >
                 <Select.Option value="latest">Mới nhất</Select.Option>
                 <Select.Option value="oldest">Cũ nhất</Select.Option>
-                <Select.Option value="highest-score"> Điểm cao nhất</Select.Option>
-                <Select.Option value="lowest-score">Điểm thấp nhất </Select.Option>
+                <Select.Option value="highest-score">
+                  {" "}
+                  Điểm cao nhất
+                </Select.Option>
+                <Select.Option value="lowest-score">
+                  Điểm thấp nhất{" "}
+                </Select.Option>
               </Select>
             </div>
           </div>
 
           {/* Show Feedback Form */}
           {showFeedBackForm && (
-            <EvaluationForm setShowFeedBackForm={setShowFeedBackForm} />
+            <EvaluationForm
+              setShowFeedBackForm={setShowFeedBackForm}
+              onSubmit={handleSubmitForm}
+            />
           )}
 
           <div className="viewall-feedback__wrapper__main__list-feedback">
-            {
-              viewAllFB?.comments.map(fb => <FeedBackItem key={fb._id} fbInfo={fb} />)
-            }
-            <PaginationStyled onChange={(value) => setPagination(prev => ({ ...prev, _page: value }))} pageSize={1} currentPage={pagination._page} totalPage={pagination._totalPage} />
+            {viewAllFB?.comments.map((fb) => (
+              <FeedBackItem key={fb._id} fbInfo={fb} />
+            ))}
+            <PaginationStyled
+              onChange={(value) =>
+                setPagination((prev) => ({ ...prev, _page: value }))
+              }
+              pageSize={1}
+              currentPage={pagination._page}
+              totalPage={pagination._totalPage}
+            />
           </div>
         </div>
         <div
           onClick={() => setIsVisibleAllFeedBack(false)}
-          className="viewall-feedback__wrapper__icon-close" >
+          className="viewall-feedback__wrapper__icon-close"
+        >
           <i class="bi bi-x" />
         </div>
       </div>

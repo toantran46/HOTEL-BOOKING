@@ -5,15 +5,11 @@ import { CloseOutlined } from "@ant-design/icons";
 
 const { TextArea } = Input;
 
-function EvaluationForm({ setShowFeedBackForm }) {
+function EvaluationForm({ setShowFeedBackForm, onSubmit }) {
   const [number, setNumber] = useState(10);
 
   const onFinish = (values) => {
-    console.log("Success:", {
-      MaKhachSan: "",
-      MaKH: "",
-      MaPhong: "",
-      NgayTao: Date.now(),
+    onSubmit({
       Diem: number,
       BinhLuan: values.binhluan,
       TraLoi: "",
