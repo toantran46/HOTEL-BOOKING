@@ -4,11 +4,16 @@ import "./Payment.scss";
 import { Button, Checkbox, Col, Radio, Row, Select } from 'antd';
 import SelectField from 'custom-fields/SelectField';
 import InputField from 'custom-fields/InputField';
+import { useDispatch } from 'react-redux';
+import { Form } from 'reactstrap';
 Payment.propTypes = {
 
 };
 
 function Payment(props) {
+
+    const dispatch = useDispatch();
+
 
     const [isCredit, setIsCredit] = React.useState(false);
 

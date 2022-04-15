@@ -6,23 +6,29 @@ import { Col, Label } from 'reactstrap';
 import { Select, Button, Form, Input } from 'antd';
 import { DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import SelectField from 'custom-fields/SelectField';
+import { useDispatch, useSelector } from 'react-redux';
+import { addBed, addLayoutNPrice, setTab } from 'features/Auth/authSlice';
 
 LayoutNPrice.propTypes = {
 
 };
 
 function LayoutNPrice(props) {
-    const [anotherRoom, setAnotherRoom] = React.useState('don');
+    const layoutNPrice = useSelector(state => state.aboutInfo);
+    const dispatch = useDispatch();
 
-    const [beds, setBeds] = React.useState([{
-        idBed: 'giuong1-1',
-        quantity: 1,
-    }]);
+    const [anotherRoom, setAnotherRoom] = React.useState(
+        () => layoutNPrice.nameRoom
+    );
 
-    //view result 
-
+    const [beds, setBeds] = React.useState(() =>
+        layoutNPrice.Room || [{
+            idBed: 'giuong1-1',
+            quantity: 1,
+        }]
+    );
     React.useEffect(() => {
-        console.log(beds);
+        // console.log(beds);
     }, [beds])
 
     React.useEffect(() => {
@@ -42,15 +48,29 @@ function LayoutNPrice(props) {
         nameCustom: '',
         smokingPolicy: 0,
         numRoom: 1,
-        // detailBed: 'giuong1-1',
         quantityRoom: 1,
         numberGuest: null,
         sizeRoom: '',
         price: '',
     }
     const handleSubmit = (values) => {
-        console.log(values);
+        // console.log(values);
+        const action = addLayoutNPrice(values);
+        dispatch(action);
+        dispatch(addBed(beds));
+
+        dispatch(setTab({
+            key: 'next',
+            tab: 2,
+        }));
     }
+
+    console.log(layoutNPrice);
+
+    React.useEffect(() => {
+        form.setFieldsValue(layoutNPrice);
+    }, [layoutNPrice]);
+
     return (
         <div className='layout-and-price'>
             <div className="row">
@@ -124,8 +144,12 @@ function LayoutNPrice(props) {
                                 </Form.Item>
 
                             </div>
-                            <div className="col-sm-3">
-                                <Form.Item label='Số phòng (loại này)' name='numRoom' defaultValue={1}>
+
+                            <Label>
+                                Số phòng (loại này)
+                            </Label>
+                            <div className="col-sm-2">
+                                <Form.Item name='numRoom'>
                                     <Input
 
                                     />
@@ -186,7 +210,7 @@ function LayoutNPrice(props) {
                                             />
 
                                             {
-                                                index !== 0 &&
+
                                                 <div className="remove-icon">
                                                     <Button onClick={() => setBeds(bed =>
                                                         bed.filter((bed, idx) => idx !== index)
@@ -219,7 +243,7 @@ function LayoutNPrice(props) {
                                         name='numberGuest'
                                     >
                                         <Input
-                                        // readOnly
+                                            readOnly
                                         />
                                     </Form.Item>
                                 </Col>

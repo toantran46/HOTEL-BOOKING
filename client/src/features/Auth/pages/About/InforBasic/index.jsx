@@ -36,9 +36,10 @@ function InforBasic(props) {
     // console.log(values);
     const action = addInforBasic(values);
     console.log({ action });
+
     dispatch(action);
     dispatch(setTab({
-      type: '',
+      key: 'next',
       tab: 1,
     }));
   }

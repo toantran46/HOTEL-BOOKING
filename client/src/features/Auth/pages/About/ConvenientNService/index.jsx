@@ -6,6 +6,8 @@ import { Col, Label } from 'reactstrap';
 import { Button, Form, Input, Radio, Checkbox, Row } from 'antd';
 
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { addConvenient, setTab } from 'features/Auth/authSlice';
 
 ConvenientNService.propTypes = {
 
@@ -15,16 +17,27 @@ function ConvenientNService(props) {
 
     const [form] = Form.useForm();
 
+    const convenient = useSelector(state => state.aboutInfo);
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        form.setFieldsValue(convenient);
+    }, [convenient]);
 
     const handleSubmit = (values) => {
-        console.log(values);
-    }
+        // console.log(values);
+        dispatch(addConvenient(values));
+        dispatch(setTab({
+            key: 'next',
+            tab: 3,
+        }));
+    };
 
     const defaultValues = {
         isParking: true,
-        isBreakfast: false,
+        isBreakfast: true,
         convenientGroup: '',
-    }
+    };
 
     return (
         <div className='convenient-and-service'>

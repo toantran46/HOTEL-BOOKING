@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import './NavStep.scss';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTab } from 'features/Auth/authSlice';
 NavStep.propTypes = {
     currentTab: PropTypes.number,
     setCurrentTab: PropTypes.func,
@@ -16,19 +18,23 @@ NavStep.defaultProps = {
 
 function NavStep(props) {
 
-    const { currentTab, setCurrentTab } = props;
+    const { tab } = useSelector(state => state.aboutInfo);
+
     const [isLoading, setIsLoading] = React.useState(false);
     const [nextTab, setNextTab] = React.useState(null);
 
+    const dispatch = useDispatch();
 
     const handleChangeTab = (tabNumber) => {
         setNextTab(tabNumber);
         setIsLoading(true);
         setTimeout(() => {
-            setCurrentTab(tabNumber);
+            dispatch(setTab({
+                key: 'random',
+                tab: tabNumber,
+            }))
             setIsLoading(false);
         }, 500)
-
     }
 
     return (

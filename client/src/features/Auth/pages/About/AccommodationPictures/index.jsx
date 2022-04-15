@@ -4,6 +4,8 @@ import "./AccommodationPictures.scss"
 import { Upload, Button, message } from 'antd';
 import { CloudUploadOutlined, FileImageOutlined } from '@ant-design/icons';
 import { viewImageByFileOnBrowser } from 'assets/globaJS';
+import { useDispatch, useSelector } from 'react-redux';
+import { addImg, setTab } from 'features/Auth/authSlice';
 
 AccommodationPictures.propTypes = {
 
@@ -21,7 +23,12 @@ const getbase64 = (file) => {
 
 function AccommodationPictures(props) {
 
-    const [images, setImages] = React.useState([]);
+    const { imageHotel } = useSelector(state => state.aboutInfo);
+    const [images, setImages] = React.useState(
+        () => imageHotel
+    );
+
+    console.log(imageHotel);
 
     const handleBeforeUpload = (file) => {
         const typesImage = ['image/jpeg', 'image/png'];
@@ -41,9 +48,20 @@ function AccommodationPictures(props) {
         }
     }
 
+    const dispatch = useDispatch();
+
+    const handleSubmit = () => {
+        dispatch(setTab({
+            key: 'next',
+            tab: 4,
+        }));
+    }
+
     React.useEffect(() => {
         console.log(images);
+        dispatch(addImg(images))
     }, [images])
+
 
     return (
         <div className='accommodation-pictures'>
@@ -64,7 +82,7 @@ function AccommodationPictures(props) {
                 </Upload.Dragger>
                 <ul className='accommodation-pictures__pictures'>
                     {
-                        images.map((image) => <li key={image.file.uid} className='accommodation-pictures__pictures__picture'>
+                        images?.map((image) => <li key={image.file.uid} className='accommodation-pictures__pictures__picture'>
                             <img src={image.base64} alt='fileupload' width={200} height={200} />
                             <div className='accommodation-pictures__pictures__picture__controls'>
                                 {/* <div onClick={() => alert(image.file.uid)} className='accommodation-pictures__pictures__picture__controls__edit'>
@@ -98,7 +116,7 @@ function AccommodationPictures(props) {
 
                 </div>
             </div>
-            <Button className='w-75 mt-3' type='primary'>Tiếp tục</Button>
+            <Button className='w-75 mt-3' type='primary' htmlType='submit' onClick={handleSubmit} >Tiếp tục</Button>
         </div>
     );
 }

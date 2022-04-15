@@ -6,17 +6,48 @@ import SelectField from 'custom-fields/SelectField';
 
 import { Switch } from 'antd';
 import ChooseTimeGetRoom from './components/ChooseTimeGetRoom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPolicy, setTab } from 'features/Auth/authSlice';
 Policy.propTypes = {
 
 };
 
 function Policy(props) {
 
-    const [cancleDate, setCancelDate] = React.useState('18:00');
-    const [charge, setCharge] = React.useState('của tổng đợt lưu trú');
+    const dispatch = useDispatch();
+    const { policy } = useSelector(state => state.aboutInfo);
+    const [cancleDate, setCancelDate] = React.useState(
+        () => policy.cancleDate || "18:00"
+    );
+    const [charge, setCharge] = React.useState(
+        () => policy.charge || "của tổng đợt lưu trú"
+    );
 
-    const [receiveDate, setReceiveDate] = React.useState({ from: '12:00', to: '12:00' });
-    const [returnDate, setReturnDate] = React.useState({ from: '00:00', to: '10:00' });
+    const [receiveDate, setReceiveDate] = React.useState(
+        () => policy.receiveDate || { from: '12:00', to: '12:00' }
+    );
+    const [returnDate, setReturnDate] = React.useState(
+        () => policy.returnDate || { from: '00:00', to: '10:00' }
+    );
+
+    const [insurance, setInsurance] = React.useState(
+        () => policy.insurance || false
+    );
+
+    React.useEffect(() => {
+        dispatch(addPolicy({ cancleDate, charge, insurance, receiveDate, returnDate }));
+
+    }, [cancleDate, charge, insurance, receiveDate, returnDate]);
+
+    const handleChangeSwitch = (checked) => {
+        setInsurance(checked);
+    };
+    const handleSubmit = () => {
+        dispatch(setTab({
+            key: 'next',
+            tab: 5,
+        }));
+    };
 
     return (
         <div className='policy'>
@@ -27,7 +58,7 @@ function Policy(props) {
                         labelInValue
                         onChange={({ value }) => setCancelDate(value)}
                         style={{ width: "100%" }}
-                        defaultValue="18:00"
+                        defaultValue={cancleDate}
                         label='Khách có thể hủy đặt phòng trước bao nhiêu ngày để được miễn phí?' name='receiveDate' options={
                             [
                                 { value: "18:00", label: "Cùng ngày nhận phòng (18:00)" },
@@ -42,7 +73,7 @@ function Policy(props) {
                     <Select
                         labelInValue
                         style={{ width: "100%" }}
-                        defaultValue="Của tổng đợt lưu trú"
+                        defaultValue={charge}
                         label='nếu không khách sẽ phải trả 100%'
                         name='note'
                         onChange={({ value }) => setCharge(value)}
@@ -68,8 +99,12 @@ function Policy(props) {
                 <div className='policy__insurance__top'>
                     <h5>Bảo hiểm đối với những đặt phòng do nhầm lẫn</h5>
                     <div>
-                        <Switch />
-                        <span style={{ marginLeft: 10 }}>Không</span>
+                        <Switch onChange={handleChangeSwitch}
+                            checked={insurance}
+                        />
+                        <span style={{ marginLeft: 10 }}>
+                            {insurance ? "Có" : "Không"}
+                        </span>
                     </div>
                 </div>
                 <div className='policy__insurance__info'>
@@ -81,7 +116,7 @@ function Policy(props) {
                 returnDate={returnDate}
                 setReturnDate={setReturnDate}
                 setReceiveDate={setReceiveDate} />
-            <Button className='w-75 mt-3' type='primary'>Tiếp tục</Button>
+            <Button className='w-75 mt-3' type='primary' onClick={handleSubmit}>Tiếp tục</Button>
         </div>
     );
 }
