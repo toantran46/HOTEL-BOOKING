@@ -20,7 +20,7 @@ import ViewAllFeedBack from "features/Hotel/components/ViewAllFeedBack";
 import ViewOnGoogleMap from "features/Hotel/components/ViewOnGoogleMap";
 import GeneralRule from "./components/GeneralRule";
 import Note from "./components/Note";
-import { message } from "antd";
+import { message, Skeleton } from "antd";
 import { choNghiApi } from "api/ChoNghiApi";
 import { phanHoiApi } from "api/PhanHoiApi";
 import { phongApi } from "api/PhongApi";
@@ -125,6 +125,11 @@ function HotelDetailPage(props) {
     }, 2000);
   }, [placeId]);
   console.log(dateFilter);
+
+  const ImageSkeleton = ({ width, height, style }) => {
+    return <Skeleton.Image style={{ width, height, ...style }} />;
+  };
+
   return (
     <div className="wrapper">
       <BreadcrumbStyled />
@@ -173,47 +178,143 @@ function HotelDetailPage(props) {
               </a>
             </Col>
           </Row>
-          <div className="wrapper__content__right__top-main">
-            <div>
-              <span className="wrapper__content__right__top-main__type">
-                {place?.LoaiChoNghi?.TenLoaiChoNghi}
-              </span>
-              <span className="wrapper__content__right__top-main__name">
-                {place?.TenChoNghi}
-              </span>
-              <ShowStar num={5} />
+          {!isLoading && (
+            <>
+              {" "}
+              <div className="wrapper__content__right__top-main">
+                <div>
+                  <span className="wrapper__content__right__top-main__type">
+                    {place?.LoaiChoNghi?.TenLoaiChoNghi}
+                  </span>
+                  <span className="wrapper__content__right__top-main__name">
+                    {place?.TenChoNghi}
+                  </span>
+                  <ShowStar num={5} />
+                </div>
+                <button onClick={() => handleBook()} className="btn-primary">
+                  Đặt ngay
+                </button>
+              </div>
+              <div className="wrapper__content__right__location">
+                <span className="location-image" />{" "}
+                {`${place?.DiaChi}, ${place?.ThanhPho.TenThanhPho}`}
+              </div>{" "}
+              {!isLoading && <GroupImage images={place?.HinhAnh} />}
+              <Convenients convenients={place?.TienNghi} />
+            </>
+          )}
+
+          {isLoading && (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Skeleton paragraph={{ rows: 1 }} />
+              <Skeleton.Button />
             </div>
-            <button onClick={() => handleBook()} className="btn-primary">
-              Đặt ngay
-            </button>
-          </div>
-          <div className="wrapper__content__right__location">
-            <span className="location-image" />{" "}
-            {`${place?.DiaChi}, ${place?.ThanhPho.TenThanhPho}`}
-          </div>
-          <GroupImage images={place?.HinhAnh} />
-          <Convenients convenients={place?.TienNghi} />
+          )}
+
+          {isLoading && (
+            <>
+              <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <ImageSkeleton
+                    width="265px"
+                    height="170px"
+                    style={{ marginBottom: "0.8rem" }}
+                  />
+                  <ImageSkeleton width="265px" height="170px" />
+                </div>
+                <div>
+                  <ImageSkeleton
+                    width="540px"
+                    height="355px"
+                    style={{ marginLeft: "0.8rem" }}
+                  />
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "0.8rem",
+                }}
+              >
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <ImageSkeleton
+                    style={{ marginRight: "0.8rem" }}
+                    width="154px"
+                    height="117px"
+                  />
+                ))}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "0.8rem",
+                }}
+              >
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Skeleton.Button
+                      active
+                      style={{
+                        marginRight: "0.8rem",
+                        width: "80px",
+                        height: "8px",
+                      }}
+                    />
+
+                    <Skeleton.Button
+                      active
+                      style={{
+                        marginRight: "0.8rem",
+                        width: "154px",
+                        height: "8px",
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div className="wrapper__body">
         <div className="wrapper__body__about-hotel">
           <h5>
-            Tận hưởng dịch vụ đỉnh cao, đẳng cấp thế giới tại Pullman Vung Tau
+            Tận hưởng dịch vụ đỉnh cao, đẳng cấp thế giới tại{" "}
+            {isLoading ? (
+              <Skeleton.Input active />
+            ) : (
+              <cite>Pullman Vung Tau</cite>
+            )}
           </h5>
-          Nằm ở thành phố Vũng Tàu, cách Bãi Sau 100 m và Bãi Dứa 1,8 km, Annata
-          Hotel Vung Tau cung cấp chỗ nghỉ với sảnh khách chung và WiFi miễn phí
-          cũng như chỗ đỗ xe riêng miễn phí cho khách lái xe. Chỗ nghỉ này có
-          các phòng gia đình và sân hiên tắm nắng. Chỗ nghỉ cung cấp dịch vụ lễ
-          tân 24 giờ, dịch vụ phòng và phòng giữ hành lý cho khách. Phòng nghỉ
-          tại đây được trang bị máy điều hòa, TV truyền hình cáp màn hình phẳng,
-          tủ lạnh, ấm đun nước, vòi sen, dép đi trong phòng và bàn làm việc. Tất
-          cả các phòng có phòng tắm riêng, đồ vệ sinh cá nhân miễn phí và ga
-          trải giường. Khách nghỉ tại khách sạn có thể thưởng thức bữa sáng kiểu
-          Á. Annata Hotel Vung Tau nằm trong bán kính 2 km từ Bãi Trước và 2,2
-          km từ Mũi Nghinh Phong. Sân bay gần nhất là sân bay quốc tế Tân Sơn
-          Nhất, cách chỗ nghỉ 108 km. Các cặp đôi đặc biệt thích địa điểm này —
-          họ cho điểm 8,2 cho kỳ nghỉ dành cho 2 người.
+          {!isLoading && (
+            <p>
+              Nằm ở thành phố Vũng Tàu, cách Bãi Sau 100 m và Bãi Dứa 1,8 km,
+              Annata Hotel Vung Tau cung cấp chỗ nghỉ với sảnh khách chung và
+              WiFi miễn phí cũng như chỗ đỗ xe riêng miễn phí cho khách lái xe.
+              Chỗ nghỉ này có các phòng gia đình và sân hiên tắm nắng. Chỗ nghỉ
+              cung cấp dịch vụ lễ tân 24 giờ, dịch vụ phòng và phòng giữ hành lý
+              cho khách. Phòng nghỉ tại đây được trang bị máy điều hòa, TV
+              truyền hình cáp màn hình phẳng, tủ lạnh, ấm đun nước, vòi sen, dép
+              đi trong phòng và bàn làm việc. Tất cả các phòng có phòng tắm
+              riêng, đồ vệ sinh cá nhân miễn phí và ga trải giường. Khách nghỉ
+              tại khách sạn có thể thưởng thức bữa sáng kiểu Á. Annata Hotel
+              Vung Tau nằm trong bán kính 2 km từ Bãi Trước và 2,2 km từ Mũi
+              Nghinh Phong. Sân bay gần nhất là sân bay quốc tế Tân Sơn Nhất,
+              cách chỗ nghỉ 108 km. Các cặp đôi đặc biệt thích địa điểm này — họ
+              cho điểm 8,2 cho kỳ nghỉ dành cho 2 người.
+            </p>
+          )}
+          {isLoading && <Skeleton paragraph={{ rows: 5 }} active />}
         </div>
+
         <div
           className="wrapper__body__favourite-convenients"
           id="favourite-convenients"
@@ -221,7 +322,8 @@ function HotelDetailPage(props) {
           <p className="wrapper__body__favourite-convenients__title">
             Các tiện nghi được ưa chuộng nhất
           </p>
-          <FavouriteConvenients convenients={place?.TienNghi} />
+          {!isLoading && <FavouriteConvenients convenients={place?.TienNghi} />}
+          {isLoading && <Skeleton paragraph={{ rows: 0 }} active />}
         </div>
 
         <div className="wrapper__body__empty-room" id="empty-room">
@@ -234,6 +336,7 @@ function HotelDetailPage(props) {
           </div>
           <InfoSearch setDateFilter={setDateFilter} dateFilter={dateFilter} />
           <ListRoom rooms={room} />
+
           <FeedBack
             setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
             feedBack={feedBack}

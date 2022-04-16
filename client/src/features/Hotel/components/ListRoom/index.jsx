@@ -28,7 +28,9 @@ function ListRoom(props) {
           {rooms.length > 0 ? (
             rooms.map((room) => <Room key={room._id} roomInfo={room} />)
           ) : (
-            <div>Không tìm thấy phòng ...</div>
+            <div style={{ textAlign: "center", width: "100%" }}>
+              Không tìm thấy phòng ...
+            </div>
           )}
         </tbody>
       </table>

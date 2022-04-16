@@ -27,11 +27,12 @@ module.exports = {
     const chonghi = req.params.chonghi;
     try {
       const { ngayNhanPhong, ngayTraPhong } = req.query;
-      console.log(ngayNhanPhong, ngayTraPhong);
+
       const ChoNghi = await ChoNghiModel.findById(chonghi);
 
       if (ngayNhanPhong === "undefined" || ngayTraPhong === "undefined") {
         const result = await ChoNghi.populate("Phong");
+        console.log(result);
         return res.json(result.Phong);
       }
 
