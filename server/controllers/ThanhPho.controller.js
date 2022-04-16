@@ -4,7 +4,7 @@ module.exports = {
     getAll: async (req, res) => {
         try {
             let ThanhPhos;
-            const { action } = req.query;
+            const { action, search, _limit } = req.query;
 
             //action = 'getTotalPlace' 
             if (action === 'getTotalPlace') {
@@ -22,6 +22,19 @@ module.exports = {
 
                 ]);
                 return res.json({ message: "success", ThanhPhos, type: `action-${action}` });
+
+            }
+            //search 
+            if (search) {
+
+                ThanhPhos = await ThanhPhoModel.aggregate([
+                    {
+                        $match: search ? { "TenThanhPho": new RegExp(search, "i") } : {},
+                    }, { $limit: +_limit }
+                ]);
+
+                console.log({ search, ThanhPhos });
+                return res.json({ message: "success", ThanhPhos, type: `search-${search}` });
 
             }
 

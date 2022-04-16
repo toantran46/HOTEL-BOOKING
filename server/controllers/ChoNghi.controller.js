@@ -15,15 +15,14 @@ module.exports = {
     try {
       let ChoNghis;
       // Group by city : data for home page 
-      let { groupBy, _limit, _page, search, filter, filterV2, value } = req.query;
+      let { groupBy, _limit, _page, search, filter, filterV2, value, _idCity } = req.query;
 
 
       // filter : LoaiChoNghi , XepHang ,DiemDanhGia, TienNghi
       if (filter) {
         filter = JSON.parse(filter)
-        // const condition = filter.filter(item => Object.keys[item][0].length > 0);
-
         ChoNghis = await ChoNghiModel.aggregate([
+          { $match: _idCity ? { ThanhPho: mongoose.Types.ObjectId(_idCity) } : {} },
           { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
           { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
           { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
@@ -38,6 +37,15 @@ module.exports = {
           .filter(ChoNghi => filter.DiemDanhGia.length > 0 ? ChoNghi.DiemTB >= getMin(filter.DiemDanhGia) : true)
           .filter(ChoNghi => filter.TienNghi.length > 0 ? findTienNghi(filter.TienNghi, ChoNghi.TienNghi) : true)
 
+        //total found
+        const TongSo = ChoNghis.length;
+        //pagination
+        const start = _page ? (_page - 1) * _limit : 0;
+        const end = start + (_limit ? +_limit : TongSo);
+        ChoNghis = ChoNghis.slice(start, end);
+
+        return res.json({ message: "success", ChoNghis, type: `filter-${filter}`, _page: +_page, _limit: +_limit, TongSo, _totalPage: _limit ? Math.ceil(TongSo / _limit) : 1 });
+
 
       }
 
@@ -46,8 +54,8 @@ module.exports = {
           case "DiemDanhGia": {
             ChoNghis = await ChoNghiModel.aggregate([
               { $lookup: { from: 'phanhois', localField: "_id", foreignField: "MaKhachSan", as: `PhanHoi` } },
-              { $addFields: { "DiemDG": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
-              // { $match: { "DiemDG": { $gte: value * 1 } } },
+              { $addFields: { "DiemTB": { $divide: [{ "$sum": "$PhanHoi.Diem" }, { "$size": "$PhanHoi" }] } } },
+              { $match: { "DiemTB": { $gte: value * 1 } } },
               { $lookup: { from: 'thanhphos', localField: "ThanhPho", foreignField: "_id", as: `ThanhPho` } },
               { $lookup: { from: 'tiennghis', localField: "TienNghi", foreignField: "_id", as: `TienNghi` } },
               { $lookup: { from: 'loaichonghis', localField: "LoaiChoNghi", foreignField: "_id", as: `LoaiChoNghi` } },
@@ -85,6 +93,8 @@ module.exports = {
           }
 
         }
+
+        return res.json({ message: "success", ChoNghis, type: `filterV2-${filterV2}` });
       }
       //groupBy = 'Thanh Pho' 'LoaiChoNghi
       if (groupBy) {
@@ -139,7 +149,7 @@ module.exports = {
         },
       ]);
 
-
+      console.log({ search })
       //total found
       const TongSo = ChoNghis.length;
       //pagination
@@ -147,7 +157,7 @@ module.exports = {
       const end = start + (_limit ? +_limit : TongSo);
       ChoNghis = ChoNghis.slice(start, end);
 
-      return res.json({ message: "success", ChoNghis, type: `filter-${filter}`, _page: +_page, _limit: +_limit, TongSo, _totalPage: _limit ? Math.ceil(TongSo / _limit) : 1 });
+      return res.json({ message: "success", ChoNghis, type: `normal-${filter}`, _page: +_page, _limit: +_limit, TongSo, _totalPage: _limit ? Math.ceil(TongSo / _limit) : 1 });
 
     } catch (error) {
       res.status(500).json({ message: "error" + error.message })
@@ -181,6 +191,7 @@ module.exports = {
             },
           ]
         }).exec();
+
       if (!ChoNghi) return res.status(400).json({ message: "Chổ nghỉ không tồn tại !" });
       res.json({ message: "success", ChoNghi })
     } catch (error) {
