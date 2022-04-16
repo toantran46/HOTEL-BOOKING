@@ -77,6 +77,7 @@ function FeedBack(props) {
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {[1, 2, 3].map((i) => (
               <div
+                key={i}
                 style={{
                   width: "370px",
                   height: "210px",

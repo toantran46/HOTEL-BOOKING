@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const ChoNghiModel = require("../models/ChoNghi.model");
 const DatPhongModel = require("../models/DatPhong.model");
+const LoaiGiuongModel = require("../models/LoaiGiuong.model");
 const PhongModel = require("../models/Phong.model");
 
 module.exports = {
@@ -32,7 +33,23 @@ module.exports = {
 
       if (ngayNhanPhong === "undefined" || ngayTraPhong === "undefined") {
         const result = await ChoNghi.populate("Phong");
-        console.log(result);
+
+        result.Phong = await Promise.all(
+          result.Phong.map(async (phong) => {
+            return await PhongModel.findById(phong._id)
+              .populate("LoaiPhong")
+              .populate({
+                path: "ThongTinGiuong",
+                populate: {
+                  path: "Giuong",
+                  model: "LoaiGiuong",
+                },
+              })
+              .populate("TienNghi")
+              .exec();
+          })
+        );
+
         return res.json(result.Phong);
       }
 
@@ -51,6 +68,21 @@ module.exports = {
 
       if (danhSachDatPhongTheoNgay.length === 0) {
         const result = await ChoNghi.populate("Phong");
+        result.Phong = await Promise.all(
+          result.Phong.map(async (phong) => {
+            return await PhongModel.findById(phong._id)
+              .populate("LoaiPhong")
+              .populate({
+                path: "ThongTinGiuong",
+                populate: {
+                  path: "Giuong",
+                  model: "LoaiGiuong",
+                },
+              })
+              .populate("TienNghi")
+              .exec();
+          })
+        );
         return res.json(result.Phong);
       } else {
         const thongtinphongs = danhSachDatPhongTheoNgay.map(
@@ -63,7 +95,17 @@ module.exports = {
 
         const phongIDS = arr.map((item) => item.Phong.valueOf());
 
-        const Phongs = await PhongModel.find();
+        const Phongs = await PhongModel.find()
+          .populate("LoaiPhong")
+          .populate({
+            path: "ThongTinGiuong",
+            populate: {
+              path: "Giuong",
+              model: "LoaiGiuong",
+            },
+          })
+          .populate("TienNghi")
+          .exec();
         const emptyRoom = Phongs.filter((phong) => {
           return !phongIDS.includes(phong._id.valueOf());
         });
