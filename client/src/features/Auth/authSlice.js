@@ -35,6 +35,13 @@ const initialState = {
         insurance: null,
     },
 
+    payment: {
+        cartPayment: null,
+        isCredit: null,
+        nameInstead: null,
+        nameCompany: null,
+    },
+
     tab: 1,
 }
 
@@ -84,6 +91,10 @@ const auth = createSlice({
 
         },
 
+        addPayment: (state, action) => {
+            state.payment = action.payload;
+        },
+
         setTab: (state, action) => {
             if (action.payload.key === 'next') {
                 state.tab = action.payload.tab + 1;
@@ -95,5 +106,5 @@ const auth = createSlice({
 });
 
 const { reducer, actions } = auth;
-export const { addInforBasic, addLayoutNPrice, addBed, addConvenient, addImg, addPolicy, setTab } = actions;
+export const { addInforBasic, addLayoutNPrice, addBed, addConvenient, addImg, addPolicy, addCredit, addPayment, setTab } = actions;
 export default reducer;
