@@ -7,10 +7,14 @@ InfoSearch.propTypes = {};
 
 const formatDate = (moment) => {
   const date = new Date(moment);
+
+  const dayOfWeek = date.getDay() !== 0 ? `T${date.getDay()}` : "Chủ nhật";
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
   if (!date) return "";
-  return `T${date.getDay()} Ngày ${date.getDate()} Tháng ${
-    date.getMonth() + 1
-  } Năm ${date.getFullYear()}`;
+  return `${dayOfWeek} Ngày ${day} Tháng ${month} Năm ${year}`;
 };
 
 function InfoSearch({ setDateFilter, dateFilter }) {
