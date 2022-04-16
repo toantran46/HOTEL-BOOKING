@@ -34,7 +34,7 @@ function Category(props) {
       })
     );
   };
-  const loading = true;
+  const loading = false;
   return (
     <div className="category">
       <div className="title">{title}</div>
