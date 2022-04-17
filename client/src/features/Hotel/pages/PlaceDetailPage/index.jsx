@@ -340,6 +340,7 @@ function HotelDetailPage(props) {
           <FeedBack
             setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
             feedBack={feedBack}
+            isLoading={isLoading}
           />
           <br />
           {/* <ViewDetailComments /> */}

@@ -28,10 +28,10 @@ function ListPlaceOverView(props) {
     returnDate,
     receiveDate,
   } = useSelector((state) => state.hotelInfo.homePage);
-  const loading = false;
+
   return (
     <div className="list-hotel-overview">
-      {!loading &&
+      {places.length > 0 &&
         places?.map((place) => (
           <PlaceOverView
             isActive={place._id === _id}
@@ -41,8 +41,7 @@ function ListPlaceOverView(props) {
             isChoosenDate={isChoosenDate}
           />
         ))}
-      {loading &&
-        places.length === 0 &&
+      {places.length === 0 &&
         [1, 2, 3].map((i) => (
           <div
             style={{

@@ -9,6 +9,7 @@ import { Skeleton } from "antd";
 FeedBack.propTypes = {
   setIsVisibleAllFeedBack: PropTypes.func,
   feedBack: PropTypes.object,
+  isLoading: PropTypes.bool,
 };
 
 FeedBack.defaultProps = {
@@ -17,7 +18,7 @@ FeedBack.defaultProps = {
 };
 
 function FeedBack(props) {
-  const { setIsVisibleAllFeedBack, feedBack } = props;
+  const { setIsVisibleAllFeedBack, feedBack, isLoading } = props;
 
   const [topFeedBack, setTopFeedBack] = React.useState([]);
 
@@ -44,7 +45,7 @@ function FeedBack(props) {
         </a>
       </div>
 
-      {false && (
+      {!isLoading && (
         <div className="feedback__score-wrapper">
           <div className="score">
             {parseFloat(feedBack?.mediumScore).toFixed(1)}
@@ -64,7 +65,7 @@ function FeedBack(props) {
         </div>
       )}
 
-      {true && (
+      {isLoading && (
         <Skeleton.Input active style={{ width: "400px", height: "28px" }} />
       )}
 
@@ -72,8 +73,10 @@ function FeedBack(props) {
         <div className="wrapperSlider__title">
           Đọc xem khách yêu thích điều gì nhất:
         </div>
-        {false && <Carousel isPadding={true} childrens={content} showNum={3} />}
-        {true && (
+        {!isLoading && (
+          <Carousel isPadding={true} childrens={content} showNum={3} />
+        )}
+        {isLoading && (
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {[1, 2, 3].map((i) => (
               <div
