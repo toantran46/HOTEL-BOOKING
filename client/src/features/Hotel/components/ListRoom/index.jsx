@@ -56,7 +56,9 @@ function ListRoom(props) {
           {rooms.length > 0 ? (
             rooms.map((room) => <Room key={room._id} onChooseRoom={handleChooseRoom} roomInfo={room} numDay={(receiveDate && returnDate) ? getDistanceByDate(receiveDate, returnDate) : 1} />)
           ) : (
-            <div>Không tìm thấy phòng ...</div>
+            <div style={{ textAlign: "center", width: "100%" }}>
+              Không tìm thấy phòng ...
+            </div>
           )}
         </tbody>
       </table>

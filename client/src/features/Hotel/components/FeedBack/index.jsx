@@ -1,63 +1,111 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import "./FeedBack.scss";
-import { getMessageByScore, ScrollToView } from 'assets/globaJS';
-import Carousel from '../Carousel';
-import HightLightComments from '../HightLightComments';
-
+import { getMessageByScore, ScrollToView } from "assets/globaJS";
+import Carousel from "../Carousel";
+import HightLightComments from "../HightLightComments";
+import { Skeleton } from "antd";
 
 FeedBack.propTypes = {
-    setIsVisibleAllFeedBack: PropTypes.func,
-    feedBack: PropTypes.object,
+  setIsVisibleAllFeedBack: PropTypes.func,
+  feedBack: PropTypes.object,
 };
 
 FeedBack.defaultProps = {
-    setIsVisibleAllFeedBack: null,
-    feedBack: { comments: [], totalFeedBack: null, mediumScore: null },
+  setIsVisibleAllFeedBack: null,
+  feedBack: { comments: [], totalFeedBack: null, mediumScore: null },
 };
 
 function FeedBack(props) {
+  const { setIsVisibleAllFeedBack, feedBack } = props;
 
-    const { setIsVisibleAllFeedBack, feedBack } = props;
+  const [topFeedBack, setTopFeedBack] = React.useState([]);
 
-    const [topFeedBack, setTopFeedBack] = React.useState([]);
+  const [content, setContent] = React.useState();
 
-    const [content, setContent] = React.useState();
+  React.useEffect(() => {
+    const newTopFeedBack = feedBack?.comments.sort((a, b) => b - a);
+    setTopFeedBack(newTopFeedBack);
+  }, [feedBack.comments]);
 
+  React.useEffect(() => {
+    const newContent = topFeedBack.map((fb) => (
+      <HightLightComments key={fb._id} feedBack={fb} />
+    ));
+    setContent(newContent);
+  }, [topFeedBack]);
 
+  return (
+    <div className="feedback" id="feedback">
+      <div className="feedback__header">
+        <div className="feedback__header__title">Đánh giá của khách</div>
+        <a className="btn-primary" onClick={() => ScrollToView("empty-room")}>
+          Xem phòng trống
+        </a>
+      </div>
 
-    React.useEffect(() => {
-        const newTopFeedBack = feedBack?.comments.sort((a, b) => b - a);
-        setTopFeedBack(newTopFeedBack);
-    }, [feedBack.comments])
-
-
-    React.useEffect(() => {
-        const newContent = topFeedBack.map((fb) => <HightLightComments key={fb._id} feedBack={fb} />);
-        setContent(newContent);
-    }, [topFeedBack])
-
-
-
-    return (
-        <div className='feedback' id='feedback'>
-            <div className='feedback__header'>
-                <div className='feedback__header__title'>Đánh giá của khách</div>
-                <a className="btn-primary" onClick={() => ScrollToView("empty-room")}>Xem phòng trống</a>
-            </div>
-            <div className="feedback__score-wrapper">
-                <div className='score'>{parseFloat(feedBack?.mediumScore).toFixed(1)}</div>
-                <div className='feedback__score-wrapper__message'>{getMessageByScore(feedBack?.mediumScore)}</div>
-                <div className='feedback__score-wrapper__numVoted'>{feedBack.totalFeedBack} đánh giá</div>
-                <div onClick={() => setIsVisibleAllFeedBack(true)} className='feedback__score-wrapper__readAll'>Đọc tất cả đánh giá</div>
-            </div>
-
-            <div className="wrapperSlider">
-                <div className="wrapperSlider__title">Đọc xem khách yêu thích điều gì nhất:</div>
-                <Carousel isPadding={true} childrens={content} showNum={3} />
-            </div>
+      {false && (
+        <div className="feedback__score-wrapper">
+          <div className="score">
+            {parseFloat(feedBack?.mediumScore).toFixed(1)}
+          </div>
+          <div className="feedback__score-wrapper__message">
+            {getMessageByScore(feedBack?.mediumScore)}
+          </div>
+          <div className="feedback__score-wrapper__numVoted">
+            {feedBack.totalFeedBack} đánh giá
+          </div>
+          <div
+            onClick={() => setIsVisibleAllFeedBack(true)}
+            className="feedback__score-wrapper__readAll"
+          >
+            Đọc tất cả đánh giá
+          </div>
         </div>
-    );
+      )}
+
+      {true && (
+        <Skeleton.Input active style={{ width: "400px", height: "28px" }} />
+      )}
+
+      <div className="wrapperSlider">
+        <div className="wrapperSlider__title">
+          Đọc xem khách yêu thích điều gì nhất:
+        </div>
+        {false && <Carousel isPadding={true} childrens={content} showNum={3} />}
+        {true && (
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                style={{
+                  width: "370px",
+                  height: "210px",
+                  padding: "1rem",
+                  border: "1px solid #eee",
+                }}
+              >
+                <div style={{ display: "flex" }}>
+                  <Skeleton.Avatar size="large" />
+                  <div style={{ marginLeft: "0.5rem" }}>
+                    <Skeleton.Button
+                      style={{ height: "1rem", width: "180px" }}
+                    />
+                    <br />
+                    <Skeleton.Button
+                      style={{ height: "1rem", width: "100px" }}
+                    />
+                  </div>
+                </div>
+
+                <Skeleton paragraph={{ rows: 3 }} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default FeedBack;

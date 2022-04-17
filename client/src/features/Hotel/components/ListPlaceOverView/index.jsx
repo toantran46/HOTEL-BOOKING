@@ -28,7 +28,7 @@ function ListPlaceOverView(props) {
     returnDate,
     receiveDate,
   } = useSelector((state) => state.hotelInfo.homePage);
-  const loading = true;
+  const loading = false;
   return (
     <div className="list-hotel-overview">
       {!loading &&
