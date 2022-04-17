@@ -16,7 +16,13 @@ const initialState = {
     mainPage: {
         isLoading: false
     },
-    detailPage: {}
+    detailPage: {
+        placeSelected: null,
+        bookingInfo: [{
+            placeInfo: null,
+            roomSelected: [{ room: null, quantity: null, price: null }],
+        }]
+    }
 }
 
 
@@ -42,7 +48,17 @@ const hotelSlice = createSlice({
         setIsLoading: (state, action) => {
             // action.payload = { key: "mainPage" , isLoading :true }
             state[action.payload.key].isLoading = action.payload.isLoading;
+        },
+
+        //reducers for detail page
+        chooseRoom: (state, action) => {
+            // booking=[ { room , quantity , price } ];
+            state.detailPage.bookingInfo = [...state.detailPage.bookingInfo, { room: action.payload.room, quantity: action.payload.quantity, price: action.payload.price }]
+        },
+        selectedPlace: (state, action) => {
+            state.placeSelected = action.payload;
         }
+
     }
 });
 
@@ -50,6 +66,6 @@ const hotelSlice = createSlice({
 
 const { actions, reducer } = hotelSlice;
 
-export const { choosePlace, saveSearchValue, chooseDate, setIsLoading } = actions;
+export const { choosePlace, saveSearchValue, chooseDate, setIsLoading, chooseRoom, selectedPlace } = actions;
 
 export default reducer;

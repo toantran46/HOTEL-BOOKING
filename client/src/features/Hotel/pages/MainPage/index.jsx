@@ -16,7 +16,11 @@ import { choNghiApi } from 'api/ChoNghiApi';
 import { phanHoiApi } from 'api/PhanHoiApi';
 import { tienNghiApi } from 'api/TienNghiApi';
 import { loaiChoNghiApi } from 'api/LoaiChoNghiApi';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { choosePlace } from "features/Hotel/HotelSlice";
+
+import { thanhPhoApi } from 'api/ThanhPhoApi';
 
 
 MainPage.propTypes = {
@@ -27,8 +31,11 @@ function MainPage(props) {
 
     const { state } = useLocation();
 
+
+
     //get data from redux
     const { searchValue, receiveDate, returnDate, placeChoosen } = useSelector(state => state.hotelInfo.homePage);
+    const dispatch = useDispatch();
 
     //refresh data
     const [isGetNewData, setIsGetNewData] = React.useState(false);
@@ -72,8 +79,49 @@ function MainPage(props) {
     }
 
     //handle search
-    const handleSearch = () => {
-        setIsGetNewData(prev => !prev);
+    const handleSearch = (searchValue) => {
+        console.log({ searchValue })
+        const fetchPlaceBySearchValue = async () => {
+            try {
+                const { ChoNghis } = await choNghiApi.getAll({ search: searchValue, _limit: 1 });
+
+                if (ChoNghis.length > 0) {
+                    dispatch(choosePlace({
+                        _id: ChoNghis[0]._id,
+                        placeName: ChoNghis[0].TenChoNghi,
+                        _idCity: ChoNghis[0].ThanhPho[0]._id,
+                        cityName: ChoNghis[0].ThanhPho[0].TenThanhPho
+                    }));
+
+                } else {
+                    const { ThanhPhos } = await thanhPhoApi.getAll({ search: searchValue, _limit: 1 });
+
+                    if (ThanhPhos.length > 0) {
+                        dispatch(choosePlace({
+                            _id: null,
+                            placeName: null,
+                            _idCity: ThanhPhos[0]?._id,
+                            cityName: ThanhPhos[0]?.TenThanhPho
+                        }));
+                    } else {
+                        dispatch(choosePlace({
+                            _id: null,
+                            placeName: null,
+                            _idCity: null,
+                            cityName: searchValue
+                        }));
+                    }
+
+                }
+
+                setIsGetNewData(prev => !prev);
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchPlaceBySearchValue();
+
     }
 
 
@@ -145,8 +193,15 @@ function MainPage(props) {
 
     //fetch places 
     React.useEffect(() => {
-        isSecondTime.current && setIsFiltering(true);
 
+        //check when search but haven't city 
+        if (placeChoosen.cityName && !placeChoosen._idCity) {
+            setPlaces([]);
+            setTotalPlaces(0);
+            return;
+        }
+
+        isSecondTime.current && setIsFiltering(true);
         const fetchPlaces = async () => {
             try {
 
@@ -233,7 +288,7 @@ function MainPage(props) {
 
                 </div>
                 <div className='wrapper__content__right'>
-                    <p className='wrapper__content__right__search-result'>{placeChoosen.cityName}: {totalPlace > 0 ? `tìm thấy ${totalPlace} chỗ nghỉ` : "không tìm thấy chổ nghĩ phù hợp"} </p>
+                    <p className='wrapper__content__right__search-result'>{placeChoosen.cityName || "Tất cả"}: {totalPlace > 0 ? `tìm thấy ${totalPlace} chỗ nghỉ` : "không tìm thấy chổ nghĩ phù hợp"} </p>
                     <ListPlaceOverView
                         isFiltering={isFiltering}
                         places={places}

@@ -8,21 +8,26 @@ import { Select } from "antd";
 import { convertToMoney } from "assets/globaJS";
 Room.propTypes = {
   roomInfo: PropTypes.object,
+  numDay: PropTypes.number,
+  onChooseRoom: PropTypes.func,
 };
 Room.defaultProps = {
   roomInfo: {},
+  numDay: 1,
+  onChooseRoom: null,
 };
 
 function Room(props) {
-  const { roomInfo } = props;
-  console.log({ roomInfo });
+  const { roomInfo, numDay, onChooseRoom } = props;
+
+
   return (
     <>
       <tr className="room">
         <td>
           <div className="room__name">{roomInfo?.TenPhong}</div>
-          {roomInfo?.ThongTinGiuong?.map((giuong, index) => (
-            <div key={index} className="room__bed">
+          {roomInfo?.ThongTinGiuong?.map((giuong) => (
+            <div key={giuong.Giuong._id} className="room__bed">
               {giuong.SoLuong} {giuong.Giuong.TenLoaiGiuong}
             </div>
           ))}
@@ -30,12 +35,12 @@ function Room(props) {
           <FavouriteConvenients convenients={roomInfo?.TienNghi} sameColor />
         </td>
         <td>
-          {new Array(roomInfo?.SoLuongKhach).fill("").map((a, index) => (
-            <span key={index}>{ICONS.PERSON} </span>
+          {new Array(roomInfo?.SoLuongKhach).fill(Math.random()).map((element, index) => (
+            <span key={element + index}>{ICONS.PERSON} </span>
           ))}
         </td>
         <td>
-          <div className="room__price">VND {convertToMoney(roomInfo?.Gia)}</div>
+          <div className="room__price">VND {convertToMoney(numDay * roomInfo?.Gia)}</div>
           <div className="room__info">Đã bao gồm thuế và phí</div>
         </td>
         <td>
@@ -52,18 +57,20 @@ function Room(props) {
           </div>
         </td>
         <td>
-          <Select defaultValue={0} style={{ minWidth: "200px" }}>
-            <Select.Option value={0}>0</Select.Option>
-            {new Array(roomInfo.SoLuongPhong).fill().map((room, index) => (
+          <Select onChange={(value) => onChooseRoom(JSON.parse(value))} defaultValue={0} style={{ minWidth: "200px" }}>
+
+            <Select.Option key={0} value={0}>0</Select.Option>
+            {new Array(roomInfo.SoLuongPhong).fill().map((item, index) => (
               <Select.Option
-                key={index}
+                key={index + 1}
                 value={JSON.stringify({
-                  option: index + 1,
-                  price: roomInfo.Gia * (index + 1),
+                  room: { _id: roomInfo?._id, name: roomInfo?.TenPhong },
+                  quantity: index + 1,
+                  price: numDay * roomInfo.Gia * (index + 1),
                 })}
               >
                 {index + 1} (VND&nbsp;
-                {convertToMoney(roomInfo.Gia * (index + 1))})
+                {convertToMoney(numDay * roomInfo.Gia * (index + 1))})
               </Select.Option>
             ))}
           </Select>

@@ -24,13 +24,20 @@ import { message } from "antd";
 import { choNghiApi } from "api/ChoNghiApi";
 import { phanHoiApi } from "api/PhanHoiApi";
 import { phongApi } from "api/PhongApi";
+import { useDispatch, useSelector } from "react-redux";
+
+import { choosePlace } from 'features/Hotel/HotelSlice';
+import { thanhPhoApi } from "api/ThanhPhoApi";
 
 HotelDetailPage.propTypes = {};
 
 function HotelDetailPage(props) {
   const { placeId } = useParams();
 
-  const [roomSelected, setRoomSelected] = React.useState();
+  const [roomSelected, setRoomSelected] = React.useState([]);
+
+  //get data from redux
+  const { placeChoosen, receiveDate, returnDate, searchValue } = useSelector(state => state.hotelInfo.homePage);
 
   //save data for place
   const [place, setPlace] = React.useState();
@@ -50,6 +57,8 @@ function HotelDetailPage(props) {
   const { state } = useLocation();
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const handleBook = () => {
     if (!roomSelected) {
       message.info("Vui lòng chọn phòng ! ");
@@ -59,8 +68,56 @@ function HotelDetailPage(props) {
 
     //navigate to booking page
     navigate("/booking");
-
     console.log({ placeId });
+  };
+  //handle search place 
+  const handleSearch = (searchValue) => {
+    //navigate to main page
+    console.log({ searchValue })
+    const fetchPlaceBySearchValue = async () => {
+      try {
+        const { ChoNghis } = await choNghiApi.getAll({ search: searchValue, _limit: 1 });
+        if (ChoNghis.length > 0) {
+          dispatch(choosePlace({
+            _id: ChoNghis[0]._id,
+            placeName: ChoNghis[0].TenChoNghi,
+            _idCity: ChoNghis[0].ThanhPho[0]._id,
+            cityName: ChoNghis[0].ThanhPho[0].TenThanhPho
+          }));
+
+        } else
+        //Not found Place ( maybe user enter a city name)
+        {
+          const { ThanhPhos } = await thanhPhoApi.getAll({ search: searchValue, _limit: 1 });
+
+          if (ThanhPhos.length > 0) {
+            dispatch(choosePlace({
+              _id: null,
+              placeName: null,
+              _idCity: ThanhPhos[0]?._id,
+              cityName: ThanhPhos[0]?.TenThanhPho
+            }));
+          } else {
+            dispatch(choosePlace({
+              _id: null,
+              placeName: null,
+              _idCity: null,
+              cityName: searchValue
+            }));
+          }
+
+        }
+
+        navigate('/search')
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchPlaceBySearchValue();
+
+    // navigate("/search");
   };
 
   //fetch places
@@ -124,7 +181,13 @@ function HotelDetailPage(props) {
       fetchFeedBacks();
     }, 2000);
   }, [placeId]);
-  console.log(dateFilter);
+
+
+  React.useEffect(() => {
+    console.log({ roomSelected })
+  }, [roomSelected])
+
+
   return (
     <div className="wrapper">
       <BreadcrumbStyled />
@@ -135,10 +198,10 @@ function HotelDetailPage(props) {
             Chúng tôi luôn khớp giá
           </div>
           <FormSearch
-            placeName={state?.searchValue?.city || ""}
-            receiveDate={state?.receiveDate || ""}
-            returnDate={state?.returnDate || ""}
-          />
+            onSearch={handleSearch}
+            placeName={placeChoosen.cityName}
+            receiveDate={receiveDate}
+            returnDate={returnDate} />
           <ViewOnGoogleMap />
         </div>
         <div className="wrapper__content__right">
@@ -233,7 +296,15 @@ function HotelDetailPage(props) {
             </div>
           </div>
           <InfoSearch setDateFilter={setDateFilter} dateFilter={dateFilter} />
-          <ListRoom rooms={room} />
+          <ListRoom
+            onChooseRoom={setRoomSelected}
+            // placeInfo={{
+            //   banner: place?.HinhAnh[0], type: place?.LoaiChoNghi.TenLoaiChoNghi,
+            //   name: place?.TenChoNghi, address: place?.DiaChi + ', ' + place?.ThanhPho.TenThanhPho,
+            //   mediumScore: feedBack?.mediumScore,
+            //   totalFeedBack: feedBack?.totalFeedBack
+            // }}
+            rooms={room} />
           <FeedBack
             setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
             feedBack={feedBack}

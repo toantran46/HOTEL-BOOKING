@@ -7,6 +7,7 @@ import Category from "./components/Category";
 import { choNghiApi } from "api/ChoNghiApi";
 import { loaiChoNghiApi } from "api/LoaiChoNghiApi";
 import { thanhPhoApi } from "api/ThanhPhoApi";
+import SkeletonImage from "./components/SkeletonImage";
 Home.propTypes = {};
 
 function Home(props) {
