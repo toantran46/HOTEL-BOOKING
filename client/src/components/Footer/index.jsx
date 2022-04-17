@@ -159,7 +159,9 @@ function Footer(props) {
             </Col>
           </Row>
           <div className="footer__bottom-container__main__btn-manage">
-            <Link to="#">Đăng nhập vào trang Extranet</Link>
+            <Link to="#" style={{ color: "#0071c2" }}>
+              Đăng nhập vào trang Extranet
+            </Link>
           </div>
           <div className="footer__bottom-container__main__policy">
             Bản quyền &copyright 1996-2022 LTBooking.vn . Bảo lưu mọi quyền

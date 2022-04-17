@@ -50,7 +50,7 @@ function EvaluationForm({ setShowFeedBackForm, onSubmit }) {
         <Button
           className="btn-item"
           onClick={() => setShowFeedBackForm(false)}
-          icon={<CloseOutlined />}
+          icon={<CloseOutlined style={{ color: "#e0e0e0" }} />}
         />
       </Form.Item>
       {/* Text Area */}
