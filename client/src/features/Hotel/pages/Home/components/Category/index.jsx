@@ -25,7 +25,11 @@ Category.defaultProps = {
 };
 
 function Category(props) {
+<<<<<<< HEAD
   const { name, title, description, list, num, destination } = props;
+=======
+  const { title, description, list, num, destination, isLoading } = props;
+>>>>>>> abdf29cef5493a39b6a47803e716290ed020a369
   const dispatch = useDispatch();
 
   const handleSearch = (category) => {
@@ -36,12 +40,12 @@ function Category(props) {
       })
     );
   };
-  const loading = false;
+
   return (
     <div className="category">
       <div className="title">{title}</div>
       <span className="description">{description}</span>
-      {!loading && (
+      {!isLoading && (
         <Carousel
           childrens={list.map((ob) => (
             <Link
@@ -76,7 +80,7 @@ function Category(props) {
           showNum={num}
         />
       )}
-      {loading && (
+      {isLoading && (
         <div style={{ display: "flex", overflow: "hidden" }}>
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <SkeletonItem key={i} width={num} height="266px" />

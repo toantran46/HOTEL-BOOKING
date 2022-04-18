@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "./ViewAllFeedBack.scss";
 import FeedBackItem from "../FeedBackItem";
 import PaginationStyled from "../PaginationStyled";
-import { Select } from "antd";
+import { Select, Skeleton } from "antd";
 import EvaluationForm from "../EvaluationForm";
 import { getMessageByScore } from "assets/globaJS";
 import { phanHoiApi } from "api/PhanHoiApi";
@@ -84,14 +84,35 @@ function ViewAllFeedBack(props) {
     <div className="viewall-feedback">
       <div className="viewall-feedback__wrapper slide-animate">
         <div className="viewall-feedback__wrapper__top">
-          <div className="viewall-feedback__wrapper__top__left">
-            <div className="score custom-score">{parseFloat(viewAllFB?.mediumScore).toFixed(1)}</div>
-            <div className="numVoted">
-              <div>{getMessageByScore(viewAllFB?.mediumScore)}</div>
-              <span>{viewAllFB?.comments.length} đánh giá</span>
+          {!isLoading && (
+            <div className="viewall-feedback__wrapper__top__left">
+              <div className="score custom-score">
+                {parseFloat(viewAllFB?.mediumScore).toFixed(1)}
+              </div>
+              <div className="numVoted">
+                <div>{getMessageByScore(viewAllFB?.mediumScore)}</div>
+                <span>{viewAllFB?.comments.length} đánh giá</span>
+              </div>
+              <div className="info">Trải nghiệm từ khách thật 100% </div>
             </div>
-            <div className="info">Trải nghiệm từ khách thật 100% </div>
-          </div>
+          )}
+          {isLoading && (
+            <div style={{ display: "flex" }}>
+              <Skeleton.Button size="large" active />
+              <div style={{ marginLeft: "1rem" }}>
+                <Skeleton.Button
+                  active
+                  style={{ height: "16px", width: "80px" }}
+                />
+                <br />
+                <Skeleton.Input
+                  active
+                  style={{ height: "16px", width: "100px" }}
+                />
+              </div>
+            </div>
+          )}
+
           <a
             className="btn-primary-outline"
             onClick={() => setShowFeedBackForm(!showFeedBackForm)}
@@ -134,9 +155,40 @@ function ViewAllFeedBack(props) {
           )}
 
           <div className="viewall-feedback__wrapper__main__list-feedback">
-            {viewAllFB?.comments.map((fb) => (
-              <FeedBackItem key={fb._id} fbInfo={fb} />
-            ))}
+            {!isLoading &&
+              viewAllFB?.comments.map((fb) => (
+                <FeedBackItem key={fb._id} fbInfo={fb} />
+              ))}
+            {isLoading &&
+              [1, 2, 3].map((i) => (
+                <div key={i} className="feedback-item">
+                  <div style={{ flexBasis: "35%" }}>
+                    {isLoading && (
+                      <div style={{ paddingRight: "1rem" }}>
+                        <div style={{ display: "flex" }}>
+                          <Skeleton.Avatar size="large" />
+                          <div style={{ marginLeft: "0.5rem" }}>
+                            <Skeleton.Button
+                              style={{ width: "160px", height: "16px" }}
+                              active
+                            />
+                            <br />
+                            <Skeleton.Button
+                              active
+                              style={{ width: "100px", height: "16px" }}
+                            />
+                          </div>
+                        </div>
+                        <Skeleton paragraph={{ rows: 3 }} active />
+                      </div>
+                    )}
+                  </div>
+
+                  <div style={{ flexGrow: 1, display: "flex" }}>
+                    <Skeleton paragraph={{ rows: 4 }} />
+                  </div>
+                </div>
+              ))}
             <PaginationStyled
               onChange={(value) =>
                 setPagination((prev) => ({ ...prev, _page: value }))

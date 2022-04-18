@@ -16,7 +16,7 @@ PlaceBanner.defaultProps = {
 };
 
 function PlaceBanner(props) {
-  const { list } = props;
+  const { list, isLoading } = props;
   const dispatch = useDispatch();
 
   const handleSearch = (city) => {
@@ -56,7 +56,7 @@ function PlaceBanner(props) {
             </Col>
           ))}
 
-        {loading &&
+        {isLoading &&
           [1, 2].map((i) => (
             <Col key={i}>
               <SkeletonImage width="550px" height="270px" />
@@ -65,7 +65,7 @@ function PlaceBanner(props) {
       </Row>
       <br />
       <Row>
-        {!loading &&
+        {!isLoading &&
           [...list].splice(0, 3).map((city) => (
             <Col key={city._id}>
               <Link
@@ -88,7 +88,7 @@ function PlaceBanner(props) {
             </Col>
           ))}
 
-        {loading &&
+        {isLoading &&
           [1, 2, 3].map((i) => (
             <Col key={i}>
               <SkeletonImage width="360px" height="270px" />

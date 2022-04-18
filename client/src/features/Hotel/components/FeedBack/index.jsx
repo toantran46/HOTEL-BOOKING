@@ -9,7 +9,11 @@ import { Skeleton } from "antd";
 FeedBack.propTypes = {
   setIsVisibleAllFeedBack: PropTypes.func,
   feedBack: PropTypes.object,
+<<<<<<< HEAD
   isLoadingFeedBack: PropTypes.bool,
+=======
+  isLoading: PropTypes.bool,
+>>>>>>> abdf29cef5493a39b6a47803e716290ed020a369
 };
 
 FeedBack.defaultProps = {
@@ -19,7 +23,11 @@ FeedBack.defaultProps = {
 };
 
 function FeedBack(props) {
+<<<<<<< HEAD
   const { setIsVisibleAllFeedBack, feedBack, isLoadingFeedBack } = props;
+=======
+  const { setIsVisibleAllFeedBack, feedBack, isLoading } = props;
+>>>>>>> abdf29cef5493a39b6a47803e716290ed020a369
 
   const [topFeedBack, setTopFeedBack] = React.useState([]);
 
@@ -46,7 +54,7 @@ function FeedBack(props) {
         </a>
       </div>
 
-      {false && (
+      {!isLoading && (
         <div className="feedback__score-wrapper">
           <div className="score">
             {parseFloat(feedBack?.mediumScore).toFixed(1)}
@@ -66,7 +74,11 @@ function FeedBack(props) {
         </div>
       )}
 
+<<<<<<< HEAD
       {isLoadingFeedBack && (
+=======
+      {isLoading && (
+>>>>>>> abdf29cef5493a39b6a47803e716290ed020a369
         <Skeleton.Input active style={{ width: "400px", height: "28px" }} />
       )}
 
@@ -74,8 +86,15 @@ function FeedBack(props) {
         <div className="wrapperSlider__title">
           Đọc xem khách yêu thích điều gì nhất:
         </div>
+<<<<<<< HEAD
         {!isLoadingFeedBack && <Carousel isPadding={true} childrens={content} showNum={3} />}
         {isLoadingFeedBack && (
+=======
+        {!isLoading && (
+          <Carousel isPadding={true} childrens={content} showNum={3} />
+        )}
+        {isLoading && (
+>>>>>>> abdf29cef5493a39b6a47803e716290ed020a369
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {[1, 2, 3].map((i) => (
               <div
