@@ -100,37 +100,20 @@ function Home(props) {
   return (
     <div className="home">
       <SearchHotel />
-<<<<<<< HEAD
       <PlaceBanner list={[...placeEachCity].splice(0, 5)} />
       <Category
         name="placeType"
         title="Tìm theo loại chổ nghĩ"
         list={placeType} />
       <Category
-        name="city"
-=======
-      <PlaceBanner
         isLoading={isLoading}
-        list={[...placeEachCity].splice(0, 5)}
-      />
-      <Category
-        isLoading={isLoading}
-        title="Tìm theo loại chổ nghĩ"
-        list={placeType}
-      />
-      <Category
-        isLoading={isLoading}
->>>>>>> abdf29cef5493a39b6a47803e716290ed020a369
         title="Khám phá Việt Nam"
         description="Các điểm đến phổ biến này có nhiều điều chờ đón bạn"
         list={placeEachCity}
       />
       <Category
-<<<<<<< HEAD
         name="favouriteHotel"
-=======
         isLoading={isLoading}
->>>>>>> abdf29cef5493a39b6a47803e716290ed020a369
         title="Khách sạn mà khách yêu thích"
         list={favouritePlace}
         num={4}

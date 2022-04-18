@@ -25,11 +25,7 @@ Category.defaultProps = {
 };
 
 function Category(props) {
-<<<<<<< HEAD
-  const { name, title, description, list, num, destination } = props;
-=======
-  const { title, description, list, num, destination, isLoading } = props;
->>>>>>> abdf29cef5493a39b6a47803e716290ed020a369
+  const { name, title, description, list, num, destination, isLoading } = props;
   const dispatch = useDispatch();
 
   const handleSearch = (category) => {
