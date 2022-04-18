@@ -1,7 +1,7 @@
-const express = require('express');
-var bodyParser = require('body-parser');
-var dotenv = require('dotenv');
-var mongoose = require('mongoose');
+const express = require("express");
+var bodyParser = require("body-parser");
+var dotenv = require("dotenv");
+var mongoose = require("mongoose");
 
 var cors = require("cors");
 
@@ -15,12 +15,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Connect to db
-mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log("Connect successfully")
-    }, error => {
-        console.log("Connection failed ", error);
-    });
+mongoose
+  .connect(process.env.MONGO_CONNECTION, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(
+    () => {
+      console.log("Connect successfully");
+    },
+    (error) => {
+      console.log("Connection failed ", error);
+    }
+  );
 
 //API
 const LoaiPhongRouter = require("./routes/LoaiPhong.route");
@@ -34,25 +41,23 @@ const ThanhPhoRouter = require("./routes/ThanhPho.route");
 const NguoiDungRouter = require("./routes/NguoiDung.route");
 const PhanHoiRouter = require("./routes/PhanHoi.route");
 const DatPhongRouter = require("./routes/DatPhong.route");
+const authRoute = require("./routes/auth.route");
 
-
-app.use(express.static('public'));
-app.use('/api/LoaiPhong', LoaiPhongRouter);
-app.use('/api/LoaiGiuong', LoaiGiuongRouter);
-app.use('/api/TienNghi', TienNghiRouter);
-app.use('/api/Phong', PhongRouter);
-app.use('/api/ChoNghi', ChoNghiRouter);
-app.use('/api/TinDung', TinDungRouter);
-app.use('/api/LoaiChoNghi', LoaiChoNghiRouter);
-app.use('/api/ThanhPho', ThanhPhoRouter);
-app.use('/api/NguoiDung', NguoiDungRouter);
-app.use('/api/PhanHoi', PhanHoiRouter);
-app.use('/api/DatPhong', DatPhongRouter);
-
-
-
+app.use(express.static("public"));
+app.use("/api/LoaiPhong", LoaiPhongRouter);
+app.use("/api/LoaiGiuong", LoaiGiuongRouter);
+app.use("/api/TienNghi", TienNghiRouter);
+app.use("/api/Phong", PhongRouter);
+app.use("/api/ChoNghi", ChoNghiRouter);
+app.use("/api/TinDung", TinDungRouter);
+app.use("/api/LoaiChoNghi", LoaiChoNghiRouter);
+app.use("/api/ThanhPho", ThanhPhoRouter);
+app.use("/api/NguoiDung", NguoiDungRouter);
+app.use("/api/PhanHoi", PhanHoiRouter);
+app.use("/api/DatPhong", DatPhongRouter);
+app.use("/api/auth", authRoute);
 
 //Open port
 app.listen(port, function () {
-    console.log('Listen on port ' + port)
+  console.log("Listen on port " + port);
 });
