@@ -1,4 +1,5 @@
 import { Button, DatePicker, Form } from "antd";
+import { chooseDate } from "features/Hotel/HotelSlice";
 import moment from "moment";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -21,10 +22,9 @@ const formatDate = (moment) => {
 function InfoSearch({ setDateFilter, dateFilter }) {
   const [isEdit, setIsEdit] = React.useState(false);
 
-  const dispatch = useDispatch();
-
   const onFinish = (values) => {
-    console.log({ values })
+    // console.log({ values })
+
     setDateFilter(values);
     setIsEdit(false);
   };

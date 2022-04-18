@@ -55,6 +55,9 @@ function MainPage(props) {
     const [filter, setFilter] = React.useState(() => ({ DiemDanhGia: [], XepHang: [], TienNghi: [], LoaiChoNghi: state?.placeType ? [state.placeType] : [] }));
     const [isFiltering, setIsFiltering] = React.useState(false);
 
+
+    const isFirstLoading = React.useRef(true);
+
     //handle filter after onchange
     const handleFilter = filterInfo => {
 
@@ -185,7 +188,6 @@ function MainPage(props) {
 
     //fetch places 
     React.useEffect(() => {
-
         //check when search but haven't city 
         if (placeChoosen.cityName && !placeChoosen._idCity) {
             setPlaces([]);
@@ -206,12 +208,14 @@ function MainPage(props) {
                 };
 
                 const { ChoNghis, _totalPage, TongSo } = await choNghiApi.getAll(query);
+                isFirstLoading.current = false;
                 setPlaces(ChoNghis);
                 setPagination(prev => ({ ...prev, _totalPage }));
                 setTotalPlaces(TongSo);
                 setIsFiltering(false);
             } catch (error) {
                 console.log(error)
+                isFirstLoading.current = false;
                 setIsFiltering(false);
             }
         }
@@ -220,7 +224,7 @@ function MainPage(props) {
         setTimeout(() => {
             fetchPlaces();
         }, 2000);
-    }, [filter, pagination._page, isGetNewData]);
+    }, [filter, pagination._page, isGetNewData, placeChoosen._idCity]);
 
     //handle Change page
 
@@ -287,10 +291,11 @@ function MainPage(props) {
                 <div className='wrapper__content__right'>
                     <p className='wrapper__content__right__search-result'>{placeChoosen.cityName || "Tất cả"}: {isFiltering ? <Spin /> : totalPlace > 0 ? `tìm thấy ${totalPlace} chỗ nghỉ` : "không tìm thấy chổ nghĩ phù hợp"} </p>
                     <ListPlaceOverView
+                        isFirstLoading={isFirstLoading.current}
                         isFiltering={isFiltering}
                         places={places}
                         isChoosenDate={(returnDate && receiveDate) ? true : false} />
-                    <Pagination t
+                    <Pagination
                         totalPage={pagination._totalPage}
                         currentPage={pagination._page}
                         pageSize={1}
