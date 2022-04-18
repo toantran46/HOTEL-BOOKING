@@ -24,7 +24,22 @@ const getDistanceByDate = (receiveDate, returnDate) => {
     return new Date(distance).getDate();
 }
 
+//convert timespan to format "DD MM YYY" || "DOW DD MM YYYY"
+//param num to increase or decrease date
+const handleDateByFormat = (format, date, num = null) => {
+
+    const d = num ? new Date(new Date(date).setDate(new Date(date).getDate() + num)) : new Date(date);
+    const dayOfWeek = d.getDay() === 0 ? "CN" : `T${d.getDay() + 1}`;
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+
+    if (format === 'DOW DD MM YYYY') return `${dayOfWeek} Ngày ${day} Tháng ${month} Năm ${year}`;
+
+    return `Ngày ${day} Tháng ${month} Năm ${year}`;
+}
 
 
 
-export { ScrollToView, convertToMoney, getMessageByScore, getDistanceByDate }
+
+export { ScrollToView, convertToMoney, getMessageByScore, getDistanceByDate, handleDateByFormat }

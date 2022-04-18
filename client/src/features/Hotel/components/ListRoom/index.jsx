@@ -4,42 +4,36 @@ import PropTypes from "prop-types";
 import "./ListRoom.scss";
 import Room from "../Room";
 import { useDispatch, useSelector } from "react-redux";
-import { getDistanceByDate } from "assets/globaJS";
+import { convertToMoney, getDistanceByDate } from "assets/globaJS";
 import { chooseRoom } from "features/Hotel/HotelSlice";
 
 ListRoom.propTypes = {
   rooms: PropTypes.array,
   onChooseRoom: PropTypes.func,
+  onBooking: PropTypes.func,
+  roomSelectedInfo: PropTypes.object,
 };
 
 ListRoom.defaultProps = {
   rooms: [],
   onChooseRoom: null,
+  onBooking: null,
+  roomSelectedInfo: {},
 };
 
 function ListRoom(props) {
-  const { rooms, onChooseRoom } = props;
-  console.log({ rooms })
+  const { rooms, onChooseRoom, roomSelectedInfo, onBooking } = props;
   const { receiveDate, returnDate } = useSelector(state => state.hotelInfo.homePage);
 
 
   const handleChooseRoom = roomSelected => {
-
-    console.log(roomSelected)
     if (!onChooseRoom) return;
-    onChooseRoom(prev => {
+    onChooseRoom(roomSelected);
+  }
 
-      // const index = prev.findIndex(item => item.room?._id === roomSelected.room._id);
-
-      // let newSelectedRoom = [...prev];
-      // if (index !== -1) {
-      //   newSelectedRoom[index] = roomSelected;
-      //   return newSelectedRoom;
-      // }
-
-      // return [...prev, { ...newSelectedRoom }];
-
-    });
+  const handleBooking = () => {
+    if (!onBooking) return;
+    onBooking();
   }
 
   return (
@@ -65,15 +59,17 @@ function ListRoom(props) {
       <div className="list-room__book">
         <div className="list-room__book__top" />
         <div className="list-room__book__container">
-          <div className="list-room__book__container__confirm">
-            <p>
-              <b>9</b> phòng tổng giá
-            </p>
-            <h5>VND 5.769.000</h5>
-            <span>Đã bao gồm thuế và phí</span>
-          </div>
+          {roomSelectedInfo.totalRoom > 0 &&
+            <div className="list-room__book__container__confirm">
+              <p>
+                <b>{roomSelectedInfo.totalRoom}</b> phòng tổng giá
+              </p>
+              <h5>VND {convertToMoney(roomSelectedInfo.totalPrice)}</h5>
+              <span>Đã bao gồm thuế và phí</span>
+            </div>
+          }
 
-          <a className="btn-primary">Tôi sẽ đặt</a>
+          <a className="btn-primary" onClick={handleBooking} >Tôi sẽ đặt</a>
           <ul>
             <li>Xác nhận tức thời</li>
             <li>Không cần đăng ký</li>

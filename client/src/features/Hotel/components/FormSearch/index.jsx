@@ -52,6 +52,7 @@ function FormSearch(props) {
             <p>Tìm</p>
             <Form form={form} initialValues={{ placeName: cityName, receiveDate, returnDate }} layout="vertical" onFinish={(values) => handleSearch(values)}>
                 <InputField
+                    rules={[{ required: true, message: 'Vui lòng nhập điểm đến !' }]}
                     name='placeName'
                     label='Tên, loại chỗ nghỉ / điểm đến /'
                 />

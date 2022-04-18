@@ -1,6 +1,7 @@
 import { Button, DatePicker, Form } from "antd";
 import moment from "moment";
 import React from "react";
+import { useDispatch } from "react-redux";
 import "./InfoSearch.scss";
 
 InfoSearch.propTypes = {};
@@ -20,7 +21,10 @@ const formatDate = (moment) => {
 function InfoSearch({ setDateFilter, dateFilter }) {
   const [isEdit, setIsEdit] = React.useState(false);
 
+  const dispatch = useDispatch();
+
   const onFinish = (values) => {
+    console.log({ values })
     setDateFilter(values);
     setIsEdit(false);
   };
@@ -40,7 +44,7 @@ function InfoSearch({ setDateFilter, dateFilter }) {
           <div className="date" onClick={() => setIsEdit(true)}>
             {formatDate(
               dateFilter?.NgayTraPhong?._d ||
-                new Date().setDate(new Date().getDate() + 1)
+              new Date().setDate(new Date().getDate() + 1)
             )}
           </div>
           <div className="hour">Nghỉ 5 đêm</div>

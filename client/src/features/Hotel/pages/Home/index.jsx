@@ -8,6 +8,7 @@ import { choNghiApi } from "api/ChoNghiApi";
 import { loaiChoNghiApi } from "api/LoaiChoNghiApi";
 import { thanhPhoApi } from "api/ThanhPhoApi";
 import SkeletonImage from "./components/SkeletonImage";
+import { filter } from "lodash";
 Home.propTypes = {};
 
 function Home(props) {
@@ -100,13 +101,18 @@ function Home(props) {
     <div className="home">
       <SearchHotel />
       <PlaceBanner list={[...placeEachCity].splice(0, 5)} />
-      <Category title="Tìm theo loại chổ nghĩ" list={placeType} />
       <Category
+        name="placeType"
+        title="Tìm theo loại chổ nghĩ"
+        list={placeType} />
+      <Category
+        name="city"
         title="Khám phá Việt Nam"
         description="Các điểm đến phổ biến này có nhiều điều chờ đón bạn"
         list={placeEachCity}
       />
       <Category
+        name="favouriteHotel"
         title="Khách sạn mà khách yêu thích"
         list={favouritePlace}
         num={4}

@@ -11,8 +11,17 @@ export const datPhongApi = {
         return axiosClient.get(url);
     },
     add: (data) => {
-        const url = `/DatPhong`;
-        return axiosClient.post(url, data);
+        return new Promise((resolve, reject) => {
+            setTimeout(async () => {
+                try {
+                    const url = `/DatPhong`;
+                    const response = await axiosClient.post(url, data);
+                    resolve(response);
+                } catch (error) {
+                    reject(error)
+                }
+            }, 2000)
+        })
     },
     delete: (datPhongId) => {
         const url = `/DatPhong/${datPhongId}`;

@@ -6,9 +6,7 @@ import "./MainPage.scss";
 import { Link, useLocation } from 'react-router-dom';
 
 import FilterItem from 'features/Hotel/components/FilterItem';
-import HotelOverView from 'features/Hotel/components/PlaceOverView';
 import Pagination from 'features/Hotel/components/PaginationStyled';
-import FilterLoading from 'features/Hotel/components/FilterLoading';
 import ListPlaceOverView from 'features/Hotel/components/ListPlaceOverView';
 import FormSearch from 'features/Hotel/components/FormSearch';
 import BreadcrumbStyled from 'features/Hotel/components/BreadcrumbStyled';
@@ -17,6 +15,8 @@ import { phanHoiApi } from 'api/PhanHoiApi';
 import { tienNghiApi } from 'api/TienNghiApi';
 import { loaiChoNghiApi } from 'api/LoaiChoNghiApi';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { Spin } from 'antd'
 
 import { choosePlace } from "features/Hotel/HotelSlice";
 
@@ -31,15 +31,12 @@ function MainPage(props) {
 
     const { state } = useLocation();
 
-
-
     //get data from redux
     const { searchValue, receiveDate, returnDate, placeChoosen } = useSelector(state => state.hotelInfo.homePage);
     const dispatch = useDispatch();
 
     //refresh data
     const [isGetNewData, setIsGetNewData] = React.useState(false);
-
 
     //save data for sidebar
     const [groupByPlaceType, setGroupByPlaceType] = React.useState([]);
@@ -55,16 +52,11 @@ function MainPage(props) {
     const [pagination, setPagination] = React.useState({ _page: 1, _limit: 2, _totalPage: 5 });
 
     //data for filter ( { DiemDanhGia: [], XepHang: [], TienNghi: [] ,LoaiChoNghi:[] } )
-    const [filter, setFilter] = React.useState({ DiemDanhGia: [], XepHang: [], TienNghi: [], LoaiChoNghi: [] });
+    const [filter, setFilter] = React.useState(() => ({ DiemDanhGia: [], XepHang: [], TienNghi: [], LoaiChoNghi: state?.placeType ? [state.placeType] : [] }));
     const [isFiltering, setIsFiltering] = React.useState(false);
-
-    const isSecondTime = React.useRef(false);
 
     //handle filter after onchange
     const handleFilter = filterInfo => {
-
-        //check for UI filterLoading
-        isSecondTime.current = isSecondTime.current || true;
 
         // filterInfo = [ { checked: true , type: "DiemDanhGia" ,value: 8  }  ]
         const { checked, value, type } = filterInfo;
@@ -201,7 +193,6 @@ function MainPage(props) {
             return;
         }
 
-        isSecondTime.current && setIsFiltering(true);
         const fetchPlaces = async () => {
             try {
 
@@ -225,6 +216,7 @@ function MainPage(props) {
             }
         }
 
+        setIsFiltering(true);
         setTimeout(() => {
             fetchPlaces();
         }, 2000);
@@ -248,16 +240,19 @@ function MainPage(props) {
                         onSearch={handleSearch}
                         placeName={placeChoosen.cityName}
                         receiveDate={receiveDate}
-                        returnDate={returnDate} />
+                        returnDate={returnDate}
+                    />
 
                     <div className='wrapper__content__left__filter'>
                         <p className='title'>Chọn lọc theo</p>
                         <FilterItem
+                            defaultChecked={filter.LoaiChoNghi}
                             type='LoaiChoNghi'
                             onFilter={handleFilter}
                             title="Các bộ lọc phổ biến"
                             items={groupByPlaceType} />
                         <FilterItem
+                            defaultChecked={filter.XepHang}
                             type='XepHang'
                             onFilter={handleFilter}
                             title="Xếp hạng sao"
@@ -274,11 +269,13 @@ function MainPage(props) {
                                     { content: "Massage", num: 55 },
                                 ]} /> */}
                         <FilterItem
+                            defaultChecked={filter.DiemDanhGia}
                             type='DiemDanhGia'
                             onFilter={handleFilter}
                             title="Điểm đánh giá của khách"
                             items={groupByScore} />
                         <FilterItem
+                            defaultChecked={filter.TienNghi}
                             type='TienNghi'
                             onFilter={handleFilter}
                             title="Tiện nghi phòng"
@@ -288,7 +285,7 @@ function MainPage(props) {
 
                 </div>
                 <div className='wrapper__content__right'>
-                    <p className='wrapper__content__right__search-result'>{placeChoosen.cityName || "Tất cả"}: {totalPlace > 0 ? `tìm thấy ${totalPlace} chỗ nghỉ` : "không tìm thấy chổ nghĩ phù hợp"} </p>
+                    <p className='wrapper__content__right__search-result'>{placeChoosen.cityName || "Tất cả"}: {isFiltering ? <Spin /> : totalPlace > 0 ? `tìm thấy ${totalPlace} chỗ nghỉ` : "không tìm thấy chổ nghĩ phù hợp"} </p>
                     <ListPlaceOverView
                         isFiltering={isFiltering}
                         places={places}

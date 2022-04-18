@@ -4,19 +4,28 @@ const DatPhongSchema = new mongoose.Schema({
   ThongTinhPhong: [
     {
       Phong: { type: mongoose.Schema.Types.ObjectId, ref: "Phong" },
-      TenNguoiDat: { type: String },
+      TenNguoiNhanPhong: { type: String },
       SoLuong: { type: Number },
     },
   ],
   HoTenNguoiDat: String,
   Email: String,
-  DiaChi: String,
   MaKhachSan: String,
-  NgayDatPhong: Date,
+  NgayDatPhong: { type: Date, default: new Date() },
   NgayNhanPhong: Date,
   NgayTraPhong: Date,
-  TinhTrang: { type: String, default: "Đã đặt" },
-  TongTien: String,
+  TongTien: Number,
+  SoDienThoai: String,
+  YeuCau: String,
+  TinDung: {
+    TenChuThe: String,
+    LoaiThe: { type: mongoose.Types.ObjectId, ref: "TinDung" },
+    SoThe: String,
+    NgayHetHan: String
+  },
+  ThoiGianDenDuKien: Number,
+  TrangThai: { type: String, default: "Chờ nhận phòng" },
+  DaThanhToan: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model("DatPhong", DatPhongSchema);

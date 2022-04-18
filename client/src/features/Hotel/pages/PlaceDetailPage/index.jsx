@@ -26,7 +26,7 @@ import { phanHoiApi } from "api/PhanHoiApi";
 import { phongApi } from "api/PhongApi";
 import { useDispatch, useSelector } from "react-redux";
 
-import { choosePlace } from 'features/Hotel/HotelSlice';
+import { booking, choosePlace, saveCurrentPlace } from 'features/Hotel/HotelSlice';
 import { thanhPhoApi } from "api/ThanhPhoApi";
 
 HotelDetailPage.propTypes = {};
@@ -34,7 +34,6 @@ HotelDetailPage.propTypes = {};
 function HotelDetailPage(props) {
   const { placeId } = useParams();
 
-  const [roomSelected, setRoomSelected] = React.useState([]);
 
   //get data from redux
   const { placeChoosen, receiveDate, returnDate, searchValue } = useSelector(state => state.hotelInfo.homePage);
@@ -50,6 +49,9 @@ function HotelDetailPage(props) {
     totalFeedBack: null,
     mediumScore: null,
   });
+
+  const [isLoadingFeedBack, setIsLoadingFeedBack] = React.useState(false);
+
   const [isVisibleAllFeedBack, setIsVisibleAllFeedBack] = React.useState(false);
   const [dateFilter, setDateFilter] = useState(null);
 
@@ -59,21 +61,21 @@ function HotelDetailPage(props) {
 
   const dispatch = useDispatch();
 
+  //choose room
+  const [roomSelected, setRoomSelected] = React.useState([]);
+
   const handleBook = () => {
-    if (!roomSelected) {
-      message.info("Vui lòng chọn phòng ! ");
+    if (roomSelected.length < 1 || !receiveDate || !returnDate) {
+      message.info("Hãy chọn ngày nhận,trả phòng và chọn cho mình phòng ưng ý bạn nhé ! ");
       ScrollToView("empty-room");
       return;
     }
 
     //navigate to booking page
     navigate("/booking");
-    console.log({ placeId });
   };
   //handle search place 
   const handleSearch = (searchValue) => {
-    //navigate to main page
-    console.log({ searchValue })
     const fetchPlaceBySearchValue = async () => {
       try {
         const { ChoNghis } = await choNghiApi.getAll({ search: searchValue, _limit: 1 });
@@ -107,9 +109,8 @@ function HotelDetailPage(props) {
           }
 
         }
-
+        //navite to main page to view result
         navigate('/search')
-
       } catch (error) {
         console.log(error)
       }
@@ -120,24 +121,6 @@ function HotelDetailPage(props) {
     // navigate("/search");
   };
 
-  //fetch places
-  React.useEffect(() => {
-    const fetchPlace = async () => {
-      try {
-        const { ChoNghi } = await choNghiApi.get(placeId);
-        setIsLoading(false);
-        setPlace(ChoNghi);
-      } catch (error) {
-        setIsLoading(false);
-        console.log(error);
-      }
-    };
-
-    setIsLoading(true);
-    setTimeout(() => {
-      fetchPlace();
-    }, 2000);
-  }, [placeId]);
 
   // fetch rooms
 
@@ -161,15 +144,33 @@ function HotelDetailPage(props) {
   React.useEffect(() => {
     const fetchFeedBacks = async () => {
       try {
-        const { PhanHois, _totalPage, TongSo, DiemTB } =
-          await phanHoiApi.getAll({ MaKhachSan: placeId });
-        setIsLoading(false);
+        const { PhanHois, _totalPage, TongSo, DiemTB } = await phanHoiApi.getAll({ MaKhachSan: placeId });
+        setIsLoadingFeedBack(false);
         setFeedBack({
           comments: PhanHois,
           totalFeedBack: TongSo,
           mediumScore: DiemTB,
         });
-        // setTotalFeedBack(TongSo);
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error);
+      }
+    };
+
+    setIsLoadingFeedBack(true);
+    setTimeout(() => {
+      fetchFeedBacks();
+    }, 3000);
+  }, [placeId]);
+
+  //fetch places
+  React.useEffect(() => {
+    const fetchPlace = async () => {
+      try {
+        const { ChoNghi } = await choNghiApi.get(placeId);
+        setIsLoading(false);
+        setPlace(ChoNghi);
+        dispatch(saveCurrentPlace(ChoNghi._id))
       } catch (error) {
         setIsLoading(false);
         console.log(error);
@@ -178,23 +179,59 @@ function HotelDetailPage(props) {
 
     setIsLoading(true);
     setTimeout(() => {
-      fetchFeedBacks();
+      fetchPlace();
     }, 2000);
   }, [placeId]);
-<<<<<<< HEAD
+
+  //handle chooseRoom for booking
+  const handleChooseRoom = roomSelected => {
+    setRoomSelected(prev => {
+      const index = prev.findIndex(item => item.room?._id === roomSelected.room._id);
+
+      if (roomSelected.quantity === 0) {
+        let newRoom = [...prev];
+        if (index !== -1) newRoom.splice(index, 1);
+        return newRoom;
+      }
 
 
-  React.useEffect(() => {
-    console.log({ roomSelected })
-  }, [roomSelected])
+      if (index === -1) return [...prev, roomSelected];
+      let newRoomSelected = [...prev];
+      newRoomSelected[index] = roomSelected;
+      return newRoomSelected;
+    })
 
-=======
-  console.log(dateFilter);
+  }
+  //handle booking
+  const handleBooking = () => {
+
+    if (!receiveDate && !returnDate) return message.info("Vui lòng chọn ngày nhận, trả phòng !");
+
+    const placeInfo = {
+      _id: place._id,
+      type: place.LoaiChoNghi.TenLoaiChoNghi,
+      rank: place.XepHang,
+      banner: place.HinhAnh[0],
+      timeGetAndReturnRoom: { getFrom: place.ThoiGianNhanPhong.Tu, getTo: place.ThoiGianNhanPhong.Den, returnFrom: place.ThoiGianTraPhong.Tu },
+      chargeCancleBooking: place.HuyDatPhong,
+      name: place.TenChoNghi,
+      address: place.DiaChi + ', ' + place.ThanhPho.TenThanhPho,
+      mediumScore: feedBack.mediumScore,
+      totalFeedBack: feedBack.totalFeedBack
+    }
+
+    const timeInfo = {
+      returnDate, receiveDate
+    }
+
+    dispatch(booking({ placeInfo, roomSelected, timeInfo }))
+    navigate("/booking", { state: { credits: place.TinDung } });
+
+  }
 
   const ImageSkeleton = ({ width, height, style }) => {
     return <Skeleton.Image style={{ width, height, ...style }} />;
   };
->>>>>>> a7b4ce9d28f8f3b119bf24529bcb4e17bd80ffeb
 
   return (
     <div className="wrapper">
@@ -401,21 +438,15 @@ function HotelDetailPage(props) {
             </div>
           </div>
           <InfoSearch setDateFilter={setDateFilter} dateFilter={dateFilter} />
-<<<<<<< HEAD
           <ListRoom
-            onChooseRoom={setRoomSelected}
-            // placeInfo={{
-            //   banner: place?.HinhAnh[0], type: place?.LoaiChoNghi.TenLoaiChoNghi,
-            //   name: place?.TenChoNghi, address: place?.DiaChi + ', ' + place?.ThanhPho.TenThanhPho,
-            //   mediumScore: feedBack?.mediumScore,
-            //   totalFeedBack: feedBack?.totalFeedBack
-            // }}
+            onBooking={handleBooking}
+            onChooseRoom={handleChooseRoom}
+            roomSelectedInfo={{ totalRoom: roomSelected.length, totalPrice: roomSelected.reduce((a, room) => a + room.price, 0) }}
             rooms={room} />
-=======
-          <ListRoom rooms={room} />
+          {/* <ListRoom rooms={room} /> */}
 
->>>>>>> a7b4ce9d28f8f3b119bf24529bcb4e17bd80ffeb
           <FeedBack
+            isLoadingFeedBack={isLoadingFeedBack}
             setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
             feedBack={feedBack}
           />
@@ -428,11 +459,13 @@ function HotelDetailPage(props) {
           >
             Đọc tất cả đánh giá
           </a>
-          {isVisibleAllFeedBack && (
-            <ViewAllFeedBack
-              setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
-            />
-          )}
+          {
+            isVisibleAllFeedBack && (
+              <ViewAllFeedBack
+                setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
+              />
+            )
+          }
           <GeneralRule
             receiveDate={place?.ThoiGianNhanPhong}
             returnDate={place?.ThoiGianTraPhong}
@@ -440,9 +473,9 @@ function HotelDetailPage(props) {
             credits={place?.TinDung}
           />
           <Note />
-        </div>
-      </div>
-    </div>
+        </div >
+      </div >
+    </div >
   );
 }
 

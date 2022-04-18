@@ -12,7 +12,8 @@ InputField.propTypes = {
     disabled: PropTypes.bool,
     allowClear: PropTypes.bool,
     label: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    rules: PropTypes.array
 };
 
 InputField.defaultProps = {
@@ -23,14 +24,16 @@ InputField.defaultProps = {
     disabled: false,
     label: '',
     onChange: null,
-    allowClear: false
+    allowClear: false,
+    rules: []
 };
 
 function InputField(props) {
-    const { name, value, placeholder, type, disabled, label, onChange, allowClear } = props;
+    const { name, value, placeholder, type, disabled, label, onChange, allowClear, rules } = props;
     return (
         <Form.Item
             name={name}
+            rules={rules}
             label={label}>
             <Input
                 allowClear={allowClear}

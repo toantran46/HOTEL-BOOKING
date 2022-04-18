@@ -8,20 +8,21 @@ FilterItem.propTypes = {
     items: PropTypes.array,
     type: PropTypes.string,
     onFilter: PropTypes.func,
+    defaultChecked: PropTypes.array,
 };
 
 FilterItem.defaultProps = {
     title: '',
     items: [{ content: '', num: 0 }],
     type: '',
-    onFilter: null
+    onFilter: null,
+    defaultChecked: [],
 };
 
 
 function FilterItem(props) {
 
-    const { title, items, type, onFilter } = props;
-
+    const { title, items, type, onFilter, defaultChecked } = props;
 
     const handleChange = e => {
         if (!onFilter) return;
@@ -36,7 +37,7 @@ function FilterItem(props) {
             {
                 items?.map((item, index) =>
                     <div className='filter-item__item' key={index}>
-                        <Checkbox value={item._id} onChange={handleChange}>
+                        <Checkbox checked={defaultChecked.includes(item._id)} value={item._id} onChange={handleChange}>
                             {item.content}
                         </Checkbox>
                         <span className='num'>{item.num}</span>

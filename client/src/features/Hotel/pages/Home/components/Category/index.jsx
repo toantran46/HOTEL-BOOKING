@@ -12,6 +12,7 @@ Category.propTypes = {
   description: PropTypes.string,
   list: PropTypes.array,
   num: PropTypes.number,
+  name: PropTypes.string,
 };
 
 Category.defaultProps = {
@@ -20,10 +21,11 @@ Category.defaultProps = {
   destination: "/search",
   list: [],
   num: 6,
+  name: '',
 };
 
 function Category(props) {
-  const { title, description, list, num, destination } = props;
+  const { name, title, description, list, num, destination } = props;
   const dispatch = useDispatch();
 
   const handleSearch = (category) => {
@@ -48,7 +50,9 @@ function Category(props) {
                   ? destination
                   : `${destination}${ob._id}`
               }
-              onClick={() => destination === "/search" && handleSearch(ob)}
+              onClick={() => (destination === "/search" && name !== "placeType") && handleSearch(ob)}
+              state={name === "placeType" && { placeType: ob._id }}
+
             >
               <div className="category__info">
                 <img src={ob.image} alt={ob.name} />

@@ -11,8 +11,17 @@ export const choNghiApi = {
         return axiosClient.get(url);
     },
     add: (data) => {
-        const url = `/ChoNghi`;
-        return axiosClient.post(url, data);
+        return new Promise((resolve, reject) => {
+            setTimeout(async () => {
+                try {
+                    const url = `/ChoNghi`;
+                    const response = await axiosClient.post(url, data);
+                    resolve(response);
+                } catch (error) {
+                    reject(error)
+                }
+            }, 2000)
+        })
     },
     delete: (choNghiId) => {
         const url = `/ChoNghi/${choNghiId}`;

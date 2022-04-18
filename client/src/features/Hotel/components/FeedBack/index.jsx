@@ -9,15 +9,17 @@ import { Skeleton } from "antd";
 FeedBack.propTypes = {
   setIsVisibleAllFeedBack: PropTypes.func,
   feedBack: PropTypes.object,
+  isLoadingFeedBack: PropTypes.bool,
 };
 
 FeedBack.defaultProps = {
   setIsVisibleAllFeedBack: null,
   feedBack: { comments: [], totalFeedBack: null, mediumScore: null },
+  isLoadingFeedBack: false,
 };
 
 function FeedBack(props) {
-  const { setIsVisibleAllFeedBack, feedBack } = props;
+  const { setIsVisibleAllFeedBack, feedBack, isLoadingFeedBack } = props;
 
   const [topFeedBack, setTopFeedBack] = React.useState([]);
 
@@ -64,7 +66,7 @@ function FeedBack(props) {
         </div>
       )}
 
-      {true && (
+      {isLoadingFeedBack && (
         <Skeleton.Input active style={{ width: "400px", height: "28px" }} />
       )}
 
@@ -72,8 +74,8 @@ function FeedBack(props) {
         <div className="wrapperSlider__title">
           Đọc xem khách yêu thích điều gì nhất:
         </div>
-        {false && <Carousel isPadding={true} childrens={content} showNum={3} />}
-        {true && (
+        {!isLoadingFeedBack && <Carousel isPadding={true} childrens={content} showNum={3} />}
+        {isLoadingFeedBack && (
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {[1, 2, 3].map((i) => (
               <div

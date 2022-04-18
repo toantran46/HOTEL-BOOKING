@@ -20,38 +20,39 @@ module.exports = {
         }
     },
     post: async (req, res) => {
-        // console.log(req.body);
-        // return;
         try {
             const {
-                ThongTinhPhong,
+                ThongTinPhong,
                 HoTenNguoiDat,
                 Email,
-                DiaChi,
+                YeuCau,
                 MaKhachSan,
-                NgayDatPhong,
                 NgayNhanPhong,
                 NgayTraPhong,
-                TinhTrang,
-                TongTien
+                TongTien,
+                SoDienThoai,
+                TinDung,
+                ThoiGianDenDuKien
             } = req.body;
 
             const newDatPhong = new DatPhongModel({
-                ThongTinhPhong,
+                ThongTinhPhong: ThongTinPhong,
                 HoTenNguoiDat,
                 Email,
-                DiaChi,
+                YeuCau,
                 MaKhachSan,
-                NgayDatPhong,
                 NgayNhanPhong,
                 NgayTraPhong,
-                TinhTrang,
-                TongTien
+                TongTien,
+                SoDienThoai,
+                TinDung,
+                ThoiGianDenDuKien
             })
             await newDatPhong.save();
-            res.json({ message: "Thêm đặt phòng thành công !" })
+            res.json({ message: "Đặt phòng thành công! Mong quý khách đến đúng hẹn và có 1 kì nghĩ tuyệt vời !" })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
+            console.log(error.message);
         }
     },
     patch: async (req, res) => {

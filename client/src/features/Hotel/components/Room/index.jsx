@@ -59,12 +59,15 @@ function Room(props) {
         <td>
           <Select onChange={(value) => onChooseRoom(JSON.parse(value))} defaultValue={0} style={{ minWidth: "200px" }}>
 
-            <Select.Option key={0} value={0}>0</Select.Option>
+            <Select.Option key={0} value={JSON.stringify({
+              room: { _id: roomInfo?._id },
+              quantity: 0,
+            })}>0</Select.Option>
             {new Array(roomInfo.SoLuongPhong).fill().map((item, index) => (
               <Select.Option
                 key={index + 1}
                 value={JSON.stringify({
-                  room: { _id: roomInfo?._id, name: roomInfo?.TenPhong },
+                  room: { _id: roomInfo?._id, name: roomInfo?.TenPhong, convenients: roomInfo?.TienNghi, customerMax: roomInfo.SoLuongKhach },
                   quantity: index + 1,
                   price: numDay * roomInfo.Gia * (index + 1),
                 })}
