@@ -24,7 +24,7 @@ function InfoSearch({ setDateFilter, dateFilter }) {
   const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    console.log({ values })
+    console.log({ values });
     setDateFilter(values);
     setIsEdit(false);
   };
@@ -44,7 +44,7 @@ function InfoSearch({ setDateFilter, dateFilter }) {
           <div className="date" onClick={() => setIsEdit(true)}>
             {formatDate(
               dateFilter?.NgayTraPhong?._d ||
-              new Date().setDate(new Date().getDate() + 1)
+                new Date().setDate(new Date().getDate() + 1)
             )}
           </div>
           <div className="hour">Nghỉ 5 đêm</div>

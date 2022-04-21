@@ -26,7 +26,11 @@ import { phanHoiApi } from "api/PhanHoiApi";
 import { phongApi } from "api/PhongApi";
 import { useDispatch, useSelector } from "react-redux";
 
-import { booking, choosePlace, saveCurrentPlace } from 'features/Hotel/HotelSlice';
+import {
+  booking,
+  choosePlace,
+  saveCurrentPlace,
+} from "features/Hotel/HotelSlice";
 import { thanhPhoApi } from "api/ThanhPhoApi";
 
 HotelDetailPage.propTypes = {};
@@ -34,9 +38,10 @@ HotelDetailPage.propTypes = {};
 function HotelDetailPage(props) {
   const { placeId } = useParams();
 
-
   //get data from redux
-  const { placeChoosen, receiveDate, returnDate, searchValue } = useSelector(state => state.hotelInfo.homePage);
+  const { placeChoosen, receiveDate, returnDate, searchValue } = useSelector(
+    (state) => state.hotelInfo.homePage
+  );
 
   //save data for place
   const [place, setPlace] = React.useState();
@@ -54,7 +59,7 @@ function HotelDetailPage(props) {
 
   const [isVisibleAllFeedBack, setIsVisibleAllFeedBack] = React.useState(false);
   const [dateFilter, setDateFilter] = useState(null);
-
+  console.log(dateFilter);
   //
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -66,7 +71,9 @@ function HotelDetailPage(props) {
 
   const handleBook = () => {
     if (roomSelected.length < 1 || !receiveDate || !returnDate) {
-      message.info("Hãy chọn ngày nhận,trả phòng và chọn cho mình phòng ưng ý bạn nhé ! ");
+      message.info(
+        "Hãy chọn ngày nhận,trả phòng và chọn cho mình phòng ưng ý bạn nhé ! "
+      );
       ScrollToView("empty-room");
       return;
     }
@@ -74,53 +81,62 @@ function HotelDetailPage(props) {
     //navigate to booking page
     navigate("/booking");
   };
-  //handle search place 
+  //handle search place
   const handleSearch = (searchValue) => {
     const fetchPlaceBySearchValue = async () => {
       try {
-        const { ChoNghis } = await choNghiApi.getAll({ search: searchValue, _limit: 1 });
+        const { ChoNghis } = await choNghiApi.getAll({
+          search: searchValue,
+          _limit: 1,
+        });
         if (ChoNghis.length > 0) {
-          dispatch(choosePlace({
-            _id: ChoNghis[0]._id,
-            placeName: ChoNghis[0].TenChoNghi,
-            _idCity: ChoNghis[0].ThanhPho[0]._id,
-            cityName: ChoNghis[0].ThanhPho[0].TenThanhPho
-          }));
-
-        } else
+          dispatch(
+            choosePlace({
+              _id: ChoNghis[0]._id,
+              placeName: ChoNghis[0].TenChoNghi,
+              _idCity: ChoNghis[0].ThanhPho[0]._id,
+              cityName: ChoNghis[0].ThanhPho[0].TenThanhPho,
+            })
+          );
+        }
         //Not found Place ( maybe user enter a city name)
-        {
-          const { ThanhPhos } = await thanhPhoApi.getAll({ search: searchValue, _limit: 1 });
+        else {
+          const { ThanhPhos } = await thanhPhoApi.getAll({
+            search: searchValue,
+            _limit: 1,
+          });
 
           if (ThanhPhos.length > 0) {
-            dispatch(choosePlace({
-              _id: null,
-              placeName: null,
-              _idCity: ThanhPhos[0]?._id,
-              cityName: ThanhPhos[0]?.TenThanhPho
-            }));
+            dispatch(
+              choosePlace({
+                _id: null,
+                placeName: null,
+                _idCity: ThanhPhos[0]?._id,
+                cityName: ThanhPhos[0]?.TenThanhPho,
+              })
+            );
           } else {
-            dispatch(choosePlace({
-              _id: null,
-              placeName: null,
-              _idCity: null,
-              cityName: searchValue
-            }));
+            dispatch(
+              choosePlace({
+                _id: null,
+                placeName: null,
+                _idCity: null,
+                cityName: searchValue,
+              })
+            );
           }
-
         }
         //navite to main page to view result
-        navigate('/search')
+        navigate("/search");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
 
     fetchPlaceBySearchValue();
 
     // navigate("/search");
   };
-
 
   // fetch rooms
 
@@ -144,7 +160,8 @@ function HotelDetailPage(props) {
   React.useEffect(() => {
     const fetchFeedBacks = async () => {
       try {
-        const { PhanHois, _totalPage, TongSo, DiemTB } = await phanHoiApi.getAll({ MaKhachSan: placeId });
+        const { PhanHois, _totalPage, TongSo, DiemTB } =
+          await phanHoiApi.getAll({ MaKhachSan: placeId });
         setIsLoadingFeedBack(false);
         setFeedBack({
           comments: PhanHois,
@@ -170,7 +187,7 @@ function HotelDetailPage(props) {
         const { ChoNghi } = await choNghiApi.get(placeId);
         setIsLoading(false);
         setPlace(ChoNghi);
-        dispatch(saveCurrentPlace(ChoNghi._id))
+        dispatch(saveCurrentPlace(ChoNghi._id));
       } catch (error) {
         setIsLoading(false);
         console.log(error);
@@ -184,9 +201,11 @@ function HotelDetailPage(props) {
   }, [placeId]);
 
   //handle chooseRoom for booking
-  const handleChooseRoom = roomSelected => {
-    setRoomSelected(prev => {
-      const index = prev.findIndex(item => item.room?._id === roomSelected.room._id);
+  const handleChooseRoom = (roomSelected) => {
+    setRoomSelected((prev) => {
+      const index = prev.findIndex(
+        (item) => item.room?._id === roomSelected.room._id
+      );
 
       if (roomSelected.quantity === 0) {
         let newRoom = [...prev];
@@ -194,40 +213,42 @@ function HotelDetailPage(props) {
         return newRoom;
       }
 
-
       if (index === -1) return [...prev, roomSelected];
       let newRoomSelected = [...prev];
       newRoomSelected[index] = roomSelected;
       return newRoomSelected;
-    })
-
-  }
+    });
+  };
   //handle booking
   const handleBooking = () => {
-
-    if (!receiveDate && !returnDate) return message.info("Vui lòng chọn ngày nhận, trả phòng !");
+    if (!receiveDate && !returnDate)
+      return message.info("Vui lòng chọn ngày nhận, trả phòng !");
 
     const placeInfo = {
       _id: place._id,
       type: place.LoaiChoNghi.TenLoaiChoNghi,
       rank: place.XepHang,
       banner: place.HinhAnh[0],
-      timeGetAndReturnRoom: { getFrom: place.ThoiGianNhanPhong.Tu, getTo: place.ThoiGianNhanPhong.Den, returnFrom: place.ThoiGianTraPhong.Tu },
+      timeGetAndReturnRoom: {
+        getFrom: place.ThoiGianNhanPhong.Tu,
+        getTo: place.ThoiGianNhanPhong.Den,
+        returnFrom: place.ThoiGianTraPhong.Tu,
+      },
       chargeCancleBooking: place.HuyDatPhong,
       name: place.TenChoNghi,
-      address: place.DiaChi + ', ' + place.ThanhPho.TenThanhPho,
+      address: place.DiaChi + ", " + place.ThanhPho.TenThanhPho,
       mediumScore: feedBack.mediumScore,
-      totalFeedBack: feedBack.totalFeedBack
-    }
+      totalFeedBack: feedBack.totalFeedBack,
+    };
 
     const timeInfo = {
-      returnDate, receiveDate
-    }
+      returnDate,
+      receiveDate,
+    };
 
-    dispatch(booking({ placeInfo, roomSelected, timeInfo }))
+    dispatch(booking({ placeInfo, roomSelected, timeInfo }));
     navigate("/booking", { state: { credits: place.TinDung } });
-
-  }
+  };
 
   const ImageSkeleton = ({ width, height, style }) => {
     return <Skeleton.Image style={{ width, height, ...style }} />;
@@ -246,7 +267,8 @@ function HotelDetailPage(props) {
             onSearch={handleSearch}
             placeName={placeChoosen.cityName}
             receiveDate={receiveDate}
-            returnDate={returnDate} />
+            returnDate={returnDate}
+          />
           <ViewOnGoogleMap />
         </div>
         <div className="wrapper__content__right">
@@ -441,8 +463,12 @@ function HotelDetailPage(props) {
           <ListRoom
             onBooking={handleBooking}
             onChooseRoom={handleChooseRoom}
-            roomSelectedInfo={{ totalRoom: roomSelected.length, totalPrice: roomSelected.reduce((a, room) => a + room.price, 0) }}
-            rooms={room} />
+            roomSelectedInfo={{
+              totalRoom: roomSelected.length,
+              totalPrice: roomSelected.reduce((a, room) => a + room.price, 0),
+            }}
+            rooms={room}
+          />
           {/* <ListRoom rooms={room} /> */}
 
           <FeedBack
@@ -460,13 +486,11 @@ function HotelDetailPage(props) {
           >
             Đọc tất cả đánh giá
           </a>
-          {
-            isVisibleAllFeedBack && (
-              <ViewAllFeedBack
-                setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
-              />
-            )
-          }
+          {isVisibleAllFeedBack && (
+            <ViewAllFeedBack
+              setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
+            />
+          )}
           <GeneralRule
             receiveDate={place?.ThoiGianNhanPhong}
             returnDate={place?.ThoiGianTraPhong}
@@ -474,9 +498,9 @@ function HotelDetailPage(props) {
             credits={place?.TinDung}
           />
           <Note />
-        </div >
-      </div >
-    </div >
+        </div>
+      </div>
+    </div>
   );
 }
 
