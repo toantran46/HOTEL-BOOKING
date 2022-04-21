@@ -26,13 +26,18 @@ import { phanHoiApi } from "api/PhanHoiApi";
 import { phongApi } from "api/PhongApi";
 import { useDispatch, useSelector } from "react-redux";
 
+<<<<<<< HEAD
 import {
   booking,
   choosePlace,
   saveCurrentPlace,
 } from "features/Hotel/HotelSlice";
+=======
+import { booking, chooseDate, choosePlace, saveCurrentPlace } from 'features/Hotel/HotelSlice';
+>>>>>>> 49cc4e365e7de185cfa97ca232846e5d1ba8bbc8
 import { thanhPhoApi } from "api/ThanhPhoApi";
 
+import moment from 'moment';
 HotelDetailPage.propTypes = {};
 
 function HotelDetailPage(props) {
@@ -58,14 +63,19 @@ function HotelDetailPage(props) {
   const [isLoadingFeedBack, setIsLoadingFeedBack] = React.useState(false);
 
   const [isVisibleAllFeedBack, setIsVisibleAllFeedBack] = React.useState(false);
+<<<<<<< HEAD
   const [dateFilter, setDateFilter] = useState(null);
   console.log(dateFilter);
+=======
+  const [dateFilter, setDateFilter] = useState(() => (receiveDate && returnDate) ? ({ NgayNhanPhong: moment(receiveDate), NgayTraPhong: moment(returnDate) }) : null);
+
+>>>>>>> 49cc4e365e7de185cfa97ca232846e5d1ba8bbc8
   //
   const { state } = useLocation();
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-
+  console.log({ dateFilter })
   //choose room
   const [roomSelected, setRoomSelected] = React.useState([]);
 
@@ -138,6 +148,17 @@ function HotelDetailPage(props) {
     // navigate("/search");
   };
 
+<<<<<<< HEAD
+=======
+
+
+  //handle update return , receive date
+  React.useEffect(() => {
+    dispatch(chooseDate({ type: "receiveDate", receiveDate: dateFilter.NgayNhanPhong.format("YYYY-MM-DD") }))
+    dispatch(chooseDate({ type: "returnDate", returnDate: dateFilter.NgayTraPhong.format("YYYY-MM-DD") }))
+  }, [dateFilter])
+
+>>>>>>> 49cc4e365e7de185cfa97ca232846e5d1ba8bbc8
   // fetch rooms
 
   React.useEffect(() => {
@@ -223,6 +244,8 @@ function HotelDetailPage(props) {
   const handleBooking = () => {
     if (!receiveDate && !returnDate)
       return message.info("Vui lòng chọn ngày nhận, trả phòng !");
+
+    if (roomSelected.length < 1) return message.info("Vui lòng chọn phòng !");
 
     const placeInfo = {
       _id: place._id,

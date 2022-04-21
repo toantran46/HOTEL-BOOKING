@@ -12,16 +12,18 @@ ListPlaceOverView.propTypes = {
   places: PropTypes.array,
   isChoosenDate: PropTypes.bool,
   isFiltering: PropTypes.bool,
+  isFirstLoading: PropTypes.bool,
 };
 
 ListPlaceOverView.defaultProps = {
   places: [],
   isChoosenDate: false,
-  isFiltering: false
+  isFiltering: false,
+  isFirstLoading: false,
 };
 
 function ListPlaceOverView(props) {
-  const { places, isChoosenDate, isFiltering } = props;
+  const { places, isChoosenDate, isFiltering, isFirstLoading } = props;
 
   //get data from redux
   const { placeChoosen: { _id }, returnDate, receiveDate } = useSelector(state => state.hotelInfo.homePage);
@@ -38,7 +40,7 @@ function ListPlaceOverView(props) {
             isChoosenDate={isChoosenDate}
           />
         ))}
-      {places.length === 0 &&
+      {isFirstLoading &&
         [1, 2, 3].map((i) => (
           <div
             style={{
@@ -48,13 +50,12 @@ function ListPlaceOverView(props) {
               border: "1px solid #eee",
               marginBottom: "1rem",
             }}
-            key={i}
-          >
+            key={i}>
             <Skeleton.Image style={{ width: "200px", height: "200px" }} />
             <Skeleton paragraph={{ rows: 5 }} style={{ marginLeft: "1rem" }} />
           </div>
         ))}
-      <FilterLoading isFiltering={isFiltering} />
+      <FilterLoading isFiltering={isFiltering && !isFirstLoading} />
     </div>
   );
 }
