@@ -30,6 +30,7 @@ import { booking, chooseDate, choosePlace, saveCurrentPlace } from 'features/Hot
 import { thanhPhoApi } from "api/ThanhPhoApi";
 
 import moment from 'moment';
+import { geocodingApi } from "api/GeocodingApi";
 HotelDetailPage.propTypes = {};
 
 function HotelDetailPage(props) {
@@ -54,7 +55,7 @@ function HotelDetailPage(props) {
   const [isLoadingFeedBack, setIsLoadingFeedBack] = React.useState(false);
 
   const [isVisibleAllFeedBack, setIsVisibleAllFeedBack] = React.useState(false);
-  const [dateFilter, setDateFilter] = useState(() => (receiveDate && returnDate) ? ({ NgayNhanPhong: moment(receiveDate), NgayTraPhong: moment(returnDate) }) : null);
+  const [dateFilter, setDateFilter] = useState(() => ({ NgayNhanPhong: moment(receiveDate || new Date()), NgayTraPhong: moment(returnDate || new Date().setDate(new Date().getDate() + 1)) }));
 
   //
   const { state } = useLocation();
@@ -64,6 +65,9 @@ function HotelDetailPage(props) {
   console.log({ dateFilter })
   //choose room
   const [roomSelected, setRoomSelected] = React.useState([]);
+
+  //save data for lat lng 
+  const [location, setLocation] = React.useState({ lat: 10.337189658366952, lng: 107.08280682625144 });
 
   const handleBook = () => {
     if (roomSelected.length < 1 || !receiveDate || !returnDate) {
@@ -121,14 +125,6 @@ function HotelDetailPage(props) {
 
     // navigate("/search");
   };
-
-
-
-  //handle update return , receive date
-  React.useEffect(() => {
-    dispatch(chooseDate({ type: "receiveDate", receiveDate: dateFilter.NgayNhanPhong.format("YYYY-MM-DD") }))
-    dispatch(chooseDate({ type: "returnDate", returnDate: dateFilter.NgayTraPhong.format("YYYY-MM-DD") }))
-  }, [dateFilter])
 
   // fetch rooms
 
@@ -239,6 +235,33 @@ function HotelDetailPage(props) {
 
   }
 
+
+  //fetch lat lng from this place's address
+
+  React.useEffect(() => {
+    const fetchLocationFromAddress = async () => {
+      try {
+        // const { results } = await geocodingApi.get(`${place?.DiaChi} ${place?.ThanhPho?.TenThanhPho}`);
+        // if (results.length < 1) return;
+
+        // const lction = results[0].geometry.location;
+        // setLocation({ lat: lction.lat, lng: lction.lng })
+      } catch (error) {
+        console.log(error.message);
+      }
+
+    }
+    fetchLocationFromAddress();
+  }, [place])
+
+
+  //set default returnDate , receiveDate 
+  React.useEffect(() => {
+    dispatch(chooseDate({ type: "receiveDate", receiveDate: dateFilter.NgayNhanPhong.format("YYYY-MM-DD") }))
+    dispatch(chooseDate({ type: "returnDate", returnDate: dateFilter.NgayTraPhong.format("YYYY-MM-DD") }))
+  }, [dateFilter])
+
+
   const ImageSkeleton = ({ width, height, style }) => {
     return <Skeleton.Image style={{ width, height, ...style }} />;
   };
@@ -257,7 +280,15 @@ function HotelDetailPage(props) {
             placeName={placeChoosen.cityName}
             receiveDate={receiveDate}
             returnDate={returnDate} />
-          <ViewOnGoogleMap />
+
+          <ViewOnGoogleMap place={{
+            banner: place?.HinhAnh[0],
+            name: place?.TenChoNghi,
+            rank: place?.XepHang,
+            address: place?.DiaChi + ", " + place?.ThanhPho?.TenThanhPho,
+            mediumScore: feedBack?.mediumScore,
+            totalFeedBack: feedBack?.totalFeedBack
+          }} location={location} />
         </div>
         <div className="wrapper__content__right">
           <Row className="wrapper__content__right__top">
@@ -302,7 +333,7 @@ function HotelDetailPage(props) {
                   <span className="wrapper__content__right__top-main__name">
                     {place?.TenChoNghi}
                   </span>
-                  <ShowStar num={5} />
+                  <ShowStar num={place?.XepHang} />
                 </div>
                 <button onClick={() => handleBook()} className="btn-primary">
                   Đặt ngay

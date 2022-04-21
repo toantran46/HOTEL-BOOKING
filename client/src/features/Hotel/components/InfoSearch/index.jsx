@@ -21,6 +21,7 @@ const formatDate = (moment) => {
 
 function InfoSearch({ setDateFilter, dateFilter }) {
   const [isEdit, setIsEdit] = React.useState(false);
+  const dispatch = useDispatch()
 
   const onFinish = (values) => {
     // console.log({ values })
@@ -35,7 +36,7 @@ function InfoSearch({ setDateFilter, dateFilter }) {
         <div className="info-search__time__receiveDate">
           <div className="title">Ngày nhận phòng</div>
           <div className="date" onClick={() => setIsEdit(true)}>
-            {formatDate(dateFilter?.NgayNhanPhong?._d || new Date())}
+            {formatDate(dateFilter?.NgayNhanPhong?._d)}
           </div>
           <div className="hour">Từ 15:00</div>
         </div>
@@ -43,8 +44,7 @@ function InfoSearch({ setDateFilter, dateFilter }) {
           <div className="title">Ngày trả phòng</div>
           <div className="date" onClick={() => setIsEdit(true)}>
             {formatDate(
-              dateFilter?.NgayTraPhong?._d ||
-              new Date().setDate(new Date().getDate() + 1)
+              dateFilter?.NgayTraPhong?._d
             )}
           </div>
           <div className="hour">Nghỉ 5 đêm</div>
