@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Alert, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import './FormSign.scss';
 import FooterPartner from '../FooterPartner';
+import { useDispatch } from 'react-redux';
+import { getMe, login } from 'app/userSlice';
 
 FormSign.propTypes = {
 
@@ -12,10 +14,29 @@ FormSign.propTypes = {
 
 function FormSign(props) {
 
+    const dispatch = useDispatch();
     const [form] = Form.useForm();
 
-    const onFinish = (values) => {
+    const [notifi, setNotifi] = React.useState("");
+    const [isLoading, setIsLoading] = React.useState(false);
+
+
+    const handleLogin = async (values) => {
         console.log(values);
+        setNotifi("");
+        setIsLoading(true);
+        const { error, payload } = await dispatch(login(values));
+        if (error) {
+            setNotifi(payload.message);
+            setIsLoading(false);
+            return;
+        }
+
+        // // const response = await dispatch(getMe());
+        // if (response.error) {
+        //     setIsLoading(false);
+        //     message.success("Đăng nhập thành công");
+        // }
     }
 
     const defaultValues = {
@@ -33,8 +54,9 @@ function FormSign(props) {
                 form={form}
                 className="login-form"
                 initialValues={defaultValues}
-                onFinish={onFinish}
+                onFinish={(values) => handleLogin(values)}
             >
+                {notifi && { notifi }}
                 <Form.Item
                     name="email"
                     rules={[
@@ -81,7 +103,7 @@ function FormSign(props) {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
+                    <Button type="primary" htmlType="submit" className="login-form-button" loading={isLoading}>
                         Đăng nhập
                     </Button>
                     <div className="loggin-form-link-regis">
