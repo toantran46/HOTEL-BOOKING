@@ -23,8 +23,12 @@ function InfoSearch({ setDateFilter, dateFilter }) {
   const [isEdit, setIsEdit] = React.useState(false);
 
   const onFinish = (values) => {
+<<<<<<< HEAD
+    console.log({ values });
+=======
     // console.log({ values })
 
+>>>>>>> 49cc4e365e7de185cfa97ca232846e5d1ba8bbc8
     setDateFilter(values);
     setIsEdit(false);
   };
@@ -44,7 +48,7 @@ function InfoSearch({ setDateFilter, dateFilter }) {
           <div className="date" onClick={() => setIsEdit(true)}>
             {formatDate(
               dateFilter?.NgayTraPhong?._d ||
-              new Date().setDate(new Date().getDate() + 1)
+                new Date().setDate(new Date().getDate() + 1)
             )}
           </div>
           <div className="hour">Nghỉ 5 đêm</div>
