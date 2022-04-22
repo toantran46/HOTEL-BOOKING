@@ -7,14 +7,29 @@ import FooterPartner from '../FooterPartner';
 import './FormRegister.scss';
 import { Link } from 'react-router-dom';
 import { number } from 'yup';
+import { NguoiDungApi } from 'api/NguoiDungApi';
 
 FormRegister.propTypes = {
 
 };
 
 function FormRegister(props) {
-    const onFinish = (values) => {
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    const handleRegister = (values) => {
+        setIsLoading(true)
         console.log(values);
+        const addUser = async () => {
+            try {
+                await NguoiDungApi.add({ ...values, Quyen: "MANAGER" });
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        setTimeout(() => {
+            setIsLoading(false);
+            addUser();
+        }, 2000)
     }
     return (
         <div className='form-site'>
@@ -29,7 +44,7 @@ function FormRegister(props) {
                 layout='vertical'
                 name="register"
                 className="register-form"
-                onFinish={onFinish}
+                onFinish={(values) => handleRegister(values)}
                 scrollToFirstError
             >
                 <Form.Item
@@ -124,7 +139,7 @@ function FormRegister(props) {
                 >
                     <Input />
                 </Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isLoading}>
                     Đăng kí
                 </Button>
                 <div className="available-account">

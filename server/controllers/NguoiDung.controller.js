@@ -1,4 +1,5 @@
 const NguoiDungModel = require("../models/NguoiDung.model");
+var md5 = require('md5');
 
 module.exports = {
   getAll: async (req, res) => {
@@ -33,21 +34,22 @@ module.exports = {
     }
   },
   post: async (req, res) => {
-    try {
-      const { HoTen, SDT, Email, Quyen, MatKhau, Avatar } = req.body;
+    // console.log(req.body);
 
+    try {
+      const { email, name, phone, password, Quyen, Avatar } = req.body;
       const newNguoiDung = new NguoiDungModel({
-        HoTen,
-        SDT,
-        Email,
+        email,
+        name,
+        phone,
         Quyen,
-        MatKhau,
+        password: md5(password),
         Avatar,
       });
       await newNguoiDung.save();
       res.json({ message: "Thêm người dùng thành công !" });
     } catch (error) {
-      res.status(500).json({ message: "error" + error.message });
+      res.status(500).json({ message: "error " + error.message });
     }
   },
   patch: async (req, res) => {

@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const NguoiDungSchema = new mongoose.Schema({
-  HoTen: String,
-  SDT: String,
-  Email: String,
+  name: String,
+  phone: String,
+  email: String,
   Quyen: { type: String, default: "USER" },
-  MatKhau: String,
+  password: String,
   Avatar: { type: String, default: "" },
 });
 

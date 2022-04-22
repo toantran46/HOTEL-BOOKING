@@ -12,11 +12,18 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "cloudinary": "^1.29.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
+<<<<<<< HEAD
+    "md5": "^2.3.0",
     "mongoose": "^6.2.7"
+=======
+    "mongoose": "^6.2.7",
+    "multer": "^1.4.4"
+>>>>>>> 341f84c896d4de59c155eb9df274d83fe76d0137
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
