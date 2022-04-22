@@ -25,16 +25,7 @@ import { choNghiApi } from "api/ChoNghiApi";
 import { phanHoiApi } from "api/PhanHoiApi";
 import { phongApi } from "api/PhongApi";
 import { useDispatch, useSelector } from "react-redux";
-
-<<<<<<< HEAD
-import {
-  booking,
-  choosePlace,
-  saveCurrentPlace,
-} from "features/Hotel/HotelSlice";
-=======
 import { booking, chooseDate, choosePlace, saveCurrentPlace } from 'features/Hotel/HotelSlice';
->>>>>>> 49cc4e365e7de185cfa97ca232846e5d1ba8bbc8
 import { thanhPhoApi } from "api/ThanhPhoApi";
 
 import moment from 'moment';
@@ -64,18 +55,7 @@ function HotelDetailPage(props) {
   const [isLoadingFeedBack, setIsLoadingFeedBack] = React.useState(false);
 
   const [isVisibleAllFeedBack, setIsVisibleAllFeedBack] = React.useState(false);
-<<<<<<< HEAD
   const [dateFilter, setDateFilter] = useState(() => ({ NgayNhanPhong: moment(receiveDate || new Date()), NgayTraPhong: moment(returnDate || new Date().setDate(new Date().getDate() + 1)) }));
-=======
-<<<<<<< HEAD
-  const [dateFilter, setDateFilter] = useState(null);
-  console.log(dateFilter);
-=======
-  const [dateFilter, setDateFilter] = useState(() => (receiveDate && returnDate) ? ({ NgayNhanPhong: moment(receiveDate), NgayTraPhong: moment(returnDate) }) : null);
->>>>>>> 50583c301a8103e47604aa4612548c304db34d53
-
->>>>>>> 49cc4e365e7de185cfa97ca232846e5d1ba8bbc8
-  //
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -156,20 +136,13 @@ function HotelDetailPage(props) {
     // navigate("/search");
   };
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
-
   //handle update return , receive date
   React.useEffect(() => {
     dispatch(chooseDate({ type: "receiveDate", receiveDate: dateFilter.NgayNhanPhong.format("YYYY-MM-DD") }))
     dispatch(chooseDate({ type: "returnDate", returnDate: dateFilter.NgayTraPhong.format("YYYY-MM-DD") }))
   }, [dateFilter])
 
->>>>>>> 49cc4e365e7de185cfa97ca232846e5d1ba8bbc8
->>>>>>> 50583c301a8103e47604aa4612548c304db34d53
+
   // fetch rooms
 
   React.useEffect(() => {
@@ -328,7 +301,6 @@ function HotelDetailPage(props) {
             onSearch={handleSearch}
             placeName={placeChoosen.cityName}
             receiveDate={receiveDate}
-<<<<<<< HEAD
             returnDate={returnDate} />
 
           <ViewOnGoogleMap place={{
@@ -339,11 +311,7 @@ function HotelDetailPage(props) {
             mediumScore: feedBack?.mediumScore,
             totalFeedBack: feedBack?.totalFeedBack
           }} location={location} />
-=======
-            returnDate={returnDate}
-          />
-          <ViewOnGoogleMap />
->>>>>>> 50583c301a8103e47604aa4612548c304db34d53
+
         </div>
         <div className="wrapper__content__right">
           <Row className="wrapper__content__right__top">

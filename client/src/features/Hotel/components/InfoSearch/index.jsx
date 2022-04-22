@@ -24,12 +24,6 @@ function InfoSearch({ setDateFilter, dateFilter }) {
   const dispatch = useDispatch()
 
   const onFinish = (values) => {
-<<<<<<< HEAD
-    console.log({ values });
-=======
-    // console.log({ values })
-
->>>>>>> 49cc4e365e7de185cfa97ca232846e5d1ba8bbc8
     setDateFilter(values);
     setIsEdit(false);
   };
@@ -47,14 +41,7 @@ function InfoSearch({ setDateFilter, dateFilter }) {
         <div className="info-search__time__returnDate">
           <div className="title">Ngày trả phòng</div>
           <div className="date" onClick={() => setIsEdit(true)}>
-            {formatDate(
-<<<<<<< HEAD
-              dateFilter?.NgayTraPhong?._d
-=======
-              dateFilter?.NgayTraPhong?._d ||
-                new Date().setDate(new Date().getDate() + 1)
->>>>>>> 50583c301a8103e47604aa4612548c304db34d53
-            )}
+            {formatDate(dateFilter?.NgayTraPhong?._d)}
           </div>
           <div className="hour">Nghỉ 5 đêm</div>
         </div>
