@@ -1,0 +1,99 @@
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  background-color: #3a3f51;
+  color: #fff;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+  }
+
+  &__logo-img {
+    width: 100%;
+    object-fit: cover;
+    vertical-align: middle;
+  }
+
+  &__logo-name {
+    font-size: 25px;
+    margin-left: 0.4rem;
+  }
+
+  &__manager {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+
+  &__info-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    padding: 2px;
+  }
+
+  &__info-name {
+    font-size: 17px;
+    font-weight: bold;
+    color: #aaadb7;
+    margin: 0.5rem 0 0 0.5rem;
+  }
+
+  &__info-position {
+    color: #b7b6b6;
+    font-size: 12px;
+  }
+
+  &__controls {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 0.8rem;
+  }
+
+  &__control-item i {
+    color: #aaadb7;
+    font-size: 1.2rem;
+  }
+
+  &__list {
+    list-style: none;
+  }
+
+  &__list-item {
+    display: flex;
+    align-items: center;
+
+    &--active {
+      background-color: #2e3344;
+      color: white;
+      font-weight: bold;
+    }
+  }
+
+  &__list-link {
+    display: block;
+    width: 100%;
+    padding: 1.2rem;
+    text-decoration: none;
+    color: #b7c0cd;
+
+    &:hover {
+      background-color: #343848;
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+
+  &__list-item i {
+    margin-right: 8px;
+    font-size: 1rem;
+  }
+}
