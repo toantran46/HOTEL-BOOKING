@@ -53,7 +53,7 @@ function Sidebar(props) {
 
       <ul className="sidebar__list">
         <li className="sidebar__list-item sidebar__list-item--active">
-          <Link to="/" className="sidebar__list-link">
+          <Link to="/admin/users" className="sidebar__list-link">
             <i className="fa-solid fa-user-group"></i>
             Users
           </Link>

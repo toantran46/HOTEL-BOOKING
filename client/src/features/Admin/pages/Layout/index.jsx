@@ -13,7 +13,7 @@ function AdminLayout(props) {
       </div>
       <div className="admin-layout__main">
         <Navbar
-          className="shadow d-flex align-items-center"
+          className="shadow-sm d-flex align-items-center"
           color="white"
           expand="md"
           light

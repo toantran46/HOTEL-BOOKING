@@ -23,12 +23,15 @@ function BreadCrumb(props) {
           {locations.map((item, index) => {
             return (
               <BreadcrumbItem
+                key={index}
                 active={index === locations.length - 1 ? true : false}
               >
                 {index === locations.length - 1 ? (
-                  item
+                  item.charAt(0).toLocaleUpperCase() + item.slice(1)
                 ) : (
-                  <Link to="/">{item}</Link>
+                  <Link to="/">
+                    {item.charAt(0).toLocaleUpperCase() + item.slice(1)}
+                  </Link>
                 )}
               </BreadcrumbItem>
             );

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "./assets/styles/style.scss";
 import AdminLayout from "features/Admin/pages/Layout";
+import UserPage from "features/Admin/pages/Users";
 
 const HoTel = React.lazy(() => import("./features/Hotel/index.jsx"));
 const Auth = React.lazy(() => import("./features/Auth/index.jsx"));
@@ -17,6 +18,7 @@ function App() {
             <Route path="/auth/*" element={<Auth />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<div>dashboard</div>} />
+              <Route path="users" element={<UserPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
