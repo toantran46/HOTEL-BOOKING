@@ -29,6 +29,7 @@ function FeedBackItem(props) {
     console.log("Failed:", errorInfo);
   };
   const [showForm, setShowForm] = useState(false);
+  console.log({ fbInfo })
 
   return (
     <div className="feedback-item">
@@ -39,12 +40,12 @@ function FeedBackItem(props) {
               {fbInfo?.MaKH.Avatar ? (
                 <img src={fbInfo.MaKH.Avatar} alt="avatar" />
               ) : (
-                fbInfo.MaKH.HoTen.charAt(0).toUpperCase()
+                fbInfo?.MaKH?.name?.charAt(0).toUpperCase()
               )}
             </div>
             <div className="feedback-item__personal-info__info">
               <div className="feedback-item__personal-info__info__name">
-                {fbInfo.MaKH.HoTen}
+                {fbInfo.MaKH.name}
               </div>
               <div className="feedback-item__personal-info__info__location">
                 <img
@@ -75,9 +76,8 @@ function FeedBackItem(props) {
         <div className="feedback-item__content">
           <div>
             <div className="date">
-              {`ngày ${new Date(fbInfo?.NgayTao).getDate()} tháng ${
-                new Date(fbInfo?.NgayTao).getMonth() + 1
-              } năm ${new Date(fbInfo?.NgayTao).getFullYear()}`}
+              {`ngày ${new Date(fbInfo?.NgayTao).getDate()} tháng ${new Date(fbInfo?.NgayTao).getMonth() + 1
+                } năm ${new Date(fbInfo?.NgayTao).getFullYear()}`}
             </div>
 
             <div className="title-container">
