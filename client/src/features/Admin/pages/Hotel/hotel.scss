@@ -1,0 +1,29 @@
+.hotel-list {
+  background-color: #fff;
+  border-radius: 0.5rem;
+
+  .hotel-list__actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .hotel-list__action {
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    border-radius: 50%;
+
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+  }
+
+  .hotel-list__action:nth-child(2) {
+    margin: 0 8px;
+  }
+
+  .hotel-list__icon {
+    font-size: 0.8rem;
+  }
+}

@@ -4,9 +4,9 @@ import "./sidebar.scss";
 
 Sidebar.propTypes = {};
 
-function Sidebar(props) {
+function Sidebar({ widthSideBar }) {
   return (
-    <div className="sidebar">
+    <div className="sidebar" style={{ width: `${widthSideBar}px` }}>
       <div className="sidebar__header shadow-lg">
         <img
           className="sidebar__logo-name"
@@ -65,7 +65,7 @@ function Sidebar(props) {
           </Link>
         </li>
         <li className="sidebar__list-item">
-          <Link to="/" className="sidebar__list-link">
+          <Link to="/admin/hotels" className="sidebar__list-link">
             <i className="fa-solid fa-hotel"></i>
             Hotels
           </Link>

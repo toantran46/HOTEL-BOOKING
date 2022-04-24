@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import "./admin-layout.scss";
 import { Navbar, NavbarBrand, NavbarToggler } from "reactstrap";
@@ -6,10 +6,18 @@ import Sidebar from "features/Admin/components/SideBar";
 import BreadCrumb from "features/Admin/components/BreadCrumb";
 
 function AdminLayout(props) {
+  const [widthSideBar, setWidthSideBar] = useState(280);
+  const handleShowSideBar = () => {
+    if (widthSideBar === 280) {
+      setWidthSideBar(0);
+    } else {
+      setWidthSideBar(280);
+    }
+  };
   return (
     <div className="admin-layout">
       <div className="admin-layout__sidebar">
-        <Sidebar />
+        <Sidebar widthSideBar={widthSideBar} />
       </div>
       <div className="admin-layout__main">
         <Navbar
@@ -19,7 +27,10 @@ function AdminLayout(props) {
           light
         >
           <NavbarBrand>
-            <i className="fa-solid fa-bars text-muted"></i>
+            <i
+              className="fa-solid fa-bars text-muted"
+              onClick={handleShowSideBar}
+            ></i>
           </NavbarBrand>
 
           <div className="navbar-input">

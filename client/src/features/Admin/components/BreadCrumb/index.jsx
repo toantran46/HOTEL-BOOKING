@@ -6,9 +6,11 @@ import { Link, useLocation } from "react-router-dom";
 function BreadCrumb(props) {
   const location = useLocation();
   const locations = location.pathname.split("/").slice(2);
+  const title =
+    location.pathname.split("/")[location.pathname.split("/").length - 1];
   return (
     <div className="breadcrumb">
-      <div className="breadcrumb__name">DashBoard</div>
+      <div className="breadcrumb__name">{title.toUpperCase()}</div>
       <div className="breadcrumb__container">
         <Breadcrumb>
           <BreadcrumbItem className="breadcrumb__home">

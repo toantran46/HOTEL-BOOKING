@@ -1,8 +1,8 @@
 .sidebar {
-  width: 280px;
   height: 100vh;
   background-color: #3a3f51;
   color: #fff;
+  transition: all 0.25s ease-in-out 0s;
 
   &__header {
     display: flex;
