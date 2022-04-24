@@ -68,7 +68,7 @@
     }
 
     button svg {
-        vertical-align: top;
+        vertical-align: unset;
     }
 
     .confirm {
@@ -79,4 +79,5 @@
             text-decoration: underline;
         }
     }
+
 }
