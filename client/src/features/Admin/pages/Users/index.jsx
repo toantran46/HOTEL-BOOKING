@@ -1,14 +1,23 @@
 import { NguoiDungApi } from "api/NguoiDungApi";
 import Pagination from "features/Admin/components/Pagination";
 import React, { useEffect, useState } from "react";
-import { Badge, Modal, ModalBody, ModalHeader, Table } from "reactstrap";
+import {
+  Badge,
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Table,
+} from "reactstrap";
 import "./user.scss";
 import FormUser from "../../components/UserForm";
 
 function UserPage(props) {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
-  const [showModale, setShowModal] = useState(false);
+  const [showUpdateUserModal, setShowUpdateUserModal] = useState(false);
+  const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -23,12 +32,21 @@ function UserPage(props) {
   }, []);
 
   const showModal = (user) => {
-    setShowModal(true);
+    setShowUpdateUserModal(true);
     setSelectedUser(user);
   };
 
   const hideModal = () => {
-    setShowModal(false);
+    setShowUpdateUserModal(false);
+  };
+
+  const showDeleteModal = (user) => {
+    setShowDeleteUserModal(true);
+    setSelectedUser(user);
+  };
+
+  const hideDeleteModal = () => {
+    setShowDeleteUserModal(false);
   };
 
   const onSubmit = async (data) => {
@@ -48,7 +66,16 @@ function UserPage(props) {
         console.log(error);
       }
     }
-    setShowModal(false);
+    setShowUpdateUserModal(false);
+  };
+
+  const handleRemoveUser = async () => {
+    try {
+      await NguoiDungApi.delete(selectedUser._id);
+      setShowDeleteUserModal(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -118,7 +145,10 @@ function UserPage(props) {
                     >
                       <i className="fa-solid fa-pen user-list__icon"></i>
                     </div>
-                    <div className="user-list__action shadow-sm bg-danger">
+                    <div
+                      onClick={() => showDeleteModal(user)}
+                      className="user-list__action shadow-sm bg-danger"
+                    >
                       <i className="fa-solid fa-trash user-list__icon"></i>
                     </div>
                   </div>
@@ -130,11 +160,11 @@ function UserPage(props) {
       </div>
 
       <Pagination page={1} totalRows={50} limit={10} />
-      <Modal centered isOpen={showModale} toggle={hideModal}>
+      {/* Modal Update User */}
+      <Modal centered isOpen={showUpdateUserModal} toggle={hideModal}>
         <ModalHeader toggle={hideModal}>
-          <div className="sidebar__header ps-0 ">
+          <div>
             <img
-              className="sidebar__logo-name ms-0"
               src="https://www.einfosoft.com/templates/admin/spice/source/assets/img/logo.png"
               alt="admin logo"
             />
@@ -148,6 +178,29 @@ function UserPage(props) {
             onSubmit={onSubmit}
           />
         </ModalBody>
+      </Modal>
+      {/* Modal Delete User */}
+      <Modal centered isOpen={showDeleteUserModal} toggle={hideDeleteModal}>
+        <ModalHeader toggle={hideDeleteModal}>
+          <div>
+            <img
+              src="https://www.einfosoft.com/templates/admin/spice/source/assets/img/logo.png"
+              alt="admin logo"
+            />
+            <span className="sidebar__logo-name text-dark">LTH Booking</span>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          Are you sure remove user{" "}
+          <Badge color="danger">{selectedUser.name}</Badge>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button onClick={handleRemoveUser} color="primary">
+            Confirm
+          </Button>{" "}
+          <Button onClick={hideDeleteModal}>Cancel</Button>
+        </ModalFooter>
       </Modal>
     </div>
   );
