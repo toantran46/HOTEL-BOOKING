@@ -1,7 +1,7 @@
 import { NguoiDungApi } from "api/NguoiDungApi";
 import Pagination from "features/Admin/components/Pagination";
 import React, { useEffect, useState } from "react";
-import { Modal, ModalBody, ModalHeader, Table } from "reactstrap";
+import { Badge, Modal, ModalBody, ModalHeader, Table } from "reactstrap";
 import "./user.scss";
 import FormUser from "../../components/UserForm";
 
@@ -96,10 +96,20 @@ function UserPage(props) {
                     </div>
                   )}
                 </td>
-                <td>{user.name}</td>
-                <td>{user.phone}</td>
-                <td>{user.email}</td>
-                <td>{user.Quyen}</td>
+                <td>
+                  <Badge color="light" className="text-dark">
+                    {user.name}
+                  </Badge>
+                </td>
+                <td>
+                  <Badge color="warning">{user.phone}</Badge>
+                </td>
+                <td>
+                  <Badge color="primary">{user.email}</Badge>
+                </td>
+                <td>
+                  <Badge color="success">{user.Quyen}</Badge>
+                </td>
                 <td>
                   <div className="user-list__actions">
                     <div

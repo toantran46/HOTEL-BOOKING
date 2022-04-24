@@ -65,7 +65,7 @@ function Sidebar({ widthSideBar }) {
           </Link>
         </li>
         <li className="sidebar__list-item">
-          <Link to="/" className="sidebar__list-link">
+          <Link to="/admin/hotels" className="sidebar__list-link">
             <i className="fa-solid fa-hotel"></i>
             Hotels
           </Link>
