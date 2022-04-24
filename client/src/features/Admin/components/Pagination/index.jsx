@@ -21,7 +21,9 @@ function Pagination({ page, limit, totalRows }) {
 
       <ul className="pagination__list">
         {listItem.map((item) => (
-          <li className="pagination__item">{item + 1}</li>
+          <li key={item} className="pagination__item">
+            {item + 1}
+          </li>
         ))}
       </ul>
 

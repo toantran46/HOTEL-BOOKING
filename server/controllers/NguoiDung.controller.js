@@ -1,5 +1,6 @@
 const NguoiDungModel = require("../models/NguoiDung.model");
-var md5 = require('md5');
+var md5 = require("md5");
+const bcrypt = require("bcrypt");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -55,6 +56,12 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const { MaNguoiDung } = req.params;
+
+      if (req.body.password) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        req.body.password = hashedPassword;
+      }
 
       const NguoiDung = await NguoiDungModel.updateOne(
         { _id: MaNguoiDung },

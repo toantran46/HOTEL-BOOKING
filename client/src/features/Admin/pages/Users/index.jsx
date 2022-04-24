@@ -1,11 +1,14 @@
 import { NguoiDungApi } from "api/NguoiDungApi";
-import React, { useEffect, useState } from "react";
-import { Table } from "reactstrap";
 import Pagination from "features/Admin/components/Pagination";
+import React, { useEffect, useState } from "react";
+import { Modal, ModalBody, ModalHeader, Table } from "reactstrap";
 import "./user.scss";
+import FormUser from "../../components/UserForm";
 
 function UserPage(props) {
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState({});
+  const [showModale, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -19,6 +22,35 @@ function UserPage(props) {
     fetchUser();
   }, []);
 
+  const showModal = (user) => {
+    setShowModal(true);
+    setSelectedUser(user);
+  };
+
+  const hideModal = () => {
+    setShowModal(false);
+  };
+
+  const onSubmit = async (data) => {
+    data.Quyen = data.Quyen.value;
+    if (!data.password) {
+      const { password, repeatPassword, ...userInfo } = data;
+      try {
+        await NguoiDungApi.update(selectedUser._id, userInfo);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const { repeatPassword, ...userInfo } = data;
+      try {
+        await NguoiDungApi.update(selectedUser._id, userInfo);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    setShowModal(false);
+  };
+
   return (
     <div className="user-list shadow-sm">
       <div className="table-responsive">
@@ -30,7 +62,7 @@ function UserPage(props) {
               <th>Full Name</th>
               <th>Phone</th>
               <th>Email</th>
-              <th>Role</th>
+              <th>Roles</th>
               <th>Edit</th>
             </tr>
           </thead>
@@ -57,17 +89,23 @@ function UserPage(props) {
                       }}
                       className="user-list__avatar-name shadow-sm"
                     >
-                      {user.HoTen.charAt(0).toUpperCase()}
+                      {user.name
+                        .split(" ")
+                        [user.name.split(" ").length - 1].charAt(0)
+                        .toUpperCase()}
                     </div>
                   )}
                 </td>
-                <td>{user.HoTen}</td>
-                <td>{user.SDT}</td>
-                <td>{user.Email}</td>
+                <td>{user.name}</td>
+                <td>{user.phone}</td>
+                <td>{user.email}</td>
                 <td>{user.Quyen}</td>
                 <td>
                   <div className="user-list__actions">
-                    <div className="user-list__action shadow-sm bg-warning">
+                    <div
+                      onClick={() => showModal(user)}
+                      className="user-list__action shadow-sm bg-warning"
+                    >
                       <i className="fa-solid fa-pen user-list__icon"></i>
                     </div>
                     <div className="user-list__action shadow-sm bg-danger">
@@ -82,6 +120,25 @@ function UserPage(props) {
       </div>
 
       <Pagination page={1} totalRows={50} limit={10} />
+      <Modal centered isOpen={showModale} toggle={hideModal}>
+        <ModalHeader toggle={hideModal}>
+          <div className="sidebar__header ps-0 ">
+            <img
+              className="sidebar__logo-name ms-0"
+              src="https://www.einfosoft.com/templates/admin/spice/source/assets/img/logo.png"
+              alt="admin logo"
+            />
+            <span className="sidebar__logo-name text-dark">LTH Booking</span>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          <FormUser
+            selectedUser={selectedUser}
+            hideModal={hideModal}
+            onSubmit={onSubmit}
+          />
+        </ModalBody>
+      </Modal>
     </div>
   );
 }

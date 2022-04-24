@@ -38,9 +38,15 @@ module.exports.login = async (req, res) => {
     // console.log(req.body);
     // console.log(user.password);
     // compare password
-    // const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (md5(req.body.password) !== user.password)
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+
+    if (!validPassword)
       return res.status(401).json({ message: "wrong password" });
+    // if (md5(req.body.password) !== user.password)
+    //   return res.status(401).json({ message: "wrong password" });
 
     const accessToken = jwt.sign(
       { email: user.email, userId: user._id, Quyen: user.Quyen },
