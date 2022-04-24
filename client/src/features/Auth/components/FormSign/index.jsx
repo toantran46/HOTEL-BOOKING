@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, Button, Alert, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './FormSign.scss';
 import FooterPartner from '../FooterPartner';
 import { useDispatch } from 'react-redux';
@@ -17,20 +17,28 @@ function FormSign(props) {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
 
-    const [notifi, setNotifi] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
 
+    const navigate = useNavigate();
 
     const handleLogin = async (values) => {
         console.log(values);
-        setNotifi("");
+        // setNotifi("");
         setIsLoading(true);
-        const { error, payload } = await dispatch(login(values));
-        if (error) {
-            setNotifi(payload.message);
-            setIsLoading(false);
-            return;
+        const register = async () => {
+            const { error, payload } = await dispatch(login(values));
+            if (error) {
+                setIsLoading(false);
+                alert(payload.message);
+            } else {
+                navigate('/auth/about');
+                alert('Đăng nhập thành công !');
+            }
         }
+        setTimeout(() => {
+            register();
+            setIsLoading(false);
+        }, 2000)
 
         // // const response = await dispatch(getMe());
         // if (response.error) {
@@ -56,7 +64,6 @@ function FormSign(props) {
                 initialValues={defaultValues}
                 onFinish={(values) => handleLogin(values)}
             >
-                {notifi && { notifi }}
                 <Form.Item
                     name="email"
                     rules={[

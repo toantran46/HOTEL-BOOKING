@@ -36,22 +36,50 @@ module.exports = {
   },
   post: async (req, res) => {
     // console.log(req.body);
-
+    // return;
+    const { email, name, phone, password, Quyen, Avatar } = req.body;
     try {
-      const { email, name, phone, password, Quyen, Avatar } = req.body;
-      const newNguoiDung = new NguoiDungModel({
-        email,
-        name,
-        phone,
+      // Check email
+      const email = await NguoiDungModel.findOne({ email: req.body.email });
+      if (email) return res.status(409).json({ message: "email already exist" });
+      // Check password
+      const phone = await NguoiDungModel.findOne({ phone: req.body.phone });
+      if (phone) return res.status(409).json({ message: "phone already exist" });
+      // generate salt to hash password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+      const newNguoiDungModel = await new NguoiDungModel({
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        password: hashedPassword,
         Quyen,
-        password: md5(password),
         Avatar,
       });
-      await newNguoiDung.save();
-      res.json({ message: "Thêm người dùng thành công !" });
+
+      await newNguoiDungModel.save();
+      res.status(201).json({ message: "Sign up user successful" });
     } catch (error) {
-      res.status(500).json({ message: "error " + error.message });
+      res.status(500).json({ message: "Error " + error.message });
+
     }
+
+    // try {
+    //   const { email, name, phone, password, Quyen, Avatar } = req.body;
+    //   const newNguoiDung = new NguoiDungModel({
+    //     email,
+    //     name,
+    //     phone,
+    //     Quyen,
+    //     password: md5(password),
+    //     Avatar,
+    //   });
+    //   await newNguoiDung.save();
+    //   res.json({ message: "Thêm người dùng thành công !" });
+    // } catch (error) {
+    //   res.status(500).json({ message: "error " + error.message });
+    // }
   },
   patch: async (req, res) => {
     try {

@@ -1,33 +1,6 @@
 const User = require("../models/NguoiDung.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const md5 = require("md5");
-
-module.exports.register = async (req, res) => {
-  try {
-    // Check email
-    const email = await User.findOne({ email: req.body.email });
-    if (email) return res.status(409).json({ message: "email already exist" });
-    // Check password
-    const phone = await User.findOne({ phone: req.body.phone });
-    if (phone) return res.status(409).json({ message: "phone already exist" });
-    // generate salt to hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-    const newUser = await new User({
-      name: req.body.username,
-      phone: req.body.phone,
-      email: req.body.email,
-      password: hashedPassword,
-    });
-
-    await newUser.save();
-    res.status(201).json({ message: "Sign up user successful" });
-  } catch (error) {
-    res.status(500).json({ error });
-  }
-};
 
 module.exports.login = async (req, res) => {
   try {

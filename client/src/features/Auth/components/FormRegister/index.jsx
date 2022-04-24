@@ -5,7 +5,7 @@ import { Form, Input, Button } from "antd";
 import FooterPartner from '../FooterPartner';
 
 import './FormRegister.scss';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useNavigate } from 'react-router-dom';
 import { number } from 'yup';
 import { NguoiDungApi } from 'api/NguoiDungApi';
 
@@ -15,6 +15,7 @@ FormRegister.propTypes = {
 
 function FormRegister(props) {
     const [isLoading, setIsLoading] = React.useState(false);
+    const navigate = useNavigate();
 
     const handleRegister = (values) => {
         setIsLoading(true)
@@ -22,8 +23,13 @@ function FormRegister(props) {
         const addUser = async () => {
             try {
                 await NguoiDungApi.add({ ...values, Quyen: "MANAGER" });
+                alert('Đăng kí thành công');
+                navigate('/auth/about');
             } catch (error) {
-                console.log(error)
+                alert('Email hoặc số điện thoại đã tồn tại');
+                console.log(error.message);
+                navigate('/auth/register');
+
             }
         }
         setTimeout(() => {
