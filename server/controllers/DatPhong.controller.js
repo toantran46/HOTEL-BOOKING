@@ -53,7 +53,15 @@ module.exports = {
             await newDatPhong.save();
 
             //data for send mail
-            const DatPhong = await DatPhongModel.findById(newDatPhong._id).populate("MaKhachSan").populate("ThongTinhPhong.Phong");
+            const DatPhong = await DatPhongModel.findById(newDatPhong._id).populate("ThongTinhPhong.Phong").populate({
+                path: "MaKhachSan",
+                populate: [
+                    {
+                        path: "ThanhPho",
+                        model: "ThanhPho",
+                    }
+                ],
+            })
             const fitDataRoom = DatPhong.ThongTinhPhong.map((TTP) => ({ name: TTP.Phong.TenPhong, quantity: TTP.SoLuong }));
 
             const infoBooking = {
@@ -62,7 +70,7 @@ module.exports = {
                 phone: DatPhong.SoDienThoai,
                 userType: req.user ? "Thành viên" : "Khách vãng lai",
                 placeName: DatPhong.MaKhachSan.TenChoNghi,
-                placeAddress: DatPhong.MaKhachSan.DiaChi + ", " + DatPhong.MaKhachSan.TenThanhPho,
+                placeAddress: DatPhong.MaKhachSan.DiaChi + ", " + DatPhong.MaKhachSan.ThanhPho.TenThanhPho,
                 room: fitDataRoom,
                 receiveDate: NgayNhanPhong,
                 returnDate: NgayTraPhong,

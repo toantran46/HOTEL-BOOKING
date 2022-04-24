@@ -114,7 +114,7 @@ module.exports = {
                                         VND.</span> </li>
                             </ul>
                             <br>
-                            <p>Mong quý khách có mặt trước <b>${infoBooking.intentTime} ngày ${infoBooking.receiveDate}</b> để hoàn
+                            <p>Mong quý khách có mặt trước <b>${infoBooking.intentTime}h ngày ${infoBooking.receiveDate}</b> để hoàn
                                 tất thủ tục nhận phòng.</p>
                             <p>
                                 Chúc quý khách có một chuyến du lịch đáng nhớ, nhiều niềm vui và được trải nghiệm những dịch vụ
