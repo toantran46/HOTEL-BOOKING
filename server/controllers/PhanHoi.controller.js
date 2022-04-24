@@ -60,7 +60,7 @@ module.exports = {
         const { orderBy, _page, _limit } = req.query;
 
         PhanHois = await PhanHoiModel.find({ MaKhachSan })
-          .populate("MaKH", "_id HoTen Avatar")
+          .populate("MaKH", "_id name Avatar")
           .populate("MaPhong")
           .exec();
         //total found
