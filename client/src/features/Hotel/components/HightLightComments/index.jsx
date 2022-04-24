@@ -18,7 +18,7 @@ function HightLightComments(props) {
             <div className='hight-light-comments__header'>
                 <div className='hight-light-comments__header__avatar'>
                     {
-                        feedBack?.MaKH.Avatar ? <img src={feedBack?.MaKH.Avatar} alt='avatar' width="100%" height="100%" /> : feedBack?.MaKH.HoTen.charAt(0).toUpperCase()
+                        feedBack?.MaKH.Avatar ? <img src={feedBack?.MaKH.Avatar} alt='avatar' width="100%" height="100%" /> : feedBack?.MaKH.HoTen?.charAt(0)?.toUpperCase()
                     }
 
                 </div>
