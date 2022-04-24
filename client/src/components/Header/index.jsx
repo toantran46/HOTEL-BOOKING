@@ -18,7 +18,7 @@ function Header(props) {
       <div className="header">
         <div className="header__top">
           <div className="header__top__left">
-            <Link to="/">LTBooking.vn</Link>
+            <Link to="/">LTHBooking.vn</Link>
           </div>
           <div className="header__top__right">
             <span className="header__top__right__currency">VND</span>

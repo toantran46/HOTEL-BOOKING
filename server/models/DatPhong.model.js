@@ -10,7 +10,7 @@ const DatPhongSchema = new mongoose.Schema({
   ],
   HoTenNguoiDat: String,
   Email: String,
-  MaKhachSan: String,
+  MaKhachSan: { type: mongoose.Schema.Types.ObjectId, ref: "ChoNghi" },
   NgayDatPhong: { type: Date, default: new Date() },
   NgayNhanPhong: Date,
   NgayTraPhong: Date,
@@ -24,7 +24,7 @@ const DatPhongSchema = new mongoose.Schema({
     NgayHetHan: String
   },
   ThoiGianDenDuKien: Number,
-  TrangThai: { type: String, default: "Chờ nhận phòng" },
+  TrangThai: { type: String, default: "Chưa thanh toán" },
   DaThanhToan: { type: Boolean, default: false }
 });
 

@@ -1,4 +1,5 @@
 const TinDungModel = require("../models/TinDung.model");
+const { sendMail } = require("../sevices/mail");
 
 module.exports = {
     getAll: async (req, res) => {

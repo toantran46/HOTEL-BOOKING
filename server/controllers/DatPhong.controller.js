@@ -1,4 +1,6 @@
 const DatPhongModel = require("../models/DatPhong.model");
+const ChoNghiModel = require("../models/ChoNghi.model");
+const { sendMail } = require("../sevices/mail");
 
 module.exports = {
     getAll: async (req, res) => {
@@ -49,6 +51,36 @@ module.exports = {
                 ThoiGianDenDuKien
             })
             await newDatPhong.save();
+
+            //data for send mail
+            const DatPhong = await DatPhongModel.findById(newDatPhong._id).populate("ThongTinhPhong.Phong").populate({
+                path: "MaKhachSan",
+                populate: [
+                    {
+                        path: "ThanhPho",
+                        model: "ThanhPho",
+                    }
+                ],
+            })
+            const fitDataRoom = DatPhong.ThongTinhPhong.map((TTP) => ({ name: TTP.Phong.TenPhong, quantity: TTP.SoLuong }));
+
+            const infoBooking = {
+                name: DatPhong.HoTenNguoiDat,
+                email: DatPhong.Email,
+                phone: DatPhong.SoDienThoai,
+                userType: req.user ? "Thành viên" : "Khách vãng lai",
+                placeName: DatPhong.MaKhachSan.TenChoNghi,
+                placeAddress: DatPhong.MaKhachSan.DiaChi + ", " + DatPhong.MaKhachSan.ThanhPho.TenThanhPho,
+                room: fitDataRoom,
+                receiveDate: NgayNhanPhong,
+                returnDate: NgayTraPhong,
+                intentTime: DatPhong.ThoiGianDenDuKien,
+                totalPrice: DatPhong.TongTien,
+                status: DatPhong.TrangThai,
+            }
+            const sendForUser = await sendMail(DatPhong.Email, "booked-to-user", infoBooking);
+            const sendForOwner = await sendMail("vietlinhst2019@gmail.com", "booked-to-owner", infoBooking);
+            console.log({ sendForUser, sendForOwner });
             res.json({ message: "Đặt phòng thành công! Mong quý khách đến đúng hẹn và có 1 kì nghĩ tuyệt vời !" })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
