@@ -4,9 +4,9 @@ import "./sidebar.scss";
 
 Sidebar.propTypes = {};
 
-function Sidebar(props) {
+function Sidebar({ widthSideBar }) {
   return (
-    <div className="sidebar">
+    <div className="sidebar" style={{ width: `${widthSideBar}px` }}>
       <div className="sidebar__header shadow-lg">
         <img
           className="sidebar__logo-name"
