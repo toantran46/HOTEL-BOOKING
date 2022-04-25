@@ -49,7 +49,7 @@ function HotelPage(props) {
     setShowDeleteHotelModal(false);
   };
 
-  const handleRemoveHotel = async () => {
+  const handleRemoveBooking = async () => {
     try {
       await choNghiApi.delete(selectedHotel._id);
       setShowDeleteHotelModal(false);
@@ -165,7 +165,7 @@ function HotelPage(props) {
         </ModalBody>
 
         <ModalFooter>
-          <Button onClick={handleRemoveHotel} color="primary">
+          <Button onClick={handleRemoveBooking} color="primary">
             Confirm
           </Button>{" "}
           <Button onClick={hideDeleteModal}>Cancel</Button>

@@ -1,10 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./sidebar.scss";
 
 Sidebar.propTypes = {};
 
 function Sidebar({ widthSideBar }) {
+  const location = useLocation();
+  const target =
+    location.pathname.split("/")[location.pathname.split("/").length - 1];
+
   return (
     <div className="sidebar" style={{ width: `${widthSideBar}px` }}>
       <div className="sidebar__header shadow-lg">
@@ -52,37 +56,73 @@ function Sidebar({ widthSideBar }) {
       </div>
 
       <ul className="sidebar__list">
-        <li className="sidebar__list-item sidebar__list-item--active">
+        <li
+          className={
+            target === "users"
+              ? "sidebar__list-item sidebar__list-item--active"
+              : "sidebar__list-item"
+          }
+        >
           <Link to="/admin/users" className="sidebar__list-link">
             <i className="fa-solid fa-user-group"></i>
             Users
           </Link>
         </li>
-        <li className="sidebar__list-item">
-          <Link to="/" className="sidebar__list-link">
+        <li
+          className={
+            target === "bookings"
+              ? "sidebar__list-item sidebar__list-item--active"
+              : "sidebar__list-item"
+          }
+        >
+          <Link to="/admin/bookings" className="sidebar__list-link">
             <i className="fa-solid fa-cart-flatbed"></i>
             Bookings
           </Link>
         </li>
-        <li className="sidebar__list-item">
+        <li
+          className={
+            target === "hotels"
+              ? "sidebar__list-item sidebar__list-item--active"
+              : "sidebar__list-item"
+          }
+        >
           <Link to="/admin/hotels" className="sidebar__list-link">
             <i className="fa-solid fa-hotel"></i>
             Hotels
           </Link>
         </li>
-        <li className="sidebar__list-item">
-          <Link to="/" className="sidebar__list-link">
-            <i className="fa-solid fa-bed"></i>
-            Beds
+        <li
+          className={
+            target === "rooms"
+              ? "sidebar__list-item sidebar__list-item--active"
+              : "sidebar__list-item"
+          }
+        >
+          <Link to="/admin/hotels" className="sidebar__list-link">
+            <i className="fa-solid fa-hotel"></i>
+            Rooms
           </Link>
         </li>
-        <li className="sidebar__list-item">
+        <li
+          className={
+            target === "convenients"
+              ? "sidebar__list-item sidebar__list-item--active"
+              : "sidebar__list-item"
+          }
+        >
           <Link to="/" className="sidebar__list-link">
             <i className="fa-solid fa-bottle-droplet"></i>
             Convenient
           </Link>
         </li>
-        <li className="sidebar__list-item">
+        <li
+          className={
+            target === "places"
+              ? "sidebar__list-item sidebar__list-item--active"
+              : "sidebar__list-item"
+          }
+        >
           <Link to="/" className="sidebar__list-link">
             <i className="fa-solid fa-location-dot"></i>
             Places
