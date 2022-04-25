@@ -5,8 +5,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import SideBarManagement from './Components/SideBarManagement';
 import Profile from './Components/Profile';
-import HolteBooked from './Components/HoltelBooked';
-import HotelSaved from './Components/HoltelSaved';
+import PlaceBooked from './Components/PlaceBooked';
+import PlaceSaved from './Components/PlaceSaved';
 GeneralManagement.propTypes = {
 
 };
@@ -23,8 +23,8 @@ function GeneralManagement(props) {
                         <Routes>
                             <Route path="/" element={<Navigate to="/management/profile" replace />} />
                             <Route index path='/profile' element={<Profile />} />
-                            <Route path='/booked' element={<HolteBooked />} />
-                            <Route path='/saved' element={<HotelSaved />} />
+                            <Route path='/booked' element={<PlaceBooked />} />
+                            <Route path='/saved' element={<PlaceSaved />} />
                         </Routes>
                     </div>
                 </Col>

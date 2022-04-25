@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Title from '../Title';
-import "./HotelSaved.scss";
-HotelSaved.propTypes = {
+import "./PlaceSaved.scss";
+PlaceSaved.propTypes = {
 
 };
 
-function HotelSaved(props) {
+function PlaceSaved(props) {
     return (
-        <div className='hotel-saved'>
+        <div className='place-saved'>
             <Title main='Danh sách phòng đã lưu' />
         </div>
     );
 }
 
-export default HotelSaved;
+export default PlaceSaved;

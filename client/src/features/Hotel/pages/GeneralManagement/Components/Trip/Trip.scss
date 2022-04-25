@@ -1,0 +1,112 @@
+.trip{
+    padding: 1rem 2rem;
+    // border: 1px solid #d0d0d0;
+    font-size: 14px;
+    margin-bottom: 1.5rem;
+    box-shadow: 1px 1px 25px -5px #d0d0d0;
+
+    &__header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__address{
+            font-weight: bold;
+            border-bottom: 1px solid #aaa;
+        }
+
+        &__createAt{
+            font-size: 10px;
+        }
+    }
+
+    &__body{
+        margin-top: 1rem;
+
+        &__info-booking{
+
+        &__item{
+            margin-bottom: 2px;
+            padding: 2px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+
+         .text-title{
+               font-style: italic;
+                display: inline-block;
+                min-width: 100px;
+                margin-right: 10px;
+                font-size: 12px;
+            }   
+
+         .content{
+             font-size: 14px;
+         }
+
+         .total-price{
+             font-size: 17px;
+             color: #003580;
+             font-weight: bold;
+         }
+
+        }
+
+        }
+
+       &__info-place{
+        display: flex;
+           img {
+               width: 100px;
+               height: 100px;
+               object-fit: cover;
+               margin-right: 1rem;
+           }
+           .type {
+               font-size: 13px;
+               color: #888;
+           }
+           .name {
+               font-size: 20px;
+               font-weight: bold;
+           }
+       
+           .address {
+               margin: 5px 0;
+           }
+       
+           .feed-back {
+               display: flex;
+               font-size: 13px;
+       
+               .message {
+                   margin: 0 10px;
+                   font-weight: 500;
+               }
+           }
+       } 
+       .main-title{
+        margin-left: 2rem;
+        margin-bottom: 1rem;
+    }
+    }
+
+
+    /*------VIP TEXT-------- */
+    .vip-text-1{
+        padding: 2px 4px;
+        font-size: 10px;
+        font-weight: bold;
+        color: #FFDC00;
+       border: 1px solid #FFDC00;
+       border-radius: 2px;
+       }
+    .vip-text-2{
+        padding: 2px 4px;
+        font-size: 10px;
+        font-weight: bold;
+        // color: #39CCCC;
+        // border: 1px solid #39CCCC;
+        background: #39CCCC;
+        border-radius: 2px;
+       }
+}

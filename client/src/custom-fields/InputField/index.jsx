@@ -32,6 +32,7 @@ function InputField(props) {
     const { name, value, placeholder, type, disabled, label, onChange, allowClear, rules } = props;
     return (
         <Form.Item
+            className='input-field'
             name={name}
             rules={rules}
             label={label}>

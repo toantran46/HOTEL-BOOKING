@@ -1,15 +1,21 @@
 .input-field {
-    label {
-        font-size: 12px;
-        display: block;
-        margin-bottom: 3px;
+    /*-------OVERWRITE ANTD-----------*/
+
+    .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before{
+        //clear default of antd
+        content:'';
+    }
+    .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::after{
+        display: inline-block;
+        color: #ff4d4f;
+        font-size: 14px;
+        line-height: 1;
+        content: '*';
+        padding-left: 2px;
     }
 
-    input {
-        font-size: 13px;
-    }
-    /*-------OVERWRITE ANTD-----------*/
-.ant-input-affix-wrapper {
+
+    .ant-input-affix-wrapper {
     background-color: unset;
     border: none;
 }
@@ -22,6 +28,11 @@
 .ant-input-affix-wrapper-focused {
     border: none;
     box-shadow: unset;
+}
+
+.ant-form-item-explain-error{
+    margin-top: 2px;
+    font-size: 11px;
 }
 /*---------------------------------*/
 }
