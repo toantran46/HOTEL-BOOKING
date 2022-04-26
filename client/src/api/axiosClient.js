@@ -12,15 +12,16 @@ const axiosClient = axios.create({
 
 
 axiosClient.interceptors.request.use(async config => {
-    //handle token when login username password
+    // handle token when login username password
 
-    // const { currentUser } = JSON.parse(localStorage.getItem('persist:auth'));
+    const { auth } = JSON.parse(localStorage.getItem('persist:login'));
 
-    // const { auth: { token } } = JSON.parse(currentUser);
+    const { accessToken } = JSON.parse(auth);
 
-    // if (token) {
-    //     config.headers.Authorization = `Bearer ${token}`;
-    // }
+    console.log(accessToken);
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
 
     return config;
 })

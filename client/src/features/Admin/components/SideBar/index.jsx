@@ -100,7 +100,7 @@ function Sidebar({ widthSideBar }) {
           }
         >
           <Link to="/admin/rooms" className="sidebar__list-link">
-            <i className="fa-solid fa-hotel"></i>
+            <i className="fa-solid fa-person-booth"></i>
             Rooms
           </Link>
         </li>
