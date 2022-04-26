@@ -4,7 +4,7 @@ import InputField from 'custom-fields/InputField';
 
 
 import "./FormSearch.scss";
-import { Form } from 'antd';
+import { Form, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { chooseDate, saveSearchValue } from 'features/Hotel/HotelSlice';
 FormSearch.propTypes = {
@@ -23,15 +23,20 @@ FormSearch.defaultProps = {
 function FormSearch(props) {
 
     const { onSearch } = props;
-    const { placeChoosen: { cityName }, receiveDate, returnDate } = useSelector(state => state.hotelInfo.homePage);
+    const { placeChoosen: { cityName }, searchValue, receiveDate, returnDate } = useSelector(state => state.hotelInfo.homePage);
 
+    console.log({ cityName })
 
     const dispatch = useDispatch();
 
     const handleSearch = values => {
+        //check time is valid
+        if (new Date(values.returnDate) < new Date(values.receiveDate)) return message.error("Ngày trả phòng phải lớn hơn ngày nhận phòng")
+        //is valid
         dispatch(saveSearchValue(values.placeName));
         dispatch(chooseDate({ type: "receiveDate", receiveDate: values.receiveDate }));
         dispatch(chooseDate({ type: "returnDate", returnDate: values.returnDate }));
+
         onSearch(values.placeName);
     }
 
@@ -45,7 +50,7 @@ function FormSearch(props) {
             returnDate
         })
 
-    }, [cityName, receiveDate, returnDate])
+    }, [cityName, searchValue, receiveDate, returnDate])
 
     return (
         <div className='form-search'>
