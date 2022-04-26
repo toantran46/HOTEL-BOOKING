@@ -1,24 +1,28 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import "./FeedBackItem.scss";
-import { ICONS } from "constants";
-import { getMessageByScore } from "assets/globaJS";
 import { MessageOutlined } from "@ant-design/icons";
-import { Form, Input, Button } from "antd";
+import { Button, Form, Input } from "antd";
+import { NguoiDungApi } from "api/NguoiDungApi";
 import { phanHoiApi } from "api/PhanHoiApi";
+import { phongApi } from "api/PhongApi";
+import { getMessageByScore } from "assets/globaJS";
+import { ICONS } from "constants";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import "./adminfeedbackitem.scss";
 
 const { TextArea } = Input;
 
-FeedBackItem.propTypes = {
+AdminFeedBackItem.propTypes = {
   fbInfo: PropTypes.object,
 };
 
-FeedBackItem.defaultProps = {
+AdminFeedBackItem.defaultProps = {
   fbInfo: {},
 };
 
-function FeedBackItem(props) {
+function AdminFeedBackItem(props) {
   const { fbInfo } = props;
+  const [user, setUser] = useState({});
+  const [room, setRoom] = useState({});
 
   const onFinish = async (values) => {
     await phanHoiApi.update(fbInfo._id, values);
@@ -28,24 +32,48 @@ function FeedBackItem(props) {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { NguoiDung } = await NguoiDungApi.get(fbInfo.MaKH);
+        setUser(NguoiDung);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, [fbInfo.MaKH]);
+
+  useEffect(() => {
+    const fetchRoom = async () => {
+      try {
+        const { Phong } = await phongApi.get(fbInfo.MaPhong);
+        setRoom(Phong);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRoom();
+  }, [fbInfo.MaPhong]);
+
   const [showForm, setShowForm] = useState(false);
-  console.log({ fbInfo });
-  console.log(fbInfo);
+
   return (
     <div className="feedback-item">
       <div style={{ flexBasis: "35%" }}>
         <div>
           <div className="feedback-item__personal-info">
             <div className="feedback-item__personal-info__avatar">
-              {fbInfo?.MaKH.Avatar ? (
+              {user?.Avatar ? (
                 <img src={fbInfo.MaKH.Avatar} alt="avatar" />
               ) : (
-                fbInfo?.MaKH?.name?.charAt(0).toUpperCase()
+                user.name?.charAt(0).toUpperCase()
               )}
             </div>
             <div className="feedback-item__personal-info__info">
               <div className="feedback-item__personal-info__info__name">
-                {fbInfo.MaKH.name}
+                {user.name}
               </div>
               <div className="feedback-item__personal-info__info__location">
                 <img
@@ -60,7 +88,7 @@ function FeedBackItem(props) {
         <div className="feedback-item__items">
           <div className="item">
             {ICONS.BED}
-            <div>{fbInfo?.MaPhong?.TenPhong}</div>
+            <div>{room.TenPhong}</div>
           </div>
           <div className="item">
             {ICONS.CALENDAR}
@@ -140,4 +168,4 @@ function FeedBackItem(props) {
   );
 }
 
-export default FeedBackItem;
+export default AdminFeedBackItem;

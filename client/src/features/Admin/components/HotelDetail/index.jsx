@@ -1,6 +1,6 @@
-import FeedBackItem from "features/Hotel/components/FeedBackItem";
 import React from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
+import AdminFeedBackItem from "../AdminFeedBackItem";
 
 function HotelDetail({ selectedHotel }) {
   const listItemStyle = { display: "inline-block", width: "140px" };
@@ -66,7 +66,7 @@ function HotelDetail({ selectedHotel }) {
 
             <ListGroupItem>
               <div className="mb-2">
-                <b>payment methods:</b>
+                <b>Payment methods:</b>
               </div>
               {selectedHotel.TinDung.map((item) => (
                 <img
@@ -122,7 +122,7 @@ function HotelDetail({ selectedHotel }) {
               </h6>
               <div className="row gx-0 gy-1">
                 {selectedHotel.PhanHoi.map((feedback) => (
-                  <FeedBackItem fbInfo={feedback} />
+                  <AdminFeedBackItem fbInfo={feedback} />
                 ))}
               </div>
             </div>
