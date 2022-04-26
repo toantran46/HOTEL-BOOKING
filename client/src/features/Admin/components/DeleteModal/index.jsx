@@ -1,7 +1,8 @@
+import { Spin } from "antd";
 import React from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
-function DeleteModal({ isOpen, hideDeleteModal, handleRemove }) {
+function DeleteModal({ isOpen, hideDeleteModal, handleRemove, isLoading = false }) {
   return (
     <Modal centered isOpen={isOpen} toggle={hideDeleteModal}>
       <ModalHeader toggle={hideDeleteModal}>
@@ -13,11 +14,11 @@ function DeleteModal({ isOpen, hideDeleteModal, handleRemove }) {
           <span className="sidebar__logo-name text-dark">LTH Booking</span>
         </div>
       </ModalHeader>
-      <ModalBody>Are you sure remove this room ?</ModalBody>
+      <ModalBody>Are you sure remove this item ?</ModalBody>
 
       <ModalFooter>
         <Button color="primary" onClick={handleRemove}>
-          Confirm
+          Confirm {isLoading && <Spin size="small" />}
         </Button>{" "}
         <Button onClick={hideDeleteModal}>Cancel</Button>
       </ModalFooter>

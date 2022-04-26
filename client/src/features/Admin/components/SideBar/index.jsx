@@ -106,26 +106,38 @@ function Sidebar({ widthSideBar }) {
         </li>
         <li
           className={
+            target === "cities"
+              ? "sidebar__list-item sidebar__list-item--active"
+              : "sidebar__list-item"
+          }
+        >
+          <Link to="/admin/cities" className="sidebar__list-link">
+            <i className="fa-solid fa-location-dot"></i>
+            Cities
+          </Link>
+        </li>
+        <li
+          className={
             target === "convenients"
               ? "sidebar__list-item sidebar__list-item--active"
               : "sidebar__list-item"
           }
         >
-          <Link to="/" className="sidebar__list-link">
+          <Link to="/admin/convenients" className="sidebar__list-link">
             <i className="fa-solid fa-bottle-droplet"></i>
-            Convenient
+            Convenients
           </Link>
         </li>
         <li
           className={
-            target === "places"
+            target === "payments"
               ? "sidebar__list-item sidebar__list-item--active"
               : "sidebar__list-item"
           }
         >
-          <Link to="/" className="sidebar__list-link">
-            <i className="fa-solid fa-location-dot"></i>
-            Places
+          <Link to="/admin/payments" className="sidebar__list-link">
+            <i class="bi bi-credit-card-2-back-fill"></i>
+            Payments
           </Link>
         </li>
       </ul>

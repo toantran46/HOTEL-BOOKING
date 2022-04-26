@@ -22,7 +22,9 @@ module.exports = {
     },
     post: async (req, res) => {
         try {
-            const { TenTinDung, Logo } = req.body;
+            const { TenTinDung } = req.body;
+            const Logo = req.file.path;
+
             const newTinDung = new TinDungModel({
                 TenTinDung,
                 Logo
@@ -36,8 +38,12 @@ module.exports = {
     patch: async (req, res) => {
         try {
             const { MaTinDung } = req.params;
+            const { TenTinDung } = req.body;
 
-            const TinDung = await TinDungModel.updateOne({ _id: MaTinDung }, { ...req.body });
+            const newLogo = req.file?.path
+            const newData = newLogo ? { TenTinDung, Logo: newLogo } : { TenTinDung };
+
+            const TinDung = await TinDungModel.updateOne({ _id: MaTinDung }, { ...newData });
             if (TinDung.matchedCount === 0) return res.status(400).json({ message: "Tín dụng không tồn tại !" });
 
             res.json({ message: "Sửa Tín dụng thành công !" });
