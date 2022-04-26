@@ -28,6 +28,8 @@ function ListPlaceOverView(props) {
   //get data from redux
   const { placeChoosen: { _id }, returnDate, receiveDate } = useSelector(state => state.hotelInfo.homePage);
 
+  console.log({ isFirstLoading, isFiltering })
+
   return (
     <div className="list-hotel-overview">
       {places.length > 0 &&

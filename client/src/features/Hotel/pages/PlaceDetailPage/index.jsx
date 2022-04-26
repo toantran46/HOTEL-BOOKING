@@ -341,7 +341,7 @@ function HotelDetailPage(props) {
             </Col>
             <Col>
               <a className="top-item" onClick={() => ScrollToView("feedback")}>
-                Đánh giá của khách (760)
+                Đánh giá của khách ({feedBack.totalFeedBack})
               </a>
             </Col>
           </Row>

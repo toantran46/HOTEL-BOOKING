@@ -20,6 +20,13 @@ function SideBarManagement(props) {
                         Thông tin cá nhân
                     </Link>
                 </li>
+                <li>
+                    <Link to="/admin">
+                        <span>
+                            <i class="bi bi-gear"></i>
+                        </span>
+                        Quản lí chổ nghĩ</Link>
+                </li>
                 <li className={pathname.includes('booked') ? 'active' : ''}>
                     <Link to="/management/booked">
                         <span>

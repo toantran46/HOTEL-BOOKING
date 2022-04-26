@@ -16,7 +16,7 @@ import { tienNghiApi } from 'api/TienNghiApi';
 import { loaiChoNghiApi } from 'api/LoaiChoNghiApi';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Spin } from 'antd'
+import { Spin, message } from 'antd'
 
 import { choosePlace } from "features/Hotel/HotelSlice";
 
@@ -51,8 +51,8 @@ function MainPage(props) {
     //pagination
     const [pagination, setPagination] = React.useState({ _page: 1, _limit: 2, _totalPage: 5 });
 
-    //data for filter ( { DiemDanhGia: [], XepHang: [], TienNghi: [] ,LoaiChoNghi:[] } )
-    const [filter, setFilter] = React.useState(() => ({ DiemDanhGia: [], XepHang: [], TienNghi: [], LoaiChoNghi: state?.placeType ? [state.placeType] : [] }));
+    //data for filter ( { DiemDanhGia: [], XepHang: [], TienNghi: [] ,LoaiChoNghi:["MaKhachSan": "default" ] } )
+    const [filter, setFilter] = React.useState(() => ({ DiemDanhGia: [], XepHang: [], TienNghi: [], LoaiChoNghi: state?.placeType ? [state.placeType] : ["62355779163a837aa7127013"] }));
     const [isFiltering, setIsFiltering] = React.useState(false);
 
 
@@ -75,7 +75,6 @@ function MainPage(props) {
 
     //handle search
     const handleSearch = (searchValue) => {
-        console.log({ searchValue })
         const fetchPlaceBySearchValue = async () => {
             try {
                 const { ChoNghis } = await choNghiApi.getAll({ search: searchValue, _limit: 1 });
@@ -192,6 +191,8 @@ function MainPage(props) {
         if (placeChoosen.cityName && !placeChoosen._idCity) {
             setPlaces([]);
             setTotalPlaces(0);
+            isFirstLoading.current = false;
+            setIsFiltering(false);
             return;
         }
 

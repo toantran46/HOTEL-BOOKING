@@ -9,6 +9,8 @@ import { loaiChoNghiApi } from "api/LoaiChoNghiApi";
 import { thanhPhoApi } from "api/ThanhPhoApi";
 import SkeletonImage from "./components/SkeletonImage";
 import { filter } from "lodash";
+import { useDispatch } from "react-redux";
+import { choosePlace } from "features/Hotel/HotelSlice";
 Home.propTypes = {};
 
 function Home(props) {
@@ -17,6 +19,17 @@ function Home(props) {
   const [favouritePlace, setFavouritePlace] = React.useState([]);
 
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const dispatch = useDispatch();
+  //reset choosen
+  React.useEffect(() => {
+    dispatch(
+      choosePlace({
+        cityName: null,
+        _idCity: null,
+      })
+    );
+  }, [])
 
   //fetch total place group by city
   React.useState(() => {
