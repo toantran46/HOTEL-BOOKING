@@ -6,6 +6,7 @@ import AdminLayout from "features/Admin/pages/Layout";
 import UserPage from "features/Admin/pages/Users";
 import HotelPage from "features/Admin/pages/Hotel";
 import BookingPage from "features/Admin/pages/Booking";
+import RoomPage from "features/Admin/pages/Room";
 
 const HoTel = React.lazy(() => import("./features/Hotel/index.jsx"));
 const Auth = React.lazy(() => import("./features/Auth/index.jsx"));
@@ -23,6 +24,7 @@ function App() {
               <Route path="users" element={<UserPage />} />
               <Route path="hotels" element={<HotelPage />} />
               <Route path="bookings" element={<BookingPage />} />
+              <Route path="rooms" element={<RoomPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

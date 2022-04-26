@@ -99,7 +99,7 @@ function Sidebar({ widthSideBar }) {
               : "sidebar__list-item"
           }
         >
-          <Link to="/admin/hotels" className="sidebar__list-link">
+          <Link to="/admin/rooms" className="sidebar__list-link">
             <i className="fa-solid fa-hotel"></i>
             Rooms
           </Link>

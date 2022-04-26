@@ -3,6 +3,8 @@ import { datPhongApi } from "api/DatPhongApi";
 import { phongApi } from "api/PhongApi";
 import { tinDungApi } from "api/TinDungApi";
 import BookingDetail from "features/Admin/components/BookingDetail";
+import DeleteModal from "features/Admin/components/DeleteModal";
+import DetailModal from "features/Admin/components/DetailModal";
 import Pagination from "features/Admin/components/Pagination";
 import React, { useEffect, useState } from "react";
 import {
@@ -125,9 +127,7 @@ function BookingPage(props) {
                   <Badge color="success">{booking.TrangThai}</Badge>
                 </td>
                 <td>
-                  <Badge color="warning">
-                    {formatMoney(booking.TongTien)}đ
-                  </Badge>
+                  <Badge color="warning">{formatMoney(booking.TongTien)}</Badge>
                 </td>
                 <td>
                   <div className="booking-list__actions">
@@ -151,55 +151,27 @@ function BookingPage(props) {
           </tbody>
         </Table>
       </div>
+      {/* Booking Pagination */}
       <Pagination page={1} totalRows={50} limit={10} />
 
-      <Modal
-        className="modal-dialog modal-dialog-scrollable"
-        size="xl"
-        centered
-        isOpen={showBookingModal}
-        toggle={hideModal}
-      >
-        <ModalHeader toggle={hideModal}>
-          <div>
-            <img
-              src="https://www.einfosoft.com/templates/admin/spice/source/assets/img/logo.png"
-              alt="admin logo"
-            />
-            <span className="sidebar__logo-name text-dark">LTH Booking</span>
-          </div>
-        </ModalHeader>
-        <ModalBody>
-          {selectedBooking._id && (
-            <BookingDetail
-              selectedBooking={selectedBooking}
-              hotel={hotel}
-              rooms={rooms}
-              payment={payment}
-            />
-          )}
-        </ModalBody>
-      </Modal>
+      {/* Booking Detail Modal */}
+      <DetailModal isOpen={showBookingModal} hideModal={hideModal}>
+        {selectedBooking._id && (
+          <BookingDetail
+            selectedBooking={selectedBooking}
+            hotel={hotel}
+            rooms={rooms}
+            payment={payment}
+          />
+        )}
+      </DetailModal>
 
-      <Modal centered isOpen={showDeleteBookingModal} toggle={hideDeleteModal}>
-        <ModalHeader toggle={hideDeleteModal}>
-          <div>
-            <img
-              src="https://www.einfosoft.com/templates/admin/spice/source/assets/img/logo.png"
-              alt="admin logo"
-            />
-            <span className="sidebar__logo-name text-dark">LTH Booking</span>
-          </div>
-        </ModalHeader>
-        <ModalBody>Are you sure remove this booking ?</ModalBody>
-
-        <ModalFooter>
-          <Button onClick={handleRemoveBooking} color="primary">
-            Confirm
-          </Button>{" "}
-          <Button onClick={hideDeleteModal}>Cancel</Button>
-        </ModalFooter>
-      </Modal>
+      {/* Booking Delete Modal */}
+      <DeleteModal
+        isOpen={showDeleteBookingModal}
+        hideDeleteModal={hideDeleteModal}
+        handleRemove={handleRemoveBooking}
+      />
     </div>
   );
 }
