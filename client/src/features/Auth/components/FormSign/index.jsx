@@ -25,26 +25,32 @@ function FormSign(props) {
         console.log(values);
         // setNotifi("");
         setIsLoading(true);
-        const register = async () => {
+        const register = async (getme) => {
             const { error, payload } = await dispatch(login(values));
             if (error) {
                 setIsLoading(false);
                 alert(payload.message);
             } else {
-                navigate('/auth/about');
-                alert('Đăng nhập thành công !');
+                getme();
+                // alert('Đăng nhập thành công !');
             }
         }
-        setTimeout(() => {
-            register();
-            setIsLoading(false);
-        }, 2000)
 
-        // // const response = await dispatch(getMe());
-        // if (response.error) {
-        //     setIsLoading(false);
-        //     message.success("Đăng nhập thành công");
-        // }
+        const getme = async () => {
+            const response = await dispatch(getMe());
+            console.log(response);
+            if (!response.error) {
+                setIsLoading(false);
+                message.success("Đăng nhập thành công");
+                navigate('/auth/about');
+            }
+        }
+        setTimeout(async () => {
+            register(getme);
+            setIsLoading(false);
+        }, 2000);
+
+
     }
 
     const defaultValues = {

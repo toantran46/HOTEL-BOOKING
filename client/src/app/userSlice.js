@@ -5,8 +5,8 @@ import { NguoiDungApi } from 'api/NguoiDungApi';
 
 export const login = createAsyncThunk("user/login", async (data, { fulfillWithValue, rejectWithValue, dispatch }) => {
     try {
-        const { token, refreshToken } = await AuthApi.login(data);
-        return fulfillWithValue({ token, refreshToken });
+        const { accessToken, refreshToken } = await AuthApi.login(data);
+        return fulfillWithValue({ accessToken, refreshToken });
     } catch (error) {
         return rejectWithValue(error.response.data)
     }
@@ -14,7 +14,7 @@ export const login = createAsyncThunk("user/login", async (data, { fulfillWithVa
 
 export const getMe = createAsyncThunk("auth/getMe", async (data, { fulfillWithValue, rejectWithValue, dispatch }) => {
     try {
-        const { user } = await NguoiDungApi.get();
+        const { user } = await NguoiDungApi.getMe();
         return fulfillWithValue(user);
     } catch (error) {
         return rejectWithValue(error.response.data)

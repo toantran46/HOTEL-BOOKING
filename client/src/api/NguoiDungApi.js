@@ -10,6 +10,21 @@ export const NguoiDungApi = {
         const url = `/NguoiDung/${nguoiDungId}`;
         return axiosClient.get(url);
     },
+
+    getMe: () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(async () => {
+                try {
+                    const url = `/NguoiDung`;
+                    const response = await axiosClient.get(url);
+                    resolve(response);
+                } catch (error) {
+                    reject(error);
+                }
+            }, 2000)
+        });
+    },
+
     add: (data) => {
         const url = `/NguoiDung`;
         return axiosClient.post(url, data);

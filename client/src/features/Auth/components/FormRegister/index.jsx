@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Form, Input, Button } from "antd";
 import FooterPartner from '../FooterPartner';
+import { Link, useNavigate } from 'react-router-dom';
+import { NguoiDungApi } from 'api/NguoiDungApi';
 
 import './FormRegister.scss';
-import { Link, useHistory, useNavigate } from 'react-router-dom';
-import { number } from 'yup';
-import { NguoiDungApi } from 'api/NguoiDungApi';
 
 FormRegister.propTypes = {
 
