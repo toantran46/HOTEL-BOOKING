@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "./assets/styles/style.scss";
 import AdminLayout from "features/Admin/pages/Layout";
@@ -10,11 +10,14 @@ import RoomPage from "features/Admin/pages/Room";
 import CityPage from "features/Admin/pages/City";
 import ConvenientPage from "features/Admin/pages/Convenient";
 import PaymentPage from "features/Admin/pages/Payment";
+import { useSelector } from "react-redux";
 
 const HoTel = React.lazy(() => import("./features/Hotel/index.jsx"));
 const Auth = React.lazy(() => import("./features/Auth/index.jsx"));
 
 function App() {
+  const { user, loggedIn } = useSelector(state => state.auth);
+
   return (
     <div className="App">
       <Suspense fallback={<div>loading...</div>}>
@@ -22,7 +25,7 @@ function App() {
           <Routes>
             <Route index path="/*" element={<HoTel />} />
             <Route path="/auth/*" element={<Auth />} />
-            <Route path="/admin" element={<AdminLayout />}>
+            <Route path="/admin" element={loggedIn && (user.Quyen !== "USER") ? <AdminLayout /> : <Navigate to="/auth/sign-in" />}>
               <Route index element={<div>dashboard</div>} />
               <Route path="users" element={<UserPage />} />
               <Route path="hotels" element={<HotelPage />} />

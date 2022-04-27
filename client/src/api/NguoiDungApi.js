@@ -34,7 +34,16 @@ export const NguoiDungApi = {
         return axiosClient.delete(url);
     },
     update: (nguoiDungId, data) => {
-        const url = `/NguoiDung/${nguoiDungId}`;
-        return axiosClient.patch(url, data);
+        return new Promise((resolve, reject) => {
+            setTimeout(async () => {
+                try {
+                    const url = `/NguoiDung/${nguoiDungId}`;
+                    const response = await axiosClient.patch(url, data);
+                    resolve(response);
+                } catch (error) {
+                    reject(error)
+                }
+            }, 2000);
+        })
     },
 }

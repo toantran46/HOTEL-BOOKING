@@ -28,6 +28,7 @@ function StepTwo(props) {
     const { roomSelected, timeInfo, placeInfo } = props;
 
     const { HoTenNguoiDat, Email, YeuCau, ThoiGianDenDuKien, ThongTinPhong } = useSelector(state => state.hotelInfo.bookingPage);
+    const { user } = useSelector(state => state.auth);
 
     const [form] = Form.useForm();
 
@@ -77,8 +78,8 @@ function StepTwo(props) {
         <Form initialValues={{
             surName: HoTenNguoiDat?.split("-")[0] || '',
             name: HoTenNguoiDat?.split("-")[1] || '',
-            email: Email,
-            confirmEmail: Email,
+            email: user.email || '',
+            confirmEmail: user.email || '',
             request: YeuCau,
             intentTime: ThoiGianDenDuKien || -2,
         }} form={form} onFinish={(values) => handleDoneStep2(values)}>

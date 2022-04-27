@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import Title from '../Title';
 import "./Profile.scss";
 
-import { Form, message, Upload } from 'antd'
+import { Form, message, Spin, Upload } from 'antd'
 import InputField from "custom-fields/InputField"
 import { CameraOutlined, CloudUploadOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { isObject } from 'lodash';
+import { NguoiDungApi } from 'api/NguoiDungApi';
+import { getMe } from 'app/userSlice';
 
 Profile.propTypes = {
 
@@ -21,15 +25,19 @@ const getbase64 = (file) => {
     })
 }
 function Profile(props) {
-    const [currentAvatar, setCurrentAvatar] = React.useState();
+    const { user } = useSelector(state => state.auth)
+    const [currentAvatar, setCurrentAvatar] = React.useState(() => user.Avatar);
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    const dispatch = useDispatch();
 
     const initialValues = {
-        _id: "625d5cb42ded7ddeafe07524",
-        Quyen: "USER",
-        Avatar: "",
-        email: "vietlinhst2013@gmail.com",
-        name: "Trương Việt Linh",
-        phone: "0362446522"
+        _id: user._id,
+        Quyen: user.Quyen,
+        Avatar: user.Avatar,
+        email: user.email,
+        name: user.name,
+        phone: user.phone
     }
 
     const [form] = Form.useForm();
@@ -53,8 +61,41 @@ function Profile(props) {
         }
     }
 
-    const handleSaveInfo = values => {
-        console.log({ values });
+    const handleSaveInfo = async values => {
+
+        try {
+            setIsLoading(true);
+            let data;
+            if (isObject(values.Avatar)) {
+                data = new FormData();
+                data.append("Avatar", values.Avatar);
+                data.append("Quyen", values.Quyen);
+                data.append("email", values.email);
+                data.append("name", values.name);
+                data.append("phone", values.phone);
+            } else {
+                data = {
+                    Quyen: values.Quyen,
+                    email: values.email,
+                    name: values.name,
+                    phone: values.phone,
+                }
+            }
+
+            //send data to server
+            const response = await NguoiDungApi.update(user._id, data)
+            setIsLoading(false);
+            message.success(response.message);
+            //get new data
+            dispatch(getMe());
+
+        } catch (error) {
+            setIsLoading(false);
+            const errMessage = error.response.data.message;
+            message.error(errMessage);
+        }
+
+
     }
     return (
         <div className='profile'>
@@ -72,7 +113,7 @@ function Profile(props) {
                             <div className='profile__main-title__form__avatar'>
                                 {currentAvatar ?
                                     <img src={currentAvatar} alt='avatar' />
-                                    : <div className='not-avatar'>L</div>}
+                                    : <div className='not-avatar'>{user?.name.charAt(0).toUpperCase()}</div>}
                                 <Upload
                                     onChange={(e) => handleUpload(e)}
                                     beforeUpload={() => handleBeforeUpload()}>
@@ -84,7 +125,7 @@ function Profile(props) {
                         <InputField name='email' type='email' label='Email' rules={[{ required: true, message: 'Email không được để trống' }]} />
                         <InputField name='phone' label='Số điện thoại' rules={[{ required: true, message: 'Số điện thoại không được để trống' }]} />
                         <InputField name='Quyen' label='Quyền' disabled />
-                        <button className='btn-primary'>Lưu</button>
+                        <button className='btn-primary'>Lưu {isLoading && <Spin size='small' />} </button>
                     </Form>
                 </div>
             </div>

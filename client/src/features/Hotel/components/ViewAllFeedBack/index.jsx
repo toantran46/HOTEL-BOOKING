@@ -10,14 +10,16 @@ import { phanHoiApi } from "api/PhanHoiApi";
 import { useParams } from "react-router-dom";
 ViewAllFeedBack.propTypes = {
   setIsVisibleAllFeedBack: PropTypes.func,
+  isOwner: PropTypes.bool,
 };
 
 ViewAllFeedBack.defaultProps = {
   setIsVisibleAllFeedBack: null,
+  isOwner: false,
 };
 
 function ViewAllFeedBack(props) {
-  const { setIsVisibleAllFeedBack } = props;
+  const { setIsVisibleAllFeedBack, isOwner } = props;
   const { placeId } = useParams();
 
   const [viewAllFB, setViewAllFB] = React.useState();
@@ -157,7 +159,7 @@ function ViewAllFeedBack(props) {
           <div className="viewall-feedback__wrapper__main__list-feedback">
             {!isLoading &&
               viewAllFB?.comments.map((fb) => (
-                <FeedBackItem key={fb._id} fbInfo={fb} />
+                <FeedBackItem isOwner={isOwner} key={fb._id} fbInfo={fb} />
               ))}
             {isLoading &&
               [1, 2, 3].map((i) => (

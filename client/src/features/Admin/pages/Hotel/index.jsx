@@ -78,7 +78,7 @@ function HotelPage(props) {
                 </td>
                 <td>
                   <Badge color="light" className="text-dark">
-                    {hotel.TenNguoiLienHe}
+                    {hotel.QuanLy[0].name}
                   </Badge>
                 </td>
                 <td>
