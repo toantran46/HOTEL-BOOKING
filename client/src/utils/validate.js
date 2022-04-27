@@ -10,6 +10,9 @@ export const checkEmail = (yup) =>
 export const checkStringRequired = (yup) =>
   yup.string().required("This field is required");
 
+export const checkRequired = (yup) =>
+  yup.mixed().required("This field is required");
+
 export const checkSelect = (yup) => {
   yup.object().required("This field is required");
 };

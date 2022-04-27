@@ -28,7 +28,6 @@ const initialState = {
     },
     loggedIn: false,
     user: null,
-
 };
 
 const auth = createSlice({

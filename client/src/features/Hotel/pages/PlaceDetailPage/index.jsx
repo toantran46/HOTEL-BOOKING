@@ -20,7 +20,7 @@ import ViewAllFeedBack from "features/Hotel/components/ViewAllFeedBack";
 import ViewOnGoogleMap from "features/Hotel/components/ViewOnGoogleMap";
 import GeneralRule from "./components/GeneralRule";
 import Note from "./components/Note";
-import { message, Skeleton } from "antd";
+import { message, Skeleton, Spin } from "antd";
 import { choNghiApi } from "api/ChoNghiApi";
 import { phanHoiApi } from "api/PhanHoiApi";
 import { phongApi } from "api/PhongApi";
@@ -58,6 +58,9 @@ function HotelDetailPage(props) {
   const [dateFilter, setDateFilter] = useState(() => ({ NgayNhanPhong: moment(receiveDate || new Date()), NgayTraPhong: moment(returnDate || new Date().setDate(new Date().getDate() + 1)) }));
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  //get from redux
+  const { user } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
   console.log({ dateFilter })
@@ -341,7 +344,7 @@ function HotelDetailPage(props) {
             </Col>
             <Col>
               <a className="top-item" onClick={() => ScrollToView("feedback")}>
-                Đánh giá của khách ({feedBack.totalFeedBack})
+                Đánh giá của khách ({isLoadingFeedBack ? <Spin size="small" /> : feedBack.totalFeedBack})
               </a>
             </Col>
           </Row>
@@ -530,6 +533,7 @@ function HotelDetailPage(props) {
           </a>
           {isVisibleAllFeedBack && (
             <ViewAllFeedBack
+              isOwner={user.Quyen === "MANAGER" && user._id === place.QuanLy?._id}
               setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
             />
           )}

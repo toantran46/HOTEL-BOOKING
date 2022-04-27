@@ -403,6 +403,14 @@ module.exports = {
         },
         {
           $lookup: {
+            from: "nguoidungs",
+            localField: "QuanLy",
+            foreignField: "_id",
+            as: `QuanLy`,
+          },
+        },
+        {
+          $lookup: {
             from: "phanhois",
             localField: "_id",
             foreignField: "MaKhachSan",
@@ -419,12 +427,12 @@ module.exports = {
         {
           $match: search
             ? {
-                $or: [
-                  { "ThanhPho.TenThanhPho": new RegExp(search, "i") },
-                  { "LoaiChoNghi.TenLoaiChoNghi": new RegExp(search, "i") },
-                  { TenChoNghi: new RegExp(search, "i") },
-                ],
-              }
+              $or: [
+                { "ThanhPho.TenThanhPho": new RegExp(search, "i") },
+                { "LoaiChoNghi.TenLoaiChoNghi": new RegExp(search, "i") },
+                { TenChoNghi: new RegExp(search, "i") },
+              ],
+            }
             : {},
         },
       ]);
@@ -527,6 +535,7 @@ module.exports = {
         .populate("TienNghi")
         .populate("Phong")
         .populate("TinDung")
+        .populate("QuanLy", "_id name phone Quyen Avatar email")
         .populate({
           path: "Phong",
           populate: [

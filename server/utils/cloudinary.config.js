@@ -10,6 +10,8 @@ cloudinary.config({
   secure: true,
 });
 
+module.exports.cloudinary = cloudinary;
+
 module.exports.upload = (path, folder) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(

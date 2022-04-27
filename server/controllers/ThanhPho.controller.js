@@ -1,4 +1,5 @@
 const ThanhPhoModel = require("../models/ThanhPho.model");
+const { upload } = require("../utils/cloudinary.config");
 
 module.exports = {
     getAll: async (req, res) => {
@@ -58,7 +59,7 @@ module.exports = {
         try {
             const { TenThanhPho } = req.body;
             const newThanhPho = new ThanhPhoModel({
-                TenThanhPho, HinhAnh: "hinhanh" + Math.random()
+                TenThanhPho, HinhAnh: req.file.path
             })
             await newThanhPho.save();
             res.json({ message: "Thêm Thành phố thành công !" })
@@ -68,15 +69,17 @@ module.exports = {
     },
     patch: async (req, res) => {
         try {
-            const { TenThanhPho } = req.body;
             const { MaThanhPho } = req.params;
+            const { TenThanhPho } = req.body;
+            const HinhAnh = req.file?.path;
+            const newData = HinhAnh ? { TenThanhPho, HinhAnh } : { HinhAnh }
 
-            const ThanhPho = await ThanhPhoModel.updateOne({ _id: MaThanhPho }, { TenThanhPho });
+            const ThanhPho = await ThanhPhoModel.updateOne({ _id: MaThanhPho }, { ...newData });
             if (ThanhPho.matchedCount === 0) return res.status(400).json({ message: "Thành phố không tồn tại !" });
 
             res.json({ message: "Sửa Thành phố thành công !" });
         } catch (error) {
-            res.status(500).json({ message: "error" + error.message })
+            res.status(500).json({ message: "error" + error })
         }
     },
     delete: async (req, res) => {

@@ -24,6 +24,7 @@ function StepThree(props) {
 
     const { credits } = props;
     const { bookingPage, detailPage } = useSelector(state => state.hotelInfo);
+    const { user } = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
 
@@ -38,7 +39,7 @@ function StepThree(props) {
         ownerCredit: null,
         typeCredit: null,
         numCredit: null,
-        phone: null,
+        phone: user.phone,
         expirationDateMonth: null,
         expirationDateYear: null
     }

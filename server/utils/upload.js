@@ -1,13 +1,19 @@
 const multer = require("multer");
+const { cloudinary } = require("./cloudinary.config");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
-const storage = multer.diskStorage({
-  filename: (req, file, cb) => {
-    cb(null, file.originalname.split(".")[0]);
+const dotenv = require("dotenv");
+dotenv.config();
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: process.env.CLOUD_FOLDER_UPLOAD
   },
-});
+})
 
 const upload = multer({
-  storage,
+  storage
 });
 
 module.exports = upload;

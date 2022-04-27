@@ -1,11 +1,11 @@
 import React from "react";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 
-function DetailModal({ isOpen, hideModal, children }) {
+function DetailModal({ isOpen, hideModal, children, size = "xl", }) {
   return (
     <Modal
       className="modal-dialog modal-dialog-scrollable"
-      size="xl"
+      size={size}
       centered
       isOpen={isOpen}
       toggle={hideModal}

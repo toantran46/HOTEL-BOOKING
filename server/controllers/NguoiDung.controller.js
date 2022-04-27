@@ -84,16 +84,38 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const { MaNguoiDung } = req.params;
+      const user = req.user;
+      //check permission
+      if (user.Quyen !== "ADMIN") {
+        if (user.userId !== MaNguoiDung) {
+          return res.status(400).json({ message: "Not permission !" })
+        }
+      }
+      //is OK
+      const newAvatar = req.file?.path;
+      let newData = {
+        email: req.body.email,
+        name: req.body.name,
+        phone: req.body.phone
+      };
+      //Only admin can change QUYEN
+      if (user.Quyen === "ADMIN") {
+        newData = { ...newData, Quyen: req.body.Quyen }
+      }
+
+      newData = newAvatar ? { ...newData, Avatar: newAvatar } : newData;
 
       if (req.body.password) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
         req.body.password = hashedPassword;
+
+        newData = { ...newData, password: req.body.password };
       }
 
       const NguoiDung = await NguoiDungModel.updateOne(
         { _id: MaNguoiDung },
-        { ...req.body }
+        { ...newData }
       );
       if (NguoiDung.matchedCount === 0)
         return res.status(400).json({ message: "Người dùng không tồn tại !" });

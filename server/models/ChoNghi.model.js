@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ChoNghiSchema = new mongoose.Schema({
     TenChoNghi: String,
-    ChuChoNghi: { type: mongoose.Schema.Types.ObjectId, ref: "NguoiDung" },
+    QuanLy: { type: mongoose.Schema.Types.ObjectId, ref: "NguoiDung" },
     SoDienThoai: String,
     DiaChi: String,
     ThanhPho: { type: mongoose.Schema.Types.ObjectId, ref: "ThanhPho" },

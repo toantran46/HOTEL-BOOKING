@@ -11,14 +11,16 @@ const { TextArea } = Input;
 
 FeedBackItem.propTypes = {
   fbInfo: PropTypes.object,
+  isOwner: PropTypes.bool,
 };
 
 FeedBackItem.defaultProps = {
   fbInfo: {},
+  isOwner: false,
 };
 
 function FeedBackItem(props) {
-  const { fbInfo } = props;
+  const { fbInfo, isOwner } = props;
 
   const onFinish = async (values) => {
     await phanHoiApi.update(fbInfo._id, values);
@@ -29,8 +31,6 @@ function FeedBackItem(props) {
     console.log("Failed:", errorInfo);
   };
   const [showForm, setShowForm] = useState(false);
-  console.log({ fbInfo });
-  console.log(fbInfo);
   return (
     <div className="feedback-item">
       <div style={{ flexBasis: "35%" }}>
@@ -76,17 +76,19 @@ function FeedBackItem(props) {
         <div className="feedback-item__content">
           <div>
             <div className="date">
-              {`ngày ${new Date(fbInfo?.NgayTao).getDate()} tháng ${
-                new Date(fbInfo?.NgayTao).getMonth() + 1
-              } năm ${new Date(fbInfo?.NgayTao).getFullYear()}`}
+              {`ngày ${new Date(fbInfo?.NgayTao).getDate()} tháng ${new Date(fbInfo?.NgayTao).getMonth() + 1
+                } năm ${new Date(fbInfo?.NgayTao).getFullYear()}`}
             </div>
 
             <div className="title-container">
               <div className="title">{getMessageByScore(fbInfo.Diem)}</div>
-              <MessageOutlined
-                onClick={() => setShowForm(!showForm)}
-                className="response-btn"
-              />
+              {
+                isOwner &&
+                <MessageOutlined
+                  onClick={() => setShowForm(!showForm)}
+                  className="response-btn"
+                />
+              }
             </div>
 
             {showForm && (

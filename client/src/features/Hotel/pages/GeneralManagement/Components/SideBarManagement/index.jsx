@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 
 import "./SideBarManagement.scss";
 import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from 'app/userSlice';
 SideBarManagement.propTypes = {
 
 };
 
 function SideBarManagement(props) {
     const { pathname } = useLocation();
+    const { user } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+
     return (
         <div className='sidebar-management'>
             <ul>
@@ -20,13 +25,16 @@ function SideBarManagement(props) {
                         Thông tin cá nhân
                     </Link>
                 </li>
-                <li>
-                    <Link to="/admin">
-                        <span>
-                            <i class="bi bi-gear"></i>
-                        </span>
-                        Quản lí chổ nghĩ</Link>
-                </li>
+                {
+                    user.Quyen !== "USER" &&
+                    <li>
+                        <Link to="/admin">
+                            <span>
+                                <i class="bi bi-gear"></i>
+                            </span>
+                            Quản lí chổ nghĩ</Link>
+                    </li>
+                }
                 <li className={pathname.includes('booked') ? 'active' : ''}>
                     <Link to="/management/booked">
                         <span>
@@ -42,7 +50,7 @@ function SideBarManagement(props) {
                         Đã lưu</Link>
                 </li>
                 <li>
-                    <Link to="/">
+                    <Link to="" onClick={() => dispatch(logout())}>
                         <span>
                             <i class="bi bi-box-arrow-left"></i>
                         </span>

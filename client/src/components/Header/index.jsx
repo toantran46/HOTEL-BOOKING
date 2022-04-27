@@ -6,12 +6,18 @@ import { Link, useLocation } from "react-router-dom";
 import { PLACE, FLY, FLYHOTEL, HIRECAR, PLACEVISIT } from "constants";
 import { ICONS } from "constants";
 import { TAXI } from "constants";
+import { useDispatch, useSelector } from 'react-redux'
+import { Avatar } from "antd";
+import { logout } from "app/userSlice";
 
 Header.propTypes = {};
 
 function Header(props) {
   const [isShowUserMenu, setIsShowUserMenu] = React.useState(false);
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
+
+  const { loggedIn, user } = useSelector(state => state.auth)
 
   return (
     <div className="header-wrapper">
@@ -30,60 +36,60 @@ function Header(props) {
             <Link to="/auth" className="header__top__right__btn-outline">
               Đăng chổ nghỉ của Quý vị
             </Link>
-            <Link
-              to="/auth/register"
-              className="header__top__right__btn-fullfill"
-            >
-              Đăng ký
-            </Link>
-            <Link
-              to="/auth/sign-in"
-              className="header__top__right__btn-fullfill"
-            >
-              Đăng nhập
-            </Link>
 
             {/* User login */}
-            {/* <div tabIndex={1} onClick={() => setIsShowUserMenu(prev => !prev)} className={`header__top__right__profile ${isShowUserMenu ? 'active' : ''}`}>
-                            <div className='header__top__right__profile__avatar'>
-                                <img src='https://t-cf.bstatic.com/static/img/identity/profile/b47cd0e05ec8b7831167f4f7593ead56402a6bb4.svg' alt='avatar' />
-                            </div>
-                            <div className='header__top__right__profile__name'>
-                                Trương Việt Linh
-                            </div>
-                            {isShowUserMenu && <div className='header__top__right__profile__menu'>
-                                <ul>
-                                    <li>
-                                        <Link to="/management/profile">
-                                            <span>
-                                                <i className="bi bi-person"></i>
-                                            </span>
-                                            Quản lí tài khoản</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/management/booked">
-                                            <span>
-                                                <i className="bi bi-basket"></i>
-                                            </span>
-                                            Đặt chổ</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/management/saved">
-                                            <span>
-                                                <i className="bi bi-heart"></i>
-                                            </span>
-                                            Đã lưu</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/">
-                                            <span>
-                                                <i class="bi bi-box-arrow-left"></i>
-                                            </span>
-                                            Đăng xuất</Link>
-                                    </li>
-                                </ul>
-                            </div>}
-                    </div> */}
+            {
+              loggedIn ? <div tabIndex={1} onClick={() => setIsShowUserMenu(prev => !prev)} className={`header__top__right__profile ${isShowUserMenu ? 'active' : ''}`}>
+                <Avatar style={{ backgroundColor: "rgb(245, 106, 0)" }} src={user.Avatar || ''}> {user.Avatar ? '' : user?.name?.charAt(0).toUpperCase()}  </Avatar>
+                <div className='header__top__right__profile__name'>
+                  {user.name}
+                </div>
+                {isShowUserMenu && <div className='header__top__right__profile__menu'>
+                  <ul>
+                    <li>
+                      <Link to="/management/profile">
+                        <span>
+                          <i className="bi bi-person"></i>
+                        </span>
+                        Quản lí tài khoản</Link>
+                    </li>
+                    <li>
+                      <Link to="/management/booked">
+                        <span>
+                          <i className="bi bi-basket"></i>
+                        </span>
+                        Đặt chổ</Link>
+                    </li>
+                    <li>
+                      <Link to="/management/saved">
+                        <span>
+                          <i className="bi bi-heart"></i>
+                        </span>
+                        Đã lưu</Link>
+                    </li>
+                    <li>
+                      <Link to="" onClick={() => dispatch(logout())} >
+                        <span>
+                          <i class="bi bi-box-arrow-left"></i>
+                        </span>
+                        Đăng xuất</Link>
+                    </li>
+                  </ul>
+                </div>}
+              </div>
+                : <>
+                  <Link
+                    to="/auth/register"
+                    className="header__top__right__btn-fullfill">
+                    Đăng ký
+                  </Link>
+                  <Link
+                    to="/auth/sign-in"
+                    className="header__top__right__btn-fullfill">
+                    Đăng nhập
+                  </Link>
+                </>
+            }
           </div>
         </div>
 
