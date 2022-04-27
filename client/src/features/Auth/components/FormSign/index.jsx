@@ -8,6 +8,10 @@ import FooterPartner from '../FooterPartner';
 import { useDispatch } from 'react-redux';
 import { getMe, login } from 'app/userSlice';
 
+import { toastError, toastSucsess } from 'utils/notifi';
+
+
+
 FormSign.propTypes = {
 
 };
@@ -20,7 +24,6 @@ function FormSign(props) {
     const [isLoading, setIsLoading] = React.useState(false);
 
     const navigate = useNavigate();
-
     const handleLogin = async (values) => {
         console.log(values);
         // setNotifi("");
@@ -29,7 +32,7 @@ function FormSign(props) {
             const { error, payload } = await dispatch(login(values));
             if (error) {
                 setIsLoading(false);
-                alert(payload.message);
+                alert('Tài khoản hoặc mật khẩu không đúng');
             } else {
                 getme();
                 // alert('Đăng nhập thành công !');
@@ -41,14 +44,14 @@ function FormSign(props) {
             console.log(response);
             if (!response.error) {
                 setIsLoading(false);
-                message.success("Đăng nhập thành công");
                 navigate('/auth/about');
+                // toastSucsess('Đăng nhập thành công');
             }
         }
         setTimeout(async () => {
             register(getme);
             setIsLoading(false);
-        }, 2000);
+        }, 1500);
 
 
     }
@@ -119,6 +122,7 @@ function FormSign(props) {
                     <Button type="primary" htmlType="submit" className="login-form-button" loading={isLoading}>
                         Đăng nhập
                     </Button>
+
                     <div className="loggin-form-link-regis">
                         <Link to={'/auth/register'}>
                             Chưa có tài khoản ? Đăng kí ngay

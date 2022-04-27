@@ -9,6 +9,9 @@ import SelectField from 'custom-fields/SelectField';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBed, addLayoutNPrice, setTab } from 'features/Auth/authSlice';
 
+import { loaiPhongApi } from 'api/LoaiPhongApi';
+import { loaiGiuongApi } from 'api/LoaiGiuongApi';
+
 LayoutNPrice.propTypes = {
 
 };
@@ -21,30 +24,26 @@ function LayoutNPrice(props) {
         () => layoutNPrice.nameRoom
     );
 
-    const [beds, setBeds] = React.useState(() =>
-        layoutNPrice.Room || [{
-            idBed: 'giuong1-1',
-            quantity: 1,
-        }]
-    );
-    React.useEffect(() => {
-        // console.log(beds);
-    }, [beds])
+    const [listLoaiPhong, setListLoaiPhong] = React.useState([]);
 
-    React.useEffect(() => {
-        const guestNum = beds.reduce((prev, current) => prev + current.idBed.split("-")[1] * current.quantity, 0)
-        console.log(guestNum);
-        form.setFieldsValue({
-            numberGuest: guestNum,
-        })
-    }, [beds])
+    const [loaiGiuong, setLoaiGiuong] = React.useState([]);
+
+    const [beds, setBeds] = React.useState(
+        () =>
+            layoutNPrice.Room ||
+            [{
+                idBed: 'giuong1-1',
+                quantity: 1,
+            }]
+    );
 
     const [form] = Form.useForm();
 
+    const idPhongDon = "6268f19fd2cd433f452fe80a";
 
     const defaultValues = {
         typeRoom: '',
-        nameRoom: 'don',
+        nameRoom: idPhongDon,
         nameCustom: '',
         smokingPolicy: 0,
         numRoom: 1,
@@ -53,6 +52,48 @@ function LayoutNPrice(props) {
         sizeRoom: '',
         price: '',
     }
+    React.useEffect(() => {
+        const guestNum = beds?.reduce((prev, current) => prev + current.idBed.split("-")[1] * current.quantity, 0)
+        console.log(guestNum);
+        form.setFieldsValue({
+            numberGuest: guestNum,
+        })
+    }, [beds])
+
+
+    React.useEffect(() => {
+        const fetchLoaiPhong = async () => {
+            try {
+                const { LoaiPhongs } = await loaiPhongApi.getAll();
+                setListLoaiPhong(LoaiPhongs);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        setTimeout(() => {
+            fetchLoaiPhong();
+        }, 1000);
+    }, [])
+
+    React.useEffect(() => {
+        const fetchLoaiGiuong = async () => {
+            try {
+                const { LoaiGiuongs } = await loaiGiuongApi.getAll();
+                setLoaiGiuong(LoaiGiuongs);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        setTimeout(() => {
+            fetchLoaiGiuong();
+        }, 1000);
+    }, []);
+
+    React.useEffect(() => {
+        form.setFieldsValue(layoutNPrice);
+    }, [layoutNPrice]);
+
     const handleSubmit = (values) => {
         // console.log(values);
         const action = addLayoutNPrice(values);
@@ -64,18 +105,11 @@ function LayoutNPrice(props) {
             tab: 2,
         }));
     }
-
-    console.log(layoutNPrice);
-
-    React.useEffect(() => {
-        form.setFieldsValue(layoutNPrice);
-    }, [layoutNPrice]);
-
     return (
         <div className='layout-and-price'>
             <div className="row">
                 <div className="col-md-9 basic-form">
-                    <Form form={form} initialValues={defaultValues} onFinish={handleSubmit} >
+                    <Form form={form} initialValues={defaultValues} onFinish={(values) => handleSubmit(values)} >
                         <fieldset>
                             <Label className='label-big'>
                                 Vui lòng chọn
@@ -88,12 +122,11 @@ function LayoutNPrice(props) {
                                     name="nameRoom"
                                 >
 
-                                    <Select onChange={(value) => setAnotherRoom(value)} options={[
-                                        { label: "Phòng giường đơn", value: "don" },
-                                        { label: "Phòng giường đôi", value: "pdoi" },
-                                        { label: "Phòng 3 người", value: "p3nguoi" },
-                                        { label: "Phòng 4 người", value: "p4nguoi" },
-                                    ]}
+                                    <Select defaultValue={idPhongDon} onChange={(value) => setAnotherRoom(value)} options={
+                                        listLoaiPhong.map((loaiphong, index) => (
+                                            { label: loaiphong.TenLoaiPhong, value: loaiphong._id }
+                                        ))
+                                    }
                                     />
                                 </Form.Item>
                             </div>
@@ -105,12 +138,11 @@ function LayoutNPrice(props) {
                                     <Form.Item
                                         name="nameRoom"
                                     >
-                                        <Select disabled value={anotherRoom} onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={[
-                                            { label: "Phòng tiêu chuẩn giường đơn", value: "don" },
-                                            { label: "Phòng tiêu chuẩn giường đôi", value: "pdoi" },
-                                            { label: "Phòng tiêu chuẩn 3 người", value: "p3nguoi" },
-                                            { label: "Phòng tiêu chuẩn 4 người", value: "p4nguoi" },
-                                        ]}
+                                        <Select disabled value={anotherRoom} onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={
+                                            listLoaiPhong.map((loaiphong, index) => (
+                                                { label: loaiphong.TenLoaiPhong, value: loaiphong._id }
+                                            ))
+                                        }
                                         />
 
                                     </Form.Item>
@@ -156,7 +188,7 @@ function LayoutNPrice(props) {
                                 </Form.Item>
                             </div>
                         </fieldset>
-                        {anotherRoom !== 'don' &&
+                        {anotherRoom !== idPhongDon &&
                             <fieldset>
                                 <Label className='label-big'>
                                     Tùy chọn giường
@@ -169,17 +201,16 @@ function LayoutNPrice(props) {
                                 <Label>
                                     Phòng này có loại giường nào?
                                 </Label>
-                                {beds.map((bed, index) => (
+                                {beds?.map((bed, index) => (
                                     <div className="row">
                                         <div className='col-sm-7 form-group'>
 
 
-                                            <Select style={{ minWidth: '100%' }} value={bed.idBed} options={[
-                                                { label: "Gường đơn / Rộng 90-130 cm", value: "giuong1-1" },
-                                                { label: "Giường đôi / Rộng 131-151 cm ", value: "giuong2-2" },
-                                                { label: "Gường lớn (King) / Rộng 151-180 cm", value: "giuong3-2" },
-                                                { label: "Gường cực lớn (Super-king) / Rộng 181-200 cm", value: "giuong4-2" },
-                                            ]}
+                                            <Select style={{ minWidth: '100%' }} value={loaiGiuong._id} options={
+                                                loaiGiuong.map((giuong, index) => (
+                                                    { label: giuong.TenLoaiGiuong, value: giuong._id }
+                                                ))
+                                            }
 
                                                 onChange={(value) => setBeds(prev => {
                                                     let newBeds = [...prev];

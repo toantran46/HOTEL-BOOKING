@@ -1,3 +1,4 @@
+import { toastError } from "utils/notifi";
 import axiosClient from "./axiosClient";
 
 export const NguoiDungApi = {
@@ -21,7 +22,7 @@ export const NguoiDungApi = {
                 } catch (error) {
                     reject(error);
                 }
-            }, 2000)
+            }, 1000)
         });
     },
 

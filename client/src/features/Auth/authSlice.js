@@ -11,8 +11,13 @@ const initialState = {
     addrCity: null,
 
     typeRoom: null,
-    nameRoom: 'don',
-    Room: null,
+    nameRoom: null,
+    Room: [
+        {
+            idBed: 'giuong1-1',
+            quantity: 1,
+        },
+    ],
     nameCustom: null,
     smokingPolicy: 0,
     numRoom: 1,

@@ -8,6 +8,7 @@ import { Button, Form, Input, Radio, Checkbox, Row } from 'antd';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addConvenient, setTab } from 'features/Auth/authSlice';
+import { tienNghiApi } from 'api/TienNghiApi';
 
 ConvenientNService.propTypes = {
 
@@ -20,9 +21,23 @@ function ConvenientNService(props) {
     const convenient = useSelector(state => state.aboutInfo);
     const dispatch = useDispatch();
 
+    const [listConvenient, setListConvenient] = React.useState([]);
+
     React.useEffect(() => {
         form.setFieldsValue(convenient);
     }, [convenient]);
+
+    React.useEffect(() => {
+        const fetchTienNghi = async () => {
+            try {
+                const { TienNghis } = await tienNghiApi.getAll();
+                setListConvenient(TienNghis);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchTienNghi();
+    }, [])
 
     const handleSubmit = (values) => {
         // console.log(values);
@@ -93,29 +108,15 @@ function ConvenientNService(props) {
                             <Form.Item name='convenientGroup'>
                                 <Checkbox.Group style={{ width: '100%' }}>
                                     <div className="row">
-                                        <div className="col-sm-6">
-                                            <div className="list-convenient">
+                                        <div className="list-convenient">
+                                            <ul>
+                                                {listConvenient.map((data, index) => (
+                                                    <li><Checkbox value={data._id}>{data.TenTienNghi}</Checkbox></li>
+                                                ))}
+                                            </ul>
 
-                                                <ul>
-                                                    <li><Checkbox value="wifi"> Wi-Fi miễn phí</Checkbox></li>
-                                                    <li> <Checkbox value="nhahang"> Nhà hàng</Checkbox></li>
-                                                    <li><Checkbox value="dichvuphong"> Dịch vụ phòng</Checkbox></li>
-                                                    <li><Checkbox value="letan"> Lễ tân 24 giờ</Checkbox></li>
-                                                    <li><Checkbox value="cacham"> Hệ thống cách âm</Checkbox></li>
-                                                </ul>
-                                            </div>
                                         </div>
-                                        <div className="col-sm-6">
-                                            <div className="list-convenient">
-                                                <ul>
-                                                    <li><Checkbox value="phongtam"> Phòng tắm riêng</Checkbox></li>
-                                                    <li><Checkbox value="tivi"> TV màn hình phẳng</Checkbox></li>
-                                                    <li><Checkbox value="bancong"> Ban công</Checkbox></li>
-                                                    <li><Checkbox value="minibar"> Minibar</Checkbox></li>
-                                                    <li><Checkbox value="dieuhoa"> Điều hòa không khí</Checkbox></li>
-                                                </ul>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </Checkbox.Group>
                             </Form.Item>

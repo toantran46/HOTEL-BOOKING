@@ -2,12 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './HeaderAbout.scss';
+import { useDispatch } from 'react-redux';
+import { logout } from 'app/userSlice';
+import { toast, ToastContainer } from 'react-toastify';
+import { toastSucsess } from 'utils/notifi';
+
 
 HeaderAbout.propTypes = {
 
 };
 
 function HeaderAbout(props) {
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(logout());
+        toastSucsess('Bye');
+    };
+
+
     return (
         <div className='navbar-about'>
             <div className="navbar-about__banner">
@@ -23,7 +36,7 @@ function HeaderAbout(props) {
                             </Link>
                         </li>
                         <li>
-                            <Link to={''}>
+                            <Link to={'/auth/sign-in'} onClick={handleLogout}>
                                 <i class="bi bi-power"></i>
                                 Đăng xuất
                             </Link>

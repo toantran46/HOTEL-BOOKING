@@ -22,6 +22,7 @@ module.exports = {
     post: async (req, res) => {
         try {
             const { TenLoaiPhong } = req.body;
+            // console.log(req.body);
             const newLoaiPhong = new LoaiPhongModel({
                 TenLoaiPhong
             })
