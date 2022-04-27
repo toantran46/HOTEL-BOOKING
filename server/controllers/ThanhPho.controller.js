@@ -72,7 +72,6 @@ module.exports = {
             const { MaThanhPho } = req.params;
             const { TenThanhPho } = req.body;
             const HinhAnh = req.file?.path;
-
             const newData = HinhAnh ? { TenThanhPho, HinhAnh } : { HinhAnh }
 
             const ThanhPho = await ThanhPhoModel.updateOne({ _id: MaThanhPho }, { ...newData });
@@ -80,7 +79,7 @@ module.exports = {
 
             res.json({ message: "Sửa Thành phố thành công !" });
         } catch (error) {
-            res.status(500).json({ message: "error" + error.message })
+            res.status(500).json({ message: "error" + error })
         }
     },
     delete: async (req, res) => {

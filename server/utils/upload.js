@@ -8,9 +8,8 @@ dotenv.config();
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: process.env.CLOUD_FOLDER_UPLOAD,
-    allowed_formats: ["png", "jpg", "jpeg"]
-  }
+    folder: process.env.CLOUD_FOLDER_UPLOAD
+  },
 })
 
 const upload = multer({
