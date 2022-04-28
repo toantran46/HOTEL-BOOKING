@@ -28,13 +28,9 @@ function LayoutNPrice(props) {
 
     const [loaiGiuong, setLoaiGiuong] = React.useState([]);
 
-    const [beds, setBeds] = React.useState(
+    let [beds, setBeds] = React.useState(
         () =>
-            layoutNPrice.Room ||
-            [{
-                idBed: 'giuong1-1',
-                quantity: 1,
-            }]
+            layoutNPrice.Room
     );
 
     const [form] = Form.useForm();
@@ -54,7 +50,7 @@ function LayoutNPrice(props) {
     }
     React.useEffect(() => {
         const guestNum = beds?.reduce((prev, current) => prev + current.idBed.split("-")[1] * current.quantity, 0)
-        console.log(guestNum);
+        // console.log(guestNum);
         form.setFieldsValue({
             numberGuest: guestNum,
         })
@@ -70,16 +66,22 @@ function LayoutNPrice(props) {
                 console.log(error);
             }
         }
-        setTimeout(() => {
-            fetchLoaiPhong();
-        }, 1000);
+        fetchLoaiPhong();
     }, [])
 
     React.useEffect(() => {
         const fetchLoaiGiuong = async () => {
             try {
-                const { LoaiGiuongs } = await loaiGiuongApi.getAll();
+                let { LoaiGiuongs } = await loaiGiuongApi.getAll();
+                LoaiGiuongs = LoaiGiuongs.map((data, index) => (
+                    {
+                        ...data,
+                        _id: data._id + '-' + (data.TenLoaiGiuong.includes('đơn') ? 1 : 2),
+                    }
+                ))
+                console.log(LoaiGiuongs);
                 setLoaiGiuong(LoaiGiuongs);
+
             }
             catch (error) {
                 console.log(error);
@@ -93,6 +95,11 @@ function LayoutNPrice(props) {
     React.useEffect(() => {
         form.setFieldsValue(layoutNPrice);
     }, [layoutNPrice]);
+
+    React.useEffect(() => {
+        console.log(beds);
+    }, [beds]);
+
 
     const handleSubmit = (values) => {
         // console.log(values);
@@ -214,7 +221,10 @@ function LayoutNPrice(props) {
 
                                                 onChange={(value) => setBeds(prev => {
                                                     let newBeds = [...prev];
-                                                    newBeds[index].idBed = value;
+                                                    newBeds[index] = {
+                                                        ...newBeds[index],
+                                                        idBed: value
+                                                    };
                                                     return newBeds;
                                                 })}
                                             />

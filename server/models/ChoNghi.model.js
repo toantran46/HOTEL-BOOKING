@@ -4,6 +4,8 @@ const ChoNghiSchema = new mongoose.Schema({
     TenChoNghi: String,
     QuanLy: { type: mongoose.Schema.Types.ObjectId, ref: "NguoiDung" },
     SoDienThoai: String,
+    TieuDeDatDiem: String,
+    MoTaDatDiem: String,
     DiaChi: String,
     ThanhPho: { type: mongoose.Schema.Types.ObjectId, ref: "ThanhPho" },
     LoaiChoNghi: { type: mongoose.Schema.Types.ObjectId, ref: "LoaiChoNghi" },

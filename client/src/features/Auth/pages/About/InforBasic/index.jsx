@@ -28,15 +28,14 @@ function InforBasic(props) {
     form.setFieldsValue(inforBasic);
   }, [inforBasic]);
 
-  console.log(inforBasic);
+  // console.log(inforBasic);
 
   const dispatch = useDispatch();
-  const handleSubmit = (values) => {
 
+  const handleSubmit = (values) => {
     // console.log(values);
     const action = addInforBasic(values);
-    console.log({ action });
-
+    // console.log({ action });
     dispatch(action);
     dispatch(setTab({
       key: 'next',
@@ -69,9 +68,7 @@ function InforBasic(props) {
       }
 
     }
-    setTimeout(() => {
-      fetchCity();
-    }, 1000);
+    fetchCity();
   }, [])
 
   return (
@@ -163,6 +160,36 @@ function InforBasic(props) {
                   <Input />
                 </Form.Item>
               </Col>
+              <Col md={12}>
+                <Label>
+                  Đặt điểm nỗi bật của khách sạn
+                </Label>
+                <Form.Item
+                  name='titleHotel'
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập đặt điểm nỗi bật",
+                    },
+                  ]}
+                >
+                  <Input placeholder='Vd Ngay trung tâm Hà Nội' />
+                </Form.Item>
+                <Label>
+                  Mô tả chi tiết về khách sạn
+                </Label>
+                <Form.Item
+                  name='detailHotel'
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập mô tả chi tiết",
+                    },
+                  ]}
+                >
+                  <Input placeholder='Vd Nằm trong Khu Phố Cổ Hà Nội, La Storia Ruby Hotel cách Hồ Hoàn Kiếm một phút đi bộ....' />
+                </Form.Item>
+              </Col>
               <Col md={5} className='form-group'>
                 <Label className='form-group'>
                   Quý vị có sở hữu nhiều khách sạn khác nhau, hoặc là thành viên của một chuỗi hay công ty quản lý bất động sản nào không?
@@ -197,7 +224,7 @@ function InforBasic(props) {
                         },
                       ]}
                     >
-                      <Input placeholder='246/8 Tầm Vu, phường Hưng Lợi, quận Ninh Kiều' />
+                      <Input placeholder='Vd 246/8 Tầm Vu, phường Hưng Lợi, quận Ninh Kiều' />
                     </Form.Item>
                     <Label>
                       Thành phố

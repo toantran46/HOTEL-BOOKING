@@ -6,6 +6,8 @@ const initialState = {
     nameHotel: null,
     nameOwner: null,
     phoneOwner: null,
+    titleHotel: null,
+    detailHotel: null,
     otherHothelCheck: false,
     addrMain: null,
     addrCity: null,
@@ -60,6 +62,8 @@ const auth = createSlice({
             state.nameHotel = action.payload.nameHotel;
             state.nameOwner = action.payload.nameOwner;
             state.phoneOwner = action.payload.phoneOwner;
+            state.titleHotel = action.payload.titleHotel;
+            state.detailHotel = action.payload.detailHotel;
             state.otherHothelCheck = action.payload.otherHothelCheck;
             state.addrMain = action.payload.addrMain;
             state.addrCity = action.payload.addrCity;

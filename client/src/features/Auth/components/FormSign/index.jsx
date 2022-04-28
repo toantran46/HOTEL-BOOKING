@@ -32,10 +32,10 @@ function FormSign(props) {
             const { error, payload } = await dispatch(login(values));
             if (error) {
                 setIsLoading(false);
-                alert('Tài khoản hoặc mật khẩu không đúng');
+                toastError('Tài khoản hoặc mật khẩu không đúng');
             } else {
                 getme();
-                // alert('Đăng nhập thành công !');
+                toastSucsess('Đăng nhập thành công');
             }
         }
 
