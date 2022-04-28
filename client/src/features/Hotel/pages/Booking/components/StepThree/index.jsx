@@ -50,10 +50,11 @@ function StepThree(props) {
             HoTenNguoiDat: bookingPage.HoTenNguoiDat.replace("-", " "),
             Email: bookingPage.Email,
             MaKhachSan: detailPage.placeSelected,
+            MaNguoiDung: user._id,
             NgayNhanPhong: bookingPage.NgayNhanPhong,
             NgayTraPhong: bookingPage.NgayTraPhong,
             TongTien: bookingPage.TongTien,
-            ThoiGianDenDuKien: bookingPage.ThoiGianDenDuKien,
+            ThoiGianDenDuKien: bookingPage.ThoiGianDenDuKien == -1 ? "Không biết" : `Khoảng ${bookingPage.ThoiGianDenDuKien}:00 - ${+bookingPage.ThoiGianDenDuKien + 1}:00`,
             YeuCau: bookingPage.YeuCau,
             SoDienThoai: values.phone,
             TinDung: {

@@ -1,20 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "./Trip.scss"
-
+import moment from 'moment';
 import ShowStar from "features/Hotel/components/ShowStar"
 import { getMessageByScore } from 'assets/globaJS'
 import { Col, Row } from 'antd';
-Trip.propTypes = {
+import { convertToMoney } from 'assets/globaJS/index';
 
+Trip.propTypes = {
+    bookInfo: PropTypes.object,
+};
+
+Trip.defaultProps = {
+    bookInfo: {},
 };
 
 function Trip(props) {
+    const { bookInfo } = props;
     return (
         <div className='trip'>
             <div className='trip__header'>
-                <div className='trip__header__address vip-text-2'>Vũng tàu</div>
-                <div className='trip__header__createAt'>Đặt lúc: 22/2/2022</div>
+                <div className='trip__header__address vip-text-2'>{bookInfo?.MaKhachSan.ThanhPho.TenThanhPho}</div>
+                <div className='trip__header__createAt'>Đặt lúc: {moment(bookInfo.NgayDatPhong).format("DD/MM/yyyy")}</div>
             </div>
             <div className='trip__body'>
                 <Row gutter={[10, 0]}>
@@ -23,32 +30,32 @@ function Trip(props) {
                             <div className='main-title'>Thông tin đặt phòng</div>
                             <ul>
                                 <li className='trip__body__info-booking__item'>
-                                    <span className='text-title'>Tên người liên hệ:</span>
-                                    <span className='content'>Nguyễn Văn Bảy</span>
+                                    <span className='text-title'>Tên (q.ly chổ nghĩ):</span>
+                                    <span className='content'>{bookInfo?.MaKhachSan.QuanLy.name}</span>
                                 </li>
                                 <li className='trip__body__info-booking__item'>
-                                    <span className='text-title'>Số điện thoại:</span>
-                                    <span className='content'>09847362898</span>
+                                    <span className='text-title'>SĐT (q.ly chổ nghĩ):</span>
+                                    <span className='content'>{bookInfo?.MaKhachSan.QuanLy.phone}</span>
                                 </li>
                                 <li className='trip__body__info-booking__item'>
                                     <span className='text-title'>Họ tên người đặt:</span>
-                                    <span className='content'>Trương Việt Linh</span>
+                                    <span className='content'>{bookInfo?.MaNguoiDung?.name || bookInfo?.HoTenNguoiDat}</span>
                                 </li>
                                 <li className='trip__body__info-booking__item'>
                                     <span className='text-title'>Ngày nhận phòng:</span>
-                                    <span className='content'>22/2/2022</span>
+                                    <span className='content'>{moment(bookInfo?.NgayNhanPhong).format("DD/MM/yyyy")}</span>
                                 </li>
                                 <li className='trip__body__info-booking__item'>
-                                    <span className='text-title'>Ngày đặt phòng:</span>
-                                    <span className='content'>24/2/2022</span>
+                                    <span className='text-title'>Ngày trả phòng:</span>
+                                    <span className='content'>{moment(bookInfo?.NgayTraPhong).format("DD/MM/yyyy")}</span>
                                 </li>
                                 <li className='trip__body__info-booking__item'>
                                     <span className='text-title'>Trạng thái:</span>
-                                    <span className='content vip-text-1'>đã trả phòng</span>
+                                    <span className='content vip-text-1'>{bookInfo?.TrangThai}</span>
                                 </li>
                                 <li className='trip__body__info-booking__item'>
                                     <span className='text-title'>Tổng tiền:</span>
-                                    <span className='content total-price'>12.000.000 VND</span>
+                                    <span className='content total-price'>{convertToMoney(bookInfo?.TongTien)} VND</span>
                                 </li>
                             </ul>
                         </div>
@@ -56,12 +63,12 @@ function Trip(props) {
                     </Col>
                     <Col span={15}>
                         <div className='trip__body__info-place'>
-                            <img src='https://t-cf.bstatic.com/xdata/images/hotel/max1024x768/61372313.jpg?k=ad1ba75dfdf05624a25250f9c8663ef649af6de80502fffd6df3441e2c80f28b&o=&hp=1' alt='place-image' />
+                            <img src={bookInfo?.MaKhachSan.HinhAnh[0]} alt='place-image' />
                             <div>
-                                <div className='type'>Khách sạn  <ShowStar num={5} /> </div>
-                                <div className='name'>Pullman vũng tàu</div>
+                                <div className='type'>{bookInfo?.MaKhachSan.LoaiChoNghi.TenLoaiChoNghi}  <ShowStar num={bookInfo?.MaKhachSan.XepHang} /> </div>
+                                <div className='name'>{bookInfo?.MaKhachSan.TenChoNghi}</div>
                                 <div className='address'>
-                                    15 nam từ liêm, Vũng Tàu
+                                    {bookInfo?.MaKhachSan.DiaChi + ", " + bookInfo?.MaKhachSan.ThanhPho.TenThanhPho}
                                 </div>
                                 {/* <div className='feed-back'>
                             <div className='score'>{parseFloat(9).toFixed(1)}</div>
@@ -77,14 +84,15 @@ function Trip(props) {
                             <li className='trip__body__info-booking__item'>
                                 <span className='text-title'>Phòng đã đặt:</span>
                                 <div>
-                                    <div className='content'>Phòng Executive, Quyền Lui Tới Lounge, 1 Giường Cỡ King</div>
-                                    <div className='content'>Phòng Executive, Quyền Lui Tới Lounge, 2 Giường Đơn</div>
+                                    {
+                                        bookInfo?.ThongTinhPhong?.map((TTP) => <div key={TTP._id} className='content'>({TTP.SoLuong}) {TTP.Phong.TenPhong}</div>)
+                                    }
 
                                 </div>
                             </li>
                             <li className='trip__body__info-booking__item'>
                                 <span className='text-title'>Yêu cầu:</span>
-                                <span className='content'>có gái trẻ đẹp mơn mỡn cở 18 tuổi đến 22 tuổi</span>
+                                <span className='content'>{bookInfo?.YeuCau}</span>
                             </li>
 
                         </ul>

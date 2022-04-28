@@ -1,11 +1,50 @@
 const DatPhongModel = require("../models/DatPhong.model");
 const ChoNghiModel = require("../models/ChoNghi.model");
 const { sendMail } = require("../sevices/mail");
+const { getInfoUser } = require("../middleware/checkAuthReturnResult");
 
 module.exports = {
     getAll: async (req, res) => {
         try {
-            const DatPhongs = await DatPhongModel.find();
+            let DatPhongs;
+            const user = req.user;
+            const { _limit, _page } = req.query;
+            //verify account. Can't use middleware checkAuth; 
+            //role USER 
+            if (user.Quyen === "USER") {
+                DatPhongs = await DatPhongModel.find({ MaNguoiDung: user.userId }).populate({
+                    path: "MaKhachSan",
+                    populate: [
+                        {
+                            path: "ThanhPho",
+                            model: "ThanhPho",
+                        },
+                        {
+                            path: "LoaiChoNghi",
+                            model: "LoaiChoNghi",
+                        },
+                        {
+                            path: "QuanLy",
+                            select: "name phone",
+                            model: "NguoiDung",
+                        },
+                    ],
+                }).populate("ThongTinhPhong.Phong").populate("MaNguoiDung", "name phone email").exec();
+
+                //pagination
+                const TongSo = DatPhongs.length;
+                //pagination
+                const start = _page ? (_page - 1) * _limit : 0;
+                const end = start + (_limit ? +_limit : TongSo);
+                DatPhongs = DatPhongs.slice(start, end);
+
+
+                return res.json({ message: "success", DatPhongs, totalPage: Math.ceil(TongSo / _limit), _page: +_page, _limit: +_limit, total: TongSo });
+            }
+            //role MANAGER 
+
+            //role ADMIN
+            DatPhongs = await DatPhongModel.find();
             res.json({ message: "success", DatPhongs })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
@@ -34,12 +73,14 @@ module.exports = {
                 TongTien,
                 SoDienThoai,
                 TinDung,
-                ThoiGianDenDuKien
+                ThoiGianDenDuKien,
+                MaNguoiDung
             } = req.body;
 
             const newDatPhong = new DatPhongModel({
                 ThongTinhPhong: ThongTinPhong,
                 HoTenNguoiDat,
+                MaNguoiDung,
                 Email,
                 YeuCau,
                 MaKhachSan,
@@ -68,7 +109,7 @@ module.exports = {
                 name: DatPhong.HoTenNguoiDat,
                 email: DatPhong.Email,
                 phone: DatPhong.SoDienThoai,
-                userType: req.user ? "Thành viên" : "Khách vãng lai",
+                userType: MaNguoiDung ? "Thành viên" : "Khách vãng lai",
                 placeName: DatPhong.MaKhachSan.TenChoNghi,
                 placeAddress: DatPhong.MaKhachSan.DiaChi + ", " + DatPhong.MaKhachSan.ThanhPho.TenThanhPho,
                 room: fitDataRoom,
@@ -78,9 +119,9 @@ module.exports = {
                 totalPrice: DatPhong.TongTien,
                 status: DatPhong.TrangThai,
             }
-            const sendForUser = await sendMail(DatPhong.Email, "booked-to-user", infoBooking);
-            const sendForOwner = await sendMail("vietlinhst2019@gmail.com", "booked-to-owner", infoBooking);
-            console.log({ sendForUser, sendForOwner });
+            // const sendForUser = await sendMail(DatPhong.Email, "booked-to-user", infoBooking);
+            // const sendForOwner = await sendMail("vietlinhst2019@gmail.com", "booked-to-owner", infoBooking);
+            // console.log({ sendForUser, sendForOwner });
             res.json({ message: "Đặt phòng thành công! Mong quý khách đến đúng hẹn và có 1 kì nghĩ tuyệt vời !" })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })

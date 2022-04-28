@@ -5,19 +5,37 @@ import "./PlaceBooked.scss";
 import Trip from '../Trip';
 import PaginationStyled from 'features/Hotel/components/PaginationStyled';
 PlaceBooked.propTypes = {
+    placeBooked: PropTypes.array,
+    onChangePage: PropTypes.func,
+    pagination: PropTypes.object,
+    total: PropTypes.number,
+};
 
+PlaceBooked.defaultProps = {
+    placeBooked: [],
+    onChangePage: null,
+    pagination: {},
+    total: null,
 };
 
 function PlaceBooked(props) {
+    const { placeBooked, onChangePage, pagination, total } = props;
+
+    const handleChangePage = page => {
+        if (!onChangePage) return;
+
+        onChangePage(page);
+    }
+
     return (
         <div className='place-booked'>
-            <Title main='Lịch sử chuyến đi (3)' />
+            <Title main={`Lịch sử chuyến đi (${total})`} />
             <div>
-                <Trip />
-                <Trip />
-                <Trip />
+                {
+                    placeBooked?.map(bookInfo => <Trip bookInfo={bookInfo} key={bookInfo._id} />)
+                }
                 <br />
-                <PaginationStyled currentPage={1} pageSize={1} totalPage={4} />
+                <PaginationStyled onChange={page => handleChangePage(page)} currentPage={pagination?.page} pageSize={1} totalPage={pagination?.totalPage} />
             </div>
         </div>
     );

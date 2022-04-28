@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 export const datPhongApi = {
-    getAll: () => {
+    getAll: (params) => {
         const url = `/DatPhong/DatPhongs`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     }
     ,
     get: (datPhongId) => {

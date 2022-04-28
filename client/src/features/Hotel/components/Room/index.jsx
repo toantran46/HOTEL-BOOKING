@@ -27,8 +27,8 @@ function Room(props) {
         <td>
           <div className="room__name">{roomInfo?.TenPhong}</div>
           {roomInfo?.ThongTinGiuong?.map((giuong) => (
-            <div key={giuong.Giuong._id} className="room__bed">
-              {giuong.SoLuong} {giuong.Giuong.TenLoaiGiuong}
+            <div key={giuong.Giuong?._id} className="room__bed">
+              {giuong.SoLuong} {giuong.Giuong?.TenLoaiGiuong}
             </div>
           ))}
           {/* <div className='room__about'>Với tầm nhìn ra thành phố hoặc biển, phòng giường đôi này có khu vực tiếp khách với TV thông minh màn hình phẳng 40 inch và tiện nghi pha trà/cà phê. Phòng tắm riêng đi kèm vòi sen. Đồ vệ sinh cá nhân hiệu C.O. Bigelow được cung cấp cho khách.</div> */}
