@@ -51,7 +51,7 @@ function HotelPage(props) {
       console.log(error);
     }
   };
-
+  console.log(hotel);
   return (
     <div className="hotel-list shadow-sm">
       <div className="table-responsive">
@@ -70,45 +70,45 @@ function HotelPage(props) {
             </tr>
           </thead>
           <tbody>
-            {hotel.map((hotel, index) => (
+            {hotel.map((ht, index) => (
               <tr className="" key={index}>
                 <th scope="row">{index + 1}</th>
                 <td>
-                  <Badge color="dark">{hotel.TenChoNghi}</Badge>
+                  <Badge color="dark">{ht.TenChoNghi}</Badge>
                 </td>
                 <td>
                   <Badge color="light" className="text-dark">
-                    {hotel.QuanLy[0].name}
+                    {ht?.QuanLy[0]?.name}
                   </Badge>
                 </td>
                 <td>
-                  <Badge color="warning">{hotel.SoDienThoai}</Badge>
+                  <Badge color="warning">{ht?.QuanLy[0]?.phone}</Badge>
                 </td>
                 <td className="text-truncate" style={{ maxWidth: "100px" }}>
-                  {hotel.DiaChi}
+                  {ht.DiaChi}
                 </td>
                 <td>
-                  <Badge color="danger">{hotel.XepHang}</Badge>
+                  <Badge color="danger">{ht.XepHang}</Badge>
                 </td>
                 <td>
-                  <Badge color="success">{`${hotel.ThoiGianNhanPhong.Tu} - ${hotel.ThoiGianNhanPhong.Den}`}</Badge>
+                  <Badge color="success">{`${ht.ThoiGianNhanPhong.Tu} - ${ht.ThoiGianNhanPhong.Den}`}</Badge>
                 </td>
                 <td>
                   <Badge color="dark">
-                    {`${hotel.ThoiGianTraPhong.Tu} - ${hotel.ThoiGianTraPhong.Den}`}
+                    {`${ht.ThoiGianTraPhong.Tu} - ${ht.ThoiGianTraPhong.Den}`}
                   </Badge>
                 </td>
                 <td>
                   <div className="hotel-list__actions">
                     <div
-                      onClick={() => showModal(hotel)}
+                      onClick={() => showModal(ht)}
                       className="hotel-list__action shadow-sm bg-primary"
                     >
                       <i className="fa-solid fa-info hotel-list__icon"></i>
                     </div>
 
                     <div
-                      onClick={() => showDeleteModal(hotel)}
+                      onClick={() => showDeleteModal(ht)}
                       className="hotel-list__action shadow-sm bg-danger"
                     >
                       <i className="fa-solid fa-trash hotel-list__icon"></i>

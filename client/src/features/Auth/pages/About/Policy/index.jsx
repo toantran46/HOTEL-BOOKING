@@ -17,17 +17,17 @@ function Policy(props) {
     const dispatch = useDispatch();
     const { policy } = useSelector(state => state.aboutInfo);
     const [cancleDate, setCancelDate] = React.useState(
-        () => policy.cancleDate || "18:00"
+        () => policy.cancleDate || "18"
     );
     const [charge, setCharge] = React.useState(
         () => policy.charge || "của tổng đợt lưu trú"
     );
 
     const [receiveDate, setReceiveDate] = React.useState(
-        () => policy.receiveDate || { from: '12:00', to: '12:00' }
+        () => policy.receiveDate || { from: '12', to: '12' }
     );
     const [returnDate, setReturnDate] = React.useState(
-        () => policy.returnDate || { from: '00:00', to: '10:00' }
+        () => policy.returnDate || { from: '00', to: '10' }
     );
 
     const [insurance, setInsurance] = React.useState(

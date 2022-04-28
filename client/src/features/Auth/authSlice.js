@@ -4,8 +4,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     selectStar: 0,
     nameHotel: null,
-    nameOwner: null,
-    phoneOwner: null,
     titleHotel: null,
     detailHotel: null,
     otherHothelCheck: false,
@@ -20,7 +18,6 @@ const initialState = {
             quantity: 1,
         },
     ],
-    nameCustom: null,
     smokingPolicy: 0,
     numRoom: 1,
     quantityRoom: 1,
@@ -30,7 +27,7 @@ const initialState = {
 
     isParking: true,
     isBreakfast: true,
-    convenientGroup: null,
+    convenientGroup: [],
 
     imageHotel: [],
 
@@ -60,8 +57,6 @@ const auth = createSlice({
             // const newInforBasic = action.payload;
             state.selectStar = action.payload.selectStar;
             state.nameHotel = action.payload.nameHotel;
-            state.nameOwner = action.payload.nameOwner;
-            state.phoneOwner = action.payload.phoneOwner;
             state.titleHotel = action.payload.titleHotel;
             state.detailHotel = action.payload.detailHotel;
             state.otherHothelCheck = action.payload.otherHothelCheck;
@@ -72,7 +67,6 @@ const auth = createSlice({
         addLayoutNPrice: (state, action) => {
             state.typeRoom = action.payload.typeRoom;
             state.nameRoom = action.payload.nameRoom;
-            state.nameCustom = action.payload.nameCustom;
             state.smokingPolicy = action.payload.smokingPolicy;
             state.numRoom = action.payload.numRoom;
             state.quantityRoom = action.payload.quantityRoom;

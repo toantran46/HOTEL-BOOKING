@@ -111,14 +111,15 @@ function UserPage(props) {
                           index % 3 === 0
                             ? "#20c997"
                             : index % 3 === 1
-                            ? "#fd7e14"
-                            : "#6610f2",
+                              ? "#fd7e14"
+                              : "#6610f2",
                       }}
                       className="user-list__avatar-name shadow-sm"
                     >
-                      {user.name
-                        .split(" ")
-                        [user.name.split(" ").length - 1].charAt(0)
+                      {user?.name
+                        ?.split(" ")
+                        .pop()
+                        .charAt(0)
                         .toUpperCase()}
                     </div>
                   )}

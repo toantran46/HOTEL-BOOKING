@@ -18,10 +18,10 @@ function HotelDetail({ selectedHotel }) {
             </ListGroupItem>
             <ListGroupItem>
               <b style={listItemStyle}>Contact:</b>{" "}
-              {selectedHotel.TenNguoiLienHe}
+              {selectedHotel?.QuanLy[0]?.name}
             </ListGroupItem>
             <ListGroupItem>
-              <b style={listItemStyle}>Phone:</b> {selectedHotel.SoDienThoai}{" "}
+              <b style={listItemStyle}>Phone:</b> {selectedHotel?.QuanLy[0]?.phone}{" "}
             </ListGroupItem>
             <ListGroupItem>
               <div className="d-flex">
