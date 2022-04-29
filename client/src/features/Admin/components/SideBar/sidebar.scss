@@ -29,6 +29,12 @@
     text-align: center;
   }
 
+  &__info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   &__info-img {
     width: 80px;
     height: 80px;
@@ -36,6 +42,16 @@
     object-fit: cover;
     border: 2px solid #fff;
     padding: 2px;
+  }
+  &__info-img-not-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    border: 1px solid #fff;
+    background-color: rgb(32, 201, 151);
+    line-height: 80px;
+    text-align: center;
+    font-size: 30px;
   }
 
   &__info-name {

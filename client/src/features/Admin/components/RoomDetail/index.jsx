@@ -68,11 +68,11 @@ function RoomDetail({ selectedRoom }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedRoom.ThongTinGiuong.map((bed, index) => {
+                    {selectedRoom.ThongTinGiuong?.map((bed, index) => {
                       return (
                         <tr>
                           <th>{index + 1}</th>
-                          <td>{bed.Giuong.TenLoaiGiuong}</td>
+                          <td>{bed.Giuong?.TenLoaiGiuong}</td>
                           <td>{bed.SoLuong}</td>
                         </tr>
                       );

@@ -47,7 +47,7 @@ function FeedBack(props) {
         </a>
       </div>
 
-      {!isLoadingFeedBack && (
+      {!isLoadingFeedBack && (feedBack.comments?.length > 0) && (
         <div className="feedback__score-wrapper">
           <div className="score">
             {parseFloat(feedBack?.mediumScore).toFixed(1)}
@@ -72,9 +72,12 @@ function FeedBack(props) {
       )}
 
       <div className="wrapperSlider">
-        <div className="wrapperSlider__title">
-          Đọc xem khách yêu thích điều gì nhất:
-        </div>
+        {
+          feedBack.comments?.length > 0 ?
+            <div className="wrapperSlider__title">Đọc xem khách yêu thích điều gì nhất:</div>
+            :
+            < div className="feedback__score-wrapper__numVoted">Chưa có đánh giá</div>
+        }
         {!isLoadingFeedBack && <Carousel isPadding={true} childrens={content} showNum={3} />}
         {isLoadingFeedBack && (
           <Carousel isPadding={true} childrens={content} showNum={3} />
@@ -110,7 +113,7 @@ function FeedBack(props) {
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 }
 

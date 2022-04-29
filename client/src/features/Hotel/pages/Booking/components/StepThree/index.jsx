@@ -54,7 +54,7 @@ function StepThree(props) {
             NgayNhanPhong: bookingPage.NgayNhanPhong,
             NgayTraPhong: bookingPage.NgayTraPhong,
             TongTien: bookingPage.TongTien,
-            ThoiGianDenDuKien: bookingPage.ThoiGianDenDuKien == -1 ? "Không biết" : `Khoảng ${bookingPage.ThoiGianDenDuKien}:00 - ${+bookingPage.ThoiGianDenDuKien + 1}:00`,
+            ThoiGianDenDuKien: bookingPage.ThoiGianDenDuKien == -1 ? "Không biết" : `${bookingPage.ThoiGianDenDuKien}:00 - ${+bookingPage.ThoiGianDenDuKien + 1}:00`,
             YeuCau: bookingPage.YeuCau,
             SoDienThoai: values.phone,
             TinDung: {

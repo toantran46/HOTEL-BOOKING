@@ -21,7 +21,7 @@ function LayoutNPrice(props) {
     const dispatch = useDispatch();
 
     const [anotherRoom, setAnotherRoom] = React.useState(
-        () => layoutNPrice.nameRoom
+        () => layoutNPrice.typeRoom
     );
 
     const [listLoaiPhong, setListLoaiPhong] = React.useState([]);
@@ -39,8 +39,7 @@ function LayoutNPrice(props) {
 
     const defaultValues = {
         typeRoom: '',
-        nameRoom: idPhongDon,
-        nameCustom: '',
+        nameRoom: '',
         smokingPolicy: 0,
         numRoom: 1,
         quantityRoom: 1,
@@ -121,12 +120,12 @@ function LayoutNPrice(props) {
                             <Label className='label-big'>
                                 Vui lòng chọn
                             </Label >
-                            <div className='col-sm-6 form-group'>
+                            <div className='col-sm-12 form-group'>
                                 <Label>
                                     Loại phòng
                                 </Label>
                                 <Form.Item
-                                    name="nameRoom"
+                                    name="typeRoom"
                                 >
 
                                     <Select defaultValue={idPhongDon} onChange={(value) => setAnotherRoom(value)} options={
@@ -138,32 +137,23 @@ function LayoutNPrice(props) {
                                 </Form.Item>
                             </div>
                             <div className="row">
-                                <div className="col-sm-6">
+                                <div className="col-sm-12">
                                     <Label>
                                         Tên phòng
                                     </Label>
                                     <Form.Item
-                                        name="nameRoom"
-                                    >
-                                        <Select disabled value={anotherRoom} onChange={(value) => setAnotherRoom(value)} style={{ minWidth: '100%' }} options={
-                                            listLoaiPhong.map((loaiphong, index) => (
-                                                { label: loaiphong.TenLoaiPhong, value: loaiphong._id }
-                                            ))
-                                        }
-                                        />
 
+                                        name='nameRoom'
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: "Vui lòng nhập tên phòng",
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
                                     </Form.Item>
                                     <span>Đây là tên mà khách sẽ thấy trên trang web Booking.com.</span>
-                                </div>
-                                <div className="col-sm-6">
-                                    <Label>
-                                        Tên tùy chọn ( không bắt buộc)
-                                    </Label>
-                                    <Form.Item name='nameCustom'>
-                                        <Input
-                                        />
-                                    </Form.Item>
-                                    <span>Tạo tên tùy chọn cho riêng Quý vị tham khảo (không bắt buộc).</span>
                                 </div>
                             </div>
                             <br />
@@ -213,7 +203,7 @@ function LayoutNPrice(props) {
                                         <div className='col-sm-7 form-group'>
 
 
-                                            <Select style={{ minWidth: '100%' }} value={loaiGiuong._id} options={
+                                            <Select style={{ minWidth: '100%' }} value={bed.idBed} options={
                                                 loaiGiuong.map((giuong, index) => (
                                                     { label: giuong.TenLoaiGiuong, value: giuong._id }
                                                 ))

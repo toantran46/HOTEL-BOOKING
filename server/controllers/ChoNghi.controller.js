@@ -1,4 +1,5 @@
 const { default: mongoose } = require("mongoose");
+const { getInfoUser } = require("../middleware/checkAuthReturnResult");
 const ChoNghiModel = require("../models/ChoNghi.model");
 const cloudinary = require("../utils/cloudinary.config");
 
@@ -42,7 +43,7 @@ module.exports = {
           {
             $addFields: {
               DiemTB: {
-                $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
+                $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
               },
             },
           },
@@ -142,7 +143,7 @@ module.exports = {
               {
                 $addFields: {
                   DiemTB: {
-                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
+                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
                   },
                 },
               },
@@ -203,7 +204,7 @@ module.exports = {
               {
                 $addFields: {
                   DiemTB: {
-                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
+                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
                   },
                 },
               },
@@ -269,7 +270,8 @@ module.exports = {
               {
                 $addFields: {
                   DiemTB: {
-                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
+                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
+
                   },
                 },
               },
@@ -420,7 +422,7 @@ module.exports = {
         {
           $addFields: {
             DiemTB: {
-              $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
+              $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
             },
           },
         },
@@ -498,20 +500,18 @@ module.exports = {
   post: async (req, res) => {
     try {
       //avatar
-      req.body.HinhAnh = [];
+      // req.body.HinhAnh = [];
 
-      if (req.files) {
-        req.body.HinhAnh = await Promise.all(
-          req.files.map((file) =>
-            cloudinary.upload(file.path, process.env.CLOUD_FOLDER_UPLOAD)
-          )
-        );
-      }
-
+      // if (req.files) {
+      //   req.body.HinhAnh = await Promise.all(
+      //     req.files.map((file) =>
+      //       cloudinary.upload(file.path, process.env.CLOUD_FOLDER_UPLOAD)
+      //     )
+      //   );
+      // }
+      let QuanLy = req.user.userId;
       const {
         TenChoNghi,
-        TenNguoiLienHe,
-        SoDienThoai,
         TieuDeDatDiem,
         MoTaDatDiem,
         DiaChi,
@@ -524,26 +524,35 @@ module.exports = {
         ThoiGianNhanPhong,
         ThoiGianTraPhong,
         TinDung,
-        HinhAnh,
       } = req.body;
-
-      res.status(200).json({ images: req.files });
+      console.log(req.body);
+      // console.log(req.files);
+      // return;
+      const HinhAnh = req.files.map((image) => image.path);
+      // res.status(200).json({ images: req.files });
+      const TGNhanPhong = JSON.parse(ThoiGianNhanPhong);
+      const TGTraPhong = JSON.parse(ThoiGianTraPhong);
       const newChoNghi = new ChoNghiModel({
         TenChoNghi,
-        TenNguoiLienHe,
-        SoDienThoai,
+        QuanLy,
         TieuDeDatDiem,
         MoTaDatDiem,
         DiaChi,
         ThanhPho,
         XepHang,
-        TienNghi,
+        TienNghi: TienNghi.split(','),
         HinhAnh,
         Phong,
         HuyDatPhong,
         BaoHiemNhamLan,
-        ThoiGianNhanPhong,
-        ThoiGianTraPhong,
+        ThoiGianNhanPhong: {
+          Tu: +TGNhanPhong.from,
+          Den: +TGNhanPhong.to,
+        },
+        ThoiGianTraPhong: {
+          Tu: +TGTraPhong.from,
+          Den: +TGTraPhong.to,
+        },
         TinDung,
       });
       await newChoNghi.save();

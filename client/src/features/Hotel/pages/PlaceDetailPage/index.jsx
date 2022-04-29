@@ -516,6 +516,7 @@ function HotelDetailPage(props) {
           />
           {/* <ListRoom rooms={room} /> */}
 
+
           <FeedBack
             isLoadingFeedBack={isLoadingFeedBack}
             setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
@@ -524,19 +525,23 @@ function HotelDetailPage(props) {
           />
           <br />
           {/* <ViewDetailComments /> */}
+          {
+            feedBack?.comments.length > 0 &&
+            <a
+              onClick={() => setIsVisibleAllFeedBack(true)}
+              className="btn-primary-outline"
+            >
+              Đọc tất cả đánh giá
+            </a>
+          }
 
-          <a
-            onClick={() => setIsVisibleAllFeedBack(true)}
-            className="btn-primary-outline"
-          >
-            Đọc tất cả đánh giá
-          </a>
           {isVisibleAllFeedBack && (
             <ViewAllFeedBack
               isOwner={user.Quyen === "MANAGER" && user._id === place.QuanLy?._id}
               setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
             />
           )}
+
           <GeneralRule
             receiveDate={place?.ThoiGianNhanPhong}
             returnDate={place?.ThoiGianTraPhong}

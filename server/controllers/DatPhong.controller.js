@@ -74,9 +74,10 @@ module.exports = {
                 SoDienThoai,
                 TinDung,
                 ThoiGianDenDuKien,
-                MaNguoiDung
             } = req.body;
 
+            //check is Auth or not Auth
+            const MaNguoiDung = getInfoUser(req)?.userId;
             const newDatPhong = new DatPhongModel({
                 ThongTinhPhong: ThongTinPhong,
                 HoTenNguoiDat,
@@ -100,7 +101,12 @@ module.exports = {
                     {
                         path: "ThanhPho",
                         model: "ThanhPho",
-                    }
+                    },
+                    {
+                        path: "QuanLy",
+                        model: "NguoiDung",
+                        select: "_id name email"
+                    },
                 ],
             })
             const fitDataRoom = DatPhong.ThongTinhPhong.map((TTP) => ({ name: TTP.Phong.TenPhong, quantity: TTP.SoLuong }));
@@ -115,14 +121,14 @@ module.exports = {
                 room: fitDataRoom,
                 receiveDate: NgayNhanPhong,
                 returnDate: NgayTraPhong,
-                intentTime: DatPhong.ThoiGianDenDuKien,
+                intentTime: DatPhong.ThoiGianDenDuKien === "Không biết" ? `${DatPhong.MaKhachSan.ThoiGianNhanPhong.Tu}:00 - ${DatPhong.MaKhachSan.ThoiGianNhanPhong.Den}:00` : DatPhong.ThoiGianDenDuKien,
                 totalPrice: DatPhong.TongTien,
                 status: DatPhong.TrangThai,
             }
-            // const sendForUser = await sendMail(DatPhong.Email, "booked-to-user", infoBooking);
-            // const sendForOwner = await sendMail("vietlinhst2019@gmail.com", "booked-to-owner", infoBooking);
-            // console.log({ sendForUser, sendForOwner });
-            res.json({ message: "Đặt phòng thành công! Mong quý khách đến đúng hẹn và có 1 kì nghĩ tuyệt vời !" })
+            const sendForUser = await sendMail(DatPhong.Email, "booked-to-user", infoBooking);
+            const sendForOwner = await sendMail(DatPhong.MaKhachSan.QuanLy.email, "booked-to-owner", infoBooking);
+            console.log({ sendForOwner, sendForUser })
+            res.json({ message: "Đặt phòng thành công !. Quý khách có thể check mail để xem lại thông tin. Xin cảm ơn !." })
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
             console.log(error.message);

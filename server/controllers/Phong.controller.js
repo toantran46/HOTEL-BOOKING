@@ -137,7 +137,6 @@ module.exports = {
     }
   },
   post: async (req, res) => {
-    // console.log(req.body);
     try {
       const {
         LoaiPhong,
@@ -151,8 +150,10 @@ module.exports = {
         TienNghi,
         SoLuongPhong,
       } = req.body;
-      console.log(req.body);
-      return;
+
+      // console.log(req.body);
+      // return;
+
       //test
       // const ThongTinGiuong = [{
       //     Giuong: '62334a87bcdb23e1860a32c2',

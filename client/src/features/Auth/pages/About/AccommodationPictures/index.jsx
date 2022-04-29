@@ -24,9 +24,7 @@ const getbase64 = (file) => {
 function AccommodationPictures(props) {
 
     const { imageHotel } = useSelector(state => state.aboutInfo);
-    const [images, setImages] = React.useState(
-        () => imageHotel
-    );
+    const [images, setImages] = React.useState([]);
 
     console.log(imageHotel);
 
@@ -39,12 +37,20 @@ function AccommodationPictures(props) {
 
         return false;
     }
-
-    const handleUpload = async ({ file }) => {
+    const { onSaveImages } = props;
+    const handleUpload = async ({ file, fileList }) => {
         //uploaded successfully
         if (!file.status) {
             const base64 = await getbase64(file);
-            setImages((prev) => [...prev, { file, base64 }]);
+
+            setImages(prev => [
+                ...prev,
+                {
+                    file,
+                    base64,
+                }
+            ]);
+            console.log(file);
         }
     }
 
@@ -58,10 +64,9 @@ function AccommodationPictures(props) {
     }
 
     React.useEffect(() => {
-        console.log(images);
-        dispatch(addImg(images))
+        const newImages = images.map((image) => image.file)
+        onSaveImages(newImages);
     }, [images])
-
 
     return (
         <div className='accommodation-pictures'>

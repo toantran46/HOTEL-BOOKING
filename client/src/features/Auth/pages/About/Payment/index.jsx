@@ -7,9 +7,15 @@ import InputField from 'custom-fields/InputField';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCredit, addPayment, setTab } from 'features/Auth/authSlice';
 import { tinDungApi } from 'api/TinDungApi';
+import { phongApi } from 'api/PhongApi';
+import { toastError, toastSucsess } from 'utils/notifi';
+import { choNghiApi } from 'api/ChoNghiApi';
+import { useNavigate } from 'react-router-dom';
+
 Payment.propTypes = {
 
 };
+
 
 function Payment(props) {
 
@@ -40,6 +46,8 @@ function Payment(props) {
 
     const paymentData = useSelector(state => state.aboutInfo);
 
+    const [isLoading, setIsLoading] = React.useState(false);
+
     React.useEffect(() => {
         const fetchCartPayment = async () => {
             try {
@@ -60,16 +68,55 @@ function Payment(props) {
         form.setFieldsValue(paymentData)
     }, [paymentData]);
 
+    const PhongData = {
+        LoaiPhong: globalSTate.typeRoom,
+        TenPhong: globalSTate.nameRoom,
+        HutThuoc: globalSTate.smokingPolicy,
+        ThongTinGiuong: globalSTate.Room.map((data) => ({
+            Giuong: data.idBed.split('-')[0],
+            SoLuong: data.quantity,
+        })),
+        SoLuongKhach: globalSTate.numberGuest,
+        KichThuoc: globalSTate.sizeRoom,
+        Gia: globalSTate.price,
+        TienNghi: globalSTate.convenientGroup,
+        SoLuongPhong: globalSTate.numRoom,
+    }
+    console.log(PhongData);
+    const { listImages } = props;
 
-
+    const navigate = useNavigate();
+    // console.log(listImages);
     const handleFinish = (values) => {
         const addGlobalState = async () => {
             try {
-
+                const { MaPhong } = await phongApi.add(PhongData);
+                const formData = new FormData();
+                listImages.forEach(img => {
+                    formData.append('photos', img);
+                })
+                formData.append('Phong', [MaPhong]);
+                formData.append('TenChoNghi', globalSTate.nameHotel);
+                formData.append('TieuDeDatDiem', globalSTate.titleHotel);
+                formData.append('MoTaDatDiem', globalSTate.detailHotel);
+                formData.append('DiaChi', globalSTate.addrMain);
+                formData.append('ThanhPho', globalSTate.addrCity);
+                formData.append('XepHang', globalSTate.selectStar);
+                formData.append('TienNghi', globalSTate.convenientGroup);
+                formData.append('HuyDatPhong', `Khách phải hủy trước ${globalSTate.policy.cancleDate}  hoặc thanh toán 100% giá phòng ${globalSTate.policy.charge}`);
+                formData.append('BaoHiemNhamLan', globalSTate.policy.insurance);
+                formData.append('ThoiGianNhanPhong', JSON.stringify(globalSTate.policy.receiveDate));
+                formData.append('ThoiGianTraPhong', JSON.stringify(globalSTate.policy.returnDate));
+                formData.append('TinDung', globalSTate.payment.cartPayment);
+                await choNghiApi.add(formData);
+                toastSucsess("Thêm khách sạn thành công");
+                navigate('/admin/hotels');
             } catch (error) {
                 console.log(error);
+                toastError("Đã có lỗi xảy ra");
             }
         }
+        addGlobalState();
         // console.log(values)
         // console.log(globalSTate.tab);
     }

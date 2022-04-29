@@ -70,7 +70,7 @@ function PlaceOverView(props) {
                         <div className='place-Over-View__feedback__header__top__message'>{getMessageByScore(placeInfo.DiemTB)}</div>
                         <div className='place-Over-View__feedback__header__top__vote'>{placeInfo.PhanHoi?.length > 0 ? `${placeInfo.PhanHoi?.length} đánh giá` : "Chưa có đánh giá"} </div>
                     </div>
-                    <div className='score'>{parseFloat(placeInfo.DiemTB).toFixed(1)}</div>
+                    {placeInfo.PhanHoi?.length > 0 && <div className='score'>{parseFloat(placeInfo.DiemTB).toFixed(1)}</div>}
                 </div>
                 {isChoosenDate ?
                     <div className='place-Over-View__feedback__choosen-date'>

@@ -1,4 +1,6 @@
+import { Avatar } from "antd";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import "./sidebar.scss";
 
@@ -6,6 +8,8 @@ Sidebar.propTypes = {};
 
 function Sidebar({ widthSideBar }) {
   const location = useLocation();
+  const { user } = useSelector((state) => state.auth);
+
   const target =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
 
@@ -22,13 +26,19 @@ function Sidebar({ widthSideBar }) {
 
       <div className="sidebar__manager">
         <div className="sidebar__info">
-          <img
-            className="sidebar__info-img"
-            src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t1.18169-9/18952686_1735481316750526_1304793333542509082_n.jpg?stp=c0.79.720.720a_dst-jpg_s851x315&_nc_cat=100&ccb=1-5&_nc_sid=da31f3&_nc_ohc=trJ6MQ3RsncAX_vCtNV&tn=L-belTOs__xWszIJ&_nc_ht=scontent.fsgn5-5.fna&oh=00_AT9NId0qdfUCZCT5l9Gcw2BcGbXdv3-2JyRRRNkrSKSALg&oe=628A6858"
-            alt="avatar"
-          />
-          <h5 className="sidebar__info-name">Hiếu Nguyễn</h5>
-          <span className="sidebar__info-position">Manager</span>
+          {user.Avatar ? (
+            <img
+              className="sidebar__info-img"
+              src={user.Avatar || ""}
+              alt="avatar"
+            />
+          ) : (
+            <div className="sidebar__info-img-not-avatar ">
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+          )}
+          <h5 className="sidebar__info-name">{user.name}</h5>
+          <span className="sidebar__info-position">{user.Quyen}</span>
         </div>
 
         <div className="sidebar__controls">

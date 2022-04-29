@@ -51,7 +51,7 @@ function ConvenientNService(props) {
     const defaultValues = {
         isParking: true,
         isBreakfast: true,
-        convenientGroup: '',
+        convenientGroup: [],
     };
 
     return (
