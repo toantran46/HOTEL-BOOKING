@@ -12,13 +12,13 @@ import ConvenientPage from "features/Admin/pages/Convenient";
 import PaymentPage from "features/Admin/pages/Payment";
 import { useSelector } from "react-redux";
 import Toast from "components/Toast";
+import TypesPage from "features/Admin/pages/Types";
 
 const HoTel = React.lazy(() => import("./features/Hotel/index.jsx"));
 const Auth = React.lazy(() => import("./features/Auth/index.jsx"));
 
 function App() {
-  const { user, loggedIn } = useSelector(state => state.auth);
-
+  const { user, loggedIn } = useSelector((state) => state.auth);
 
   return (
     <div className="App">
@@ -27,7 +27,16 @@ function App() {
           <Routes>
             <Route index path="/*" element={<HoTel />} />
             <Route path="/auth/*" element={<Auth />} />
-            <Route path="/admin" element={loggedIn && (user?.Quyen !== "USER") ? <AdminLayout /> : <Navigate to="/auth/sign-in" />}>
+            <Route
+              path="/admin"
+              element={
+                loggedIn && user?.Quyen !== "USER" ? (
+                  <AdminLayout />
+                ) : (
+                  <Navigate to="/auth/sign-in" />
+                )
+              }
+            >
               <Route index element={<div>dashboard</div>} />
               <Route path="users" element={<UserPage />} />
               <Route path="hotels" element={<HotelPage />} />
@@ -36,6 +45,7 @@ function App() {
               <Route path="cities" element={<CityPage />} />
               <Route path="convenients" element={<ConvenientPage />} />
               <Route path="payments" element={<PaymentPage />} />
+              <Route path="others" element={<TypesPage />} />
             </Route>
           </Routes>
           <Toast />

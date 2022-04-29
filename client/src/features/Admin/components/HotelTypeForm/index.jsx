@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Spin } from "antd";
 import InputField from "custom-fields/BTInputField";
 import UploadField from "custom-fields/UploadField";
 import React from "react";
@@ -8,15 +7,15 @@ import { Button, Form, ModalFooter } from "reactstrap";
 import { checkRequired, checkStringRequired } from "utils/validate";
 import * as yup from "yup";
 
-function CityForm({ selectedCity, onSubmit, hideModal, isLoading, isEdit }) {
+function HotelTypeForm({ selectedHotelType, onSubmit, hideModal }) {
   const defaultValues = {
-    cityName: selectedCity?.TenThanhPho || "",
-    image: selectedCity?.HinhAnh || "",
+    TenLoaiChoNghi: selectedHotelType.TenLoaiChoNghi,
+    HinhAnh: selectedHotelType.HinhAnh,
   };
 
   const schema = yup.object().shape({
-    cityName: checkStringRequired(yup),
-    image: checkRequired(yup),
+    TenLoaiChoNghi: checkStringRequired(yup),
+    HinhAnh: checkRequired(yup),
   });
 
   const {
@@ -26,27 +25,30 @@ function CityForm({ selectedCity, onSubmit, hideModal, isLoading, isEdit }) {
   } = useForm({ defaultValues, resolver: yupResolver(schema) });
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: 400 }}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <InputField
-        name="cityName"
+        name="TenLoaiChoNghi"
         control={control}
-        label="City Name"
+        label="Hotel Type"
         errors={errors}
         type="text"
       />
 
       <UploadField
-        name="image"
+        name="HinhAnh"
         control={control}
         label="Image"
         errors={errors}
         maxCount={1}
-        value={selectedCity?.HinhAnh ? [selectedCity.HinhAnh] : []}
+        value={selectedHotelType?.HinhAnh ? [selectedHotelType.HinhAnh] : []}
       />
 
       <ModalFooter>
-        <Button type="submit" color="primary">
-          {isEdit ? "Update " : "Add "} {isLoading && <Spin size="small" />}
+        <Button
+          type="submit"
+          color={selectedHotelType._id ? "success" : "primary"}
+        >
+          {selectedHotelType._id ? "Update" : "Add"}
         </Button>{" "}
         <Button onClick={hideModal}>Cancel</Button>
       </ModalFooter>
@@ -54,4 +56,4 @@ function CityForm({ selectedCity, onSubmit, hideModal, isLoading, isEdit }) {
   );
 }
 
-export default CityForm;
+export default HotelTypeForm;

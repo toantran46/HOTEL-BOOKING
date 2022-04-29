@@ -117,7 +117,7 @@ function UserPage(props) {
                       className="user-list__avatar-name shadow-sm"
                     >
                       {user.name
-                        .split(" ")
+                        ?.split(" ")
                         [user.name.split(" ").length - 1].charAt(0)
                         .toUpperCase()}
                     </div>

@@ -1,0 +1,81 @@
+.table {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  position: relative;
+}
+
+.types-page {
+  .types-page__actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .types-page__action {
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    border-radius: 50%;
+
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+  }
+
+  .types-page__addBtn {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+
+  .types-page__action:nth-child(2) {
+    margin: 0 8px;
+  }
+
+  .types-page__icon {
+    font-size: 0.8rem;
+  }
+
+  &__payment-img {
+    width: 38px;
+    height: 38px;
+    margin-right: 10px;
+    object-fit: cover;
+  }
+
+  &__payment-img:last-child {
+    width: 80px;
+  }
+
+  &__convenient-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
+
+  &__hotel-img {
+    width: 234px;
+    height: 200px;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(195, 195, 195);
+}

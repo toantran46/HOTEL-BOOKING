@@ -56,7 +56,7 @@ function RoomPage(props) {
   return (
     <div className="room-list shadow-sm">
       <div className="table-responsive">
-        <Table className="table table-sm table-hover align-middle">
+        <Table className="table table-hover align-middle">
           <thead>
             <tr>
               <th>#</th>

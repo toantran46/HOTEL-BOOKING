@@ -136,8 +136,20 @@ function Sidebar({ widthSideBar }) {
           }
         >
           <Link to="/admin/payments" className="sidebar__list-link">
-            <i class="bi bi-credit-card-2-back-fill"></i>
+            <i className="bi bi-credit-card-2-back-fill"></i>
             Payments
+          </Link>
+        </li>
+        <li
+          className={
+            target === "others"
+              ? "sidebar__list-item sidebar__list-item--active"
+              : "sidebar__list-item"
+          }
+        >
+          <Link to="/admin/others" className="sidebar__list-link">
+            <i className="fa-solid fa-ellipsis"></i>
+            Others
           </Link>
         </li>
       </ul>
