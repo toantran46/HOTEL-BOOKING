@@ -21,7 +21,7 @@ function LayoutNPrice(props) {
     const dispatch = useDispatch();
 
     const [anotherRoom, setAnotherRoom] = React.useState(
-        () => layoutNPrice.nameRoom
+        () => layoutNPrice.typeRoom
     );
 
     const [listLoaiPhong, setListLoaiPhong] = React.useState([]);
@@ -203,7 +203,7 @@ function LayoutNPrice(props) {
                                         <div className='col-sm-7 form-group'>
 
 
-                                            <Select style={{ minWidth: '100%' }} value={loaiGiuong._id} options={
+                                            <Select style={{ minWidth: '100%' }} value={bed.idBed} options={
                                                 loaiGiuong.map((giuong, index) => (
                                                     { label: giuong.TenLoaiGiuong, value: giuong._id }
                                                 ))

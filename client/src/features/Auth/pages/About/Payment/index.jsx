@@ -10,6 +10,8 @@ import { tinDungApi } from 'api/TinDungApi';
 import { phongApi } from 'api/PhongApi';
 import { toastError, toastSucsess } from 'utils/notifi';
 import { choNghiApi } from 'api/ChoNghiApi';
+import { useNavigate } from 'react-router-dom';
+
 Payment.propTypes = {
 
 };
@@ -70,15 +72,20 @@ function Payment(props) {
         LoaiPhong: globalSTate.typeRoom,
         TenPhong: globalSTate.nameRoom,
         HutThuoc: globalSTate.smokingPolicy,
-        ThongTinGiuong: globalSTate.Room,
+        ThongTinGiuong: globalSTate.Room.map((data) => ({
+            Giuong: data.idBed.split('-')[0],
+            SoLuong: data.quantity,
+        })),
         SoLuongKhach: globalSTate.numberGuest,
         KichThuoc: globalSTate.sizeRoom,
         Gia: globalSTate.price,
         TienNghi: globalSTate.convenientGroup,
         SoLuongPhong: globalSTate.numRoom,
     }
-
+    console.log(PhongData);
     const { listImages } = props;
+
+    const navigate = useNavigate();
     // console.log(listImages);
     const handleFinish = (values) => {
         const addGlobalState = async () => {
@@ -102,7 +109,8 @@ function Payment(props) {
                 formData.append('ThoiGianTraPhong', JSON.stringify(globalSTate.policy.returnDate));
                 formData.append('TinDung', globalSTate.payment.cartPayment);
                 await choNghiApi.add(formData);
-                toastSucsess("Thêm khách sạn thành công")
+                toastSucsess("Thêm khách sạn thành công");
+                navigate('/admin/hotels');
             } catch (error) {
                 console.log(error);
                 toastError("Đã có lỗi xảy ra");
