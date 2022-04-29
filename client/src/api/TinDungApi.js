@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 export const tinDungApi = {
-    getAll: () => {
+    getAll: (params) => {
         const url = `/TinDung/TinDungs`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     }
     ,
     get: (tinDungId) => {

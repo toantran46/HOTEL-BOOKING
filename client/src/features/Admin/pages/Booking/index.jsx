@@ -6,6 +6,7 @@ import BookingDetail from "features/Admin/components/BookingDetail";
 import DeleteModal from "features/Admin/components/DeleteModal";
 import DetailModal from "features/Admin/components/DetailModal";
 import Pagination from "features/Admin/components/Pagination";
+import PaginationStyled from "features/Hotel/components/PaginationStyled";
 import React, { useEffect, useState } from "react";
 import {
   Badge,
@@ -27,18 +28,27 @@ function BookingPage(props) {
   const [selectedBooking, setSelectedBooking] = useState({});
   const [hotel, setHotel] = useState({});
   const [payment, setPayment] = useState({});
+  const [getNewData, setGetNewData] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
 
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const { DatPhongs } = await datPhongApi.getAll();
+        const { DatPhongs, totalPage } = await datPhongApi.getAll({ _page: pagination.page, _limit: pagination.limit });
         setBookings(DatPhongs);
+        setPagination(prev => ({ ...prev, totalPage }))
       } catch (error) {
         console.log(error);
       }
     };
     fetchBooking();
-  }, []);
+  }, [pagination.page]);
+
+  //handle change page 
+  const handleChangePage = page => {
+    setPagination(prev => ({ ...prev, page }))
+  }
 
   const showModal = async (booking) => {
     setShowBookingModal(true);
@@ -152,8 +162,7 @@ function BookingPage(props) {
         </Table>
       </div>
       {/* Booking Pagination */}
-      <Pagination page={1} totalRows={50} limit={10} />
-
+      <PaginationStyled currentPage={pagination.page} totalPage={pagination.totalPage} onChange={handleChangePage} />
       {/* Booking Detail Modal */}
       <DetailModal isOpen={showBookingModal} hideModal={hideModal}>
         {selectedBooking._id && (

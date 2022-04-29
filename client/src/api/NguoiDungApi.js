@@ -2,9 +2,9 @@ import { toastError } from "utils/notifi";
 import axiosClient from "./axiosClient";
 
 export const NguoiDungApi = {
-    getAll: () => {
+    getAll: (params) => {
         const url = `/NguoiDung/NguoiDungs`;
-        return axiosClient.get(url);
+        return axiosClient.get(url, { params });
     }
     ,
     get: (nguoiDungId) => {

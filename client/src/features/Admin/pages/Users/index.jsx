@@ -13,6 +13,7 @@ import {
 import "./user.scss";
 import FormUser from "../../components/UserForm";
 import { toastError, toastSucsess } from "utils/notifi";
+import PaginationStyled from "features/Hotel/components/PaginationStyled";
 
 function UserPage(props) {
   const [users, setUsers] = useState([]);
@@ -21,19 +22,26 @@ function UserPage(props) {
   const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
   const [getNewData, setGetNewData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
 
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const { NguoiDungs } = await NguoiDungApi.getAll();
+        const { NguoiDungs, _totalPage } = await NguoiDungApi.getAll({ _page: pagination.page, _limit: pagination.limit });
         setUsers(NguoiDungs);
+        setPagination(prev => ({ ...prev, totalPage: _totalPage }))
       } catch (error) {
         console.log(error);
       }
     };
     fetchUser();
-  }, [getNewData]);
+  }, [getNewData, pagination.page]);
+
+  //handle change page 
+  const handleChangePage = page => {
+    setPagination(prev => ({ ...prev, page }))
+  }
 
   const showModal = (user) => {
     setShowUpdateUserModal(true);
@@ -172,8 +180,7 @@ function UserPage(props) {
           </tbody>
         </Table>
       </div>
-
-      <Pagination page={1} totalRows={50} limit={10} />
+      <PaginationStyled onChange={handleChangePage} totalPage={pagination.totalPage} currentPage={pagination.page} />
       {/* Modal Update User */}
       <Modal centered isOpen={showUpdateUserModal} toggle={hideModal}>
         <ModalHeader toggle={hideModal}>

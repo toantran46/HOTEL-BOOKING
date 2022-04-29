@@ -3,6 +3,7 @@ import DeleteModal from "features/Admin/components/DeleteModal";
 import DetailModal from "features/Admin/components/DetailModal";
 import Pagination from "features/Admin/components/Pagination";
 import RoomDetail from "features/Admin/components/RoomDetail";
+import PaginationStyled from "features/Hotel/components/PaginationStyled";
 import React, { useEffect, useState } from "react";
 import { Badge, Table } from "reactstrap";
 import { formatMoney } from "utils/format";
@@ -13,18 +14,27 @@ function RoomPage(props) {
   const [showRoomModal, setShowRoomModal] = useState(false);
   const [showDeleteRoomModal, setShowDeleteRoomModal] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState({});
+  const [getNewData, setGetNewData] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
 
   useEffect(() => {
     const fetchRoom = async () => {
       try {
-        const { Phongs } = await phongApi.getAll();
+        const { Phongs, totalPage } = await phongApi.getAll({ _page: pagination.page, _limit: pagination.limit });
         setRooms(Phongs);
+        setPagination(prev => ({ ...prev, totalPage }))
       } catch (error) {
         console.log(error);
       }
     };
     fetchRoom();
-  }, []);
+  }, [pagination.page]);
+
+  //handle change page 
+  const handleChangePage = page => {
+    setPagination(prev => ({ ...prev, page }))
+  }
 
   const showModal = (room) => {
     setShowRoomModal(true);
@@ -118,7 +128,7 @@ function RoomPage(props) {
         </Table>
       </div>
       {/* Pagination */}
-      <Pagination page={1} totalRows={50} limit={10} />
+      <PaginationStyled currentPage={pagination.page} totalPage={pagination.totalPage} onChange={handleChangePage} />
 
       {/* Room Detail Modale */}
       <DetailModal isOpen={showRoomModal} hideModal={hideModal}>

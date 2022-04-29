@@ -15,18 +15,16 @@ import { formatMoney } from "utils/format";
 import "./convenient.scss";
 import { tienNghiApi } from "api/TienNghiApi";
 import ConvenientForm from "features/Admin/components/ConvenientForm";
+import PaginationStyled from "features/Hotel/components/PaginationStyled";
 
 function ConvenientPage(props) {
     const [convenients, setConvenients] = useState([]);
     const [showConvenientModal, setShowConvenientModal] = useState(false);
     const [showDeleteConvenientModal, setShowDeleteConvenientModal] = useState(false);
     const [selectedConvenient, setSelectedConvenient] = useState({});
-
-
-
     const [isLoading, setIsLoading] = useState(false);
-
     const [getNewData, setGetNewData] = useState(false);
+    const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
 
     const [isEdit, setIsEdit] = useState(false);
 
@@ -34,14 +32,21 @@ function ConvenientPage(props) {
     useEffect(() => {
         const fetchConvenients = async () => {
             try {
-                const { TienNghis } = await tienNghiApi.getAll();
+                const { TienNghis, totalPage } = await tienNghiApi.getAll({ _page: pagination.page, _limit: pagination.limit });
                 setConvenients(TienNghis);
+                setPagination(prev => ({ ...prev, totalPage }))
+
             } catch (error) {
                 console.log(error);
             }
         };
         fetchConvenients();
-    }, [getNewData]);
+    }, [getNewData, pagination.page]);
+
+    //handle change page 
+    const handleChangePage = page => {
+        setPagination(prev => ({ ...prev, page }))
+    }
 
     const showModal = (convenient) => {
         setShowConvenientModal(true);
@@ -153,7 +158,7 @@ function ConvenientPage(props) {
                 </Table>
             </div>
             {/* Pagination */}
-            <Pagination page={1} totalRows={50} limit={10} />
+            <PaginationStyled currentPage={pagination.page} totalPage={pagination.totalPage} onChange={handleChangePage} />
 
             {/* Convenient Detail Modale */}
             <DetailModal isOpen={showConvenientModal} hideModal={hideModal} size="md" >

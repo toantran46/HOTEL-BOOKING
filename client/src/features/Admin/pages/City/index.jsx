@@ -13,33 +13,39 @@ import { message } from 'antd';
 
 import { formatMoney } from "utils/format";
 import "./city.scss";
+import PaginationStyled from "features/Hotel/components/PaginationStyled";
 
 function CityPage(props) {
     const [cities, setCities] = useState([]);
     const [showCityModal, setShowCityModal] = useState(false);
     const [showDeleteCityModal, setShowDeleteCityModal] = useState(false);
     const [selectedCity, setSelectedCity] = useState({});
-
-
-
     const [isLoading, setIsLoading] = useState(false);
 
     const [getNewData, setGetNewData] = useState(false);
 
     const [isEdit, setIsEdit] = useState(false);
+    const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
 
 
     useEffect(() => {
         const fetchCity = async () => {
             try {
-                const { ThanhPhos } = await thanhPhoApi.getAll();
+                const { ThanhPhos, totalPage } = await thanhPhoApi.getAll({ _page: pagination.page, _limit: pagination.limit });
                 setCities(ThanhPhos);
+                setPagination(prev => ({ ...prev, totalPage }))
+
             } catch (error) {
                 console.log(error);
             }
         };
         fetchCity();
-    }, [getNewData]);
+    }, [getNewData, pagination.page]);
+
+    //handle change page 
+    const handleChangePage = page => {
+        setPagination(prev => ({ ...prev, page }))
+    }
 
     const showModal = (City) => {
         setShowCityModal(true);
@@ -164,7 +170,7 @@ function CityPage(props) {
                 </Table>
             </div>
             {/* Pagination */}
-            <Pagination page={1} totalRows={50} limit={10} />
+            <PaginationStyled currentPage={pagination.page} totalPage={pagination.totalPage} onChange={handleChangePage} />
 
             {/* City Detail Modale */}
             <DetailModal isOpen={showCityModal} hideModal={hideModal} size="md" >

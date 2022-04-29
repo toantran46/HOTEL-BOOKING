@@ -4,8 +4,8 @@ const { upload } = require("../utils/cloudinary.config");
 module.exports = {
     getAll: async (req, res) => {
         try {
+            const { _page, _limit, action, search } = req.query;
             let ThanhPhos;
-            const { action, search, _limit } = req.query;
 
             //action = 'getTotalPlace' 
             if (action === 'getTotalPlace') {
@@ -40,7 +40,12 @@ module.exports = {
             }
 
             ThanhPhos = await ThanhPhoModel.find();
-            res.json({ message: "success", ThanhPhos })
+            //pagination
+            const TongSo = ThanhPhos.length;
+            const start = _page ? (_page - 1) * _limit : 0;
+            const end = start + (_limit ? +_limit : TongSo);
+            ThanhPhos = ThanhPhos.slice(start, end);
+            return res.json({ message: "success", ThanhPhos, totalPage: Math.ceil(TongSo / _limit), _page: +_page, _limit: +_limit, total: TongSo });
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
         }

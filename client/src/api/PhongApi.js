@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 export const phongApi = {
-  getAll: () => {
+  getAll: (params) => {
     const url = `/Phong/Phongs`;
-    return axiosClient.get(url);
+    return axiosClient.get(url, { params });
   },
   get: (phongId) => {
     const url = `/Phong/${phongId}`;

@@ -1,7 +1,9 @@
 import React from "react";
 import "./pagination.scss";
 
-function Pagination({ page, limit, totalRows }) {
+function Pagination({ page, limit, totalRows, onChange }) {
+  const [currentPage, setCurrentPage] = React.useState(page);
+
   const numberItem =
     Math.ceil(totalRows / limit) > 4 ? 4 : Math.ceil(totalRows / limit);
   const listItem = [];
@@ -9,6 +11,16 @@ function Pagination({ page, limit, totalRows }) {
   for (let i = 0; i < numberItem; i++) {
     listItem[i] = i;
   }
+
+  const handleChangePage = page => {
+    if (!onChange) return;
+    onChange(page);
+  }
+
+  const handleNext = () => {
+    setCurrentPage(prev => prev + 1)
+  }
+
 
   return (
     <div className="pagination">
@@ -21,7 +33,7 @@ function Pagination({ page, limit, totalRows }) {
 
       <ul className="pagination__list">
         {listItem.map((item) => (
-          <li key={item} className="pagination__item">
+          <li key={item} className="pagination__item" onClick={() => handleChangePage(item + 1)}>
             {item + 1}
           </li>
         ))}

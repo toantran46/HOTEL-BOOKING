@@ -7,7 +7,8 @@ const PhongModel = require("../models/Phong.model");
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const Phongs = await PhongModel.find()
+      const { _page, _limit } = req.query;
+      let Phongs = await PhongModel.find()
         .populate("LoaiPhong")
         .populate({
           path: "ThongTinGiuong",
@@ -18,7 +19,14 @@ module.exports = {
         })
         .populate("TienNghi")
         .exec();
-      res.json({ message: "success", Phongs });
+
+      //pagination
+      const TongSo = Phongs.length;
+      const start = _page ? (_page - 1) * _limit : 0;
+      const end = start + (_limit ? +_limit : TongSo);
+      Phongs = Phongs.slice(start, end);
+      return res.json({ message: "success", Phongs, totalPage: Math.ceil(TongSo / _limit), _page: +_page, _limit: +_limit, total: TongSo });
+
     } catch (error) {
       res.status(500).json({ message: "error" + error.message });
     }

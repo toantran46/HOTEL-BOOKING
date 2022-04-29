@@ -11,7 +11,7 @@ module.exports = {
             const { _limit, _page } = req.query;
             //verify account. Can't use middleware checkAuth; 
             //role USER 
-            if (user.Quyen !== "USER") {
+            if (user.Quyen === "USER") {
                 DatPhongs = await DatPhongModel.find({ MaNguoiDung: user.userId }).populate({
                     path: "MaKhachSan",
                     populate: [
@@ -31,21 +31,19 @@ module.exports = {
                     ],
                 }).populate("ThongTinhPhong.Phong").populate("MaNguoiDung", "name phone email").exec();
 
-                //pagination
-                const TongSo = DatPhongs.length;
-                //pagination
-                const start = _page ? (_page - 1) * _limit : 0;
-                const end = start + (_limit ? +_limit : TongSo);
-                DatPhongs = DatPhongs.slice(start, end);
+            } else {
+                //role MANAGER 
+                //role ADMIN
+                DatPhongs = await DatPhongModel.find();
 
-
-                return res.json({ message: "success", DatPhongs, totalPage: Math.ceil(TongSo / _limit), _page: +_page, _limit: +_limit, total: TongSo });
             }
-            //role MANAGER 
-
-            //role ADMIN
-            DatPhongs = await DatPhongModel.find();
-            res.json({ message: "success", DatPhongs })
+            //pagination
+            const TongSo = DatPhongs.length;
+            //pagination
+            const start = _page ? (_page - 1) * _limit : 0;
+            const end = start + (_limit ? +_limit : TongSo);
+            DatPhongs = DatPhongs.slice(start, end);
+            return res.json({ message: "success", DatPhongs, totalPage: Math.ceil(TongSo / _limit), _page: +_page, _limit: +_limit, total: TongSo });
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
         }

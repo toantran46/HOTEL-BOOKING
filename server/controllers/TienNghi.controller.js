@@ -3,7 +3,7 @@ const TienNghiModel = require("../models/TienNghi.model");
 module.exports = {
     getAll: async (req, res) => {
         try {
-            const { groupBy } = req.query;
+            const { groupBy, _page, _limit } = req.query;
             let TienNghis;
 
             if (groupBy) {
@@ -39,7 +39,12 @@ module.exports = {
 
 
             TienNghis = await TienNghiModel.find();
-            res.json({ message: "success", TienNghis })
+            //pagination
+            const TongSo = TienNghis.length;
+            const start = _page ? (_page - 1) * _limit : 0;
+            const end = start + (_limit ? +_limit : TongSo);
+            TienNghis = TienNghis.slice(start, end);
+            return res.json({ message: "success", TienNghis, totalPage: Math.ceil(TongSo / _limit), _page: +_page, _limit: +_limit, total: TongSo });
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
         }

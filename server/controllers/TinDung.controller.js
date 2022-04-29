@@ -5,8 +5,15 @@ const { destroy } = require("../utils/cloudinary.config");
 module.exports = {
     getAll: async (req, res) => {
         try {
-            const TinDungs = await TinDungModel.find();
-            res.json({ message: "success", TinDungs })
+            const { _page, _limit } = req.query;
+            let TinDungs = await TinDungModel.find();
+
+            //pagination
+            const TongSo = TinDungs.length;
+            const start = _page ? (_page - 1) * _limit : 0;
+            const end = start + (_limit ? +_limit : TongSo);
+            TinDungs = TinDungs.slice(start, end);
+            return res.json({ message: "success", TinDungs, totalPage: Math.ceil(TongSo / _limit), _page: +_page, _limit: +_limit, total: TongSo });
         } catch (error) {
             res.status(500).json({ message: "error" + error.message })
         }

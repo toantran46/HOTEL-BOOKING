@@ -3,6 +3,7 @@ import DeleteModal from "features/Admin/components/DeleteModal";
 import DetailModal from "features/Admin/components/DetailModal";
 import HotelDetail from "features/Admin/components/HotelDetail";
 import Pagination from "features/Admin/components/Pagination";
+import PaginationStyled from "features/Hotel/components/PaginationStyled";
 import React, { useEffect, useState } from "react";
 import { Badge, Table } from "reactstrap";
 import "./hotel.scss";
@@ -12,19 +13,28 @@ function HotelPage(props) {
   const [showHotelModal, setShowHotelModal] = useState(false);
   const [showDeleteHotelModal, setShowDeleteHotelModal] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState({});
+  const [getNewData, setGetNewData] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
 
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const { ChoNghis } = await choNghiApi.getAll();
+        const { ChoNghis, _totalPage } = await choNghiApi.getAll({ _page: pagination.page, _limit: pagination.limit });
         setHotel(ChoNghis);
+        setPagination(prev => ({ ...prev, totalPage: _totalPage }))
+
       } catch (error) {
         console.log(error);
       }
     };
     fetchHotel();
-  }, []);
+  }, [pagination.page]);
 
+  //handle change page 
+  const handleChangePage = page => {
+    setPagination(prev => ({ ...prev, page }))
+  }
   const showModal = (hotel) => {
     setShowHotelModal(true);
     setSelectedHotel(hotel);
@@ -120,7 +130,8 @@ function HotelPage(props) {
           </tbody>
         </Table>
       </div>
-      <Pagination page={1} totalRows={50} limit={10} />
+
+      <PaginationStyled currentPage={pagination.page} totalPage={pagination.totalPage} onChange={handleChangePage} />
 
       {/* Hotel Detail Modal */}
       <DetailModal isOpen={showHotelModal} hideModal={hideModal}>

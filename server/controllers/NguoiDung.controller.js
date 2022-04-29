@@ -5,8 +5,14 @@ const bcrypt = require("bcrypt");
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const NguoiDungs = await NguoiDungModel.find();
-      res.json({ message: "success", NguoiDungs });
+      const { _page, _limit } = req.query;
+      let NguoiDungs = await NguoiDungModel.find();
+      //pagination
+      const TongSo = NguoiDungs.length;
+      const start = _page ? (_page - 1) * _limit : 0;
+      const end = start + (_limit ? +_limit : TongSo);
+      NguoiDungs = NguoiDungs.slice(start, end);
+      res.json({ message: "success", NguoiDungs, _page, _limit, _totalPage: Math.ceil(TongSo / _limit) });
     } catch (error) {
       res.status(500).json({ message: "error" + error.message });
     }

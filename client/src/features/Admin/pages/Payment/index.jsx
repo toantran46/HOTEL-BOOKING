@@ -14,6 +14,7 @@ import { message } from 'antd';
 import "./payment.scss";
 import { tinDungApi } from "api/TinDungApi";
 import PaymentForm from "features/Admin/components/PaymentForm";
+import PaginationStyled from "features/Hotel/components/PaginationStyled";
 
 function PaymentPage(props) {
     const [payments, setPayments] = useState([]);
@@ -21,11 +22,9 @@ function PaymentPage(props) {
     const [showDeletePaymentModal, setShowDeletePaymentModal] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState({});
 
-
-
     const [isLoading, setIsLoading] = useState(false);
-
     const [getNewData, setGetNewData] = useState(false);
+    const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
 
     const [isEdit, setIsEdit] = useState(false);
 
@@ -33,14 +32,21 @@ function PaymentPage(props) {
     useEffect(() => {
         const fetchPayments = async () => {
             try {
-                const { TinDungs } = await tinDungApi.getAll();
+                const { TinDungs, totalPage } = await tinDungApi.getAll({ _page: pagination.page, _limit: pagination.limit });
                 setPayments(TinDungs);
+                setPagination(prev => ({ ...prev, totalPage }))
+
             } catch (error) {
                 console.log(error);
             }
         };
         fetchPayments();
-    }, [getNewData]);
+    }, [getNewData, pagination.page]);
+
+    //handle change page 
+    const handleChangePage = page => {
+        setPagination(prev => ({ ...prev, page }))
+    }
 
     const showModal = (City) => {
         setShowPaymentModal(true);
@@ -165,7 +171,7 @@ function PaymentPage(props) {
                 </Table>
             </div>
             {/* Pagination */}
-            <Pagination page={1} totalRows={50} limit={10} />
+            <PaginationStyled currentPage={pagination.page} totalPage={pagination.totalPage} onChange={handleChangePage} />
 
             {/* payment Detail Modale */}
             <DetailModal isOpen={showPaymentModal} hideModal={hideModal} size="md" >
