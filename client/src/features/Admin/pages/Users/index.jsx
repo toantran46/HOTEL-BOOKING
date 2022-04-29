@@ -12,12 +12,16 @@ import {
 } from "reactstrap";
 import "./user.scss";
 import FormUser from "../../components/UserForm";
+import { toastError, toastSucsess } from "utils/notifi";
 
 function UserPage(props) {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
   const [showUpdateUserModal, setShowUpdateUserModal] = useState(false);
   const [showDeleteUserModal, setShowDeleteUserModal] = useState(false);
+  const [getNewData, setGetNewData] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -29,7 +33,7 @@ function UserPage(props) {
       }
     };
     fetchUser();
-  }, []);
+  }, [getNewData]);
 
   const showModal = (user) => {
     setShowUpdateUserModal(true);
@@ -50,19 +54,32 @@ function UserPage(props) {
   };
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     data.Quyen = data.Quyen.value;
     if (!data.password) {
       const { password, repeatPassword, ...userInfo } = data;
       try {
-        await NguoiDungApi.update(selectedUser._id, userInfo);
+        const { message } = await NguoiDungApi.update(selectedUser._id, userInfo);
+        toastSucsess(message);
+        setIsLoading(false);
+        setGetNewData(prev => !prev);
       } catch (error) {
         console.log(error);
+        const errMessage = error.response.data;
+        toastError(errMessage.message);
+        setIsLoading(false);
       }
     } else {
       const { repeatPassword, ...userInfo } = data;
       try {
-        await NguoiDungApi.update(selectedUser._id, userInfo);
+        const { message } = await NguoiDungApi.update(selectedUser._id, userInfo);
+        setIsLoading(false);
+        toastSucsess(message);
+        setGetNewData(prev => !prev);
       } catch (error) {
+        setIsLoading(false);
+        const errMessage = error.response.data;
+        toastError(errMessage.message);
         console.log(error);
       }
     }
@@ -111,8 +128,8 @@ function UserPage(props) {
                           index % 3 === 0
                             ? "#20c997"
                             : index % 3 === 1
-                            ? "#fd7e14"
-                            : "#6610f2",
+                              ? "#fd7e14"
+                              : "#6610f2",
                       }}
                       className="user-list__avatar-name shadow-sm"
                     >
@@ -170,6 +187,7 @@ function UserPage(props) {
         </ModalHeader>
         <ModalBody>
           <FormUser
+            isLoading={isLoading}
             selectedUser={selectedUser}
             hideModal={hideModal}
             onSubmit={onSubmit}

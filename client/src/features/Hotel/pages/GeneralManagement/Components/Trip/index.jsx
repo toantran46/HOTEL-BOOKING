@@ -20,7 +20,7 @@ function Trip(props) {
     return (
         <div className='trip'>
             <div className='trip__header'>
-                <div className='trip__header__address vip-text-2'>{bookInfo?.MaKhachSan.ThanhPho.TenThanhPho}</div>
+                <div className='trip__header__address vip-text-2'>{bookInfo?.MaKhachSan?.ThanhPho?.TenThanhPho}</div>
                 <div className='trip__header__createAt'>Đặt lúc: {moment(bookInfo.NgayDatPhong).format("DD/MM/yyyy")}</div>
             </div>
             <div className='trip__body'>
@@ -31,11 +31,11 @@ function Trip(props) {
                             <ul>
                                 <li className='trip__body__info-booking__item'>
                                     <span className='text-title'>Tên (q.ly chổ nghĩ):</span>
-                                    <span className='content'>{bookInfo?.MaKhachSan.QuanLy.name}</span>
+                                    <span className='content'>{bookInfo?.MaKhachSan?.QuanLy?.name}</span>
                                 </li>
                                 <li className='trip__body__info-booking__item'>
                                     <span className='text-title'>SĐT (q.ly chổ nghĩ):</span>
-                                    <span className='content'>{bookInfo?.MaKhachSan.QuanLy.phone}</span>
+                                    <span className='content'>{bookInfo?.MaKhachSan?.QuanLy?.phone}</span>
                                 </li>
                                 <li className='trip__body__info-booking__item'>
                                     <span className='text-title'>Họ tên người đặt:</span>
@@ -63,12 +63,12 @@ function Trip(props) {
                     </Col>
                     <Col span={15}>
                         <div className='trip__body__info-place'>
-                            <img src={bookInfo?.MaKhachSan.HinhAnh[0]} alt='place-image' />
+                            <img src={bookInfo?.MaKhachSan?.HinhAnh && bookInfo.MaKhachSan.HinhAnh[0]} alt='place-image' />
                             <div>
-                                <div className='type'>{bookInfo?.MaKhachSan.LoaiChoNghi.TenLoaiChoNghi}  <ShowStar num={bookInfo?.MaKhachSan.XepHang} /> </div>
-                                <div className='name'>{bookInfo?.MaKhachSan.TenChoNghi}</div>
+                                <div className='type'>{bookInfo?.MaKhachSan?.LoaiChoNghi?.TenLoaiChoNghi}  <ShowStar num={bookInfo?.MaKhachSan.XepHang} /> </div>
+                                <div className='name'>{bookInfo?.MaKhachSan?.TenChoNghi}</div>
                                 <div className='address'>
-                                    {bookInfo?.MaKhachSan.DiaChi + ", " + bookInfo?.MaKhachSan.ThanhPho.TenThanhPho}
+                                    {bookInfo?.MaKhachSan?.DiaChi + ", " + bookInfo?.MaKhachSan?.ThanhPho?.TenThanhPho}
                                 </div>
                                 {/* <div className='feed-back'>
                             <div className='score'>{parseFloat(9).toFixed(1)}</div>

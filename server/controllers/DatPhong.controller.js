@@ -11,7 +11,7 @@ module.exports = {
             const { _limit, _page } = req.query;
             //verify account. Can't use middleware checkAuth; 
             //role USER 
-            if (user.Quyen === "USER") {
+            if (user.Quyen !== "USER") {
                 DatPhongs = await DatPhongModel.find({ MaNguoiDung: user.userId }).populate({
                     path: "MaKhachSan",
                     populate: [

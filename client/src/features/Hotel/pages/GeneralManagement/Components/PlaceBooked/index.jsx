@@ -4,6 +4,7 @@ import Title from '../Title';
 import "./PlaceBooked.scss";
 import Trip from '../Trip';
 import PaginationStyled from 'features/Hotel/components/PaginationStyled';
+import { Alert } from 'antd';
 PlaceBooked.propTypes = {
     placeBooked: PropTypes.array,
     onChangePage: PropTypes.func,
@@ -32,10 +33,15 @@ function PlaceBooked(props) {
             <Title main={`Lịch sử chuyến đi (${total})`} />
             <div>
                 {
-                    placeBooked?.map(bookInfo => <Trip bookInfo={bookInfo} key={bookInfo._id} />)
+                    placeBooked.length > 0 ?
+                        placeBooked?.map(bookInfo => <Trip bookInfo={bookInfo} key={bookInfo._id} />)
+                        : <Alert type='info' description="Bạn chưa từng đặt phòng trên LTHBooking.vn" closable showIcon />
                 }
                 <br />
-                <PaginationStyled onChange={page => handleChangePage(page)} currentPage={pagination?.page} pageSize={1} totalPage={pagination?.totalPage} />
+                {
+                    total > 0 &&
+                    <PaginationStyled onChange={page => handleChangePage(page)} currentPage={pagination?.page} pageSize={1} totalPage={pagination?.totalPage} />
+                }
             </div>
         </div>
     );

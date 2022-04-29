@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Spin } from "antd";
 import positions from "constants/position";
 import InputField from "custom-fields/BTInputField";
 import BTSelectField from "custom-fields/BTSelectField";
@@ -15,7 +16,7 @@ import {
 } from "utils/validate";
 import * as yup from "yup";
 
-function UserForm({ selectedUser, onSubmit, hideModal }) {
+function UserForm({ selectedUser, onSubmit, hideModal, isLoading }) {
   const [changePassword, setChangePassword] = useState(false);
 
   const defaultValues = {
@@ -113,7 +114,7 @@ function UserForm({ selectedUser, onSubmit, hideModal }) {
 
       <ModalFooter>
         <Button type="submit" color="primary">
-          Update
+          Update {isLoading && <Spin className="ml-1" size="small" />}
         </Button>{" "}
         <Button onClick={hideModal}>Cancel</Button>
       </ModalFooter>
