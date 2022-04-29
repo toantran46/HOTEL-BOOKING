@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 module.exports = {
     getInfoUser: (req) => {
         try {
@@ -5,6 +6,7 @@ module.exports = {
             const decode = jwt.verify(token, process.env.JWT_KEY);
             return decode;
         } catch (error) {
+            console.log(error);
             return null;
         }
     }

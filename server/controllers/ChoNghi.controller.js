@@ -43,7 +43,7 @@ module.exports = {
           {
             $addFields: {
               DiemTB: {
-                $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
+                $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
               },
             },
           },
@@ -143,7 +143,7 @@ module.exports = {
               {
                 $addFields: {
                   DiemTB: {
-                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
+                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
                   },
                 },
               },
@@ -204,7 +204,7 @@ module.exports = {
               {
                 $addFields: {
                   DiemTB: {
-                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
+                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
                   },
                 },
               },
@@ -270,7 +270,8 @@ module.exports = {
               {
                 $addFields: {
                   DiemTB: {
-                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
+                    $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
+
                   },
                 },
               },
@@ -418,13 +419,13 @@ module.exports = {
             as: `PhanHoi`,
           },
         },
-        // {
-        //   $addFields: {
-        //     DiemTB: {
-        //       $divide: [{ $sum: "$PhanHoi.Diem" }, { $size: "$PhanHoi" }],
-        //     },
-        //   },
-        // },
+        {
+          $addFields: {
+            DiemTB: {
+              $divide: [{ $sum: "$PhanHoi.Diem" }, { $cond: { if: { $eq: [{ $size: "$PhanHoi" }, 0] }, then: 1, else: { $size: "$PhanHoi" } } }],
+            },
+          },
+        },
         {
           $match: search
             ? {
