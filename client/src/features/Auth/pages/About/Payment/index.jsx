@@ -88,6 +88,7 @@ function Payment(props) {
     const navigate = useNavigate();
     // console.log(listImages);
     const handleFinish = (values) => {
+        setIsLoading(true);
         const addGlobalState = async () => {
             try {
                 const { MaPhong } = await phongApi.add(PhongData);
@@ -110,13 +111,18 @@ function Payment(props) {
                 formData.append('TinDung', globalSTate.payment.cartPayment);
                 await choNghiApi.add(formData);
                 toastSucsess("Thêm khách sạn thành công");
+                setIsLoading(false);
                 navigate('/admin/hotels');
             } catch (error) {
                 console.log(error);
                 toastError("Đã có lỗi xảy ra");
+                setIsLoading(false);
             }
         }
-        addGlobalState();
+        setTimeout(() => {
+            addGlobalState();
+            setIsLoading(false);
+        }, 1500);
         // console.log(values)
         // console.log(globalSTate.tab);
     }

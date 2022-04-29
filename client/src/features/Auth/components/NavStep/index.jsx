@@ -40,7 +40,7 @@ function NavStep(props) {
     return (
         <div className='nav-step'>
             <ul>
-                <li className='active' onClick={() => handleChangeTab(1)}>
+                <li className={tab === 1 ? 'active' : ''} onClick={() => handleChangeTab(1)}>
                     <Link to={''}>
                         {
                             isLoading && nextTab === 1 ? <Spinner size="sm" /> :
@@ -48,7 +48,7 @@ function NavStep(props) {
                         }
                     </Link>
                 </li>
-                <li onClick={() => handleChangeTab(2)}>
+                <li className={tab === 2 ? 'active' : ''} onClick={() => handleChangeTab(2)}>
                     <Link to={''}>
                         {
                             isLoading && nextTab === 2 ? <Spinner size="sm" /> :
@@ -56,7 +56,7 @@ function NavStep(props) {
                         }
                     </Link>
                 </li>
-                <li onClick={() => handleChangeTab(3)}>
+                <li className={tab === 3 ? 'active' : ''} onClick={() => handleChangeTab(3)}>
                     <Link to={''}>
                         {
                             isLoading && nextTab === 3 ? <Spinner size="sm" /> :
@@ -64,7 +64,7 @@ function NavStep(props) {
                         }
                     </Link>
                 </li>
-                <li onClick={() => handleChangeTab(4)}>
+                <li className={tab === 4 ? 'active' : ''} onClick={() => handleChangeTab(4)}>
                     <Link to={''}>
                         {
                             isLoading && nextTab === 4 ? <Spinner size="sm" /> :
@@ -72,7 +72,7 @@ function NavStep(props) {
                         }
                     </Link>
                 </li>
-                <li onClick={() => handleChangeTab(5)}>
+                <li className={tab === 5 ? 'active' : ''} onClick={() => handleChangeTab(5)}>
                     <Link to={''}>
                         {
                             isLoading && nextTab === 5 ? <Spinner size="sm" /> :
@@ -80,7 +80,7 @@ function NavStep(props) {
                         }
                     </Link>
                 </li>
-                <li onClick={() => handleChangeTab(6)}>
+                <li className={tab === 6 ? 'active' : ''} onClick={() => handleChangeTab(6)}>
                     <Link to={''}>
                         {
                             isLoading && nextTab === 6 ? <Spinner size="sm" /> :

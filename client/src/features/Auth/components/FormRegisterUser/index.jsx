@@ -5,14 +5,14 @@ import FooterPartner from '../FooterPartner';
 import { Link, useNavigate } from 'react-router-dom';
 import { NguoiDungApi } from 'api/NguoiDungApi';
 
-import './FormRegister.scss';
+import './FormRegisterUser.scss';
 import { toastError, toastSucsess } from 'utils/notifi';
 
-FormRegister.propTypes = {
+FormRegisterUser.propTypes = {
 
 };
 
-function FormRegister(props) {
+function FormRegisterUser(props) {
     const [isLoading, setIsLoading] = React.useState(false);
     const navigate = useNavigate();
 
@@ -21,13 +21,13 @@ function FormRegister(props) {
         console.log(values);
         const addUser = async () => {
             try {
-                await NguoiDungApi.add({ ...values, Quyen: "MANAGER" });
+                await NguoiDungApi.add(values);
                 toastSucsess("Đăng kí tài khoản thành công")
-                navigate('/auth/about');
+                navigate('/auth/sign-in');
             } catch (error) {
-                toastError('Email hoặc số điện thoại đã tồn tại');
+                navigate('/auth/register-user');
+                toastError("Email hoặc mật khẩu đã tồn tại");
                 // console.log(error.message);
-                navigate('/auth/register');
 
             }
         }
@@ -39,10 +39,7 @@ function FormRegister(props) {
     return (
         <div className='form-site'>
             <div className="form-site__label">
-                Tạo tài khoản đối tác
-            </div>
-            <div className="form-site__text">
-                Tạo tài khoản để đăng ký và quản lý khách sạn.
+                Tạo tài khoản để đặt phòng
             </div>
             <Form
 
@@ -158,4 +155,4 @@ function FormRegister(props) {
     );
 }
 
-export default FormRegister;
+export default FormRegisterUser;
