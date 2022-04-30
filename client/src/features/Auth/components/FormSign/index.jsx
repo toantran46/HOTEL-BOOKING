@@ -25,31 +25,33 @@ function FormSign(props) {
 
     const navigate = useNavigate();
     const handleLogin = async (values) => {
-        console.log(values);
+        // console.log(values);
         // setNotifi("");
         setIsLoading(true);
-        const register = async (getme) => {
+        const logged = async (getme) => {
             const { error, payload } = await dispatch(login(values));
+            // console.log(error)
+            // console.log(payload)
             if (error) {
                 setIsLoading(false);
                 toastError('Tài khoản hoặc mật khẩu không đúng');
             } else {
-                getme();
                 toastSucsess('Đăng nhập thành công');
+                getme();
             }
         }
 
         const getme = async () => {
             const response = await dispatch(getMe());
-            console.log(response);
+            // console.log(response);
             if (!response.error) {
                 setIsLoading(false);
-                navigate('/auth/about');
+                navigate('/');
                 // toastSucsess('Đăng nhập thành công');
             }
         }
         setTimeout(async () => {
-            register(getme);
+            logged(getme);
             setIsLoading(false);
         }, 1500);
 
@@ -64,7 +66,7 @@ function FormSign(props) {
     return (
         <div className='form-site'>
             <div className="form-site__label">
-                Đăng nhập để quản lý chỗ nghỉ
+                Đăng nhập tài khoản
             </div>
             <Form
                 layout='vertical'
@@ -124,7 +126,7 @@ function FormSign(props) {
                     </Button>
 
                     <div className="loggin-form-link-regis">
-                        <Link to={'/auth/register'}>
+                        <Link to={'/auth/register-user'}>
                             Chưa có tài khoản ? Đăng kí ngay
                         </Link>
                     </div>

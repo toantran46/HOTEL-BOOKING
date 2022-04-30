@@ -33,7 +33,7 @@ function Header(props) {
               src="https://t-cf.bstatic.com/static/img/flags/new/48-squared/vn/90b17da2aafaebce7b0c34189747e1e10dba8041.png"
               alt="location"
             />
-            <Link to="/auth" className="header__top__right__btn-outline">
+            <Link to={(loggedIn && user.Quyen === "MANAGER") ? '/auth/about' : '/auth'} className="header__top__right__btn-outline">
               Đăng chổ nghỉ của Quý vị
             </Link>
 
@@ -79,7 +79,7 @@ function Header(props) {
               </div>
                 : <>
                   <Link
-                    to="/auth/register"
+                    to="/auth/register-user"
                     className="header__top__right__btn-fullfill">
                     Đăng ký
                   </Link>

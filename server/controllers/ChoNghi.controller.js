@@ -524,7 +524,7 @@ module.exports = {
         ThoiGianTraPhong,
         TinDung,
       } = req.body;
-      console.log(req.body);
+      // console.log(req.body);
       // console.log(req.files);
       // return;
       const HinhAnh = req.files.map((image) => image.path);
@@ -539,7 +539,7 @@ module.exports = {
         DiaChi,
         ThanhPho,
         XepHang,
-        TienNghi: TienNghi.split(','),
+        TienNghi: TienNghi.split(',').map((data) => mongoose.Types.ObjectId(data)),
         HinhAnh,
         Phong,
         HuyDatPhong,

@@ -9,11 +9,12 @@ import Register from "./pages/Register";
 import About from "./pages/About";
 import ScrollTop from "components/ScrollTop";
 import { useSelector } from "react-redux";
+import RegisterUser from "./pages/RegisterUser";
 
 Auth.propTypes = {};
 
 function Auth(props) {
-  const { loggedIn } = useSelector(state => state.auth);
+  const { loggedIn, user } = useSelector(state => state.auth);
   return (
     <div className="auth">
       <ScrollTop />
@@ -21,7 +22,8 @@ function Auth(props) {
         <Route path="/" element={<MainPage />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/about" element={loggedIn ? <About /> : <Navigate to={'/auth/sign-in'} />} />
+        <Route path="/register-user" element={<RegisterUser />} />
+        <Route path="/about" element={(loggedIn && user?.Quyen === "MANAGER") ? <About /> : <Navigate to={'/'} />} />
       </Routes>
     </div>
   );

@@ -13,6 +13,7 @@ import PaymentPage from "features/Admin/pages/Payment";
 import { useSelector } from "react-redux";
 import Toast from "components/Toast";
 import TypesPage from "features/Admin/pages/Types";
+import DashBoard from "features/Admin/pages/DashBoard";
 
 const HoTel = React.lazy(() => import("./features/Hotel/index.jsx"));
 const Auth = React.lazy(() => import("./features/Auth/index.jsx"));
@@ -37,7 +38,7 @@ function App() {
                 )
               }
             >
-              <Route index element={<div>dashboard</div>} />
+              <Route index element={<DashBoard />} />
               <Route path="users" element={<UserPage />} />
               <Route path="hotels" element={<HotelPage />} />
               <Route path="bookings" element={<BookingPage />} />

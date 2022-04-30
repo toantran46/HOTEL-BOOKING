@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
-import "./admin-layout.scss";
-import { Navbar, NavbarBrand, NavbarToggler } from "reactstrap";
-import Sidebar from "features/Admin/components/SideBar";
 import BreadCrumb from "features/Admin/components/BreadCrumb";
+import Sidebar from "features/Admin/components/SideBar";
+import React, { useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { Navbar, NavbarBrand } from "reactstrap";
+import "./admin-layout.scss";
 
 function AdminLayout(props) {
   const [widthSideBar, setWidthSideBar] = useState(280);
@@ -14,6 +14,9 @@ function AdminLayout(props) {
       setWidthSideBar(280);
     }
   };
+
+  const pathName = useLocation().pathname;
+
   return (
     <div className="admin-layout">
       <div className="admin-layout__sidebar">
@@ -46,7 +49,7 @@ function AdminLayout(props) {
         </Navbar>
 
         <div className="admin-layout__content">
-          <BreadCrumb />
+          {pathName !== "/admin" && pathName !== "/admin/" && <BreadCrumb />}
 
           <Outlet />
         </div>

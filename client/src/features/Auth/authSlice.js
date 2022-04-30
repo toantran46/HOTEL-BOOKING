@@ -10,11 +10,11 @@ const initialState = {
     addrMain: null,
     addrCity: null,
 
-    typeRoom: null,
+    typeRoom: '6268f19fd2cd433f452fe80a',
     nameRoom: null,
     Room: [
         {
-            idBed: 'giuong1-1',
+            idBed: '6268f3675717716f2ed1a61e-1',
             quantity: 1,
         },
     ],

@@ -2,6 +2,7 @@
   height: 100vh;
   background-color: #3a3f51;
   color: #fff;
+  overflow: hidden;
   transition: all 0.25s ease-in-out 0s;
 
   &__header {
@@ -29,7 +30,7 @@
     text-align: center;
   }
 
-  &__info{
+  &__info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,7 +48,7 @@
     width: 80px;
     height: 80px;
     border-radius: 100%;
-    border: 1px solid #fff;
+    border: 2px solid #fff;
     background-color: rgb(32, 201, 151);
     line-height: 80px;
     text-align: center;

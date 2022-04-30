@@ -36,6 +36,7 @@ function LayoutNPrice(props) {
     const [form] = Form.useForm();
 
     const idPhongDon = "6268f19fd2cd433f452fe80a";
+    const idGiuongDon = "6268f3675717716f2ed1a61e";
 
     const defaultValues = {
         typeRoom: '',
@@ -128,7 +129,7 @@ function LayoutNPrice(props) {
                                     name="typeRoom"
                                 >
 
-                                    <Select defaultValue={idPhongDon} onChange={(value) => setAnotherRoom(value)} options={
+                                    <Select value={idPhongDon} onChange={(value) => setAnotherRoom(value)} options={
                                         listLoaiPhong.map((loaiphong, index) => (
                                             { label: loaiphong.TenLoaiPhong, value: loaiphong._id }
                                         ))
@@ -259,7 +260,7 @@ function LayoutNPrice(props) {
                                             onClick={() => setBeds(prev => [
                                                 ...prev,
                                                 {
-                                                    idBed: 'giuong1-1',
+                                                    idBed: '6268f3675717716f2ed1a61e-1',
                                                     quantity: 1,
                                                 }])}
                                         >

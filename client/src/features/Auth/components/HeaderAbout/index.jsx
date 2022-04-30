@@ -30,7 +30,7 @@ function HeaderAbout(props) {
                 <div className="navbar-about__banner__right">
                     <ul>
                         <li>
-                            <Link to={''}>
+                            <Link to={'/admin/hotels'}>
                                 <i class="bi bi-house-door-fill"></i>
                                 Những chỗ nghỉ của tôi
                             </Link>

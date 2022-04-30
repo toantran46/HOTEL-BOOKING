@@ -9,6 +9,7 @@ import { thanhPhoApi } from 'api/ThanhPhoApi';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addInforBasic, setTab } from 'features/Auth/authSlice';
+import TextArea from 'antd/lib/input/TextArea';
 
 InforBasic.propTypes = {
   onSubmit: PropTypes.func,
@@ -46,8 +47,6 @@ function InforBasic(props) {
   const defaultValues = {
     selectStar: 0,
     nameHotel: '',
-    nameOwner: '',
-    phoneOwner: '',
     otherHothelCheck: false,
     addrMain: '',
     addrCity: '',
@@ -114,55 +113,13 @@ function InforBasic(props) {
                 </Form.Item>
               </Col>
             </fieldset>
-
             <fieldset>
               <Label className='label-big'>
-                Chi tiết liên hệ của chỗ nghỉ là gì?
+                Khách sạn của bạn có gì khác biệt?
               </Label>
-              <Col md={7} className='form-group'>
-                <Label>
-                  Tên người liên hệ
-                </Label>
-                <Form.Item
-                  name='nameOwner'
-                  rules={[
-                    {
-                      required: true,
-                      message: "Vui lòng nhập tên người liên hệ",
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Label>
-                Số điện thoại liên lạc (để chúng tôi có thể hỗ trợ đăng ký của Quý vị khi cần)
-              </Label>
-              <Col md={4} className='form-group'>
-                <Form.Item
-                  name='phoneOwner'
-                  rules={[
-                    {
-                      required: true,
-                      message: "Vui lòng nhập số điện thoại"
-                    },
-                    {
-                      min: 10,
-                      max: 10,
-                      message: "Vui lòng nhập đúng số điện thoại",
-                    },
-                    {
-                      value: [0 - 9],
-                      message: "Vui lòng chỉ nhập số",
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
               <Col md={12}>
                 <Label>
-                  Đặt điểm nỗi bật của khách sạn
+                  Đặt điểm nỗi bật
                 </Label>
                 <Form.Item
                   name='titleHotel'
@@ -187,7 +144,7 @@ function InforBasic(props) {
                     },
                   ]}
                 >
-                  <Input placeholder='Vd Nằm trong Khu Phố Cổ Hà Nội, La Storia Ruby Hotel cách Hồ Hoàn Kiếm một phút đi bộ....' />
+                  <TextArea showCount placeholder='Vd Nằm trong Khu Phố Cổ Hà Nội, La Storia Ruby Hotel cách Hồ Hoàn Kiếm một phút đi bộ....' />
                 </Form.Item>
               </Col>
               <Col md={5} className='form-group'>
@@ -224,7 +181,7 @@ function InforBasic(props) {
                         },
                       ]}
                     >
-                      <Input placeholder='Vd 246/8 Tầm Vu, phường Hưng Lợi, quận Ninh Kiều' />
+                      <TextArea maxLength={100} showCount placeholder='Vd 246/8 Tầm Vu, phường Hưng Lợi, quận Ninh Kiều' />
                     </Form.Item>
                     <Label>
                       Thành phố
