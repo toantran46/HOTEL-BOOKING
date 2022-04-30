@@ -614,7 +614,6 @@ module.exports = {
         ThoiGianTraPhong,
         TinDung
       }
-      console.log(fieldsUpdate);
       const ChoNghi = await ChoNghiModel.updateOne(
         { _id: MaChoNghi },
         { ...fieldsUpdate }

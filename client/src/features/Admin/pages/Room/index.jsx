@@ -1,13 +1,29 @@
+import { loaiChoNghiApi } from "api/LoaiChoNghiApi";
 import { phongApi } from "api/PhongApi";
 import DeleteModal from "features/Admin/components/DeleteModal";
 import DetailModal from "features/Admin/components/DetailModal";
 import Pagination from "features/Admin/components/Pagination";
 import RoomDetail from "features/Admin/components/RoomDetail";
+import RoomForm from "features/Admin/components/RoomForm";
 import PaginationStyled from "features/Hotel/components/PaginationStyled";
 import React, { useEffect, useState } from "react";
+import PropTypes from 'prop-types';
+
 import { Badge, Table } from "reactstrap";
 import { formatMoney } from "utils/format";
 import "./room.scss";
+import { toastError, toastSucsess } from "utils/notifi";
+
+RoomPage.propTypes = {
+  MaKhachSan: PropTypes.string,
+  notPagination: PropTypes.bool,
+};
+
+RoomPage.defaultProps = {
+  MaKhachSan: '',
+  notPagination: false,
+};
+
 
 function RoomPage(props) {
   const { MaKhachSan, notPagination } = props;
@@ -17,7 +33,10 @@ function RoomPage(props) {
   const [selectedRoom, setSelectedRoom] = useState({});
   const [getNewData, setGetNewData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
+  const [isEdit, setIsEdit] = useState(false);
+
+
+  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 1 });
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -33,7 +52,8 @@ function RoomPage(props) {
     };
 
     fetchRoom();
-  }, [pagination.page, MaKhachSan]);
+  }, [pagination.page, MaKhachSan, getNewData]);
+
 
   //handle change page 
   const handleChangePage = page => {
@@ -66,6 +86,41 @@ function RoomPage(props) {
       console.log(error);
     }
   };
+
+  //handle add and update 
+  const handleSubmit = async values => {
+    try {
+
+      let ThongTinGiuong = [];
+
+      for (let i = 0; i < values.totalBed; i++) {
+        ThongTinGiuong = [...ThongTinGiuong, { Giuong: values["Giuong" + i].split("-")[0], SoLuong: values["SoLuong" + i] }]
+      }
+
+      const data = {
+        LoaiPhong: values.LoaiPhong,
+        TenPhong: values.TenPhong,
+        HutThuoc: values.HutThuoc,
+        ThongTinGiuong,
+        SoLuongKhach: +values.SoLuongKhach,
+        KichThuoc: values.KichThuoc,
+        Gia: +values.Gia,
+        TienNghi: values.TienNghi,
+        SoLuongPhong: +values.SoLuongPhong
+      }
+      setIsLoading(true);
+      const { message } = await phongApi.update(selectedRoom._id, data);
+      toastSucsess(message);
+      setIsLoading(false);
+      setGetNewData(prev => !prev);
+      hideModal();
+    } catch (error) {
+      setIsLoading(false);
+      const errMessage = error.response.data;
+      toastError(errMessage.message);
+    }
+
+  }
 
   return (
     <div className="room-list shadow-sm">
@@ -112,6 +167,11 @@ function RoomPage(props) {
                 <td>
                   <div className="room-list__actions">
                     <div
+                      onClick={() => { showModal(room); setIsEdit(true) }}
+                      className="room-list__action shadow-sm bg-info" >
+                      <i class="bi bi-pencil"></i>
+                    </div>
+                    <div
                       onClick={() => showModal(room)}
                       className="room-list__action shadow-sm bg-primary"
                     >
@@ -138,8 +198,8 @@ function RoomPage(props) {
 
 
       {/* Room Detail Modale */}
-      <DetailModal isOpen={showRoomModal} hideModal={hideModal}>
-        {selectedRoom._id && <RoomDetail selectedRoom={selectedRoom} />}
+      <DetailModal isOpen={showRoomModal} hideModal={hideModal} >
+        {(selectedRoom._id && !isEdit) ? <RoomDetail selectedRoom={selectedRoom} /> : <RoomForm selectedRoom={selectedRoom} isLoading={isLoading} onSubmit={handleSubmit} />}
       </DetailModal>
 
       {/* Room Delete Modale */}

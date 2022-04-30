@@ -212,10 +212,30 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const { MaPhong } = req.params;
-
+      const {
+        LoaiPhong,
+        TenPhong,
+        HutThuoc,
+        ThongTinGiuong,
+        SoLuongKhach,
+        KichThuoc,
+        Gia,
+        TienNghi,
+        SoLuongPhong
+      } = req.body;
       const Phong = await PhongModel.updateOne(
         { _id: MaPhong },
-        { ...req.body }
+        {
+          LoaiPhong,
+          TenPhong,
+          HutThuoc,
+          ThongTinGiuong,
+          SoLuongKhach,
+          KichThuoc,
+          Gia,
+          TienNghi,
+          SoLuongPhong
+        }
       );
       if (Phong.matchedCount === 0)
         return res.status(400).json({ message: "Phòng không tồn tại !" });

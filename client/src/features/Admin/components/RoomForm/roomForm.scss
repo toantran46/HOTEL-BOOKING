@@ -1,0 +1,28 @@
+.room-form{
+  &__bed-info{
+    margin-left: 10px;
+    display: flex;
+  }
+
+  &__setting{
+    margin-top: 1rem;
+    margin-left: 2rem;
+    &__icon{
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+        color: #fff;
+        border-radius: 50%;
+        font-size: 0.8rem;
+        text-align: center;
+        line-height: 28px;
+        cursor: pointer;
+    }
+}
+
+    /*----OVERWRITE ANTD-------*/
+    .ant-form-item-label{
+        min-width: 150px;
+        text-align: start;
+      }
+}

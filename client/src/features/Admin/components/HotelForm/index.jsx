@@ -160,7 +160,7 @@ function HotelForm(props) {
                         label='Loại chổ nghĩ' name="LoaiChoNghi" rules={[{ required: true, message: "Loại chổ nghĩ không được bỏ trống" }]} />
                     <SelectField
                         options={[{ label: "✯", value: 1 }, { label: "✯✯", value: 2 }, { label: "✯✯✯", value: 3 }, { label: "✯✯✯✯", value: 4 }, { label: "✯✯✯✯✯", value: 5 },]}
-                        label='Xếp hạng' name="XepHang" rules={[{ required: true, message: "Tên chổ nghĩ không được bỏ trống" }]} />
+                        label='Xếp hạng' name="XepHang" rules={[{ required: true, message: "Xếp hạng không được bỏ trống" }]} />
                 </Col>
                 <Col span={7}>
                     <InputField disabled label='Quản lý' name="TenQuanLy" rules={[{ required: true, message: "Địa chỉ không được bỏ trống" }]} />
@@ -280,7 +280,7 @@ function HotelForm(props) {
                 <Col span={10}>
                     <Badge className='mb-3' color='primary'>Chính sách: </Badge>
                     <div style={{ marginLeft: 10 }}>
-                        <InputField label='Hủy đặt phòng' name="HuyDatPhong" rules={[{ required: true, message: "Tên chổ nghĩ không được bỏ trống" }]} />
+                        <InputField label='Hủy đặt phòng' name="HuyDatPhong" rules={[{ required: true, message: "Hủy đặt phòng không được bỏ trống" }]} />
                         <div style={{ display: 'flex' }}><span style={{ marginRight: '1rem' }}>Bảo hiểm nhầm lẫn:</span> <Form.Item name="BaoHiemNhamLan"><Switch defaultChecked={selectedHotel?.BaoHiemNhamLan} /></Form.Item>  </div>
                     </div>
                 </Col>

@@ -48,6 +48,14 @@ const getHours = () => {
     }
     return hours;
 }
+/*Get time */
+const getTimes = () => {
+    let times = [];
+    for (let i = 1; i <= 20; i++) {
+        times.push({ label: i, value: i });
+    }
+    return times;
+}
 
 
-export { ScrollToView, convertToMoney, getMessageByScore, getDistanceByDate, handleDateByFormat, getHours }
+export { ScrollToView, convertToMoney, getMessageByScore, getDistanceByDate, handleDateByFormat, getHours, getTimes }

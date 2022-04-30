@@ -7,7 +7,7 @@ import Pagination from "features/Admin/components/Pagination";
 import PaginationStyled from "features/Hotel/components/PaginationStyled";
 import React, { useEffect, useState } from "react";
 import { Badge, Table } from "reactstrap";
-import { toastSucsess } from "utils/notifi";
+import { toastError, toastSucsess } from "utils/notifi";
 import "./hotel.scss";
 
 function HotelPage(props) {
@@ -127,6 +127,8 @@ function HotelPage(props) {
       setIsEdit(false);
     } catch (error) {
       setIsLoading(false);
+      const errMessage = error.response.data;
+      toastError(errMessage.message)
       console.log(error)
     }
 

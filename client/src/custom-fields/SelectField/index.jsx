@@ -13,7 +13,8 @@ SelectField.propTypes = {
     disabled: PropTypes.bool,
     label: PropTypes.string,
     defaultValue: PropTypes.string,
-    className: PropTypes.string,
+    style: PropTypes.object,
+    onChange: PropTypes.func,
 };
 
 SelectField.defaultProps = {
@@ -25,17 +26,21 @@ SelectField.defaultProps = {
     rules: [],
     label: '',
     defaultValue: '',
-    className: '',
+    style: {},
+    onChange: null,
 };
 
 function SelectField(props) {
-    const { name, defaultValue, label, disabled, placeholder, options, rules, className } = props;
+    const { onChange, style, name, value, defaultValue, label, disabled, placeholder, options, rules, className } = props;
     return (
         <Form.Item
+            style={style}
+            initialValue={value}
             name={name} rules={rules} label={label} className='select-field'>
             <Select
+                onChange={onChange}
                 style={{ width: '100%' }}
-                // defaultValue={defaultValue}
+                defaultValue={defaultValue}
                 disabled={disabled}
                 placeholder={placeholder}
                 options={options} >
