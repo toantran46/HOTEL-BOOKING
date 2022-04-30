@@ -15,7 +15,7 @@ function BreadCrumb(props) {
         <Breadcrumb>
           <BreadcrumbItem className="breadcrumb__home">
             <i className="fa-solid fa-house breadcrumb__home-icon"></i>
-            <Link to="/">Home</Link>
+            <Link to="/admin">Home</Link>
           </BreadcrumbItem>
 
           {locations.length === 0 && (

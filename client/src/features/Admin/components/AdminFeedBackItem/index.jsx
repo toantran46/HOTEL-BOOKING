@@ -57,6 +57,8 @@ function AdminFeedBackItem(props) {
     fetchRoom();
   }, [fbInfo.MaPhong]);
 
+  console.log(fbInfo);
+
   const [showForm, setShowForm] = useState(false);
 
   return (
@@ -66,7 +68,7 @@ function AdminFeedBackItem(props) {
           <div className="feedback-item__personal-info">
             <div className="feedback-item__personal-info__avatar">
               {user?.Avatar ? (
-                <img src={fbInfo.MaKH.Avatar} alt="avatar" />
+                <img src={user.Avatar} alt="avatar" />
               ) : (
                 user.name?.charAt(0).toUpperCase()
               )}
