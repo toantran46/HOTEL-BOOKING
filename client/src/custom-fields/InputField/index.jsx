@@ -36,14 +36,16 @@ function InputField(props) {
             name={name}
             rules={rules}
             label={label}>
-            <Input
-                allowClear={allowClear}
-                onChange={onChange}
-                placeholder={placeholder}
-                type={type}
-                disabled={disabled}
-
-            />
+            {
+                type === "textarea" ? <Input.TextArea rows={5} /> :
+                    <Input
+                        allowClear={allowClear}
+                        onChange={onChange}
+                        placeholder={placeholder}
+                        type={type}
+                        disabled={disabled}
+                    />
+            }
         </Form.Item >
     );
 }

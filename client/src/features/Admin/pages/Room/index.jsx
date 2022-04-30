@@ -10,6 +10,7 @@ import { formatMoney } from "utils/format";
 import "./room.scss";
 
 function RoomPage(props) {
+  const { MaKhachSan, notPagination } = props;
   const [rooms, setRooms] = useState([]);
   const [showRoomModal, setShowRoomModal] = useState(false);
   const [showDeleteRoomModal, setShowDeleteRoomModal] = useState(false);
@@ -21,15 +22,18 @@ function RoomPage(props) {
   useEffect(() => {
     const fetchRoom = async () => {
       try {
-        const { Phongs, totalPage } = await phongApi.getAll({ _page: pagination.page, _limit: pagination.limit });
+        let query = notPagination ? {} : { _page: pagination.page, _limit: pagination.limit };
+        query = MaKhachSan ? { ...query, MaKhachSan } : {};
+        const { Phongs, totalPage } = await phongApi.getAll(query);
         setRooms(Phongs);
         setPagination(prev => ({ ...prev, totalPage }))
       } catch (error) {
         console.log(error);
       }
     };
+
     fetchRoom();
-  }, [pagination.page]);
+  }, [pagination.page, MaKhachSan]);
 
   //handle change page 
   const handleChangePage = page => {
@@ -87,7 +91,7 @@ function RoomPage(props) {
                   <Badge color="dark">{room.TenPhong}</Badge>
                 </td>
                 <td>
-                  <Badge color="primary">{room.LoaiPhong.TenLoaiPhong}</Badge>
+                  <Badge color="info">{room.LoaiPhong.TenLoaiPhong}</Badge>
                 </td>
                 <td>
                   <Badge color="danger" className="ms-3">
@@ -128,7 +132,10 @@ function RoomPage(props) {
         </Table>
       </div>
       {/* Pagination */}
-      <PaginationStyled currentPage={pagination.page} totalPage={pagination.totalPage} onChange={handleChangePage} />
+      {
+        !notPagination && <PaginationStyled currentPage={pagination.page} totalPage={pagination.totalPage} onChange={handleChangePage} />
+      }
+
 
       {/* Room Detail Modale */}
       <DetailModal isOpen={showRoomModal} hideModal={hideModal}>

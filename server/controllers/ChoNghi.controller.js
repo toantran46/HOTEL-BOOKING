@@ -439,7 +439,6 @@ module.exports = {
         },
       ]);
 
-      console.log({ search });
       //total found
       const TongSo = ChoNghis.length;
       //pagination
@@ -564,10 +563,61 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const { MaChoNghi } = req.params;
+      let {
+        TenChoNghi,
+        TieuDeDatDiem,
+        MoTaDatDiem,
+        DiaChi,
+        ThanhPho,
+        LoaiChoNghi,
+        XepHang,
+        TienNghi,
+        HinhAnhURL,
+        HuyDatPhong,
+        BaoHiemNhamLan,
+        ThoiGianNhanPhong,
+        ThoiGianTraPhong,
+        TinDung,
+        HinhAnhDaXoa
+      } = req.body;
 
+      let HinhAnh = HinhAnhURL;
+      //remove all via HinhAnhDaXoa
+      //check if have file => join to old image url
+      if (req.files) {
+        const newURL = req.files.map(file => file.path);
+        HinhAnh = JSON.parse(HinhAnh);
+        HinhAnh = [...HinhAnh, ...newURL];
+
+        //parse data
+        TienNghi = JSON.parse(TienNghi);
+        ThoiGianNhanPhong = JSON.parse(ThoiGianNhanPhong);
+        ThoiGianTraPhong = JSON.parse(ThoiGianTraPhong);
+        TinDung = JSON.parse(TinDung);
+        HinhAnhDaXoa = JSON.parse(HinhAnhDaXoa);
+      }
+
+      //field OK
+      let fieldsUpdate = {
+        TenChoNghi,
+        TieuDeDatDiem,
+        MoTaDatDiem,
+        DiaChi,
+        ThanhPho,
+        LoaiChoNghi,
+        XepHang,
+        TienNghi,
+        HinhAnh,
+        HuyDatPhong,
+        BaoHiemNhamLan,
+        ThoiGianNhanPhong,
+        ThoiGianTraPhong,
+        TinDung
+      }
+      console.log(fieldsUpdate);
       const ChoNghi = await ChoNghiModel.updateOne(
         { _id: MaChoNghi },
-        { ...req.body }
+        { ...fieldsUpdate }
       );
       if (ChoNghi.matchedCount === 0)
         return res.status(400).json({ message: "Chổ nghỉ không tồn tại !" });

@@ -7,18 +7,36 @@ const PhongModel = require("../models/Phong.model");
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const { _page, _limit } = req.query;
-      let Phongs = await PhongModel.find()
-        .populate("LoaiPhong")
-        .populate({
-          path: "ThongTinGiuong",
-          populate: {
-            path: "Giuong",
-            model: "LoaiGiuong",
-          },
-        })
-        .populate("TienNghi")
-        .exec();
+      const { MaKhachSan, _page, _limit } = req.query;
+      let Phongs;
+
+      if (MaKhachSan) {
+        let ChoNghi = await ChoNghiModel.findOne({ _id: MaKhachSan });
+        Phongs = await PhongModel.find({ _id: { $in: ChoNghi.Phong } })
+          .populate("LoaiPhong")
+          .populate({
+            path: "ThongTinGiuong",
+            populate: {
+              path: "Giuong",
+              model: "LoaiGiuong",
+            },
+          })
+          .populate("TienNghi")
+          .exec();
+      } else {
+
+        Phongs = await PhongModel.find()
+          .populate("LoaiPhong")
+          .populate({
+            path: "ThongTinGiuong",
+            populate: {
+              path: "Giuong",
+              model: "LoaiGiuong",
+            },
+          })
+          .populate("TienNghi")
+          .exec();
+      }
 
       //pagination
       const TongSo = Phongs.length;

@@ -30,6 +30,16 @@ const LOCATION = <svg fill="#6B6B6B" height="24" width="24" viewBox="0 0 24 24" 
 const CALENDARV2 = <svg class="bk-icon -experiments-calendar_checkin hp-policies-calendar-icon" height="20" width="20" viewBox="0 0 128 128" role="presentation" aria-hidden="true" focusable="false"><path d="m112 16h-16v-8h-8v8h-48v-8h-8v8h-16c-4.4 0-8 3.9-8 8.7v86.6c0 4.8 3.6 8.7 8 8.7h96c4.4 0 8-3.9 8-8.7v-86.6c0-4.8-3.6-8.7-8-8.7zm0 95.3a1.1 1.1 0 0 1 -.2.7h-95.6a1.1 1.1 0 0 1 -.2-.7v-71.3h96zm-80-27.3h12v12h-12zm38-16h-12v-12h12zm0 28h-12v-12h12zm26 0h-12v-12h12zm0-28h-12v-12h12zm-48-16h-20v20h20zm-6 14h-8v-8h8z"></path></svg>
 
 
+/*Get HOURS */
+const getHours = () => {
+    let hours = [];
+    for (let i = 1; i <= 24; i++) {
+        hours.push({ label: i + ":00", value: i });
+    }
+    return hours;
+}
+
+
 
 export const ICONS = { BED, CALENDAR, COUPLE, CHAT, NEARSEA, LEAF, PERSON, LOCATION, CALENDARV2 };
 

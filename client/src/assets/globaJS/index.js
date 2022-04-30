@@ -40,6 +40,14 @@ const handleDateByFormat = (format, date, num = null) => {
 }
 
 
+/*Get HOURS */
+const getHours = () => {
+    let hours = [];
+    for (let i = 1; i <= 24; i++) {
+        hours.push({ label: i + ":00", value: i });
+    }
+    return hours;
+}
 
 
-export { ScrollToView, convertToMoney, getMessageByScore, getDistanceByDate, handleDateByFormat }
+export { ScrollToView, convertToMoney, getMessageByScore, getDistanceByDate, handleDateByFormat, getHours }

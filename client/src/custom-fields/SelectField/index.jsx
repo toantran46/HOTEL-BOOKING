@@ -13,28 +13,31 @@ SelectField.propTypes = {
     disabled: PropTypes.bool,
     label: PropTypes.string,
     defaultValue: PropTypes.string,
+    className: PropTypes.string,
 };
 
 SelectField.defaultProps = {
     name: '',
     value: null,
-    placeholder: '',
+    // placeholder: '',
     options: [],
     disabled: false,
     rules: [],
     label: '',
-    defaultValue: ''
+    defaultValue: '',
+    className: '',
 };
 
 function SelectField(props) {
-    const { name, defaultValue, label, disabled, placeholder, options, rules } = props;
-
+    const { name, defaultValue, label, disabled, placeholder, options, rules, className } = props;
     return (
-        <Form.Item name={name} rules={rules} label={label} className='select-field'>
+        <Form.Item
+            name={name} rules={rules} label={label} className='select-field'>
             <Select
                 style={{ width: '100%' }}
-                defaultValue={defaultValue}
+                // defaultValue={defaultValue}
                 disabled={disabled}
+                placeholder={placeholder}
                 options={options} >
             </Select>
         </Form.Item >

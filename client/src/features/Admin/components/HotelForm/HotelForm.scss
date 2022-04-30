@@ -1,0 +1,63 @@
+.hotel-form{
+    &__list-item{
+        padding-left: 10px;
+    }
+
+    &__setting{
+        margin-top: 2rem;
+        margin-left: 2rem;
+        &__icon{
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            text-align: center;
+            line-height: 28px;
+            cursor: pointer;
+        }
+    }
+
+    &__time-item{
+        display: flex;
+        align-items: flex-start;
+
+        // .select-field{
+        //     min-width: 100px;
+        //     margin-right: 1rem;
+        // }
+
+    }
+    .break{
+        margin: 1rem 0;
+        border: 0.5px solid #efefef;
+    }
+
+    // svg{
+    //     vertical-align: top;
+    // }
+
+
+    .room-list{
+        margin-top: 0;
+    }
+
+    //-----------OVERWRITE ANTD------------
+    .ant-checkbox-wrapper{
+        margin-left: 0px;
+        margin-right: 8px;
+        min-width: 100px;
+    }
+    
+    // .ant-checkbox-checked .ant-checkbox-inner {
+    //     background-color: #333;
+    //     border-color: 25,135,84;
+    // }
+}
+
+.sub-modal .ant-checkbox-wrapper{
+    min-width: 200px;
+    margin-left: 0px;
+    margin-right: 0px;
+}

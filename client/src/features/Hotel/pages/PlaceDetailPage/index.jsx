@@ -456,17 +456,17 @@ function HotelDetailPage(props) {
       </div>
       <div className="wrapper__body">
         <div className="wrapper__body__about-hotel">
+
           <h5>
-            Tận hưởng dịch vụ đỉnh cao, đẳng cấp thế giới tại{" "}
             {isLoading ? (
               <Skeleton.Input active />
             ) : (
-              <cite>Pullman Vung Tau</cite>
+              <cite>{place?.TieuDeDatDiem}</cite>
             )}
           </h5>
           {!isLoading && (
             <p>
-              Nằm ở thành phố Vũng Tàu, cách Bãi Sau 100 m và Bãi Dứa 1,8 km,
+              {/* Nằm ở thành phố Vũng Tàu, cách Bãi Sau 100 m và Bãi Dứa 1,8 km,
               Annata Hotel Vung Tau cung cấp chỗ nghỉ với sảnh khách chung và
               WiFi miễn phí cũng như chỗ đỗ xe riêng miễn phí cho khách lái xe.
               Chỗ nghỉ này có các phòng gia đình và sân hiên tắm nắng. Chỗ nghỉ
@@ -479,7 +479,10 @@ function HotelDetailPage(props) {
               Vung Tau nằm trong bán kính 2 km từ Bãi Trước và 2,2 km từ Mũi
               Nghinh Phong. Sân bay gần nhất là sân bay quốc tế Tân Sơn Nhất,
               cách chỗ nghỉ 108 km. Các cặp đôi đặc biệt thích địa điểm này — họ
-              cho điểm 8,2 cho kỳ nghỉ dành cho 2 người.
+              cho điểm 8,2 cho kỳ nghỉ dành cho 2 người. */}
+              {
+                place.MoTaDatDiem
+              }
             </p>
           )}
           {isLoading && <Skeleton paragraph={{ rows: 5 }} active />}
