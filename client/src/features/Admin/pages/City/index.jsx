@@ -14,6 +14,7 @@ import { message } from 'antd';
 import { formatMoney } from "utils/format";
 import "./city.scss";
 import PaginationStyled from "features/Hotel/components/PaginationStyled";
+import { toastError, toastSucsess } from "utils/notifi";
 
 function CityPage(props) {
     const [cities, setCities] = useState([]);
@@ -96,7 +97,7 @@ function CityPage(props) {
                 setIsLoading(true);
                 const response = await thanhPhoApi.update(selectedCity._id, data);
                 setIsLoading(false);
-                message.success(response.message);
+                toastSucsess(response.message);
             }
             //is add 
             else {
@@ -106,7 +107,7 @@ function CityPage(props) {
                 setIsLoading(true);
                 const response = await thanhPhoApi.add(data);
                 setIsLoading(false);
-                message.success(response.message);
+                toastSucsess(response.message);
             }
 
             setGetNewData(prev => !prev);
@@ -114,7 +115,9 @@ function CityPage(props) {
 
         } catch (error) {
             console.log(error);
+            const errMessage = error.response.data;
             setIsLoading(false);
+            toastError(errMessage.message)
         }
     }
 

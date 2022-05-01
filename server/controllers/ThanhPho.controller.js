@@ -77,7 +77,7 @@ module.exports = {
             const { MaThanhPho } = req.params;
             const { TenThanhPho } = req.body;
             const HinhAnh = req.file?.path;
-            const newData = HinhAnh ? { TenThanhPho, HinhAnh } : { HinhAnh }
+            const newData = HinhAnh ? { TenThanhPho, HinhAnh } : { TenThanhPho }
 
             const ThanhPho = await ThanhPhoModel.updateOne({ _id: MaThanhPho }, { ...newData });
             if (ThanhPho.matchedCount === 0) return res.status(400).json({ message: "Thành phố không tồn tại !" });

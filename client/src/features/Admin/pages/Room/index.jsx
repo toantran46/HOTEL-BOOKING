@@ -13,6 +13,7 @@ import { Badge, Table } from "reactstrap";
 import { formatMoney } from "utils/format";
 import "./room.scss";
 import { toastError, toastSucsess } from "utils/notifi";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 RoomPage.propTypes = {
   MaKhachSan: PropTypes.string,
@@ -36,13 +37,14 @@ function RoomPage(props) {
   const [isEdit, setIsEdit] = useState(false);
 
 
-  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 1 });
+  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
 
   useEffect(() => {
     const fetchRoom = async () => {
       try {
         let query = notPagination ? {} : { _page: pagination.page, _limit: pagination.limit };
-        query = MaKhachSan ? { ...query, MaKhachSan } : {};
+        console.log({ query })
+        query = MaKhachSan ? { ...query, MaKhachSan } : query;
         const { Phongs, totalPage } = await phongApi.getAll(query);
         setRooms(Phongs);
         setPagination(prev => ({ ...prev, totalPage }))
@@ -108,6 +110,7 @@ function RoomPage(props) {
         TienNghi: values.TienNghi,
         SoLuongPhong: +values.SoLuongPhong
       }
+
       setIsLoading(true);
       const { message } = await phongApi.update(selectedRoom._id, data);
       toastSucsess(message);

@@ -16,6 +16,7 @@ import "./convenient.scss";
 import { tienNghiApi } from "api/TienNghiApi";
 import ConvenientForm from "features/Admin/components/ConvenientForm";
 import PaginationStyled from "features/Hotel/components/PaginationStyled";
+import { toastError, toastSucsess } from "utils/notifi";
 
 function ConvenientPage(props) {
   const [convenients, setConvenients] = useState([]);
@@ -96,7 +97,7 @@ function ConvenientPage(props) {
           TenTienNghi: values.convenientName,
         });
         setIsLoading(false);
-        message.success(response.message);
+        toastSucsess(response.message);
       }
       //is add
       else {
@@ -106,12 +107,14 @@ function ConvenientPage(props) {
           TenTienNghi: values.convenientName,
         });
         setIsLoading(false);
-        message.success(response.message);
+        toastSucsess(response.message);
       }
 
       setGetNewData((prev) => !prev);
       hideModal();
     } catch (error) {
+      const errMessage = error.response.data;
+      toastError(errMessage.message)
       console.log(error);
       setIsLoading(false);
     }

@@ -15,6 +15,7 @@ import "./payment.scss";
 import { tinDungApi } from "api/TinDungApi";
 import PaymentForm from "features/Admin/components/PaymentForm";
 import PaginationStyled from "features/Hotel/components/PaginationStyled";
+import { toastError, toastSucsess } from "utils/notifi";
 
 function PaymentPage(props) {
     const [payments, setPayments] = useState([]);
@@ -94,10 +95,11 @@ function PaymentPage(props) {
                 } else {
                     data = { TenTinDung: values.paymentName };
                 }
+                console.log(data);
                 setIsLoading(true);
                 const response = await tinDungApi.update(selectedPayment._id, data);
                 setIsLoading(false);
-                message.success(response.message);
+                toastSucsess(response.message);
             }
             //is add 
             else {
@@ -107,7 +109,7 @@ function PaymentPage(props) {
                 setIsLoading(true);
                 const response = await tinDungApi.add(data);
                 setIsLoading(false);
-                message.success(response.message);
+                toastSucsess(response.message);
             }
 
             setGetNewData(prev => !prev);
@@ -115,6 +117,8 @@ function PaymentPage(props) {
 
         } catch (error) {
             console.log(error);
+            const errMessage = error.response.data;
+            toastError(errMessage.message)
             setIsLoading(false);
         }
     }

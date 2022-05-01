@@ -30,7 +30,7 @@ function RoomForm(props) {
 
     const [convenients, setConvenients] = React.useState([]);
     const [convenientChoosen, setConvenientChoosen] = React.useState(() => selectedRoom?.TienNghi?.map((tn) => tn._id));
-    const [bedChoosen, setBedChoosen] = React.useState(() => selectedRoom?.ThongTinGiuong?.map(bed => ({ ...bed, Giuong: { _id: bed.Giuong.TenLoaiGiuong.includes('dơn') ? bed.Giuong._id + "-1" : bed.Giuong._id + "-2" } })));
+    const [bedChoosen, setBedChoosen] = React.useState(() => selectedRoom?.ThongTinGiuong?.map(bed => ({ ...bed, Giuong: { _id: bed.Giuong.TenLoaiGiuong.includes('đơn') ? bed.Giuong._id + "-1" : bed.Giuong._id + "-2" } })));
     const [isShowConvenientModal, setIsShowConvenientModal] = React.useState(false);
     const [roomTypeOptions, setRoomTypeOptions] = React.useState([]);
     const [bedTypeOptions, setBedTypeOptions] = React.useState([]);
