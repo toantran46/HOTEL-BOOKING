@@ -95,7 +95,6 @@ function PaymentPage(props) {
                 } else {
                     data = { TenTinDung: values.paymentName };
                 }
-                console.log(data);
                 setIsLoading(true);
                 const response = await tinDungApi.update(selectedPayment._id, data);
                 setIsLoading(false);
@@ -143,7 +142,7 @@ function PaymentPage(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {payments.map((payment, index) => (
+                        {payments?.map((payment, index) => (
                             <tr className="" key={index}>
                                 <th scope="row">{index + 1}</th>
                                 <td>

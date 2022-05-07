@@ -35,7 +35,7 @@ function BookingPage(props) {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const { DatPhongs, totalPage } = await datPhongApi.getAll({ _page: pagination.page, _limit: pagination.limit });
+        const { DatPhongs, totalPage } = await datPhongApi.getAll({ _page: pagination.page, _limit: pagination.limit, action: 'admin' });
         setBookings(DatPhongs);
         setPagination(prev => ({ ...prev, totalPage }))
       } catch (error) {

@@ -4,7 +4,7 @@ const router = express.Router();
 const checkAuth = require('../middleware/checkAuth');
 const upload = require('../utils/upload');
 
-router.get("/NguoiDungs", NguoiDungController.getAll);
+router.get("/NguoiDungs", checkAuth, NguoiDungController.getAll);
 router.get("/:MaNguoiDung", checkAuth, NguoiDungController.get);
 router.get("/", checkAuth, NguoiDungController.getMe);
 router.post("/", upload.single("Avatar"), NguoiDungController.post);

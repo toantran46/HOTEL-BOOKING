@@ -6,6 +6,9 @@ module.exports = {
   getAll: async (req, res) => {
     try {
       const { _page, _limit } = req.query;
+
+      if (req.user.Quyen !== "ADMIN") return res.status(400).json({ message: "No permission" })
+
       let NguoiDungs = await NguoiDungModel.find();
       //pagination
       const TongSo = NguoiDungs.length;

@@ -2,13 +2,14 @@ const DatPhongModel = require("../models/DatPhong.model");
 const ChoNghiModel = require("../models/ChoNghi.model");
 const { sendMail } = require("../sevices/mail");
 const { getInfoUser } = require("../middleware/checkAuthReturnResult");
+const { default: mongoose } = require("mongoose");
 
 module.exports = {
     getAll: async (req, res) => {
         try {
             let DatPhongs;
             const user = req.user;
-            const { _limit, _page } = req.query;
+            const { _limit, _page, action } = req.query;
             //verify account. Can't use middleware checkAuth; 
             //role USER 
             if (user.Quyen === "USER") {
@@ -34,7 +35,21 @@ module.exports = {
             } else {
                 //role MANAGER 
                 //role ADMIN
-                DatPhongs = await DatPhongModel.find();
+                let DSChoNghi;
+                if (action === 'admin') {
+                    try {
+                        if (req.user.Quyen === 'MANAGER') {
+                            let ChoNghi = await ChoNghiModel.find({ QuanLy: mongoose.Types.ObjectId(req.user.userId) });
+                            DSChoNghi = ChoNghi.map(x => mongoose.Types.ObjectId(x._id));
+                        }
+                    } catch (error) {
+                        console.log(error);
+                        return res.status(400).json({ message: "Auth failed" })
+                    }
+
+                }
+
+                DatPhongs = await DatPhongModel.find(DSChoNghi ? { MaKhachSan: { $in: DSChoNghi } } : {});
 
             }
             //pagination

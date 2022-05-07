@@ -72,7 +72,7 @@ function Payment(props) {
         LoaiPhong: globalSTate.typeRoom,
         TenPhong: globalSTate.nameRoom,
         HutThuoc: globalSTate.smokingPolicy,
-        ThongTinGiuong: globalSTate.Room.map((data) => ({
+        ThongTinGiuong: globalSTate.Room?.map((data) => ({
             Giuong: data.idBed.split('-')[0],
             SoLuong: data.quantity,
         })),
