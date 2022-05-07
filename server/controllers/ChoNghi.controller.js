@@ -530,7 +530,7 @@ module.exports = {
       //   );
       // }
       let QuanLy = req.user.userId;
-      const {
+      let {
         TenChoNghi,
         TieuDeDatDiem,
         MoTaDatDiem,
@@ -546,12 +546,14 @@ module.exports = {
         TinDung,
       } = req.body;
       // console.log(req.body);
-      // console.log(req.files);
+      // // console.log(req.doTinDung);
       // return;
+
       const HinhAnh = req.files.map((image) => image.path);
       // res.status(200).json({ images: req.files });
       const TGNhanPhong = JSON.parse(ThoiGianNhanPhong);
       const TGTraPhong = JSON.parse(ThoiGianTraPhong);
+      TinDung = JSON.parse(TinDung);
       const newChoNghi = new ChoNghiModel({
         TenChoNghi,
         QuanLy,
@@ -575,6 +577,8 @@ module.exports = {
         },
         TinDung,
       });
+      // console.log(newChoNghi.TinDung);
+      // return;
       await newChoNghi.save();
       res.json({ message: "Thêm Chổ nghỉ thành công !" });
     } catch (error) {

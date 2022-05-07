@@ -105,9 +105,13 @@ const auth = createSlice({
                 state.tab = action.payload.tab;
             }
         },
+        clearLocal: (state, action) => {
+            state = initialState;
+            return state;
+        }
     }
 });
 
 const { reducer, actions } = auth;
-export const { addInforBasic, addLayoutNPrice, addBed, addConvenient, addImg, addPolicy, addCredit, addPayment, setTab } = actions;
+export const { addInforBasic, addLayoutNPrice, addBed, addConvenient, addImg, addPolicy, addCredit, addPayment, setTab, clearLocal } = actions;
 export default reducer;
