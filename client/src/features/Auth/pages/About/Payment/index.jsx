@@ -108,7 +108,9 @@ function Payment(props) {
                 formData.append('BaoHiemNhamLan', globalSTate.policy.insurance);
                 formData.append('ThoiGianNhanPhong', JSON.stringify(globalSTate.policy.receiveDate));
                 formData.append('ThoiGianTraPhong', JSON.stringify(globalSTate.policy.returnDate));
-                formData.append('TinDung', globalSTate.payment.cartPayment);
+                formData.append('TinDung', JSON.stringify(globalSTate.payment.cartPayment));
+
+                // console.log(JSON.stringify(globalSTate.payment.cartPayment));
                 await choNghiApi.add(formData);
                 toastSucsess("Thêm khách sạn thành công");
                 setIsLoading(false);
@@ -124,7 +126,6 @@ function Payment(props) {
             setIsLoading(false);
         }, 1500);
         // console.log(values)
-        // console.log(globalSTate.tab);
     }
 
 
@@ -175,21 +176,6 @@ function Payment(props) {
                                 <h6>Phần trăm hoa hồng:</h6>
                                 15%
                             </div>
-                        </div>
-                        <div className='payment__left__main'>
-                            <Form.Item name='nameInstead'>
-                                <Select onChange={(value) => setNameOwner(value)} style={{ minWidth: '100%' }} defaultValue={globalSTate.nameOwner} label='Chúng tôi nên viết tên nào trên hóa đơn (ví dụ: tên công ty/pháp lý)?' options={[
-
-                                    { label: payment.nameOwner, value: payment.nameOwner },
-                                    { label: "Khác", value: "Khac" },
-                                ]} />
-                            </Form.Item>
-
-                            <br />
-                            <br />
-                            {nameOwner === 'Khac' &&
-                                <InputField onChange={(value) => setNameCompany(value)} name='nameCompany' label='Tên pháp lý của công ty' />}
-
                         </div>
                     </div>
 
