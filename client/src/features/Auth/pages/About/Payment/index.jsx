@@ -5,7 +5,7 @@ import { Button, Checkbox, Col, Radio, Row, Select, Form } from 'antd';
 import SelectField from 'custom-fields/SelectField';
 import InputField from 'custom-fields/InputField';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCredit, addPayment, setTab } from 'features/Auth/authSlice';
+import { addCredit, addPayment, clearLocal, setTab } from 'features/Auth/authSlice';
 import { tinDungApi } from 'api/TinDungApi';
 import { phongApi } from 'api/PhongApi';
 import { toastError, toastSucsess } from 'utils/notifi';
@@ -113,6 +113,7 @@ function Payment(props) {
                 // console.log(JSON.stringify(globalSTate.payment.cartPayment));
                 await choNghiApi.add(formData);
                 toastSucsess("Thêm khách sạn thành công");
+                dispatch(clearLocal());
                 setIsLoading(false);
                 navigate('/admin/hotels');
             } catch (error) {
@@ -211,7 +212,7 @@ function Payment(props) {
                             <Checkbox >Tôi đã đọc, chấp nhận và đồng ý với <a href='#'>Điều khoản chung</a> và <a href='#'>Chính sách An toàn</a> và Bảo mật.<br /><span className='describe'> Booking.com cho phép chỗ nghỉ và khách trao đổi qua Booking.com, nơi tiếp nhận và xử lý thông tin liên lạc tuân thủ theo Chính sách An toàn và Bảo mật và Điều khoản chung của Booking.com.</span> </Checkbox>
                         </Form.Item>
                     </div>
-                    <Button className='mt-3' type='primary' htmlType='submit' block >Hoàn tất đăng ký và mở phòng cho khách đặt</Button>
+                    <Button className='mt-3' loading={isLoading} type='primary' htmlType='submit' block >Hoàn tất đăng ký và mở phòng cho khách đặt</Button>
                     <div className='note'>Sắp xong rồi! Quý vị luôn có thể thay đổi thông tin kể cả sau khi Quý vị đã hoàn tất đăng ký!</div>
                 </div >
                 <div className='payment__right'>
