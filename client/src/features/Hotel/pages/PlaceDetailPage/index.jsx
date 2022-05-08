@@ -445,6 +445,7 @@ function HotelDetailPage(props) {
               >
                 {[1, 2, 3, 4, 5].map((i) => (
                   <ImageSkeleton
+                    key={i}
                     style={{ marginRight: "0.8rem" }}
                     width="154px"
                     height="117px"
@@ -460,6 +461,7 @@ function HotelDetailPage(props) {
               >
                 {[1, 2, 3, 4, 5].map((i) => (
                   <div
+                    key={i}
                     style={{
                       display: "flex",
                       flexDirection: "column",

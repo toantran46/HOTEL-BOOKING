@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose");
 const { getInfoUser } = require("../middleware/checkAuthReturnResult");
 const ChoNghiModel = require("../models/ChoNghi.model");
 const cloudinary = require("../utils/cloudinary.config");
+const jwt = require("jsonwebtoken");
 
 function getMin(arr) {
   return arr.sort((a, b) => a - b)[0];
@@ -20,8 +21,23 @@ module.exports = {
     try {
       let ChoNghis;
       // Group by city : data for home page
-      let { groupBy, _limit, _page, search, filter, filterV2, value, _idCity } =
+      let { groupBy, _limit, _page, search, filter, filterV2, value, _idCity, action } =
         req.query;
+
+      let role;
+
+      if (action === 'admin') {
+        try {
+          const token = req.headers.authorization.split(" ")[1];
+          let user = await jwt.verify(token, process.env.JWT_KEY);
+          if (user.Quyen === 'MANAGER') role = { "QuanLy._id": mongoose.Types.ObjectId(user.userId) };
+          if (user.Quyen === 'ADMIN') role = {};
+        } catch (error) {
+          console.log(error);
+          return res.status(400).json({ message: "Auth failed" })
+        }
+
+      }
 
       // filter : LoaiChoNghi , XepHang ,DiemDanhGia, TienNghi
       if (filter) {
@@ -362,6 +378,7 @@ module.exports = {
         });
       }
 
+      //normal
       ChoNghis = await ChoNghiModel.aggregate([
         {
           $lookup: {
@@ -437,6 +454,10 @@ module.exports = {
             }
             : {},
         },
+        {
+          $match: !!role
+            ? { ...role } : {},
+        },
       ]);
 
       //total found
@@ -509,7 +530,7 @@ module.exports = {
       //   );
       // }
       let QuanLy = req.user.userId;
-      const {
+      let {
         TenChoNghi,
         TieuDeDatDiem,
         MoTaDatDiem,
@@ -525,12 +546,14 @@ module.exports = {
         TinDung,
       } = req.body;
       // console.log(req.body);
-      // console.log(req.files);
+      // // console.log(req.doTinDung);
       // return;
+
       const HinhAnh = req.files.map((image) => image.path);
       // res.status(200).json({ images: req.files });
       const TGNhanPhong = JSON.parse(ThoiGianNhanPhong);
       const TGTraPhong = JSON.parse(ThoiGianTraPhong);
+      TinDung = JSON.parse(TinDung);
       const newChoNghi = new ChoNghiModel({
         TenChoNghi,
         QuanLy,
@@ -554,6 +577,8 @@ module.exports = {
         },
         TinDung,
       });
+      // console.log(newChoNghi.TinDung);
+      // return;
       await newChoNghi.save();
       res.json({ message: "Thêm Chổ nghỉ thành công !" });
     } catch (error) {

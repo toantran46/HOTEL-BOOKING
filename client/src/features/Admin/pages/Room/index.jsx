@@ -42,7 +42,7 @@ function RoomPage(props) {
   useEffect(() => {
     const fetchRoom = async () => {
       try {
-        let query = notPagination ? {} : { _page: pagination.page, _limit: pagination.limit };
+        let query = notPagination ? {} : { _page: pagination.page, _limit: pagination.limit, action: "admin" };
         console.log({ query })
         query = MaKhachSan ? { ...query, MaKhachSan } : query;
         const { Phongs, totalPage } = await phongApi.getAll(query);

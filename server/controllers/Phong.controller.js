@@ -3,11 +3,12 @@ const ChoNghiModel = require("../models/ChoNghi.model");
 const DatPhongModel = require("../models/DatPhong.model");
 const LoaiGiuongModel = require("../models/LoaiGiuong.model");
 const PhongModel = require("../models/Phong.model");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const { MaKhachSan, _page, _limit } = req.query;
+      const { MaKhachSan, _page, _limit, action } = req.query;
       let Phongs;
 
       if (MaKhachSan) {
@@ -25,7 +26,29 @@ module.exports = {
           .exec();
       } else {
 
-        Phongs = await PhongModel.find()
+        let DSPhong = [];
+        if (action === 'admin') {
+          try {
+            const token = req.headers.authorization.split(" ")[1];
+            let user = await jwt.verify(token, process.env.JWT_KEY);
+
+            if (user.Quyen === 'MANAGER') {
+              let ChoNghis = await ChoNghiModel.find({ QuanLy: mongoose.Types.ObjectId(user.userId) });
+              ChoNghis.forEach(x => {
+                DSPhong = [...DSPhong, ...x.Phong];
+              });
+              //get list room unique
+              DSPhong = DSPhong.filter((x, index) => DSPhong.indexOf(x) === index);
+
+              DSPhong = DSPhong.map(p => mongoose.Types.ObjectId(p._id));
+            }
+          } catch (error) {
+            console.log(error);
+            return res.status(400).json({ message: "Auth failed" })
+          }
+        }
+
+        Phongs = await PhongModel.find(DSPhong.length > 0 ? { _id: { $in: DSPhong } } : {})
           .populate("LoaiPhong")
           .populate({
             path: "ThongTinGiuong",

@@ -24,7 +24,7 @@ function HotelPage(props) {
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const { ChoNghis, _totalPage } = await choNghiApi.getAll({ _page: pagination.page, _limit: pagination.limit });
+        const { ChoNghis, _totalPage } = await choNghiApi.getAll({ _page: pagination.page, _limit: pagination.limit, action: 'admin' });
         setHotel(ChoNghis);
         setPagination(prev => ({ ...prev, totalPage: _totalPage }))
 

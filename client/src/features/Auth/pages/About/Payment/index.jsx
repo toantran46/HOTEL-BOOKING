@@ -5,7 +5,7 @@ import { Button, Checkbox, Col, Radio, Row, Select, Form } from 'antd';
 import SelectField from 'custom-fields/SelectField';
 import InputField from 'custom-fields/InputField';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCredit, addPayment, setTab } from 'features/Auth/authSlice';
+import { addCredit, addPayment, clearLocal, setTab } from 'features/Auth/authSlice';
 import { tinDungApi } from 'api/TinDungApi';
 import { phongApi } from 'api/PhongApi';
 import { toastError, toastSucsess } from 'utils/notifi';
@@ -72,7 +72,7 @@ function Payment(props) {
         LoaiPhong: globalSTate.typeRoom,
         TenPhong: globalSTate.nameRoom,
         HutThuoc: globalSTate.smokingPolicy,
-        ThongTinGiuong: globalSTate.Room.map((data) => ({
+        ThongTinGiuong: globalSTate.Room?.map((data) => ({
             Giuong: data.idBed.split('-')[0],
             SoLuong: data.quantity,
         })),
@@ -108,9 +108,12 @@ function Payment(props) {
                 formData.append('BaoHiemNhamLan', globalSTate.policy.insurance);
                 formData.append('ThoiGianNhanPhong', JSON.stringify(globalSTate.policy.receiveDate));
                 formData.append('ThoiGianTraPhong', JSON.stringify(globalSTate.policy.returnDate));
-                formData.append('TinDung', globalSTate.payment.cartPayment);
+                formData.append('TinDung', JSON.stringify(globalSTate.payment.cartPayment));
+
+                // console.log(JSON.stringify(globalSTate.payment.cartPayment));
                 await choNghiApi.add(formData);
                 toastSucsess("Thêm khách sạn thành công");
+                dispatch(clearLocal());
                 setIsLoading(false);
                 navigate('/admin/hotels');
             } catch (error) {
@@ -124,7 +127,6 @@ function Payment(props) {
             setIsLoading(false);
         }, 1500);
         // console.log(values)
-        // console.log(globalSTate.tab);
     }
 
 
@@ -176,21 +178,6 @@ function Payment(props) {
                                 15%
                             </div>
                         </div>
-                        <div className='payment__left__main'>
-                            <Form.Item name='nameInstead'>
-                                <Select onChange={(value) => setNameOwner(value)} style={{ minWidth: '100%' }} defaultValue={globalSTate.nameOwner} label='Chúng tôi nên viết tên nào trên hóa đơn (ví dụ: tên công ty/pháp lý)?' options={[
-
-                                    { label: payment.nameOwner, value: payment.nameOwner },
-                                    { label: "Khác", value: "Khac" },
-                                ]} />
-                            </Form.Item>
-
-                            <br />
-                            <br />
-                            {nameOwner === 'Khac' &&
-                                <InputField onChange={(value) => setNameCompany(value)} name='nameCompany' label='Tên pháp lý của công ty' />}
-
-                        </div>
                     </div>
 
                     <div className='box mt-5 payment__left__final-confirm'>
@@ -225,7 +212,7 @@ function Payment(props) {
                             <Checkbox >Tôi đã đọc, chấp nhận và đồng ý với <a href='#'>Điều khoản chung</a> và <a href='#'>Chính sách An toàn</a> và Bảo mật.<br /><span className='describe'> Booking.com cho phép chỗ nghỉ và khách trao đổi qua Booking.com, nơi tiếp nhận và xử lý thông tin liên lạc tuân thủ theo Chính sách An toàn và Bảo mật và Điều khoản chung của Booking.com.</span> </Checkbox>
                         </Form.Item>
                     </div>
-                    <Button className='mt-3' type='primary' htmlType='submit' block >Hoàn tất đăng ký và mở phòng cho khách đặt</Button>
+                    <Button className='mt-3' loading={isLoading} type='primary' htmlType='submit' block >Hoàn tất đăng ký và mở phòng cho khách đặt</Button>
                     <div className='note'>Sắp xong rồi! Quý vị luôn có thể thay đổi thông tin kể cả sau khi Quý vị đã hoàn tất đăng ký!</div>
                 </div >
                 <div className='payment__right'>
