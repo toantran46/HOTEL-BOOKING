@@ -6,6 +6,7 @@ import { thanhPhoApi } from "api/ThanhPhoApi";
 import AdminItem from "features/Admin/components/AdminItem";
 import BarChart from "features/Admin/components/BarChart";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Badge, Table } from "reactstrap";
 import { formatDate, formatMoney } from "utils/format";
@@ -18,6 +19,7 @@ function DashBoard(props) {
   const [cities, setCities] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -85,7 +87,10 @@ function DashBoard(props) {
         <div className="row">
           {/* User */}
           <div className="col-md-3">
-            <Link to="/admin/users" style={{ color: "#000" }}>
+            <Link
+              to={user.Quyen === "ADMIN" ? "/admin/users" : "/admin"}
+              style={{ color: "#000" }}
+            >
               <div className="dashboard__header-item">
                 <AdminItem
                   title="Users"
@@ -100,7 +105,14 @@ function DashBoard(props) {
           </div>
           {/* Hotel */}
           <div className="col-md-3">
-            <Link to="/admin/hotels" style={{ color: "#000" }}>
+            <Link
+              to={
+                user.Quyen === "ADMIN" || user.Quyen === "MANAGER"
+                  ? "/admin/hotels"
+                  : "/admin"
+              }
+              style={{ color: "#000" }}
+            >
               <div className="dashboard__header-item">
                 <AdminItem
                   title="Hotels"
@@ -115,7 +127,10 @@ function DashBoard(props) {
           </div>
           {/* City */}
           <div className="col-md-3">
-            <Link to="/admin/cities" style={{ color: "#000" }}>
+            <Link
+              to={user.Quyen === "ADMIN" ? "/admin/cities" : "/admin"}
+              style={{ color: "#000" }}
+            >
               <div className="dashboard__header-item">
                 <AdminItem
                   title="Cities"
@@ -130,7 +145,14 @@ function DashBoard(props) {
           </div>
           {/* Room */}
           <div className="col-md-3">
-            <Link to="/admin/rooms" style={{ color: "#000" }}>
+            <Link
+              to={
+                user.Quyen === "ADMIN" || user.Quyen === "MANAGER"
+                  ? "/admin/rooms"
+                  : "/admin"
+              }
+              style={{ color: "#000" }}
+            >
               <div className="dashboard__header-item">
                 <AdminItem
                   title="Rooms"

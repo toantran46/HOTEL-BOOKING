@@ -25,10 +25,15 @@ import { choNghiApi } from "api/ChoNghiApi";
 import { phanHoiApi } from "api/PhanHoiApi";
 import { phongApi } from "api/PhongApi";
 import { useDispatch, useSelector } from "react-redux";
-import { booking, chooseDate, choosePlace, saveCurrentPlace } from 'features/Hotel/HotelSlice';
+import {
+  booking,
+  chooseDate,
+  choosePlace,
+  saveCurrentPlace,
+} from "features/Hotel/HotelSlice";
 import { thanhPhoApi } from "api/ThanhPhoApi";
 
-import moment from 'moment';
+import moment from "moment";
 import { geocodingApi } from "api/GeocodingApi";
 HotelDetailPage.propTypes = {};
 
@@ -55,20 +60,28 @@ function HotelDetailPage(props) {
   const [isLoadingFeedBack, setIsLoadingFeedBack] = React.useState(false);
 
   const [isVisibleAllFeedBack, setIsVisibleAllFeedBack] = React.useState(false);
-  const [dateFilter, setDateFilter] = useState(() => ({ NgayNhanPhong: moment(receiveDate || new Date()), NgayTraPhong: moment(returnDate || new Date().setDate(new Date().getDate() + 1)) }));
+  const [dateFilter, setDateFilter] = useState(() => ({
+    NgayNhanPhong: moment(receiveDate || new Date()),
+    NgayTraPhong: moment(
+      returnDate || new Date().setDate(new Date().getDate() + 1)
+    ),
+  }));
   const { state } = useLocation();
   const navigate = useNavigate();
 
   //get from redux
-  const { user } = useSelector(state => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-  console.log({ dateFilter })
+  console.log({ dateFilter });
   //choose room
   const [roomSelected, setRoomSelected] = React.useState([]);
 
-  //save data for lat lng 
-  const [location, setLocation] = React.useState({ lat: 10.337189658366952, lng: 107.08280682625144 });
+  //save data for lat lng
+  const [location, setLocation] = React.useState({
+    lat: 10.337189658366952,
+    lng: 107.08280682625144,
+  });
 
   const handleBook = () => {
     if (roomSelected.length < 1 || !receiveDate || !returnDate) {
@@ -141,10 +154,19 @@ function HotelDetailPage(props) {
 
   //handle update return , receive date
   React.useEffect(() => {
-    dispatch(chooseDate({ type: "receiveDate", receiveDate: dateFilter.NgayNhanPhong.format("YYYY-MM-DD") }))
-    dispatch(chooseDate({ type: "returnDate", returnDate: dateFilter.NgayTraPhong.format("YYYY-MM-DD") }))
-  }, [dateFilter])
-
+    dispatch(
+      chooseDate({
+        type: "receiveDate",
+        receiveDate: dateFilter.NgayNhanPhong.format("YYYY-MM-DD"),
+      })
+    );
+    dispatch(
+      chooseDate({
+        type: "returnDate",
+        returnDate: dateFilter.NgayTraPhong.format("YYYY-MM-DD"),
+      })
+    );
+  }, [dateFilter]);
 
   // fetch rooms
 
@@ -260,7 +282,6 @@ function HotelDetailPage(props) {
     navigate("/booking", { state: { credits: place.TinDung } });
   };
 
-
   //fetch lat lng from this place's address
 
   React.useEffect(() => {
@@ -268,24 +289,30 @@ function HotelDetailPage(props) {
       try {
         // const { results } = await geocodingApi.get(`${place?.DiaChi} ${place?.ThanhPho?.TenThanhPho}`);
         // if (results.length < 1) return;
-
         // const lction = results[0].geometry.location;
         // setLocation({ lat: lction.lat, lng: lction.lng })
       } catch (error) {
         console.log(error.message);
       }
-
-    }
+    };
     fetchLocationFromAddress();
-  }, [place])
+  }, [place]);
 
-
-  //set default returnDate , receiveDate 
+  //set default returnDate , receiveDate
   React.useEffect(() => {
-    dispatch(chooseDate({ type: "receiveDate", receiveDate: dateFilter.NgayNhanPhong.format("YYYY-MM-DD") }))
-    dispatch(chooseDate({ type: "returnDate", returnDate: dateFilter.NgayTraPhong.format("YYYY-MM-DD") }))
-  }, [dateFilter])
-
+    dispatch(
+      chooseDate({
+        type: "receiveDate",
+        receiveDate: dateFilter.NgayNhanPhong.format("YYYY-MM-DD"),
+      })
+    );
+    dispatch(
+      chooseDate({
+        type: "returnDate",
+        returnDate: dateFilter.NgayTraPhong.format("YYYY-MM-DD"),
+      })
+    );
+  }, [dateFilter]);
 
   const ImageSkeleton = ({ width, height, style }) => {
     return <Skeleton.Image style={{ width, height, ...style }} />;
@@ -304,17 +331,20 @@ function HotelDetailPage(props) {
             onSearch={handleSearch}
             placeName={placeChoosen.cityName}
             receiveDate={receiveDate}
-            returnDate={returnDate} />
+            returnDate={returnDate}
+          />
 
-          <ViewOnGoogleMap place={{
-            banner: place?.HinhAnh[0],
-            name: place?.TenChoNghi,
-            rank: place?.XepHang,
-            address: place?.DiaChi + ", " + place?.ThanhPho?.TenThanhPho,
-            mediumScore: feedBack?.mediumScore,
-            totalFeedBack: feedBack?.totalFeedBack
-          }} location={location} />
-
+          <ViewOnGoogleMap
+            place={{
+              banner: place?.HinhAnh[0],
+              name: place?.TenChoNghi,
+              rank: place?.XepHang,
+              address: place?.DiaChi + ", " + place?.ThanhPho?.TenThanhPho,
+              mediumScore: feedBack?.mediumScore,
+              totalFeedBack: feedBack?.totalFeedBack,
+            }}
+            location={location}
+          />
         </div>
         <div className="wrapper__content__right">
           <Row className="wrapper__content__right__top">
@@ -344,7 +374,13 @@ function HotelDetailPage(props) {
             </Col>
             <Col>
               <a className="top-item" onClick={() => ScrollToView("feedback")}>
-                Đánh giá của khách ({isLoadingFeedBack ? <Spin size="small" /> : feedBack.totalFeedBack})
+                Đánh giá của khách (
+                {isLoadingFeedBack ? (
+                  <Spin size="small" />
+                ) : (
+                  feedBack.totalFeedBack
+                )}
+                )
               </a>
             </Col>
           </Row>
@@ -456,7 +492,6 @@ function HotelDetailPage(props) {
       </div>
       <div className="wrapper__body">
         <div className="wrapper__body__about-hotel">
-
           <h5>
             {isLoading ? (
               <Skeleton.Input active />
@@ -480,9 +515,7 @@ function HotelDetailPage(props) {
               Nghinh Phong. Sân bay gần nhất là sân bay quốc tế Tân Sơn Nhất,
               cách chỗ nghỉ 108 km. Các cặp đôi đặc biệt thích địa điểm này — họ
               cho điểm 8,2 cho kỳ nghỉ dành cho 2 người. */}
-              {
-                place.MoTaDatDiem
-              }
+              {place?.MoTaDatDiem}
             </p>
           )}
           {isLoading && <Skeleton paragraph={{ rows: 5 }} active />}
@@ -519,7 +552,6 @@ function HotelDetailPage(props) {
           />
           {/* <ListRoom rooms={room} /> */}
 
-
           <FeedBack
             isLoadingFeedBack={isLoadingFeedBack}
             setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
@@ -528,19 +560,20 @@ function HotelDetailPage(props) {
           />
           <br />
           {/* <ViewDetailComments /> */}
-          {
-            feedBack?.comments.length > 0 &&
+          {feedBack?.comments.length > 0 && (
             <a
               onClick={() => setIsVisibleAllFeedBack(true)}
               className="btn-primary-outline"
             >
               Đọc tất cả đánh giá
             </a>
-          }
+          )}
 
           {isVisibleAllFeedBack && (
             <ViewAllFeedBack
-              isOwner={user.Quyen === "MANAGER" && user._id === place.QuanLy?._id}
+              isOwner={
+                user.Quyen === "MANAGER" && user._id === place.QuanLy?._id
+              }
               setIsVisibleAllFeedBack={setIsVisibleAllFeedBack}
             />
           )}
