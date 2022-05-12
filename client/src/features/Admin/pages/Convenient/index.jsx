@@ -29,7 +29,7 @@ function ConvenientPage(props) {
   const [pagination, setPagination] = useState({
     page: 1,
     totalPage: 5,
-    limit: 5,
+    limit: 10,
   });
 
   const [isEdit, setIsEdit] = useState(false);
