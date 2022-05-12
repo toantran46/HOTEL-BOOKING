@@ -24,7 +24,7 @@ function DashBoard(props) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const { NguoiDungs } = await NguoiDungApi.getAll();
+        const { NguoiDungs } = await NguoiDungApi.getAll({ action: 'admin' });
         setUsers(NguoiDungs);
       } catch (error) {
         console.log(error);
@@ -36,7 +36,7 @@ function DashBoard(props) {
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const { ChoNghis } = await choNghiApi.getAll();
+        const { ChoNghis } = await choNghiApi.getAll({ action: 'admin' });
         setHotels(ChoNghis);
       } catch (error) {
         console.log(error);
@@ -48,7 +48,7 @@ function DashBoard(props) {
   useEffect(() => {
     const fetchCity = async () => {
       try {
-        const { ThanhPhos } = await thanhPhoApi.getAll();
+        const { ThanhPhos } = await thanhPhoApi.getAll({ action: 'admin' });
         setCities(ThanhPhos);
       } catch (error) {
         console.log(error);
@@ -60,7 +60,7 @@ function DashBoard(props) {
   useEffect(() => {
     const fetchRoom = async () => {
       try {
-        const { Phongs } = await phongApi.getAll();
+        const { Phongs } = await phongApi.getAll({ action: 'admin' });
         setRooms(Phongs);
       } catch (error) {
         console.log(error);
@@ -72,7 +72,7 @@ function DashBoard(props) {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const { DatPhongs } = await datPhongApi.getAll();
+        const { DatPhongs } = await datPhongApi.getAll({ action: 'admin' });
         setBookings(DatPhongs);
       } catch (error) {
         console.log(error);

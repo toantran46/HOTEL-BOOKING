@@ -82,10 +82,16 @@ function RoomPage(props) {
 
   const handleRemoveRoom = async () => {
     try {
-      await phongApi.delete(selectedRoom._id);
+      setIsLoading(true);
+      const { message } = await phongApi.delete(selectedRoom._id);
       setShowDeleteRoomModal(false);
+      toastSucsess(message);
+      setIsLoading(false);
+      setGetNewData(prev => !prev);
     } catch (error) {
-      console.log(error);
+      const errMessage = error.response.data;
+      toastError(errMessage.message);
+      setIsLoading(false);
     }
   };
 

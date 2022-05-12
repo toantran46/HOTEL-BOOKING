@@ -14,6 +14,7 @@ import "./user.scss";
 import FormUser from "../../components/UserForm";
 import { toastError, toastSucsess } from "utils/notifi";
 import PaginationStyled from "features/Hotel/components/PaginationStyled";
+import { Spin } from "antd";
 
 function UserPage(props) {
   const [users, setUsers] = useState([]);
@@ -96,10 +97,16 @@ function UserPage(props) {
 
   const handleRemoveUser = async () => {
     try {
-      await NguoiDungApi.delete(selectedUser._id);
+      setIsLoading(true);
+      const { message } = await NguoiDungApi.delete(selectedUser._id);
       setShowDeleteUserModal(false);
+      toastSucsess(message);
+      setIsLoading(false);
+      setGetNewData(prev => !prev);
     } catch (error) {
-      console.log(error);
+      setIsLoading(false);
+      const errMessage = error.response.data;
+      toastError(errMessage.message);
     }
   };
 
@@ -219,7 +226,7 @@ function UserPage(props) {
 
         <ModalFooter>
           <Button onClick={handleRemoveUser} color="primary">
-            Confirm
+            Confirm {isLoading && <Spin size="small" />}
           </Button>{" "}
           <Button onClick={hideDeleteModal}>Cancel</Button>
         </ModalFooter>

@@ -48,7 +48,7 @@ module.exports = {
           }
         }
 
-        Phongs = await PhongModel.find(DSPhong.length > 0 ? { _id: { $in: DSPhong } } : {})
+        Phongs = await PhongModel.find(action == "admin" ? { _id: { $in: DSPhong } } : {})
           .populate("LoaiPhong")
           .populate({
             path: "ThongTinGiuong",
