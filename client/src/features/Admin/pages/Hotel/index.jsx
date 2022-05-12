@@ -154,10 +154,16 @@ function HotelPage(props) {
 
   const handleRemoveBooking = async () => {
     try {
-      await choNghiApi.delete(selectedHotel._id);
+      setIsLoading(true);
+      const { message } = await choNghiApi.delete(selectedHotel._id);
       setShowDeleteHotelModal(false);
+      toastSucsess(message);
+      setIsLoading(false);
+      setGetNewData(prev => !prev);
     } catch (error) {
-      console.log(error);
+      setIsLoading(false);
+      const errMessage = error.response.data;
+      toastError(errMessage.message);
     }
   };
   return (
@@ -241,6 +247,7 @@ function HotelPage(props) {
 
       {/* Hotel Delete Modal */}
       <DeleteModal
+        isLoading={isLoading}
         isOpen={showDeleteHotelModal}
         hideDeleteModal={hideDeleteModal}
         handleRemove={handleRemoveBooking}

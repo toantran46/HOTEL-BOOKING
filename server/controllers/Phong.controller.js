@@ -200,7 +200,8 @@ module.exports = {
         SoLuongPhong,
       } = req.body;
 
-      // console.log(req.body);
+      // return;
+      console.log(req.body);
       // return;
 
       //test
