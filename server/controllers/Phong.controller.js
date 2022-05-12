@@ -27,6 +27,7 @@ module.exports = {
       } else {
 
         let DSPhong = [];
+        let roleOwner = false;
         if (action === 'admin') {
           try {
             const token = req.headers.authorization.split(" ")[1];
@@ -41,6 +42,7 @@ module.exports = {
               DSPhong = DSPhong.filter((x, index) => DSPhong.indexOf(x) === index);
 
               DSPhong = DSPhong.map(p => mongoose.Types.ObjectId(p._id));
+              roleOwner = true;
             }
           } catch (error) {
             console.log(error);
@@ -48,7 +50,7 @@ module.exports = {
           }
         }
 
-        Phongs = await PhongModel.find(action == "admin" ? { _id: { $in: DSPhong } } : {})
+        Phongs = await PhongModel.find(roleOwner ? { _id: { $in: DSPhong } } : {})
           .populate("LoaiPhong")
           .populate({
             path: "ThongTinGiuong",
