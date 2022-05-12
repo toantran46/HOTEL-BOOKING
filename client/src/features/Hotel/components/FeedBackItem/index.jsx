@@ -64,7 +64,8 @@ function FeedBackItem(props) {
           </div>
           <div className="item">
             {ICONS.CALENDAR}
-            <div>1 đêm · Tháng 3-2019 (chưa biết)</div>
+            <div>{`Ngày ${new Date(fbInfo?.NgayTao).getDate()} tháng ${new Date(fbInfo?.NgayTao).getMonth() + 1
+              } năm ${new Date(fbInfo?.NgayTao).getFullYear()}`}</div>
           </div>
           <div className="item">
             {ICONS.COUPLE}

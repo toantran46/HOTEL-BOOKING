@@ -122,7 +122,7 @@ function Profile(props) {
                             </div>
                         </Form.Item>
                         <InputField name='name' label='Họ tên' rules={[{ required: true, message: 'Họ tên không được để trống' }]} />
-                        <InputField name='email' type='email' label='Email' rules={[{ required: true, message: 'Email không được để trống' }]} />
+                        <InputField name='email' type='email' label='Email' disabled />
                         <InputField name='phone' label='Số điện thoại' rules={[{ required: true, message: 'Số điện thoại không được để trống' }]} />
                         <InputField name='Quyen' label='Quyền' disabled />
                         <button className='btn-primary'>Lưu {isLoading && <Spin size='small' />} </button>

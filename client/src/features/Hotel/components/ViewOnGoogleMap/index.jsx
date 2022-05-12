@@ -72,11 +72,11 @@ function ViewOnGoogleMap(props) {
                                 <div style={{ marginLeft: "1rem" }}>
                                     <div className='title'>{place?.name}</div>
                                     <ShowStar num={place.rank} />
-                                    <div style={{ display: "flex", marginTop: 3, textAlign: 'center' }} >
-                                        <div className='score' style={{ marginRight: 5 }} >{parseFloat(place.mediumScore).toFixed(1)}</div>
+                                    <div style={{ display: "flex", marginTop: 3, textAlign: 'center', alignItems: "center" }} >
+                                        <div className='score' style={{ marginRight: 5 }} >{parseFloat(place.mediumScore || 0).toFixed(1)}</div>
                                         <div>
                                             <div>{getMessageByScore(place.mediumScore)}</div>
-                                            <div className='total-feedback'>{place.totalFeedBack} đánh giá</div>
+                                            <div className='total-feedback'>{place.totalFeedBack || "Chưa có "} đánh giá</div>
                                         </div>
                                     </div>
                                 </div>

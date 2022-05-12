@@ -15,7 +15,7 @@ GeneralManagement.propTypes = {
 function GeneralManagement(props) {
     const [placeBooked, setPlaceBooked] = React.useState();
     const [totalPlaceBooked, setTotalPlaceBooked] = React.useState(0);
-    const [pagination, setPagination] = React.useState({ page: 1, totalPage: 5, limit: 1 });
+    const [pagination, setPagination] = React.useState({ page: 1, totalPage: 5, limit: 3 });
 
     React.useEffect(() => {
         const fetchPlaceSaved = async () => {
