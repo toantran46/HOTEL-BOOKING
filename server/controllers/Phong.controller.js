@@ -108,6 +108,7 @@ module.exports = {
         MaKhachSan: chonghi,
       });
 
+
       const danhSachDatPhongTheoNgay = danhSachDatPhong.filter((item) => {
         return !(
           (new Date(ngayNhanPhong) < new Date(item.NgayNhanPhong) &&
@@ -116,6 +117,7 @@ module.exports = {
             new Date(ngayTraPhong) > new Date(item.NgayTraPhong))
         );
       });
+      console.log({ danhSachDatPhongTheoNgay });
 
       if (danhSachDatPhongTheoNgay.length === 0) {
         const result = await ChoNghi.populate("Phong");
@@ -134,6 +136,7 @@ module.exports = {
               .exec();
           })
         );
+        console.log({ phong: result.Phong });
         return res.json(result.Phong);
       } else {
         const thongtinphongs = danhSachDatPhongTheoNgay.map(

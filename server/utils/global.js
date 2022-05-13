@@ -118,7 +118,7 @@ module.exports = {
                                 tất thủ tục nhận phòng.</p>
                             <p>
                                 Chúc quý khách có một chuyến du lịch đáng nhớ, nhiều niềm vui và được trải nghiệm những dịch vụ
-                                tuyệt vời tại infoBooking.placeName.
+                                tuyệt vời tại ${infoBooking.placeName}.
                             </p>
                             <hr>
                             <div><i>Trân trọng.</i></div>
