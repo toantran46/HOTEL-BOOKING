@@ -24,7 +24,7 @@ function Container(props) {
                     của Quý vị
                 </div>
                 <div className="bottom-text">
-                    trên Booking.com
+                    trên LTHBooking.com
                 </div>
                 <div className="textArea">
                     Chỉ mất 15 phút để hoàn tất đăng ký - hãy bắt đầu ngay hôm nay
@@ -43,9 +43,6 @@ function Container(props) {
                 <div className="infor">
                     <div className="infor-hd">
                         <b>Tạo tài khoản đối tác để bắt đầu:</b>
-                    </div>
-                    <div className="infor-text">
-                        <p>Bằng cách đi tiếp, Quý vị đồng ý cho Booking.com gửi email tới Quý vị về việc đăng ký chỗ nghỉ.</p>
                     </div>
                     <div className="button-start">
                         <Link to={'/auth/register'}>
