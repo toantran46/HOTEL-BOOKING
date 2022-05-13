@@ -17,7 +17,7 @@ function FooterPartner(props) {
             <div className="copyright">
                 Bảo lưu mọi quyền.
                 <br />
-                Bản quyền (2022) - Booking.com™
+                Bản quyền (2022) - LTHBooking.com™
             </div>
         </div>
     );

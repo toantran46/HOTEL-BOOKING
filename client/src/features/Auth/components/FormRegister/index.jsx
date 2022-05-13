@@ -69,9 +69,6 @@ function FormRegister(props) {
                     <Input />
 
                 </Form.Item>
-                <div className="helper">
-                    * Chúng tôi sẽ gửi mã xác thực đến email này để xát nhận tài khoản.
-                </div>
                 <Form.Item
                     name="name"
                     label="Họ tên"
@@ -103,7 +100,7 @@ function FormRegister(props) {
                 </Form.Item>
                 <Form.Item
                     name="confirmPass"
-                    label="Xát nhận mật khẩu"
+                    label="Xác nhận mật khẩu"
                     dependencies={['password']}
                     hasFeedback
                     rules={[

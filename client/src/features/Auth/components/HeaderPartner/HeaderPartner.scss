@@ -4,5 +4,18 @@
     &__site {
         width: 80%;
         margin: auto;
+        a {
+            text-decoration: none;
+            color: #fff;
+          }
+          &__top {
+            display: flex;
+            justify-content: space-between;
+            &__left {
+              font-size: 25px;
+              font-weight: bold;
+              margin-left: 1rem;
+            }
+        }
     }
 }
