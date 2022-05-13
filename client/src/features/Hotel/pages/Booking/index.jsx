@@ -60,7 +60,7 @@ function Booking(props) {
                                                     {currentBookingInfo?.placeInfo.address}
                                                 </div>
                                                 <div className='feed-back'>
-                                                    <div className='score'>{parseFloat(currentBookingInfo?.placeInfo.mediumScore).toFixed(1)}</div>
+                                                    <div className='score'>{parseFloat(currentBookingInfo?.placeInfo.mediumScore || 0).toFixed(1)}</div>
                                                     <div className='message'>{getMessageByScore(currentBookingInfo?.placeInfo.mediumScore)}</div>
                                                     <div className='num-voted'>{currentBookingInfo?.placeInfo.totalFeedBack ? `${currentBookingInfo?.placeInfo.totalFeedBack} đánh giá` : 'Chưa có đánh giá'}</div>
                                                 </div>
