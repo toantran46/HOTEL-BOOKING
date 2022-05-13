@@ -31,7 +31,7 @@ function BarChart(props) {
             y: {
               // defining min and max so hiding the dataset does not change scale range
               min: 0,
-              max: 10000000,
+              max: 100000000,
             },
           },
 

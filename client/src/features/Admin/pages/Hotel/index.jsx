@@ -17,7 +17,7 @@ function HotelPage(props) {
   const [selectedHotel, setSelectedHotel] = useState({});
   const [getNewData, setGetNewData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
+  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 10 });
 
   const [isEdit, setIsEdit] = useState(false);
 
