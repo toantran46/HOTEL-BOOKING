@@ -25,30 +25,35 @@ module.exports = {
           .populate("TienNghi")
           .exec();
       } else {
-
         let DSPhong = [];
-        if (action === 'admin') {
+        if (action === "admin") {
           try {
             const token = req.headers.authorization.split(" ")[1];
             let user = await jwt.verify(token, process.env.JWT_KEY);
 
-            if (user.Quyen === 'MANAGER') {
-              let ChoNghis = await ChoNghiModel.find({ QuanLy: mongoose.Types.ObjectId(user.userId) });
-              ChoNghis.forEach(x => {
+            if (user.Quyen === "MANAGER") {
+              let ChoNghis = await ChoNghiModel.find({
+                QuanLy: mongoose.Types.ObjectId(user.userId),
+              });
+              ChoNghis.forEach((x) => {
                 DSPhong = [...DSPhong, ...x.Phong];
               });
               //get list room unique
-              DSPhong = DSPhong.filter((x, index) => DSPhong.indexOf(x) === index);
+              DSPhong = DSPhong.filter(
+                (x, index) => DSPhong.indexOf(x) === index
+              );
 
-              DSPhong = DSPhong.map(p => mongoose.Types.ObjectId(p._id));
+              DSPhong = DSPhong.map((p) => mongoose.Types.ObjectId(p._id));
             }
           } catch (error) {
             console.log(error);
-            return res.status(400).json({ message: "Auth failed" })
+            return res.status(400).json({ message: "Auth failed" });
           }
         }
 
-        Phongs = await PhongModel.find(action == "admin" ? { _id: { $in: DSPhong } } : {})
+        Phongs = await PhongModel.find(
+          action == "admin" ? { _id: { $in: DSPhong } } : {}
+        )
           .populate("LoaiPhong")
           .populate({
             path: "ThongTinGiuong",
@@ -66,8 +71,14 @@ module.exports = {
       const start = _page ? (_page - 1) * _limit : 0;
       const end = start + (_limit ? +_limit : TongSo);
       Phongs = Phongs.slice(start, end);
-      return res.json({ message: "success", Phongs, totalPage: Math.ceil(TongSo / _limit), _page: +_page, _limit: +_limit, total: TongSo });
-
+      return res.json({
+        message: "success",
+        Phongs,
+        totalPage: Math.ceil(TongSo / _limit),
+        _page: +_page,
+        _limit: +_limit,
+        total: TongSo,
+      });
     } catch (error) {
       res.status(500).json({ message: "error" + error.message });
     }
@@ -141,26 +152,34 @@ module.exports = {
         thongtinphongs.forEach((item) => {
           arr = [...arr, ...item];
         });
+        const phongIDBooked = arr.map((item) => ({
+          _id: item.Phong,
+          SoLuong: item.SoLuong,
+        }));
 
-        const phongIDS = arr.map((item) => item.Phong.valueOf());
-
-        const Phongs = await PhongModel.find()
-          .populate("LoaiPhong")
-          .populate({
-            path: "ThongTinGiuong",
-            populate: {
-              path: "Giuong",
-              model: "LoaiGiuong",
-            },
-          })
-          .populate("TienNghi")
-          .exec();
-        const emptyRoom = Phongs.filter((phong) => {
-          return !phongIDS.includes(phong._id.valueOf());
+        const PhongIDs = ChoNghi.Phong;
+        const Phongs = await PhongModel.find({ _id: { $in: PhongIDs } });
+        console.log(phongIDBooked);
+        const emptyRoom = Phongs.map((phong) => {
+          const exist = phongIDBooked.find(
+            (item) => item._id.valueOf() === phong._id.valueOf()
+          );
+          return exist
+            ? {
+                ...phong._doc,
+                SoLuongPhong: phong.SoLuongPhong - exist.SoLuong,
+              }
+            : phong._doc;
         });
-        res.json(emptyRoom);
+
+        const rooms = emptyRoom.filter((room) => room.SoLuongPhong > 0);
+
+        console.log(rooms);
+
+        res.json(rooms);
       }
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: "error" + error.message });
     }
   },
@@ -244,7 +263,7 @@ module.exports = {
         KichThuoc,
         Gia,
         TienNghi,
-        SoLuongPhong
+        SoLuongPhong,
       } = req.body;
       const Phong = await PhongModel.updateOne(
         { _id: MaPhong },
@@ -257,7 +276,7 @@ module.exports = {
           KichThuoc,
           Gia,
           TienNghi,
-          SoLuongPhong
+          SoLuongPhong,
         }
       );
       if (Phong.matchedCount === 0)

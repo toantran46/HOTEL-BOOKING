@@ -10,13 +10,18 @@ import { debounce } from "lodash";
 import { Spin, Form } from "antd";
 import { choNghiApi } from "api/ChoNghiApi";
 import { useDispatch, useSelector } from "react-redux";
-import { chooseDate, choosePlace, saveSearchValue } from "features/Hotel/HotelSlice";
+import {
+  chooseDate,
+  choosePlace,
+  saveSearchValue,
+} from "features/Hotel/HotelSlice";
 
 SearchHotel.propTypes = {};
 
 function SearchHotel(props) {
-
-  const { searchValue, placeChoosen } = useSelector(state => state.hotelInfo.homePage);
+  const { searchValue, placeChoosen } = useSelector(
+    (state) => state.hotelInfo.homePage
+  );
 
   const [places, setPlaces] = React.useState([]);
   const [isFetching, setIsFetching] = React.useState(false);
@@ -35,21 +40,22 @@ function SearchHotel(props) {
     placeChoosen._id ? navigate("/search") : setValidate(true);
   };
 
-
   //handle onchange search value
-  const handleOnChange = value => {
+  const handleOnChange = (value) => {
     if (!value) {
       dispatch(saveSearchValue(value));
-      dispatch(choosePlace({
-        _id: null,
-        placeName: null,
-        _idCity: null,
-        cityName: null,
-      }))
+      dispatch(
+        choosePlace({
+          _id: null,
+          placeName: null,
+          _idCity: null,
+          cityName: null,
+        })
+      );
       return;
     }
     setValidate(false);
-    //fetch data using method debounce 
+    //fetch data using method debounce
     if (debounceTimeout.current) {
       clearTimeout(debounceTimeout.current);
     }
@@ -58,35 +64,32 @@ function SearchHotel(props) {
       dispatch(saveSearchValue(value));
       fetchPlaces(value);
     }, 800);
-
-  }
-
+  };
 
   const fetchPlaces = async (value) => {
     try {
       setIsFetching(true);
       console.log({ value });
-      const { ChoNghis } = await choNghiApi.getAll({ search: value })
-      const data = ChoNghis.map(ChoNghi => ({
+      const { ChoNghis } = await choNghiApi.getAll({ search: value });
+      const data = ChoNghis.map((ChoNghi) => ({
         icon: ICONS.LOCATION,
         name: ChoNghi.TenChoNghi,
         location: "Việt Nam",
         city: ChoNghi.ThanhPho[0].TenThanhPho,
         address: ChoNghi.DiaChi,
         _id: ChoNghi._id,
-        _idCity: ChoNghi.ThanhPho[0]._id
+        _idCity: ChoNghi.ThanhPho[0]._id,
       }));
 
       setIsFetching(false);
       setPlaces(data);
-
     } catch (error) {
       console.log(error);
       setIsFetching(false);
     }
   };
   return (
-    <div style={{ position: "sticky", top: "-12px", zIndex: 99 }}>
+    <div style={{ position: "sticky", top: "0px", zIndex: 99 }}>
       <div className="search-hotel">
         <div className="search-hotel__main">
           <div className="search-hotel__main__title">
@@ -130,14 +133,17 @@ function SearchHotel(props) {
                             key={index}
                             className="place"
                             onClick={() => {
-                              form.setFieldsValue({ searchValue: `${place.name}, ${place.city}, ${place.location}` });
-                              dispatch(choosePlace(
-                                {
+                              form.setFieldsValue({
+                                searchValue: `${place.name}, ${place.city}, ${place.location}`,
+                              });
+                              dispatch(
+                                choosePlace({
                                   _id: place._id,
                                   placeName: place.name,
                                   _idCity: place._idCity,
-                                  cityName: place.city
-                                }))
+                                  cityName: place.city,
+                                })
+                              );
                             }}
                           >
                             <div className="icon">{place.icon}</div>
@@ -162,14 +168,25 @@ function SearchHotel(props) {
                 type="text"
                 placeholder="Nhận phòng"
                 onFocus={(e) => (e.currentTarget.type = "date")}
-                onChange={({ target }) => dispatch(chooseDate({ type: "receiveDate", receiveDate: target.value }))}
+                onChange={({ target }) =>
+                  dispatch(
+                    chooseDate({
+                      type: "receiveDate",
+                      receiveDate: target.value,
+                    })
+                  )
+                }
               />
               <span className="split"></span>
               <input
                 type="text"
                 placeholder="Trả phòng"
                 onFocus={(e) => (e.currentTarget.type = "date")}
-                onChange={({ target }) => dispatch(chooseDate({ type: "returnDate", returnDate: target.value }))}
+                onChange={({ target }) =>
+                  dispatch(
+                    chooseDate({ type: "returnDate", returnDate: target.value })
+                  )
+                }
               />
             </div>
             <div className="btnSearch">
