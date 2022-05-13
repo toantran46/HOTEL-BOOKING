@@ -1,3 +1,4 @@
+import { EditFilled, EditOutlined } from "@ant-design/icons";
 import { choNghiApi } from "api/ChoNghiApi";
 import { datPhongApi } from "api/DatPhongApi";
 import { phongApi } from "api/PhongApi";
@@ -17,8 +18,12 @@ import {
   ModalHeader,
   Table,
 } from "reactstrap";
+
+import { Button as Button1, Popconfirm } from 'antd';
+
 import { formatMoney, formatDate } from "utils/format";
 import "./booking.scss";
+import { toastError, toastSucsess } from "utils/notifi";
 
 function BookingPage(props) {
   const [bookings, setBookings] = useState([]);
@@ -43,7 +48,7 @@ function BookingPage(props) {
       }
     };
     fetchBooking();
-  }, [pagination.page]);
+  }, [pagination.page, getNewData]);
 
   //handle change page 
   const handleChangePage = page => {
@@ -83,10 +88,31 @@ function BookingPage(props) {
 
   const handleRemoveBooking = async () => {
     try {
-      await datPhongApi.delete(selectedBooking._id);
+      setIsLoading(true);
+      const { message } = await datPhongApi.delete(selectedBooking._id);
       setShowDeleteBookingModal(false);
+      setIsLoading(false);
+      setGetNewData(prev => !prev);
+
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
+    }
+  };
+
+  const handleConfirmBill = async (_id) => {
+    try {
+      setIsLoading(true);
+      const { message } = await datPhongApi.update(_id, { TrangThai: "Đã thanh toán", DaThanhToan: 1 });
+      setShowDeleteBookingModal(false);
+      setIsLoading(false);
+      toastSucsess(message);
+      setGetNewData(prev => !prev);
+    } catch (error) {
+      setIsLoading(false);
+      const errMessage = error.response.data;
+      toastError(errMessage.message);
+      // console.log(error);
     }
   };
 
@@ -124,7 +150,7 @@ function BookingPage(props) {
                 </td>
 
                 <td>
-                  <Badge color="danger">
+                  <Badge color="info">
                     {formatDate(new Date(booking.NgayDatPhong))}
                   </Badge>
                 </td>
@@ -134,7 +160,14 @@ function BookingPage(props) {
                   </Badge>
                 </td>
                 <td>
-                  <Badge color="success">{booking.TrangThai}</Badge>
+                  <Badge style={{ marginRight: 10 }} color={booking.TrangThai === "Đã thanh toán" ? "success" : "danger"}>{booking.TrangThai}</Badge>
+                  {
+                    booking.TrangThai !== "Đã thanh toán" &&
+                    <Popconfirm title="Bạn có chắc muốn xác nhận đã thanh toán ?" onConfirm={() => handleConfirmBill(booking._id)}>
+                      <Button1 size="small" icon={<EditOutlined />} shape="circle" />
+                    </Popconfirm>
+                  }
+
                 </td>
                 <td>
                   <Badge color="warning">{formatMoney(booking.TongTien)}</Badge>
@@ -177,6 +210,7 @@ function BookingPage(props) {
 
       {/* Booking Delete Modal */}
       <DeleteModal
+        isLoading={isLoading}
         isOpen={showDeleteBookingModal}
         hideDeleteModal={hideDeleteModal}
         handleRemove={handleRemoveBooking}

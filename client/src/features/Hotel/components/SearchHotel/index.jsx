@@ -89,7 +89,7 @@ function SearchHotel(props) {
     }
   };
   return (
-    <div style={{ position: "sticky", top: "0px", zIndex: 99 }}>
+    <div>
       <div className="search-hotel">
         <div className="search-hotel__main">
           <div className="search-hotel__main__title">

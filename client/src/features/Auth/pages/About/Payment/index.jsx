@@ -82,15 +82,15 @@ function Payment(props) {
         TienNghi: globalSTate.convenientGroup,
         SoLuongPhong: globalSTate.numRoom,
     }
-    console.log(PhongData);
+    // console.log(PhongData);
     const { listImages } = props;
 
     const navigate = useNavigate();
     // console.log(listImages);
     const handleFinish = (values) => {
-        setIsLoading(true);
         const addGlobalState = async () => {
             try {
+                setIsLoading(true);
                 const { MaPhong } = await phongApi.add(PhongData);
                 const formData = new FormData();
                 listImages.forEach(img => {
@@ -124,7 +124,6 @@ function Payment(props) {
         }
         setTimeout(() => {
             addGlobalState();
-            setIsLoading(false);
         }, 1500);
         // console.log(values)
     }

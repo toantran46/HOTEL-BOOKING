@@ -124,14 +124,15 @@ module.exports = {
   post: async (req, res) => {
     try {
       const { MaKhachSan, MaKH, Diem, BinhLuan } = req.body;
-      const email = req.user?.email || "vietlinh@gmail.com"; // Nhớ sửa khi có JWT
+      const email = req.user?.email;
 
       const Phong = await DatPhongModel.find({
         email: email,
         MaKhachSan: MaKhachSan,
       }).sort({ NgayDatPhong: -1 });
+
       if (Phong.length === 0) {
-        return res.status(404).json({ message: "error" });
+        return res.status(404).json({ message: "Vui lòng đặt phòng trước khi bình luận" });
       }
 
       const PhongGanNhat = Phong[0];

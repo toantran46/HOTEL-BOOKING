@@ -49,7 +49,7 @@ function MainPage(props) {
     const [totalPlace, setTotalPlaces] = React.useState();
 
     //pagination
-    const [pagination, setPagination] = React.useState({ _page: 1, _limit: 2, _totalPage: 5 });
+    const [pagination, setPagination] = React.useState({ _page: 1, _limit: 4, _totalPage: 5 });
 
     //data for filter ( { DiemDanhGia: [], XepHang: [], TienNghi: [] ,LoaiChoNghi:["MaKhachSan": "default" ] } )
     const [filter, setFilter] = React.useState(() => ({ DiemDanhGia: [], XepHang: [], TienNghi: [], LoaiChoNghi: state?.placeType ? [state.placeType] : ["62355779163a837aa7127013"] }));

@@ -26,7 +26,12 @@ module.exports = {
           .exec();
       } else {
         let DSPhong = [];
+<<<<<<< HEAD
         if (action === "admin") {
+=======
+        let roleOwner = false;
+        if (action === 'admin') {
+>>>>>>> 918c746e4cec2fc4a959ddc12a33f191a97ee2b7
           try {
             const token = req.headers.authorization.split(" ")[1];
             let user = await jwt.verify(token, process.env.JWT_KEY);
@@ -43,7 +48,9 @@ module.exports = {
                 (x, index) => DSPhong.indexOf(x) === index
               );
 
-              DSPhong = DSPhong.map((p) => mongoose.Types.ObjectId(p._id));
+
+              DSPhong = DSPhong.map(p => mongoose.Types.ObjectId(p._id));
+              roleOwner = true;
             }
           } catch (error) {
             console.log(error);
@@ -51,9 +58,8 @@ module.exports = {
           }
         }
 
-        Phongs = await PhongModel.find(
-          action == "admin" ? { _id: { $in: DSPhong } } : {}
-        )
+
+        Phongs = await PhongModel.find(roleOwner ? { _id: { $in: DSPhong } } : {})
           .populate("LoaiPhong")
           .populate({
             path: "ThongTinGiuong",
@@ -117,6 +123,7 @@ module.exports = {
         MaKhachSan: chonghi,
       });
 
+
       const danhSachDatPhongTheoNgay = danhSachDatPhong.filter((item) => {
         return !(
           (new Date(ngayNhanPhong) < new Date(item.NgayNhanPhong) &&
@@ -125,6 +132,7 @@ module.exports = {
             new Date(ngayTraPhong) > new Date(item.NgayTraPhong))
         );
       });
+      console.log({ danhSachDatPhongTheoNgay });
 
       if (danhSachDatPhongTheoNgay.length === 0) {
         const result = await ChoNghi.populate("Phong");
@@ -143,6 +151,7 @@ module.exports = {
               .exec();
           })
         );
+        console.log({ phong: result.Phong });
         return res.json(result.Phong);
       } else {
         const thongtinphongs = danhSachDatPhongTheoNgay.map(
@@ -219,7 +228,8 @@ module.exports = {
         SoLuongPhong,
       } = req.body;
 
-      // console.log(req.body);
+      // return;
+      console.log(req.body);
       // return;
 
       //test

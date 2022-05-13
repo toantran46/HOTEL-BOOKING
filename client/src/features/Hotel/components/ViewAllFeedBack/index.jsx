@@ -8,6 +8,10 @@ import EvaluationForm from "../EvaluationForm";
 import { getMessageByScore } from "assets/globaJS";
 import { phanHoiApi } from "api/PhanHoiApi";
 import { useParams } from "react-router-dom";
+import { useSelector } from 'react-redux';
+
+import { toastSucsess, toastError } from 'utils/notifi';
+
 ViewAllFeedBack.propTypes = {
   setIsVisibleAllFeedBack: PropTypes.func,
   isOwner: PropTypes.bool,
@@ -25,6 +29,9 @@ function ViewAllFeedBack(props) {
   const [viewAllFB, setViewAllFB] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const { user } = useSelector(state => state.auth);
+
+
   const [pagination, setPagination] = React.useState({
     _page: 1,
     _limit: 4,
@@ -34,6 +41,7 @@ function ViewAllFeedBack(props) {
   const [orderBy, setOrderBy] = React.useState("latest");
 
   const [showFeedBackForm, setShowFeedBackForm] = useState(false);
+  const [isNewData, setIsNewData] = useState(false);
 
   //fetch all feed back
   React.useEffect(() => {
@@ -63,22 +71,21 @@ function ViewAllFeedBack(props) {
     setTimeout(() => {
       fetchFeedBacks();
     }, 2000);
-  }, [orderBy, pagination._page]);
+  }, [orderBy, pagination._page, isNewData]);
 
-  React.useEffect(() => {
-    console.log({ viewAllFB });
-  }, [viewAllFB]);
 
   const handleSubmitForm = async (values) => {
     try {
-      phanHoiApi.add({
+      const { message } = await phanHoiApi.add({
         MaKhachSan: placeId,
-        MaKH: "6233fef7e7df261a952b6b59", // Nhớ sửa khi có UserSlice
+        MaKH: user?._id,
         ...values,
       });
-      console.log("thanh công");
+      toastSucsess(message);
+      setIsNewData(prev => !prev);
     } catch (error) {
-      console.log(error.message);
+      const errMessage = error.response.data;
+      toastError(errMessage.message);
     }
   };
 
@@ -89,11 +96,11 @@ function ViewAllFeedBack(props) {
           {!isLoading && (
             <div className="viewall-feedback__wrapper__top__left">
               <div className="score custom-score">
-                {parseFloat(viewAllFB?.mediumScore).toFixed(1)}
+                {parseFloat(viewAllFB?.mediumScore || 0).toFixed(1)}
               </div>
               <div className="numVoted">
                 <div>{getMessageByScore(viewAllFB?.mediumScore)}</div>
-                <span>{viewAllFB?.comments.length} đánh giá</span>
+                <span>{viewAllFB?.comments.length || "Chưa có"} đánh giá</span>
               </div>
               <div className="info">Trải nghiệm từ khách thật 100% </div>
             </div>
@@ -115,12 +122,17 @@ function ViewAllFeedBack(props) {
             </div>
           )}
 
-          <a
-            className="btn-primary-outline"
-            onClick={() => setShowFeedBackForm(!showFeedBackForm)}
-          >
-            Viết đánh giá
-          </a>
+
+          {
+            user?._id &&
+            <a
+              className="btn-primary-outline"
+              onClick={() => setShowFeedBackForm(!showFeedBackForm)}
+            >
+              Viết đánh giá
+            </a>
+
+          }
         </div>
         <div className="viewall-feedback__wrapper__main">
           <div className="viewall-feedback__wrapper__main__header">

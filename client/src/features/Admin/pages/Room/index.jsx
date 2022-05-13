@@ -37,7 +37,7 @@ function RoomPage(props) {
   const [isEdit, setIsEdit] = useState(false);
 
 
-  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 5 });
+  const [pagination, setPagination] = useState({ page: 1, totalPage: 5, limit: 10 });
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -142,7 +142,6 @@ function RoomPage(props) {
               <th>Room Type</th>
               <th>Quantity</th>
               <th>Size</th>
-              <th>State</th>
               <th>Price</th>
               <th>Actions</th>
             </tr>
@@ -165,9 +164,6 @@ function RoomPage(props) {
 
                 <td>
                   <Badge color="secondary">{room.KichThuoc}</Badge>
-                </td>
-                <td>
-                  <Badge color="success">{room.TrangThai}</Badge>
                 </td>
                 <td>
                   <Badge color="warning">{formatMoney(room.Gia)}</Badge>

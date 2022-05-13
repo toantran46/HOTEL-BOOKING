@@ -545,6 +545,7 @@ module.exports = {
         ThoiGianTraPhong,
         TinDung,
       } = req.body;
+      // return;
       // console.log(req.body);
       // // console.log(req.doTinDung);
       // return;

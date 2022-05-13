@@ -287,10 +287,10 @@ function HotelDetailPage(props) {
   React.useEffect(() => {
     const fetchLocationFromAddress = async () => {
       try {
-        // const { results } = await geocodingApi.get(`${place?.DiaChi} ${place?.ThanhPho?.TenThanhPho}`);
-        // if (results.length < 1) return;
-        // const lction = results[0].geometry.location;
-        // setLocation({ lat: lction.lat, lng: lction.lng })
+        const { results } = await geocodingApi.get(`${place?.DiaChi} ${place?.ThanhPho?.TenThanhPho}`);
+        if (results.length < 1) return;
+        const lction = results[0].geometry.location;
+        setLocation({ lat: lction.lat, lng: lction.lng })
       } catch (error) {
         console.log(error.message);
       }
@@ -562,14 +562,11 @@ function HotelDetailPage(props) {
           />
           <br />
           {/* <ViewDetailComments /> */}
-          {feedBack?.comments.length > 0 && (
-            <a
-              onClick={() => setIsVisibleAllFeedBack(true)}
-              className="btn-primary-outline"
-            >
-              Đọc tất cả đánh giá
-            </a>
-          )}
+          <a
+            onClick={() => setIsVisibleAllFeedBack(true)}
+            className="btn-primary-outline">
+            Đọc tất cả đánh giá
+          </a>
 
           {isVisibleAllFeedBack && (
             <ViewAllFeedBack
