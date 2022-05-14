@@ -6,6 +6,7 @@ import ShowStar from "features/Hotel/components/ShowStar"
 import { getMessageByScore } from 'assets/globaJS'
 import { Col, Row } from 'antd';
 import { convertToMoney } from 'assets/globaJS/index';
+import { Link } from 'react-router-dom';
 
 Trip.propTypes = {
     bookInfo: PropTypes.object,
@@ -14,6 +15,7 @@ Trip.propTypes = {
 Trip.defaultProps = {
     bookInfo: {},
 };
+
 
 function Trip(props) {
     const { bookInfo } = props;
@@ -31,7 +33,7 @@ function Trip(props) {
                             <ul>
                                 <li className='trip__body__info-booking__item'>
                                     <span className='text-title'>Tên (q.ly chổ nghĩ):</span>
-                                    <span className='content'>{bookInfo?.MaKhachSan?.QuanLy?.name}</span>
+                                    <span className='content'>{bookInfo?.MaKhachSan?.QuanLy?.name}  </span>
                                 </li>
                                 <li className='trip__body__info-booking__item'>
                                     <span className='text-title'>SĐT (q.ly chổ nghĩ):</span>
@@ -66,15 +68,13 @@ function Trip(props) {
                             <img src={bookInfo?.MaKhachSan?.HinhAnh && bookInfo.MaKhachSan.HinhAnh[0]} alt='place-image' />
                             <div>
                                 <div className='type'>{bookInfo?.MaKhachSan?.LoaiChoNghi?.TenLoaiChoNghi}  <ShowStar num={bookInfo?.MaKhachSan.XepHang} /> </div>
-                                <div className='name'>{bookInfo?.MaKhachSan?.TenChoNghi}</div>
+                                <div className='name'>
+                                    {bookInfo?.MaKhachSan?.TenChoNghi}
+                                    <Link className='feedbackBtn' to={`/${bookInfo.MaKhachSan?._id}`}>Đánh giá</Link>
+                                </div>
                                 <div className='address'>
                                     {bookInfo?.MaKhachSan?.DiaChi + ", " + bookInfo?.MaKhachSan?.ThanhPho?.TenThanhPho}
                                 </div>
-                                {/* <div className='feed-back'>
-                            <div className='score'>{parseFloat(9).toFixed(1)}</div>
-                            <div className='message'>{getMessageByScore(9)}</div>
-                            <div className='num-voted'>8 đánh giá</div>
-                        </div> */}
                             </div>
 
                         </div>

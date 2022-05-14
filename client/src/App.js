@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import Toast from "components/Toast";
 import TypesPage from "features/Admin/pages/Types";
 import DashBoard from "features/Admin/pages/DashBoard";
+import { Spin } from "antd";
 
 const HoTel = React.lazy(() => import("./features/Hotel/index.jsx"));
 const Auth = React.lazy(() => import("./features/Auth/index.jsx"));
@@ -23,7 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      <Suspense fallback={<div>loading...</div>}>
+      <Suspense fallback={<Spin />}>
         <BrowserRouter>
           <Routes>
             <Route index path="/*" element={<HoTel />} />

@@ -84,6 +84,20 @@
                    font-weight: 500;
                }
            }
+
+           .feedbackBtn{
+               font-size: 10px;
+               color: rgb(142, 44, 44);
+               margin-left: 10px;
+               padding: 2px;
+               border: 1px solid rgb(142, 44, 44);
+               border-radius: 2px;
+               transition:  all .5s;
+           }
+           .feedbackBtn:hover{
+            color: #003580;
+            border-color: #003580;
+           }
        } 
        .main-title{
         margin-left: 2rem;

@@ -63,7 +63,7 @@ function SearchHotel(props) {
     debounceTimeout.current = setTimeout(() => {
       dispatch(saveSearchValue(value));
       fetchPlaces(value);
-    }, 800);
+    }, 1000);
   };
 
   const fetchPlaces = async (value) => {

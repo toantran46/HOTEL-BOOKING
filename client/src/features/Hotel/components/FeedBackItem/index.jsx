@@ -64,10 +64,10 @@ function FeedBackItem(props) {
             <div>{`Ngày ${new Date(fbInfo?.NgayTao).getDate()} tháng ${new Date(fbInfo?.NgayTao).getMonth() + 1
               } năm ${new Date(fbInfo?.NgayTao).getFullYear()}`}</div>
           </div>
-          <div className="item">
+          {/* <div className="item">
             {ICONS.COUPLE}
             <div>Cặp đôi (chưa biết)</div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div style={{ flexGrow: 1, display: "flex" }}>
