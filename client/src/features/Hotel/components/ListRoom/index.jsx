@@ -42,7 +42,7 @@ function ListRoom(props) {
         <thead>
           <th className="type">Loại chỗ nghỉ</th>
           <th className="suitable">Phù hợp cho</th>
-          <th className="price">Giá cho {(receiveDate && returnDate) ? getDistanceByDate(receiveDate, returnDate) : 1} đêm</th>
+          <th className="price">Giá cho {(receiveDate && returnDate) ? getDistanceByDate(receiveDate, returnDate) : 1} ngày</th>
           <th className="options">Các lựa chọn</th>
           <th className="chooseRoom">Chọn phòng</th>
         </thead>

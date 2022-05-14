@@ -1,8 +1,9 @@
 import { Button, DatePicker, Form } from "antd";
+import { getDistanceByDate } from "assets/globaJS";
 import { chooseDate } from "features/Hotel/HotelSlice";
 import moment from "moment";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./InfoSearch.scss";
 
 InfoSearch.propTypes = {};
@@ -21,6 +22,8 @@ const formatDate = (moment) => {
 
 function InfoSearch({ setDateFilter, dateFilter }) {
   const [isEdit, setIsEdit] = React.useState(false);
+  const { receiveDate, returnDate } = useSelector(state => state.hotelInfo.homePage);
+
   const dispatch = useDispatch()
 
   const onFinish = (values) => {
@@ -43,7 +46,7 @@ function InfoSearch({ setDateFilter, dateFilter }) {
           <div className="date" onClick={() => setIsEdit(true)}>
             {formatDate(dateFilter?.NgayTraPhong?._d)}
           </div>
-          <div className="hour">Nghỉ 5 đêm</div>
+          <div className="hour">Nghỉ {(receiveDate && returnDate) ? getDistanceByDate(receiveDate, returnDate) : 1} ngày</div>
         </div>
       </div>
       <a onClick={() => setIsEdit(true)} className="btn-primary">

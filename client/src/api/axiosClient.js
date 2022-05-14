@@ -23,6 +23,8 @@ axiosClient.interceptors.request.use(async config => {
         config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
+
+    if (config.url.includes("https://maps.googleapis.com")) config.headers = {}
     return config;
 })
 

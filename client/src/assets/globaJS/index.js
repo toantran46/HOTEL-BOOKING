@@ -20,6 +20,7 @@ const getMessageByScore = score => {
 //get distance from date 1 to date 2 
 const getDistanceByDate = (receiveDate, returnDate) => {
     const distance = new Date(returnDate) - new Date(receiveDate);
+    console.log(distance);
 
     return new Date(distance).getDate();
 }
