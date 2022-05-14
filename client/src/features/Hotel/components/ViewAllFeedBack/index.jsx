@@ -43,6 +43,11 @@ function ViewAllFeedBack(props) {
   const [showFeedBackForm, setShowFeedBackForm] = useState(false);
   const [isNewData, setIsNewData] = useState(false);
 
+  console.log({ isOwner })
+
+  const [showForm, setShowForm] = useState(false);
+
+
   //fetch all feed back
   React.useEffect(() => {
     const fetchFeedBacks = async () => {
@@ -75,6 +80,8 @@ function ViewAllFeedBack(props) {
 
 
   const handleSubmitForm = async (values) => {
+    console.log(user);
+
     try {
       const { message } = await phanHoiApi.add({
         MaKhachSan: placeId,
@@ -83,6 +90,18 @@ function ViewAllFeedBack(props) {
       });
       toastSucsess(message);
       setIsNewData(prev => !prev);
+    } catch (error) {
+      const errMessage = error.response.data;
+      toastError(errMessage.message);
+    }
+  };
+
+  const handleResponse = async (id, values) => {
+    try {
+      const { message } = await phanHoiApi.update(id, values);
+      toastSucsess(message);
+      setIsNewData(prev => !prev);
+      setShowForm(false);
     } catch (error) {
       const errMessage = error.response.data;
       toastError(errMessage.message);
@@ -131,7 +150,6 @@ function ViewAllFeedBack(props) {
             >
               Viết đánh giá
             </a>
-
           }
         </div>
         <div className="viewall-feedback__wrapper__main">
@@ -171,7 +189,7 @@ function ViewAllFeedBack(props) {
           <div className="viewall-feedback__wrapper__main__list-feedback">
             {!isLoading &&
               viewAllFB?.comments.map((fb) => (
-                <FeedBackItem isOwner={isOwner} key={fb._id} fbInfo={fb} />
+                <FeedBackItem setShowForm={setShowForm} showForm={showForm} onFinish={handleResponse} isOwner={isOwner} key={fb._id} fbInfo={fb} />
               ))}
             {isLoading &&
               [1, 2, 3].map((i) => (

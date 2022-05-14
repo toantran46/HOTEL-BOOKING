@@ -489,6 +489,7 @@ module.exports = {
         .populate("ThanhPho")
         .populate("LoaiChoNghi")
         .populate("TienNghi")
+        .populate("QuanLy")
         .populate("Phong")
         .populate("TinDung")
         .populate({

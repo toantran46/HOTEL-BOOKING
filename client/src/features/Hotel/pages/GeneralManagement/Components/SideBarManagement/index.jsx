@@ -35,13 +35,17 @@ function SideBarManagement(props) {
                             Quản lí chổ nghĩ</Link>
                     </li>
                 }
-                <li className={pathname.includes('booked') ? 'active' : ''}>
-                    <Link to="/management/booked">
-                        <span>
-                            <i class="bi bi-basket"></i>
-                        </span>
-                        Đặt chổ</Link>
-                </li>
+                {
+                    user?.Quyen !== "ADMIN" &&
+                    <li className={pathname.includes('booked') ? 'active' : ''}>
+                        <Link to="/management/booked">
+                            <span>
+                                <i class="bi bi-basket"></i>
+                            </span>
+                            Đặt chổ
+                        </Link>
+                    </li>
+                }
                 <li className={pathname.includes('saved') ? 'active' : ''}>
                     <Link to="/management/saved">
                         <span>

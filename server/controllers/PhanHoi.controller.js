@@ -125,12 +125,14 @@ module.exports = {
     try {
       const { MaKhachSan, MaKH, Diem, BinhLuan } = req.body;
       const email = req.user?.email;
+      // console.log({ email })
 
       const Phong = await DatPhongModel.find({
-        email: email,
+        Email: email,
         MaKhachSan: MaKhachSan,
       }).sort({ NgayDatPhong: -1 });
-
+      // console.log(Phong);
+      // return;
       if (Phong.length === 0) {
         return res.status(404).json({ message: "Vui lòng đặt phòng trước khi bình luận" });
       }

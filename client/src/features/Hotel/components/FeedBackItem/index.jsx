@@ -20,17 +20,14 @@ FeedBackItem.defaultProps = {
 };
 
 function FeedBackItem(props) {
-  const { fbInfo, isOwner } = props;
+  const { fbInfo, isOwner, onFinish, showForm, setShowForm } = props;
 
-  const onFinish = async (values) => {
-    await phanHoiApi.update(fbInfo._id, values);
-    setShowForm(false);
-  };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-  const [showForm, setShowForm] = useState(false);
+  const handleFinish = (values) => {
+    onFinish(fbInfo._id, values);
+  }
+
+
   return (
     <div className="feedback-item">
       <div style={{ flexBasis: "35%" }}>
@@ -99,8 +96,7 @@ function FeedBackItem(props) {
                   TraLoi: "",
                 }}
                 layout="vertical"
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
+                onFinish={handleFinish}
                 autoComplete="off"
               >
                 <Form.Item

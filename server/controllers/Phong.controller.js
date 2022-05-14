@@ -161,17 +161,25 @@ module.exports = {
         }));
 
         const PhongIDs = ChoNghi.Phong;
-        const Phongs = await PhongModel.find({ _id: { $in: PhongIDs } });
-        console.log(phongIDBooked);
+        const Phongs = await PhongModel.find({ _id: { $in: PhongIDs } }).populate("LoaiPhong")
+          .populate({
+            path: "ThongTinGiuong",
+            populate: {
+              path: "Giuong",
+              model: "LoaiGiuong",
+            },
+          })
+          .populate("TienNghi")
+          .exec();;
         const emptyRoom = Phongs.map((phong) => {
           const exist = phongIDBooked.find(
             (item) => item._id.valueOf() === phong._id.valueOf()
           );
           return exist
             ? {
-                ...phong._doc,
-                SoLuongPhong: phong.SoLuongPhong - exist.SoLuong,
-              }
+              ...phong._doc,
+              SoLuongPhong: phong.SoLuongPhong - exist.SoLuong,
+            }
             : phong._doc;
         });
 

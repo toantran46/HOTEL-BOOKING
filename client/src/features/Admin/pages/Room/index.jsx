@@ -177,7 +177,7 @@ function RoomPage(props) {
                       <i class="bi bi-pencil"></i>
                     </div>
                     <div
-                      onClick={() => showModal(room)}
+                      onClick={() => { showModal(room); setIsEdit(false) }}
                       className="room-list__action shadow-sm bg-primary"
                     >
                       <i className="fa-solid fa-info room-list__icon"></i>
@@ -213,7 +213,7 @@ function RoomPage(props) {
         hideDeleteModal={hideDeleteModal}
         handleRemove={handleRemoveRoom}
       />
-    </div>
+    </div >
   );
 }
 
