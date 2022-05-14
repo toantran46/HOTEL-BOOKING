@@ -23,7 +23,7 @@ function FormRegister(props) {
             try {
                 await NguoiDungApi.add({ ...values, Quyen: "MANAGER" });
                 toastSucsess("Đăng kí tài khoản thành công")
-                navigate('/auth/about');
+                navigate('/auth/sign-in');
             } catch (error) {
                 toastError('Email hoặc số điện thoại đã tồn tại');
                 // console.log(error.message);
