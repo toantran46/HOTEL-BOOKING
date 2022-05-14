@@ -23,7 +23,7 @@ function FooterInfor(props) {
                 </div>
                 <div className="wrapper-footer__footer-right">
                     <div className="wrapper-footer__footer-right__copyright">
-                        © Bản quyền hotel.booking.com 2022
+                        © Bản quyền LTHBooking.com 2022
                     </div>
                 </div>
             </div>

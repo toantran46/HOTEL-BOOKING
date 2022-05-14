@@ -18,6 +18,24 @@ $color_bg: #00224f;
         width: 150px;
         height: auto;
     }
+    width: 75%;
+    margin: 0 auto;
+    padding: 0.9rem 0;
+    color: #fff;
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    &__top {
+    display: flex;
+    justify-content: space-between;
+        &__left {
+      font-size: 25px;
+      font-weight: bold;
+      margin-left: 1rem;
+    }
+}
     .banner-right {
         display: flex;
         align-items: center;

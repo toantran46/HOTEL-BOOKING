@@ -24,9 +24,11 @@ function HeaderAbout(props) {
     return (
         <div className='navbar-about'>
             <div className="navbar-about__banner">
-                <Link to={'/'}>
-                    <img src="//static.booking.com/static/img/b26logo/booking_logo_retina.png" alt="Booking.com logo" />
-                </Link>
+                <div className="nanavbar-about__banner__left">
+                    <Link to={'/'}>
+                        LTHBooking.com
+                    </Link>
+                </div>
                 <div className="navbar-about__banner__right">
                     <ul>
                         <li>

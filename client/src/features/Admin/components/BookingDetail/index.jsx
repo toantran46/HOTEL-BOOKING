@@ -121,7 +121,7 @@ function BookingDetail({ selectedBooking, hotel, rooms, payment }) {
                     style={{
                       width: "100%",
                       height: "100%",
-                      objectFit: "cover",
+                      objectFit: "contain",
                     }}
                     src={payment.Logo}
                     alt={payment.logo}

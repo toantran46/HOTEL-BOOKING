@@ -11,9 +11,11 @@ Header.propTypes = {
 function Header(props) {
     return (
         <div className='header-auth'>
-            <Link to={'/'}>
-                <img src="https://static.booking.com/static/img/b26logo/booking_logo_retina.png" alt="" />
-            </Link>
+            <div className="header-auth__top__left">
+                <Link to={'/'}>
+                    LTHBooking.com
+                </Link>
+            </div>
             <div className="banner-right">
                 <span>Đã là đối tác ?</span>
                 <div className="banner-right__sign">
