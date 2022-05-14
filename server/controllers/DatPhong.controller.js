@@ -12,7 +12,22 @@ module.exports = {
             const { _limit, _page, action } = req.query;
             //verify account. Can't use middleware checkAuth; 
             //role USER 
-            if (user.Quyen === "USER") {
+
+            if (action === 'admin') {
+                let DSChoNghi;
+                try {
+                    if (req.user.Quyen === 'MANAGER') {
+                        let ChoNghi = await ChoNghiModel.find({ QuanLy: mongoose.Types.ObjectId(req.user.userId) });
+                        DSChoNghi = ChoNghi.map(x => mongoose.Types.ObjectId(x._id));
+                    }
+                } catch (error) {
+                    console.log(error);
+                    return res.status(400).json({ message: "Auth failed" })
+                }
+
+
+                DatPhongs = await DatPhongModel.find(DSChoNghi ? { MaKhachSan: { $in: DSChoNghi } } : {});
+            } else {
                 DatPhongs = await DatPhongModel.find({ MaNguoiDung: user.userId }).populate({
                     path: "MaKhachSan",
                     populate: [
@@ -31,27 +46,8 @@ module.exports = {
                         },
                     ],
                 }).populate("ThongTinhPhong.Phong").populate("MaNguoiDung", "name phone email").exec();
-
-            } else {
-                //role MANAGER 
-                //role ADMIN
-                let DSChoNghi;
-                if (action === 'admin') {
-                    try {
-                        if (req.user.Quyen === 'MANAGER') {
-                            let ChoNghi = await ChoNghiModel.find({ QuanLy: mongoose.Types.ObjectId(req.user.userId) });
-                            DSChoNghi = ChoNghi.map(x => mongoose.Types.ObjectId(x._id));
-                        }
-                    } catch (error) {
-                        console.log(error);
-                        return res.status(400).json({ message: "Auth failed" })
-                    }
-
-                }
-
-                DatPhongs = await DatPhongModel.find(DSChoNghi ? { MaKhachSan: { $in: DSChoNghi } } : {});
-
             }
+
             //pagination
             const TongSo = DatPhongs.length;
             //pagination
